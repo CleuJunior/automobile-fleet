@@ -8,20 +8,30 @@ import com.automobilefleet.repositories.CostumerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CostumerService {
     private final CostumerRepository repository;
 
-    public Costumer getCostumerById(Long id) {
-        return repository.findById(id).orElse(null);
+    public List<CostumerResponse> listCostumer() {
+        List<Costumer> costumers = repository.findAll();
+
+        return CostumerMapper.toCostumerResponseList(costumers);
+
+    }
+
+    public CostumerResponse getCostumer(Long id) {
+        Costumer response = repository.findById(id).get();
+
+        return CostumerMapper.toCostumerResponse(response);
     }
 
     public CostumerResponse saveCostumer(CostumerRequest request) {
         Costumer costumerSave = CostumerMapper.toCostumer(request);
-        this.repository.save(costumerSave);
+        repository.save(costumerSave);
 
         return CostumerMapper.toCostumerResponse(costumerSave);
-
     }
 }

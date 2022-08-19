@@ -4,6 +4,9 @@ import com.automobilefleet.api.reponse.CostumerResponse;
 import com.automobilefleet.api.request.CostumerRequest;
 import com.automobilefleet.entities.Costumer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class CostumerMapper {
 
@@ -31,6 +34,14 @@ public class CostumerMapper {
         response.setAddress(costumer.getAddress());
         response.setPhone(costumer.getPhone());
         response.setCreatedAt(costumer.getCreatedAt());
+        response.setUpdateAt(costumer.getUpdateAt());
+
+        return response;
+    }
+
+    public static List<CostumerResponse> toCostumerResponseList(List<Costumer> costumers) {
+        List<CostumerResponse> response = new ArrayList<>();
+        costumers.forEach(costumer -> response.add(toCostumerResponse(costumer)));
 
         return response;
     }
