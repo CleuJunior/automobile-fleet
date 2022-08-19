@@ -78,3 +78,9 @@ público e enviar para a VR Software
 
 * Criar um **DockerFile** no repositório da aplicação server, permitindo que a entrega da **API** seja realizada através de um 
 container do docker. Não se esqueça de expor as portas para consumo da aplicação Client.
+
+### Considerações finais
+
+Faça o máximo possível de requisitos que conseguir, não deixe de entregar a prova caso não consiga realizar algo. De 
+acordo com o nível de entrega e sua explicação no momento da defesa da aplicação, consideramos o nível do candidato 
+(**Júnior**, **Pleno** ou **Sênior**). 
