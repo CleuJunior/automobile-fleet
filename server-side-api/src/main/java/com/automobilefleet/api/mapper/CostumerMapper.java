@@ -4,6 +4,7 @@ import com.automobilefleet.api.reponse.CostumerResponse;
 import com.automobilefleet.api.request.CostumerRequest;
 import com.automobilefleet.entities.Costumer;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,5 +45,15 @@ public class CostumerMapper {
         costumers.forEach(costumer -> response.add(toCostumerResponse(costumer)));
 
         return response;
+    }
+
+    public static void updateCostumer(Costumer costumer, CostumerRequest request) {
+        costumer.setName(request.getName());
+        costumer.setBirthDate(request.getBirthDate());
+        costumer.setEmail(request.getEmail());
+        costumer.setDriveLicense(request.getDriveLicense());
+        costumer.setAddress(request.getAddress());
+        costumer.setPhone(request.getPhone());
+        costumer.setUpdateAt(LocalDateTime.now());
     }
 }

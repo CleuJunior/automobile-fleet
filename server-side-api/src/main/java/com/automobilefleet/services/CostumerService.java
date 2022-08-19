@@ -8,6 +8,7 @@ import com.automobilefleet.repositories.CostumerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -33,5 +34,18 @@ public class CostumerService {
         repository.save(costumerSave);
 
         return CostumerMapper.toCostumerResponse(costumerSave);
+    }
+
+    public CostumerResponse updateCostumer(Long id, CostumerRequest request) {
+        Costumer response = repository.findById(id).get();
+        CostumerMapper.updateCostumer(response, request);
+
+        repository.save(response);
+
+        return CostumerMapper.toCostumerResponse(response);
+    }
+
+    public void deleteCostumer(Long id) {
+        repository.deleteById(id);
     }
 }
