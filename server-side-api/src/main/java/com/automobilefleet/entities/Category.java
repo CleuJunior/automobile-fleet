@@ -14,13 +14,12 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Table(name = "brand_entity")
+@Table(name = "category_entity")
 @Entity
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Brand implements Serializable {
+public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,16 +27,21 @@ public class Brand implements Serializable {
     @Getter
     private Long id;
 
-    @Column(name = "brand_name", unique = true, nullable = false)
+    @Column(name = "category_name", unique = true, nullable = false)
     @Getter
     @Setter
     private String name;
+
+    @Column(name = "category_description", length = 30, nullable = false)
+    @Getter
+    @Setter
+    private String description;
 
     @Column(name = "created_at", nullable = false)
     @Getter
     private LocalDateTime createdAt;
 
-    public Brand() {
+    public Category() {
         this.createdAt = LocalDateTime.now();
     }
 }

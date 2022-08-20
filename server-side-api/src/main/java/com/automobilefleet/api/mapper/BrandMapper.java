@@ -30,7 +30,7 @@ public class BrandMapper {
 
     public static List<BrandResponse> toBrandResponseList(List<Brand> brand) {
         List<BrandResponse> response = new ArrayList<>();
-        brand.forEach(costumer -> response.add(toBrandResponse(costumer)));
+        brand.forEach(brands -> response.add(toBrandResponse(brands)));
 
         return response;
     }

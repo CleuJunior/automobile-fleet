@@ -4,9 +4,15 @@ INSERT INTO costumer_entity (costumer_name, costumer_bd, costumer_email, drive_l
 INSERT INTO costumer_entity (costumer_name, costumer_bd, costumer_email, drive_license, address, costumer_phone_number, created_at, update_at) VALUES ('Julio Marcelo Nelson Melo', '1974-03-05', 'julio.marcelo.melo@attglobal.net', '90897130198', 'Praça Vereador Osvaldo Mendonça, 752', '(79) 99539-6592', NOW(), NOW());
 INSERT INTO costumer_entity (costumer_name, costumer_bd, costumer_email, drive_license, address, costumer_phone_number, created_at, update_at) VALUES ('Hugo Benjamin Barbosa', '1980-11-02', 'hugo.benjamin.barbosa@cathedranet.com.br', '74091777742', 'Travessa Jasmim, 101', '(68) 99602-7578', NOW(), NOW());
 
+INSERT INTO brand_entity (brand_name, created_at) VALUES ('BMW', NOW());
+INSERT INTO brand_entity (brand_name, created_at) VALUES ('Chevrolet', NOW());
+INSERT INTO brand_entity (brand_name, created_at) VALUES ('Yamaha', NOW());
+INSERT INTO brand_entity (brand_name, created_at) VALUES ('Renault', NOW());
+INSERT INTO brand_entity (brand_name, created_at) VALUES ('Nissan', NOW());
 
-INSERT INTO car_brand (brand_name, created_at) VALUES ('BMW', NOW());
-INSERT INTO car_brand (brand_name, created_at) VALUES ('Chevrolet', NOW());
-INSERT INTO car_brand (brand_name, created_at) VALUES ('Yamaha', NOW());
-INSERT INTO car_brand (brand_name, created_at) VALUES ('Renault', NOW());
-INSERT INTO car_brand (brand_name, created_at) VALUES ('Nissan', NOW());
+
+INSERT INTO category_entity (category_name, category_description, created_at) VALUES ('Categoria 01', 'Lorem ipsum dolor sit amet.', NOW());
+INSERT INTO category_entity (category_name, category_description, created_at) VALUES ('Categoria 02', 'Lorem ipsum dolor sit amet.', NOW());
+INSERT INTO category_entity (category_name, category_description, created_at) VALUES ('Categoria 03', 'Lorem ipsum dolor sit amet.', NOW());
+INSERT INTO category_entity (category_name, category_description, created_at) VALUES ('Categoria 04', 'Lorem ipsum dolor sit amet.', NOW());
+INSERT INTO category_entity (category_name, category_description, created_at) VALUES ('Categoria 05', 'Lorem ipsum dolor sit amet.', NOW());

@@ -3,7 +3,6 @@ package com.automobilefleet.services;
 import com.automobilefleet.api.mapper.BrandMapper;
 import com.automobilefleet.api.reponse.BrandResponse;
 import com.automobilefleet.api.request.BrandRequest;
-import com.automobilefleet.api.request.CostumerRequest;
 import com.automobilefleet.entities.Brand;
 import com.automobilefleet.repositories.BrandRepository;
 import lombok.RequiredArgsConstructor;
