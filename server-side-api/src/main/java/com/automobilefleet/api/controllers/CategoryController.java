@@ -1,10 +1,7 @@
 package com.automobilefleet.api.controllers;
 
-import com.automobilefleet.api.reponse.BrandResponse;
 import com.automobilefleet.api.reponse.CategoryResponse;
-import com.automobilefleet.api.request.BrandRequest;
 import com.automobilefleet.api.request.CategoryRequest;
-import com.automobilefleet.services.BrandService;
 import com.automobilefleet.services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
