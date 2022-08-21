@@ -16,3 +16,11 @@ INSERT INTO category_entity (category_name, category_description, created_at) VA
 INSERT INTO category_entity (category_name, category_description, created_at) VALUES ('Categoria 03', 'Lorem ipsum dolor sit amet.', NOW());
 INSERT INTO category_entity (category_name, category_description, created_at) VALUES ('Categoria 04', 'Lorem ipsum dolor sit amet.', NOW());
 INSERT INTO category_entity (category_name, category_description, created_at) VALUES ('Categoria 05', 'Lorem ipsum dolor sit amet.', NOW());
+
+
+INSERT INTO specification_entity (specification_name, specification_description, created_at) VALUES ('Especificacao 01', 'Lorem ipsum dolor sit amet.', NOW());
+INSERT INTO specification_entity (specification_name, specification_description, created_at) VALUES ('Especificacao 02', 'Lorem ipsum dolor sit amet.', NOW());
+INSERT INTO specification_entity (specification_name, specification_description, created_at) VALUES ('Especificacao 03', 'Lorem ipsum dolor sit amet.', NOW());
+INSERT INTO specification_entity (specification_name, specification_description, created_at) VALUES ('Especificacao 04', 'Lorem ipsum dolor sit amet.', NOW());
+INSERT INTO specification_entity (specification_name, specification_description, created_at) VALUES ('Especificacao 05', 'Lorem ipsum dolor sit amet.', NOW());
+
