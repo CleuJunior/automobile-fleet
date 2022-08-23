@@ -24,3 +24,7 @@ INSERT INTO specification_entity (specification_name, specification_description,
 INSERT INTO specification_entity (specification_name, specification_description, created_at) VALUES ('Especificacao 04', 'Lorem ipsum dolor sit amet.', NOW());
 INSERT INTO specification_entity (specification_name, specification_description, created_at) VALUES ('Especificacao 05', 'Lorem ipsum dolor sit amet.', NOW());
 
+
+INSERT INTO car_entity (car_name, car_description, daily_rate, car_avaliable, license_plate, brand_id, category_id, car_color, created_at) VALUES ('Carro Nome 01', 'Lorem ipsum dolor sit amet.', 98.77, true, 1, 2, 'Preto' , NOW());
+
+

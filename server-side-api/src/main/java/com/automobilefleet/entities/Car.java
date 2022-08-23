@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -52,10 +54,22 @@ public class Car implements Serializable {
     @Setter
     private String licensePlate;
 
-    @Column(name = "brand_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "brand_id", referencedColumnName = "_id", nullable = false)
     @Getter
     @Setter
-    private Brand brandId;
+    private Brand brand;
+
+    @OneToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "_id", nullable = false)
+    @Getter
+    @Setter
+    private Category category;
+
+    @Column(name = "car_color", nullable = false)
+    @Getter
+    @Setter
+    private String color;
 
     @Column(name = "created_at", nullable = false)
     @Getter
