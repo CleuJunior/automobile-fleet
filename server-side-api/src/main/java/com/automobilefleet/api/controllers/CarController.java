@@ -1,10 +1,8 @@
 package com.automobilefleet.api.controllers;
 
-import com.automobilefleet.api.reponse.BrandResponse;
-import com.automobilefleet.api.request.BrandRequest;
-import com.automobilefleet.entities.Car;
-import com.automobilefleet.repositories.CarRepository;
-import com.automobilefleet.services.BrandService;
+import com.automobilefleet.api.reponse.CarResponse;
+import com.automobilefleet.api.request.CarRequest;
+import com.automobilefleet.services.CarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,37 +21,36 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/cars")
 @RequiredArgsConstructor
 public class CarController {
-    private final BrandService service;
-    private CarRepository repository;
+    private final CarService service;
 
-//    @GetMapping(value = "/{id}")
-//    public ResponseEntity<BrandResponse> getBrandById(@PathVariable Long id) {
-//        return ResponseEntity.status(HttpStatus.OK).body(service.getBrand(id));
-//    }
-
-    @GetMapping(value = "/list")
-    public ResponseEntity<List<Car>> listOfCars() {
-        return ResponseEntity.status(HttpStatus.OK).body(repository.findAll());
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<CarResponse> getBrandById(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.getCar(id));
     }
 
-//    @PostMapping(value = "/save")
-//    public ResponseEntity<BrandResponse> saveBrand(@RequestBody BrandRequest request) {
-//        BrandResponse response = service.saveBrand(request);
-//
-//        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-//    }
-//
-//    @PutMapping(value = "/update/{id}")
-//    public ResponseEntity<BrandResponse> updateBrand(@PathVariable Long id, @RequestBody BrandRequest request) {
-//        BrandResponse response = service.updateBrand(id, request);
-//
-//        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
-//    }
-//
-//    @DeleteMapping(value = "/delete/{id}")
-//    public ResponseEntity<BrandResponse> deleteBrand(@PathVariable Long id) {
-//        service.deleteBrand(id);
-//
-//        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-//    }
+    @GetMapping(value = "/list")
+    public ResponseEntity<List<CarResponse>> listOfCars() {
+        return ResponseEntity.status(HttpStatus.OK).body(service.listOfCars());
+    }
+
+    @PostMapping(value = "/save")
+    public ResponseEntity<CarResponse> saveCar(@RequestBody CarRequest request) {
+        CarResponse response = service.saveCar(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PutMapping(value = "/update/{id}")
+    public ResponseEntity<CarResponse> updateCar(@PathVariable Long id, @RequestBody CarRequest request) {
+        CarResponse response = service.updateCar(id, request);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+    }
+
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<CarResponse> deleteCar(@PathVariable Long id) {
+        service.deleteCar(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
