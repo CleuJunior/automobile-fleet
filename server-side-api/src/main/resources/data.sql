@@ -32,3 +32,8 @@ INSERT INTO car_entity (car_name, car_description, daily_rate, car_avaliable, li
 INSERT INTO car_entity (car_name, car_description, daily_rate, car_avaliable, license_plate, brand_id, category_id, car_color, created_at) VALUES ('Carro Nome 05', 'Lorem ipsum dolor sit amet.', 148.99, false, 'OPL-456', 3, 2, 'Abobora' , NOW());
 
 
+INSERT INTO rental_entity (car_id, costumer_id, start_date, end_date, total, created_at, update_at) VALUES (1, 1, NOW(), NOW(), 199.88, NOW(), NOW());
+INSERT INTO rental_entity (car_id, costumer_id, start_date, end_date, total, created_at, update_at) VALUES (2, 2, NOW(), NOW(), 98.66, NOW(), NOW());
+INSERT INTO rental_entity (car_id, costumer_id, start_date, end_date, total, created_at, update_at) VALUES (3, 3, NOW(), NOW(), 88.33, NOW(), NOW());
+INSERT INTO rental_entity (car_id, costumer_id, start_date, end_date, total, created_at, update_at) VALUES (4, 4, NOW(), NOW(), 99.77, NOW(), NOW());
+INSERT INTO rental_entity (car_id, costumer_id, start_date, end_date, total, created_at, update_at) VALUES (5, 5, NOW(), NOW(), 53.33, NOW(), NOW());
