@@ -1,11 +1,7 @@
 package com.automobilefleet.api.controllers;
 
-import com.automobilefleet.api.reponse.BrandResponse;
 import com.automobilefleet.api.reponse.RentalResponse;
-import com.automobilefleet.api.request.BrandRequest;
-import com.automobilefleet.entities.Rental;
-import com.automobilefleet.repositories.RentalRepository;
-import com.automobilefleet.services.BrandService;
+import com.automobilefleet.api.request.RentalRequest;
 import com.automobilefleet.services.RentalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,33 +24,33 @@ public class RentalController {
     private final RentalService service;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<RentalResponse> getBrandById(@PathVariable Long id) {
+    public ResponseEntity<RentalResponse> getRentalById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.getRental(id));
     }
 
-//    @GetMapping(value = "/list")
-//    public ResponseEntity<List<RentalResponse>> listOfBrand() {
-//        return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
-//    }
+    @GetMapping(value = "/list")
+    public ResponseEntity<List<RentalResponse>> listOfRental() {
+        return ResponseEntity.status(HttpStatus.OK).body(service.listOfRental());
+    }
 
-//    @PostMapping(value = "/save")
-//    public ResponseEntity<BrandResponse> saveBrand(@RequestBody BrandRequest request) {
-//        BrandResponse response = service.saveBrand(request);
-//
-//        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-//    }
-//
-//    @PutMapping(value = "/update/{id}")
-//    public ResponseEntity<BrandResponse> updateBrand(@PathVariable Long id, @RequestBody BrandRequest request) {
-//        BrandResponse response = service.updateBrand(id, request);
-//
-//        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
-//    }
-//
-//    @DeleteMapping(value = "/delete/{id}")
-//    public ResponseEntity<BrandResponse> deleteBrand(@PathVariable Long id) {
-//        service.deleteBrand(id);
-//
-//        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-//    }
+    @PostMapping(value = "/save")
+    public ResponseEntity<RentalResponse> saveRental(@RequestBody RentalRequest request) {
+        RentalResponse response = service.saveRental(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PutMapping(value = "/update/{id}")
+    public ResponseEntity<RentalResponse> updateBrand(@PathVariable Long id, @RequestBody RentalRequest request) {
+        RentalResponse response = service.updateRental(id, request);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+    }
+
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<RentalResponse> deleteBrand(@PathVariable Long id) {
+        service.deleteRental(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

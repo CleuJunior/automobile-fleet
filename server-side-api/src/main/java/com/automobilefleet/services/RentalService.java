@@ -16,36 +16,36 @@ import java.util.List;
 public class RentalService {
     private final RentalRepository repository;
 
-//    public List<RentalRequest> listOfCars() {
-//        List<Rental> rental = repository.findAll();
-//
-//        return RentalMapper.toRentalResponse(rental);
-//    }
+    public List<RentalResponse> listOfRental() {
+        List<Rental> rental = repository.findAll();
+
+        return RentalMapper.toRentalResponseList(rental);
+    }
 
     public RentalResponse getRental(Long id) {
         Rental response = repository.findById(id).get();
 
         return RentalMapper.toRentalResponse(response);
     }
-//
-//    public CarResponse saveCar(CarRequest request) {
-//        Car carSave = CarMapper.toCar(request);
-//        repository.save(carSave);
-//
-//        return CarMapper.toCarResponse(carSave);
-//    }
-//
-//    public CarResponse updateCar(Long id, CarRequest request) {
-//        Car response = repository.findById(id).get();
-//
-//        CarMapper.updateCar(response, request);
-//
-//        repository.save(response);
-//
-//        return CarMapper.toCarResponse(response);
-//    }
-//
-//    public void deleteCar(Long id) {
-//        repository.deleteById(id);
-//    }
+
+    public RentalResponse saveRental(RentalRequest request) {
+        Rental rentalSave = RentalMapper.toRental(request);
+        repository.save(rentalSave);
+
+        return RentalMapper.toRentalResponse(rentalSave);
+    }
+
+    public RentalResponse updateRental(Long id, RentalRequest request) {
+        Rental response = repository.findById(id).get();
+
+        RentalMapper.updateRental(response, request);
+
+        repository.save(response);
+
+        return RentalMapper.toRentalResponse(response);
+    }
+
+    public void deleteRental(Long id) {
+        repository.deleteById(id);
+    }
 }

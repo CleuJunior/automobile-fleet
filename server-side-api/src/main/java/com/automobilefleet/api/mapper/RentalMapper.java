@@ -5,12 +5,18 @@ import com.automobilefleet.api.request.RentalRequest;
 import com.automobilefleet.entities.Rental;
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.repositories.CostumerRepository;
-import lombok.AllArgsConstructor;
+import lombok.Setter;
 
-@AllArgsConstructor
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Setter
 public class RentalMapper {
     private static CarRepository carRepository;
     private static CostumerRepository costumerRepository;
+
+    private RentalMapper() { }
 
     public static Rental toRental(RentalRequest request) {
         Rental rental = new Rental();
@@ -39,20 +45,19 @@ public class RentalMapper {
         return response;
     }
 
-//    public static List<CostumerResponse> toCostumerResponseList(List<Costumer> costumers) {
-//        List<CostumerResponse> response = new ArrayList<>();
-//        costumers.forEach(costumer -> response.add(toCostumerResponse(costumer)));
-//
-//        return response;
-//    }
-//
-//    public static void updateCostumer(Costumer costumer, CostumerRequest request) {
-//        costumer.setName(request.getName());
-//        costumer.setBirthDate(request.getBirthDate());
-//        costumer.setEmail(request.getEmail());
-//        costumer.setDriveLicense(request.getDriveLicense());
-//        costumer.setAddress(request.getAddress());
-//        costumer.setPhone(request.getPhone());
-//        costumer.setUpdateAt(LocalDateTime.now());
-//    }
+    public static List<RentalResponse> toRentalResponseList(List<Rental> rentals) {
+        List<RentalResponse> response = new ArrayList<>();
+        rentals.forEach(costumer -> response.add(toRentalResponse(costumer)));
+
+        return response;
+    }
+
+    public static void updateRental(Rental rental, RentalRequest request) {
+        rental.setCar(carRepository.findById(request.getCarId()).get());
+        rental.setCostumer(costumerRepository.findById(request.getCostumerId()).get());
+        rental.setStartDate(request.getStartDate());
+        rental.setEndDate(request.getEndDate());
+        rental.setTotal(request.getTotal());
+        rental.setUpdateAt(LocalDateTime.now());
+    }
 }
