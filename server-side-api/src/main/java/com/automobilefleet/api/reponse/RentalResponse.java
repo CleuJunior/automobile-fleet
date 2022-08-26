@@ -23,11 +23,11 @@ public class RentalResponse {
     @JsonProperty("_id")
     private Long id;
 
-    @JsonProperty("car_sumary")
-    private Car car;
+    @JsonProperty("car_summary")
+    private CarSummary car;
 
-    @JsonProperty("costumer_sumary")
-    private Costumer costumer;
+    @JsonProperty("costumer_summary")
+    private CostumerSummary costumer;
 
     @JsonProperty("start_date")
     private LocalDate startDate;

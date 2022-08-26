@@ -1,10 +1,12 @@
 package com.automobilefleet.api.controllers;
 
 import com.automobilefleet.api.reponse.BrandResponse;
+import com.automobilefleet.api.reponse.RentalResponse;
 import com.automobilefleet.api.request.BrandRequest;
 import com.automobilefleet.entities.Rental;
 import com.automobilefleet.repositories.RentalRepository;
 import com.automobilefleet.services.BrandService;
+import com.automobilefleet.services.RentalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,18 +25,17 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/rental")
 @RequiredArgsConstructor
 public class RentalController {
-    private final BrandService service;
-    private final RentalRepository repository;
+    private final RentalService service;
 
-//    @GetMapping(value = "/{id}")
-//    public ResponseEntity<BrandResponse> getBrandById(@PathVariable Long id) {
-//        return ResponseEntity.status(HttpStatus.OK).body(service.getBrand(id));
-//    }
-
-    @GetMapping(value = "/list")
-    public ResponseEntity<List<Rental>> listOfBrand() {
-        return ResponseEntity.status(HttpStatus.OK).body(repository.findAll());
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<RentalResponse> getBrandById(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.getRental(id));
     }
+
+//    @GetMapping(value = "/list")
+//    public ResponseEntity<List<RentalResponse>> listOfBrand() {
+//        return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
+//    }
 
 //    @PostMapping(value = "/save")
 //    public ResponseEntity<BrandResponse> saveBrand(@RequestBody BrandRequest request) {

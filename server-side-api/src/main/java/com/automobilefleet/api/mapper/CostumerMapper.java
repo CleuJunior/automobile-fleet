@@ -1,6 +1,7 @@
 package com.automobilefleet.api.mapper;
 
 import com.automobilefleet.api.reponse.CostumerResponse;
+import com.automobilefleet.api.reponse.CostumerSummary;
 import com.automobilefleet.api.request.CostumerRequest;
 import com.automobilefleet.entities.Costumer;
 
@@ -55,5 +56,17 @@ public class CostumerMapper {
         costumer.setAddress(request.getAddress());
         costumer.setPhone(request.getPhone());
         costumer.setUpdateAt(LocalDateTime.now());
+    }
+
+    public static CostumerSummary costumerSummary(Costumer costumer) {
+        CostumerSummary summary = new CostumerSummary();
+        summary.setName(costumer.getName());
+        summary.setEmail(costumer.getEmail());
+        summary.setPhone(costumer.getPhone());
+        summary.setDriveLicense(costumer.getDriveLicense());
+        summary.setAddress(costumer.getAddress());
+
+        return summary;
+
     }
 }

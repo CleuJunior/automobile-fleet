@@ -20,12 +20,6 @@ public class CarSummary {
     @JsonProperty("license_plate")
     private String licensePlate;
 
-    @JsonProperty("brand_id")
-    private Brand brand;
-
-    @JsonProperty("category_id")
-    private Category category;
-
     @JsonProperty("car_color")
     private String color;
 

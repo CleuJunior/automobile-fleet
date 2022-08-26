@@ -2,11 +2,8 @@ package com.automobilefleet.api.mapper;
 
 import com.automobilefleet.api.reponse.CarResponse;
 import com.automobilefleet.api.reponse.CarSummary;
-import com.automobilefleet.api.reponse.CategoryResponse;
 import com.automobilefleet.api.request.CarRequest;
-import com.automobilefleet.api.request.CategoryRequest;
 import com.automobilefleet.entities.Car;
-import com.automobilefleet.entities.Category;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,8 +65,6 @@ public class CarMapper {
         CarSummary response = new CarSummary();
         response.setName(car.getName());
         response.setLicensePlate(car.getLicensePlate());
-        response.setBrand(car.getBrand());
-        response.setCategory(car.getCategory());
         response.setColor(car.getColor());
 
         return response;
