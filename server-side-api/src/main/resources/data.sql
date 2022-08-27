@@ -37,3 +37,10 @@ INSERT INTO rental_entity (car_id, costumer_id, start_date, end_date, total, cre
 INSERT INTO rental_entity (car_id, costumer_id, start_date, end_date, total, created_at, update_at) VALUES (3, 3, NOW(), NOW(), 88.33, NOW(), NOW());
 INSERT INTO rental_entity (car_id, costumer_id, start_date, end_date, total, created_at, update_at) VALUES (4, 4, NOW(), NOW(), 99.77, NOW(), NOW());
 INSERT INTO rental_entity (car_id, costumer_id, start_date, end_date, total, created_at, update_at) VALUES (5, 5, NOW(), NOW(), 53.33, NOW(), NOW());
+
+
+INSERT INTO car_specification (car_id, specification_id) VALUES (1, 1);
+INSERT INTO car_specification (car_id, specification_id) VALUES (2, 2);
+INSERT INTO car_specification (car_id, specification_id) VALUES (3, 3);
+INSERT INTO car_specification (car_id, specification_id) VALUES (4, 4);
+INSERT INTO car_specification (car_id, specification_id) VALUES (5, 5);
