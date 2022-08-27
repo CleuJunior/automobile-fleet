@@ -15,14 +15,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Table(name = "car_specification")
 @Entity
 @AllArgsConstructor
 @EqualsAndHashCode
 @NoArgsConstructor
-public class CarSpecifications implements Serializable {
+public class CarSpecification implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -42,5 +41,4 @@ public class CarSpecifications implements Serializable {
     @Getter
     @Setter
     private Specification specification;
-
 }

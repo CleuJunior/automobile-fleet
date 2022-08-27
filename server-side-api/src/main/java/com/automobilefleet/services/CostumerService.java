@@ -14,34 +14,34 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CostumerService {
     private final CostumerRepository repository;
+    private final CostumerMapper mapper;
 
     public List<CostumerResponse> listCostumer() {
         List<Costumer> costumers = repository.findAll();
 
-        return CostumerMapper.toCostumerResponseList(costumers);
+        return mapper.toCostumerResponseList(costumers);
 
     }
 
     public CostumerResponse getCostumer(Long id) {
         Costumer response = repository.findById(id).get();
 
-        return CostumerMapper.toCostumerResponse(response);
+        return mapper.toCostumerResponse(response);
     }
 
     public CostumerResponse saveCostumer(CostumerRequest request) {
-        Costumer costumerSave = CostumerMapper.toCostumer(request);
+        Costumer costumerSave = mapper.toCostumer(request);
         repository.save(costumerSave);
 
-        return CostumerMapper.toCostumerResponse(costumerSave);
+        return mapper.toCostumerResponse(costumerSave);
     }
 
     public CostumerResponse updateCostumer(Long id, CostumerRequest request) {
-        Costumer response = repository.findById(id).get();
-        CostumerMapper.updateCostumer(response, request);
+        Costumer costumer = repository.findById(id).get();
+        Costumer costumerSaved = mapper.toCostumer(costumer);
+        Costumer costumerSaved = repository.save(costumer);
+        return  mapper.toCostumerResponse(costumerSaved);
 
-        repository.save(response);
-
-        return CostumerMapper.toCostumerResponse(response);
     }
 
     public void deleteCostumer(Long id) {

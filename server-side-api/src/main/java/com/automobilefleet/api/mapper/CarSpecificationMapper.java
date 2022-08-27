@@ -2,21 +2,28 @@ package com.automobilefleet.api.mapper;
 
 import com.automobilefleet.api.reponse.BrandResponse;
 import com.automobilefleet.api.request.BrandRequest;
+import com.automobilefleet.api.request.CarSpecificationRequest;
 import com.automobilefleet.entities.Brand;
+import com.automobilefleet.entities.CarSpecification;
+import com.automobilefleet.services.CarService;
+import com.automobilefleet.services.SpecificationService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class CarSpecificationMapper {
+    private static CarService carService;
+    private static SpecificationService specificationService;
 
     private CarSpecificationMapper() { }
 
-    public static Brand toBrand(BrandRequest request) {
-        Brand brand = new Brand();
-        brand.setName(request.getName());
+    public static CarSpecification toCarSpecification(CarSpecificationRequest request) {
+        CarSpecification carSpecification = new CarSpecification();
 
-        return brand;
+//        carSpecification.setCar(carService.getCar(request.getCarId()));
+
+        return carSpecification;
     }
 
     public static BrandResponse toBrandResponse(Brand brand) {

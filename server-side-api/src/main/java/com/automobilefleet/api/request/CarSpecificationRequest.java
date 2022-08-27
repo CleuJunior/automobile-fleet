@@ -1,13 +1,12 @@
 package com.automobilefleet.api.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.automobilefleet.entities.Car;
+import com.automobilefleet.entities.Specification;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,12 +14,10 @@ import java.time.LocalDateTime;
 @Setter
 public class CarSpecificationRequest {
 
-    @JsonProperty("brand_name")
-    private String name;
+    @JsonProperty("car_id")
+    private Long carId;
 
-    @JsonProperty("created_at")
-    @JsonFormat(
-            shape = JsonFormat.Shape.STRING,
-            pattern = "dd-MM-yyyy hh:mm:ss")
-    private LocalDateTime createdAt;
+    @JsonProperty("specification_id")
+    private Long specificationId;
+
 }

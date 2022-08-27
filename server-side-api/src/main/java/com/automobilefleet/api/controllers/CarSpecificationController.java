@@ -1,19 +1,12 @@
 package com.automobilefleet.api.controllers;
 
-import com.automobilefleet.api.reponse.BrandResponse;
-import com.automobilefleet.api.request.BrandRequest;
-import com.automobilefleet.entities.CarSpecifications;
+import com.automobilefleet.entities.CarSpecification;
 import com.automobilefleet.repositories.CarSpecificationRepository;
-import com.automobilefleet.services.BrandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,12 +19,12 @@ public class CarSpecificationController {
     private final CarSpecificationRepository repository;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<CarSpecifications> getBrandById(@PathVariable Long id) {
+    public ResponseEntity<CarSpecification> getBrandById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(repository.findById(id).get());
     }
 
     @GetMapping(value = "/list")
-    public ResponseEntity<List<CarSpecifications>> listOfBrand() {
+    public ResponseEntity<List<CarSpecification>> listOfBrand() {
         return ResponseEntity.status(HttpStatus.OK).body(repository.findAll());
     }
 
