@@ -37,8 +37,8 @@ public class CostumerService {
     }
 
     public CostumerResponse updateCostumer(Long id, CostumerRequest request) {
-        Costumer costumer = repository.findById(id).get();
-        Costumer costumerSaved = mapper.toCostumer(costumer);
+        Costumer costumer = mapper.toCostumer(request);
+        Costumer costumerId = repository.findById(id).get();
         Costumer costumerSaved = repository.save(costumer);
         return  mapper.toCostumerResponse(costumerSaved);
 
