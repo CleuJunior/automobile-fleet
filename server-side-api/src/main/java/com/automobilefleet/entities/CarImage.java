@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Table(name = "brand_entity")
+@Table(name = "car_image_entity")
 @Entity
 @AllArgsConstructor
 @EqualsAndHashCode
@@ -34,7 +34,7 @@ public class CarImage implements Serializable {
     @JoinColumn(name = "car_id")
     @Getter
     @Setter
-    private String carId;
+    private Car car;
 
     @Lob
     @Column(name = "image", columnDefinition = "BLOB")

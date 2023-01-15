@@ -1,5 +1,6 @@
 package com.automobilefleet.services;
 
+import com.automobilefleet.api.mapper.CarImageMapper;
 import com.automobilefleet.api.reponse.CarImageResponse;
 import com.automobilefleet.api.request.CarImageRequest;
 import com.automobilefleet.entities.CarImage;
@@ -21,7 +22,7 @@ public class CarImageService {
         return CarImageMapper.toCarImageResponseList(carImages);
     }
 
-    public CarImageResponse getImage(Long id) {
+    public CarImageResponse getImageById(Long id) {
         CarImage response = this.carImageRepository.findById(id).get();
 
         return CarImageMapper.toCarImageResponse(response);
@@ -34,7 +35,7 @@ public class CarImageService {
         return CarImageMapper.toCarImageResponse(carImage);
     }
 
-    public CarImageResponse updateBrand(Long id, CarImageRequest request) {
+    public CarImageResponse updateCarImage(Long id, CarImageRequest request) {
         CarImage response = this.carImageRepository.findById(id).get();
         CarImageMapper.updateCarImage(response, request);
 

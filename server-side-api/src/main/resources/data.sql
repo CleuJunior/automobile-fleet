@@ -44,3 +44,10 @@ INSERT INTO car_specification (car_id, specification_id) VALUES (2, 2);
 INSERT INTO car_specification (car_id, specification_id) VALUES (3, 3);
 INSERT INTO car_specification (car_id, specification_id) VALUES (4, 4);
 INSERT INTO car_specification (car_id, specification_id) VALUES (5, 5);
+
+
+INSERT INTO car_image_entity (car_id, image, created_at) VALUES (1, CAST(NULL AS BLOB), NOW());
+INSERT INTO car_image_entity (car_id, image, created_at) VALUES (2, CAST(NULL AS BLOB), NOW());
+INSERT INTO car_image_entity (car_id, image, created_at) VALUES (3, CAST(NULL AS BLOB), NOW());
+INSERT INTO car_image_entity (car_id, image, created_at) VALUES (4, CAST(NULL AS BLOB), NOW());
+INSERT INTO car_image_entity (car_id, image, created_at) VALUES (5, CAST(NULL AS BLOB), NOW());
