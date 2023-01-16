@@ -4,6 +4,7 @@ import com.automobilefleet.api.mapper.CategoryMapper;
 import com.automobilefleet.api.reponse.CategoryResponse;
 import com.automobilefleet.api.request.CategoryRequest;
 import com.automobilefleet.entities.Category;
+import com.automobilefleet.exceptions.CategoryNotFoundException;
 import com.automobilefleet.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,8 @@ public class CategoryService {
     }
 
     public CategoryResponse getCategory(Long id) {
-        Category response = repository.findById(id).get();
+        Category response = this.repository.findById(id)
+                .orElseThrow(CategoryNotFoundException::new);
 
         return CategoryMapper.toCategoryResponse(response);
     }

@@ -4,6 +4,8 @@ import com.automobilefleet.api.mapper.BrandMapper;
 import com.automobilefleet.api.reponse.BrandResponse;
 import com.automobilefleet.api.request.BrandRequest;
 import com.automobilefleet.entities.Brand;
+import com.automobilefleet.exceptions.BrandNotFoundException;
+import com.automobilefleet.exceptions.NotFoundException;
 import com.automobilefleet.repositories.BrandRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,8 @@ public class BrandService {
     }
 
     public BrandResponse getBrand(Long id) {
-        Brand response = repository.findById(id).get();
+        Brand response = this.repository.findById(id)
+                .orElseThrow(BrandNotFoundException::new);
 
         return BrandMapper.toBrandResponse(response);
     }
@@ -44,6 +47,11 @@ public class BrandService {
     }
 
     public void deleteBrand(Long id) {
-        repository.deleteById(id);
+        try {
+            this.repository.deleteById(id);
+
+        } catch (BrandNotFoundException e) {
+            throw new BrandNotFoundException();
+        }
     }
 }

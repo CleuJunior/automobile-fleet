@@ -4,6 +4,7 @@ import com.automobilefleet.api.mapper.BrandMapper;
 import com.automobilefleet.api.reponse.BrandResponse;
 import com.automobilefleet.api.request.BrandRequest;
 import com.automobilefleet.entities.Brand;
+import com.automobilefleet.exceptions.CarSpecificationsNotFoundException;
 import com.automobilefleet.repositories.BrandRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,9 @@ public class CarSpecificationService {
         return BrandMapper.toBrandResponseList(brand);
     }
 
-    public BrandResponse getBrand(Long id) {
-        Brand response = repository.findById(id).get();
+    public BrandResponse getCarSpecificationById(Long id) {
+        Brand response = this.repository.findById(id)
+                .orElseThrow(CarSpecificationsNotFoundException::new);
 
         return BrandMapper.toBrandResponse(response);
     }
