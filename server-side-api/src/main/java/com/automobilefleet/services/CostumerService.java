@@ -4,6 +4,7 @@ import com.automobilefleet.api.mapper.CostumerMapper;
 import com.automobilefleet.api.reponse.CostumerResponse;
 import com.automobilefleet.api.request.CostumerRequest;
 import com.automobilefleet.entities.Costumer;
+import com.automobilefleet.exceptions.CostumerNotFoundException;
 import com.automobilefleet.repositories.CostumerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,23 @@ public class CostumerService {
 
     }
 
-    public CostumerResponse getCostumer(Long id) {
-        Costumer response = repository.findById(id).get();
+    public CostumerResponse getCostumerByName(String name) {
+        Costumer response = this.repository.findByName(name)
+                .orElseThrow(CostumerNotFoundException::new);
+
+        return mapper.toCostumerResponse(response);
+    }
+
+    public List<CostumerResponse> findListNameLike(String name) {
+        List<Costumer> costumerListNames = this.repository.findByNameList(name)
+                .orElseThrow(CostumerNotFoundException::new);
+
+        return mapper.toCostumerResponseList(costumerListNames);
+    }
+
+    public CostumerResponse getCostumerById(Long id) {
+        Costumer response = this.repository.findById(id)
+                .orElseThrow(CostumerNotFoundException::new);
 
         return mapper.toCostumerResponse(response);
     }

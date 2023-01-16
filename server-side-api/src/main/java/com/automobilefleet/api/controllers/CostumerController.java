@@ -24,12 +24,25 @@ public class CostumerController {
     private final CostumerService service;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<CostumerResponse> getCostumerById(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getCostumer(id));
+    public ResponseEntity<CostumerResponse> getCostumerById(@PathVariable("id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.service.getCostumerById(id));
+    }
+
+    @GetMapping(value = "/name/{name}")
+    public ResponseEntity<CostumerResponse> getCostumerByName(@PathVariable("name") String name) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.service.getCostumerByName(name));
+    }
+
+    @GetMapping(value = "/names/{name}")
+    public ResponseEntity<List<CostumerResponse>> findListNameLike(@PathVariable("name") String name) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.service.findListNameLike(name));
     }
 
     @GetMapping(value = "/list")
-    public ResponseEntity<List<CostumerResponse>> getCostumerById() {
+    public ResponseEntity<List<CostumerResponse>> getListCostumer() {
         return ResponseEntity.status(HttpStatus.OK).body(service.listCostumer());
     }
 
