@@ -50,11 +50,9 @@ public class BrandService {
     }
 
     public void deleteBrand(Long id) {
-        try {
-            this.repository.deleteById(id);
+        Brand brand = this.repository.findById(id)
+                .orElseThrow(BrandNotFoundException::new);
 
-        } catch (BrandNotFoundException e) {
-            throw new BrandNotFoundException();
-        }
+        this.repository.delete(brand);
     }
 }

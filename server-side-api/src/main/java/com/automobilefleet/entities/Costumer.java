@@ -1,8 +1,10 @@
 package com.automobilefleet.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -10,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -18,6 +21,7 @@ import java.time.LocalDateTime;
 @Table(name = "costumer_entity")
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 public class Costumer implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -58,17 +62,19 @@ public class Costumer implements Serializable {
     @Setter
     private String phone;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "created_at")
     @Getter
     private LocalDateTime createdAt;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "update_at")
     @Getter
     @Setter
     private LocalDateTime updateAt;
 
-    public Costumer() {
+    @PrePersist
+    public void prePersist() {
         this.createdAt = LocalDateTime.now();
-        this.updateAt = LocalDateTime.now();
     }
 }

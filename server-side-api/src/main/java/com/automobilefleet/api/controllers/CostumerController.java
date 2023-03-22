@@ -36,9 +36,9 @@ public class CostumerController {
     }
 
     @GetMapping(value = "/names/{name}")
-    public ResponseEntity<List<CostumerResponse>> findListNameLike(@PathVariable("name") String name) {
+    public ResponseEntity<List<CostumerResponse>> findListNamesLike(@PathVariable("name") String name) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(this.service.findListNameLike(name));
+                .body(this.service.findListNamesLike(name));
     }
 
     @GetMapping(value = "/list")

@@ -48,7 +48,7 @@ public class BrandController {
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<BrandResponse> deleteBrand(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteBrand(@PathVariable Long id) {
         this.service.deleteBrand(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

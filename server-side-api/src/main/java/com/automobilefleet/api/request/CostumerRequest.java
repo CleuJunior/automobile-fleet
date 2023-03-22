@@ -35,7 +35,4 @@ public class CostumerRequest {
 
     @JsonProperty("created_at")
     private LocalDateTime createdAt;
-
-    @JsonProperty("update_at")
-    private LocalDateTime updateAt;
 }
