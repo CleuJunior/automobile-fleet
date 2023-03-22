@@ -15,9 +15,8 @@ import lombok.NoArgsConstructor;
 public class CarSpecificationRequest {
 
     @JsonProperty("car_id")
-    private Long carId;
+    private Car car;
 
     @JsonProperty("specification_id")
-    private Long specificationId;
-
+    private Specification specification;
 }

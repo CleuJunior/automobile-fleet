@@ -1,51 +1,62 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.mapper.BrandMapper;
-import com.automobilefleet.api.reponse.BrandResponse;
-import com.automobilefleet.api.request.BrandRequest;
-import com.automobilefleet.entities.Brand;
+import com.automobilefleet.api.reponse.CarSpecificationResponse;
+import com.automobilefleet.api.request.CarSpecificationRequest;
+import com.automobilefleet.entities.Car;
+import com.automobilefleet.entities.CarSpecification;
+import com.automobilefleet.entities.Specification;
 import com.automobilefleet.exceptions.CarSpecificationsNotFoundException;
-import com.automobilefleet.repositories.BrandRepository;
+import com.automobilefleet.repositories.CarSpecificationRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CarSpecificationService {
-    private final BrandRepository repository;
 
-    public List<BrandResponse> listBrand() {
-        List<Brand> brand = repository.findAll();
+    private final CarSpecificationRepository carSpecificationRepository;
+    private final ModelMapper mapper;
 
-        return BrandMapper.toBrandResponseList(brand);
+    public List<CarSpecificationResponse> listCarSpecification() {
+         return this.carSpecificationRepository.findAll().stream()
+                .map(carSpecification -> this.mapper.map(carSpecification, CarSpecificationResponse.class))
+                .collect(Collectors.toList());
+
     }
 
-    public BrandResponse getCarSpecificationById(Long id) {
-        Brand response = this.repository.findById(id)
+    public CarSpecificationResponse getCarSpecificationById(Long id) {
+        CarSpecification response = this.carSpecificationRepository.findById(id)
                 .orElseThrow(CarSpecificationsNotFoundException::new);
 
-        return BrandMapper.toBrandResponse(response);
+        return this.mapper.map(response, CarSpecificationResponse.class);
     }
 
-    public BrandResponse saveBrand(BrandRequest request) {
-        Brand brandSave = BrandMapper.toBrand(request);
-        repository.save(brandSave);
+    public CarSpecificationResponse saveCarSpecification(CarSpecificationRequest request) {
+        CarSpecification sarSpecificationSave = this.mapper.map(request, CarSpecification.class);
+        sarSpecificationSave = this.carSpecificationRepository.save(sarSpecificationSave);
 
-        return BrandMapper.toBrandResponse(brandSave);
+        return this.mapper.map(sarSpecificationSave, CarSpecificationResponse.class);
     }
 
-    public BrandResponse updateBrand(Long id, BrandRequest request) {
-        Brand response = repository.findById(id).get();
-        BrandMapper.updateBrand(response, request);
+    public CarSpecificationResponse updateCarSpecification(Long id, CarSpecificationRequest request) {
+        CarSpecification response = this.carSpecificationRepository.findById(id)
+                .orElseThrow(CarSpecificationsNotFoundException::new);
 
-        repository.save(response);
+        response.setSpecification(request.getSpecification());
+        response.setCar(request.getCar());
+        response = this.carSpecificationRepository.save(response);
 
-        return BrandMapper.toBrandResponse(response);
+        return this.mapper.map(response, CarSpecificationResponse.class);
     }
 
-    public void deleteBrand(Long id) {
-        repository.deleteById(id);
+    public void deleteCarSpecification(Long id) {
+        CarSpecification response = this.carSpecificationRepository.findById(id)
+                .orElseThrow(CarSpecificationsNotFoundException::new);
+
+        this.carSpecificationRepository.delete(response);
     }
 }
