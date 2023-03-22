@@ -25,31 +25,31 @@ public class BrandController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<BrandResponse> getBrandById(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getBrand(id));
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.getBrand(id));
     }
 
     @GetMapping(value = "/list")
     public ResponseEntity<List<BrandResponse>> listOfBrand() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.listBrand());
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.listBrand());
     }
 
     @PostMapping(value = "/save")
     public ResponseEntity<BrandResponse> saveBrand(@RequestBody BrandRequest request) {
-        BrandResponse response = service.saveBrand(request);
+        BrandResponse response = this.service.saveBrand(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping(value = "/update/{id}")
     public ResponseEntity<BrandResponse> updateBrand(@PathVariable Long id, @RequestBody BrandRequest request) {
-        BrandResponse response = service.updateBrand(id, request);
+        BrandResponse response = this.service.updateBrand(id, request);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<BrandResponse> deleteBrand(@PathVariable Long id) {
-        service.deleteBrand(id);
+        this.service.deleteBrand(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
