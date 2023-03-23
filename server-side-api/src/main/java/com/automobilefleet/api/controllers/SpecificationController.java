@@ -25,31 +25,31 @@ public class SpecificationController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<SpecificationResponse> getSpecificationById(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getSpecification(id));
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.getSpecification(id));
     }
 
     @GetMapping(value = "/list")
     public ResponseEntity<List<SpecificationResponse>> listOfSpecifications() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.listSpecifications());
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.listSpecifications());
     }
 
     @PostMapping(value = "/save")
     public ResponseEntity<SpecificationResponse> saveSpecification(@RequestBody SpecificationRequest request) {
-        SpecificationResponse response = service.saveSpecification(request);
+        SpecificationResponse response = this.service.saveSpecification(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping(value = "/update/{id}")
     public ResponseEntity<SpecificationResponse> updateSpecification(@PathVariable Long id, @RequestBody SpecificationRequest request) {
-        SpecificationResponse response = service.updateSpecification(id, request);
+        SpecificationResponse response = this.service.updateSpecification(id, request);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<SpecificationResponse> deleteSpecification(@PathVariable Long id) {
-        service.deleteSpecification(id);
+    public ResponseEntity<Void> deleteSpecification(@PathVariable Long id) {
+        this.service.deleteSpecification(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

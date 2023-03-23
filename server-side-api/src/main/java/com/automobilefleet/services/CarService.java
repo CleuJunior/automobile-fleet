@@ -1,50 +1,66 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.mapper.CarMapper;
+import com.automobilefleet.api.reponse.CarImageResponse;
 import com.automobilefleet.api.reponse.CarResponse;
 import com.automobilefleet.api.request.CarRequest;
 import com.automobilefleet.entities.Car;
+import com.automobilefleet.exceptions.CarNotFoundException;
 import com.automobilefleet.repositories.CarRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CarService {
+
     private final CarRepository repository;
+    private final ModelMapper mapper;
 
     public List<CarResponse> listOfCars() {
-        List<Car> cars = repository.findAll();
-
-        return CarMapper.toCarResponseList(cars);
+        return this.repository.findAll().stream()
+                .map(car -> this.mapper.map(car, CarResponse.class))
+                .collect(Collectors.toList());
     }
 
     public CarResponse getCar(Long id) {
-        Car response = repository.findById(id).get();
+        Car response = this.repository.findById(id).
+                orElseThrow(CarNotFoundException::new);
 
-        return CarMapper.toCarResponse(response);
+        return this.mapper.map(response, CarResponse.class);
     }
 
     public CarResponse saveCar(CarRequest request) {
-        Car carSave = CarMapper.toCar(request);
-        repository.save(carSave);
+        Car response = this.mapper.map(request, Car.class);
+        response = this.repository.save(response);
 
-        return CarMapper.toCarResponse(carSave);
+        return this.mapper.map(response, CarResponse.class);
     }
 
     public CarResponse updateCar(Long id, CarRequest request) {
-        Car response = repository.findById(id).get();
+        Car response = this.repository.findById(id).
+                orElseThrow(CarNotFoundException::new);
 
-        CarMapper.updateCar(response, request);
+        response.setName(request.getName());
+        response.setDescription(request.getDescription());
+        response.setDailyRate(request.getDailyRate());
+        response.setAvaliable(request.getAvaliable());
+        response.setLicensePlate(response.getLicensePlate());
+        response.setBrand(request.getBrand());
+        response.setCategory(request.getCategory());
+        response.setColor(response.getColor());
+        response = this.repository.save(response);
 
-        repository.save(response);
-
-        return CarMapper.toCarResponse(response);
+        return this.mapper.map(response, CarResponse.class);
     }
 
     public void deleteCar(Long id) {
-        repository.deleteById(id);
+        Car response = this.repository.findById(id).
+                orElseThrow(CarNotFoundException::new);
+
+        this.repository.delete(response);
     }
 }

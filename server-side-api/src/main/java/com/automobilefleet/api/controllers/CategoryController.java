@@ -25,31 +25,31 @@ public class CategoryController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getCategory(id));
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.getCategory(id));
     }
 
     @GetMapping(value = "/list")
     public ResponseEntity<List<CategoryResponse>> listOfBrand() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.listCategories());
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.listCategories());
     }
 
     @PostMapping(value = "/save")
     public ResponseEntity<CategoryResponse> saveBrand(@RequestBody CategoryRequest request) {
-        CategoryResponse response = service.saveCategory(request);
+        CategoryResponse response = this.service.saveCategory(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping(value = "/update/{id}")
     public ResponseEntity<CategoryResponse> updateBrand(@PathVariable Long id, @RequestBody CategoryRequest request) {
-        CategoryResponse response = service.updateCategory(id, request);
+        CategoryResponse response = this.service.updateCategory(id, request);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<CategoryResponse> deleteBrand(@PathVariable Long id) {
-        service.deleteCategory(id);
+    public ResponseEntity<Void> deleteBrand(@PathVariable Long id) {
+        this.service.deleteCategory(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

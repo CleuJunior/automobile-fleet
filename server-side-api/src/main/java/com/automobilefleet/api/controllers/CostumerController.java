@@ -43,26 +43,26 @@ public class CostumerController {
 
     @GetMapping(value = "/list")
     public ResponseEntity<List<CostumerResponse>> getListCostumer() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.listCostumer());
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.listCostumer());
     }
 
     @PostMapping(value = "/save")
     public ResponseEntity<CostumerResponse> saveCostumer(@RequestBody CostumerRequest request) {
-        CostumerResponse response = service.saveCostumer(request);
+        CostumerResponse response = this.service.saveCostumer(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping(value = "/update/{id}")
     public ResponseEntity<CostumerResponse> updateCostumer(@PathVariable Long id, @RequestBody CostumerRequest request) {
-        CostumerResponse response = service.updateCostumer(id, request);
+        CostumerResponse response = this.service.updateCostumer(id, request);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<CostumerResponse> deleteCostumer(@PathVariable Long id) {
-        service.deleteCostumer(id);
+    public ResponseEntity<Void> deleteCostumer(@PathVariable Long id) {
+        this.service.deleteCostumer(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

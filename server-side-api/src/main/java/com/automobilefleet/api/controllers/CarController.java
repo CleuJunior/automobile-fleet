@@ -25,30 +25,30 @@ public class CarController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<CarResponse> getBrandById(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getCar(id));
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.getCar(id));
     }
 
     @GetMapping(value = "/list")
     public ResponseEntity<List<CarResponse>> listOfCars() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.listOfCars());
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.listOfCars());
     }
 
     @PostMapping(value = "/save")
     public ResponseEntity<CarResponse> saveCar(@RequestBody CarRequest request) {
-        CarResponse response = service.saveCar(request);
+        CarResponse response = this.service.saveCar(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping(value = "/update/{id}")
     public ResponseEntity<CarResponse> updateCar(@PathVariable Long id, @RequestBody CarRequest request) {
-        CarResponse response = service.updateCar(id, request);
+        CarResponse response = this.service.updateCar(id, request);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<CarResponse> deleteCar(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCar(@PathVariable Long id) {
         service.deleteCar(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
