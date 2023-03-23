@@ -24,10 +24,10 @@ public class RentalResponse {
     private Long id;
 
     @JsonProperty("car_summary")
-    private CarSummary car;
+    private CarResponse car;
 
     @JsonProperty("costumer_summary")
-    private CostumerSummary costumer;
+    private CostumerResponse costumer;
 
     @JsonProperty("start_date")
     private LocalDate startDate;

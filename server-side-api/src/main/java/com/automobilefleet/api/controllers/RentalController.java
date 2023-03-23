@@ -25,31 +25,31 @@ public class RentalController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<RentalResponse> getRentalById(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getRental(id));
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.getRentalById(id));
     }
 
     @GetMapping(value = "/list")
     public ResponseEntity<List<RentalResponse>> listOfRental() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.listOfRental());
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.listOfRental());
     }
 
     @PostMapping(value = "/save")
     public ResponseEntity<RentalResponse> saveRental(@RequestBody RentalRequest request) {
-        RentalResponse response = service.saveRental(request);
+        RentalResponse response = this.service.saveRental(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping(value = "/update/{id}")
     public ResponseEntity<RentalResponse> updateBrand(@PathVariable Long id, @RequestBody RentalRequest request) {
-        RentalResponse response = service.updateRental(id, request);
+        RentalResponse response = this.service.updateRental(id, request);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<RentalResponse> deleteBrand(@PathVariable Long id) {
-        service.deleteRental(id);
+    public ResponseEntity<Void> deleteBrand(@PathVariable Long id) {
+        this.service.deleteRental(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

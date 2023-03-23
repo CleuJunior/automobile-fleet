@@ -32,7 +32,7 @@ public class Specification implements Serializable {
     @Setter
     private String name;
 
-    @Column(name = "specification_description", length = 30, nullable = false)
+    @Column(name = "specification_description", columnDefinition="TEXT", nullable = false)
     @Getter
     @Setter
     private String description;

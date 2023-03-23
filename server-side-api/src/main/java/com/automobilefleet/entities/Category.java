@@ -3,6 +3,7 @@ package com.automobilefleet.entities;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -10,12 +11,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Table(name = "category_entity")
 @Entity
+@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Category implements Serializable {
@@ -32,7 +35,7 @@ public class Category implements Serializable {
     @Setter
     private String name;
 
-    @Column(name = "category_description", length = 30, nullable = false)
+    @Column(name = "category_description", columnDefinition="TEXT", nullable = false)
     @Getter
     @Setter
     private String description;
@@ -41,7 +44,8 @@ public class Category implements Serializable {
     @Getter
     private LocalDateTime createdAt;
 
-    public Category() {
+    @PrePersist
+    public void prePersist() {
         this.createdAt = LocalDateTime.now();
     }
 }

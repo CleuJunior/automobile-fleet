@@ -1,5 +1,7 @@
 package com.automobilefleet.api.request;
 
+import com.automobilefleet.entities.Car;
+import com.automobilefleet.entities.Costumer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
@@ -17,10 +19,10 @@ import java.time.LocalDate;
 public class RentalRequest {
 
     @JsonProperty("car_id")
-    private Long carId;
+    private Car car;
 
     @JsonProperty("costumer_id")
-    private Long costumerId;
+    private Costumer costumer;
 
     @JsonProperty("start_date")
     private LocalDate startDate;

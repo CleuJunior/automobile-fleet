@@ -1,51 +1,65 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.mapper.CarMapper;
-import com.automobilefleet.api.mapper.RentalMapper;
 import com.automobilefleet.api.reponse.RentalResponse;
 import com.automobilefleet.api.request.RentalRequest;
 import com.automobilefleet.entities.Rental;
+import com.automobilefleet.exceptions.RentalNotFoundException;
 import com.automobilefleet.repositories.RentalRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class RentalService {
+
     private final RentalRepository repository;
+    private final ModelMapper mapper;
 
     public List<RentalResponse> listOfRental() {
-        List<Rental> rental = repository.findAll();
-
-        return RentalMapper.toRentalResponseList(rental);
+        return this.repository.findAll().stream()
+                .map(rental -> this.mapper.map(rental, RentalResponse.class))
+                .collect(Collectors.toList());
     }
 
-    public RentalResponse getRental(Long id) {
-        Rental response = repository.findById(id).get();
+    public RentalResponse getRentalById(Long id) {
+        Rental response = this.repository.findById(id)
+                .orElseThrow(RentalNotFoundException::new);
 
-        return RentalMapper.toRentalResponse(response);
+        return this.mapper.map(response, RentalResponse.class);
     }
 
     public RentalResponse saveRental(RentalRequest request) {
-        Rental rentalSave = RentalMapper.toRental(request);
-        repository.save(rentalSave);
+        Rental response = this.mapper.map(request, Rental.class);
+        response = repository.save(response);
 
-        return RentalMapper.toRentalResponse(rentalSave);
+        return this.mapper.map(response, RentalResponse.class);
     }
 
     public RentalResponse updateRental(Long id, RentalRequest request) {
-        Rental response = repository.findById(id).get();
+        Rental response = this.repository.findById(id)
+                .orElseThrow(RentalNotFoundException::new);
 
-        RentalMapper.updateRental(response, request);
+        response.setCar(request.getCar());
+        response.setCostumer(request.getCostumer());
+        response.setStartDate(request.getStartDate());
+        response.setEndDate(request.getEndDate());
+        response.setTotal(request.getTotal());
+        response.setUpdateAt(LocalDateTime.now());
 
-        repository.save(response);
+        this.repository.save(response);
 
-        return RentalMapper.toRentalResponse(response);
+        return this.mapper.map(response, RentalResponse.class);
     }
 
     public void deleteRental(Long id) {
-        repository.deleteById(id);
+        Rental rental = this.repository.findById(id)
+                .orElseThrow(RentalNotFoundException::new);
+
+        this.repository.delete(rental);
     }
 }

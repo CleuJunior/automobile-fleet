@@ -29,6 +29,6 @@ public class CategoryResponse {
     @JsonProperty("created_at")
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "dd-MM-yyyy hh:mm:ss")
+            pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdAt;
 }
