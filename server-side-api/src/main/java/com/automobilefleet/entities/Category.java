@@ -1,5 +1,6 @@
 package com.automobilefleet.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -40,6 +41,7 @@ public class Category implements Serializable {
     @Setter
     private String description;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "created_at", nullable = false)
     @Getter
     private LocalDateTime createdAt;
