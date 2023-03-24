@@ -24,8 +24,19 @@ public class CarController {
     private final CarService service;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<CarResponse> getBrandById(@PathVariable Long id) {
+    public ResponseEntity<CarResponse> getCardById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.getCar(id));
+    }
+
+    @GetMapping(value = "/available")
+    public ResponseEntity<List<CarResponse>> getCarAvailable() {
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.findByCarAvailable());
+    }
+
+
+    @GetMapping(value = "/brand/{brandName}")
+    public ResponseEntity<List<CarResponse>> getListCarByBrand(@PathVariable String brandName) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.findByCarBrand(brandName));
     }
 
     @GetMapping(value = "/list")

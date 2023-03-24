@@ -88,19 +88,19 @@ VALUES ('Suspensão', 'Especificação técnica que define o tipo de suspensão 
 --                                                                                    --
 -- -------------------------------------------------------------------------------------
 
-INSERT INTO car_entity (car_name, car_description, daily_rate, car_avaliable, license_plate, brand_id, category_id, car_color, created_at)
+INSERT INTO car_entity (car_name, car_description, daily_rate, car_available, license_plate, brand_id, category_id, car_color, created_at)
 VALUES ('Série 3', 'Sedan médio da BMW', 98.77, true, 'XPT-1146', 1, 5, 'Preto' , '2023-03-23 14:30:00');
 
-INSERT INTO car_entity (car_name, car_description, daily_rate, car_avaliable, license_plate, brand_id, category_id, car_color, created_at)
+INSERT INTO car_entity (car_name, car_description, daily_rate, car_available, license_plate, brand_id, category_id, car_color, created_at)
 VALUES ('Onix', 'Carro popular da Chevrolet', 110.18, false, 'ABC-1456', 2, 3, 'Amarelo' , '2023-03-23 12:00:00');
 
-INSERT INTO car_entity (car_name, car_description, daily_rate, car_avaliable, license_plate, brand_id, category_id, car_color, created_at)
+INSERT INTO car_entity (car_name, car_description, daily_rate, car_available, license_plate, brand_id, category_id, car_color, created_at)
 VALUES ('MT-09', 'Moto naked da Yamaha', 69.33, false, 'XYZ-4944', 4, 4, 'Verde', '2020-11-8 21:44:11');
 
-INSERT INTO car_entity (car_name, car_description, daily_rate, car_avaliable, license_plate, brand_id, category_id, car_color, created_at)
+INSERT INTO car_entity (car_name, car_description, daily_rate, car_available, license_plate, brand_id, category_id, car_color, created_at)
 VALUES ('Kwid', 'Carro compacto da Renault',  88.99, true, 'KLC-0056', 5, 1, 'Azul', '2023-02-18 14:31:57');
 
-INSERT INTO car_entity (car_name, car_description, daily_rate, car_avaliable, license_plate, brand_id, category_id, car_color, created_at)
+INSERT INTO car_entity (car_name, car_description, daily_rate, car_available, license_plate, brand_id, category_id, car_color, created_at)
 VALUES ('March', 'Carro compacto da Nissan', 148.99, false, 'OPL-456', 3, 2, 'Abobora', '2023-03-23 11:33:10');
 
 -- -------------------------------------------------------------------------------------

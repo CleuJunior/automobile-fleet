@@ -27,8 +27,8 @@ public class CarRequest {
     @JsonProperty("daily_rate")
     private Double dailyRate;
 
-    @JsonProperty("car_avaliable")
-    private Boolean avaliable;
+    @JsonProperty("car_available")
+    private Boolean available;
 
     @JsonProperty("license_plate")
     private String licensePlate;

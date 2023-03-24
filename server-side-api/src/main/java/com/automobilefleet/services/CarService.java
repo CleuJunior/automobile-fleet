@@ -1,6 +1,5 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.reponse.CarImageResponse;
 import com.automobilefleet.api.reponse.CarResponse;
 import com.automobilefleet.api.request.CarRequest;
 import com.automobilefleet.entities.Car;
@@ -33,6 +32,19 @@ public class CarService {
         return this.mapper.map(response, CarResponse.class);
     }
 
+    public List<CarResponse> findByCarBrand(String brandName) {
+        return this.repository.findCarsByBrand_Name(brandName).stream()
+                .map(car -> this.mapper.map(car, CarResponse.class))
+                .collect(Collectors.toList());
+    }
+
+
+    public List<CarResponse> findByCarAvailable() {
+        return this.repository.findByAvailable(true).stream()
+                .map(car -> this.mapper.map(car, CarResponse.class))
+                .collect(Collectors.toList());
+    }
+
     public CarResponse saveCar(CarRequest request) {
         Car response = this.mapper.map(request, Car.class);
         response = this.repository.save(response);
@@ -47,7 +59,7 @@ public class CarService {
         response.setName(request.getName());
         response.setDescription(request.getDescription());
         response.setDailyRate(request.getDailyRate());
-        response.setAvaliable(request.getAvaliable());
+        response.setAvailable(request.getAvailable());
         response.setLicensePlate(response.getLicensePlate());
         response.setBrand(request.getBrand());
         response.setCategory(request.getCategory());

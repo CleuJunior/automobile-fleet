@@ -32,7 +32,7 @@ public class Brand implements Serializable {
     @Getter
     private Long id;
 
-    @Column(name = "brand_name", unique = true, nullable = false)
+    @Column(name = "brand_name", nullable = false)
     @Getter
     @Setter
     private String name;

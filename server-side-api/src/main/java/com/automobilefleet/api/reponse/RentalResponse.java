@@ -29,9 +29,15 @@ public class RentalResponse {
     @JsonProperty("costumer_summary")
     private CostumerResponse costumer;
 
+    @JsonFormat(
+            shape = JsonFormat.Shape.STRING,
+            pattern = "dd-MM-yyyy")
     @JsonProperty("start_date")
     private LocalDate startDate;
 
+    @JsonFormat(
+            shape = JsonFormat.Shape.STRING,
+            pattern = "dd-MM-yyyy")
     @JsonProperty("end_date")
     private LocalDate endDate;
 

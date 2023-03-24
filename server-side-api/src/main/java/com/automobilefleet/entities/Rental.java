@@ -47,11 +47,13 @@ public class Rental implements Serializable {
     @Setter
     private Costumer costumer;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "start_date", nullable = false)
     @Getter
     @Setter
     private LocalDate startDate;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "end_date", nullable = false)
     @Getter
     @Setter
