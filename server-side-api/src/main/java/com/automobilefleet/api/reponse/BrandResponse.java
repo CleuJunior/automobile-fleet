@@ -10,7 +10,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -28,4 +27,9 @@ public class BrandResponse {
             shape = JsonFormat.Shape.STRING,
             pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime createdAt;
+
+    public BrandResponse(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

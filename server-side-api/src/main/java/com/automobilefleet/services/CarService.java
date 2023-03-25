@@ -29,6 +29,8 @@ public class CarService {
         Car response = this.repository.findById(id).
                 orElseThrow(CarNotFoundException::new);
 
+        System.out.println(this.repository.findBrandNameByCarId(id));
+
         return this.mapper.map(response, CarResponse.class);
     }
 

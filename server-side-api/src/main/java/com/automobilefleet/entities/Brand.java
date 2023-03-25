@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 @Table(name = "brand_entity")
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode
 public class Brand implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -41,6 +40,11 @@ public class Brand implements Serializable {
     @Column(name = "created_at", nullable = false)
     @Getter
     private LocalDateTime createdAt;
+
+    public Brand(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     @PrePersist
     public void prePersist() {
