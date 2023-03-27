@@ -60,7 +60,7 @@ public class Car implements Serializable {
     private String licensePlate;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "brand_id", referencedColumnName = "_id", nullable = false)
+    @JoinColumn(name = "brand_id", referencedColumnName = "_id",  nullable = true, insertable = false, updatable = false)
     @Getter
     @Setter
     private Brand brand;
