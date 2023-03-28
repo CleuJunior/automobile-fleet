@@ -2,72 +2,56 @@ package com.automobilefleet.services;
 
 import com.automobilefleet.AplicationConfigTest;
 import com.automobilefleet.api.reponse.BrandResponse;
+import com.automobilefleet.api.request.BrandRequest;
 import com.automobilefleet.entities.Brand;
 import com.automobilefleet.repositories.BrandRepository;
-import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatcher;
-import org.mockito.ArgumentMatchers;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @DisplayName("BrandServiceTest")
 class BrandServiceTest extends AplicationConfigTest {
 
-    @MockBean
-    private BrandRepository  repository;
+    @Mock
+    private BrandRepository repository;
 
-    @MockBean
+    @InjectMocks
+    private BrandService brandService;
+
+    @InjectMocks
     private ModelMapper mapper;
 
-    @Autowired
-    private BrandService service;
+    private Brand brand;
 
-//    @Test
-//    @DisplayName("Deve retornar uma lista de resposta de Brand")
-//    void shouldReturnAListOfBrandResponse() {
-//        System.out.println("Aqui");
-//
-//    }
-
-    @Test
-    @DisplayName("Deve retornar uma Brand com o ID passado por parametro")
-    void shouldReturnBrandWithTheIdPassed() {
-//        Long id = 1L;
-//
-//        Brand brand = Mockito.mock(Brand.class);
-//        Mockito.when()
-//
-//        Optional<Brand> brand = Optional.of(makeBrand());
-//        Mockito.when(this.repository.findById(ArgumentMatchers.eq(id))).thenReturn(brand);
-
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        brand = new Brand(null, "Test Brand");
     }
 
     @Test
-    @DisplayName("Deve deletar caso haja o ID")
-    void deleteShouldDeleteObjectWhenIdExists() {
-        long existingId = 1L;
-        this.repository.deleteById(existingId);
+    @DisplayName("Should save a brand with generated ID and creation date")
+    void shouldSaveBrand() {
+        // Configuração do mock do repository
+        when(this.repository.save(any(Brand.class)))
+                .thenAnswer(invocation -> invocation.<Brand>getArgument(0));
 
-        Optional<Brand> result = this.repository.findById(existingId);
+        BrandRequest request = this.mapper.map(brand, BrandRequest.class);
 
-        Assertions.assertFalse(result.isPresent());
+        // Execução do serviço
+        BrandResponse savedBrand = this.brandService.saveBrand(request);
+
+        // Verificação do resultado
+        assertNotNull(savedBrand.getId());
+        assertNotNull(savedBrand.getCreatedAt());
     }
-
 
 }

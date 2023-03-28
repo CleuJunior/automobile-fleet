@@ -1,44 +1,58 @@
 package com.automobilefleet.repositories;
 
-import com.automobilefleet.AplicationConfigTest;
+import com.automobilefleet.api.reponse.BrandResponse;
+import com.automobilefleet.api.request.BrandRequest;
 import com.automobilefleet.entities.Brand;
-import org.junit.jupiter.api.Assertions;
+import com.automobilefleet.services.BrandService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 
-@DisplayName("BrandServiceTest")
-public class BrandRepositoryTest extends AplicationConfigTest {
+@SpringBootTest
+class BrandServiceTest {
 
-    @Autowired
-    private BrandRepository repository;
+    @Mock
+    private BrandRepository brandRepository;
 
-    @Test
-    @DisplayName("Deve deletar caso haja o ID")
-    void deleteShouldDeleteObjectWhenIdExists() {
-        long existingId = 1L;
-        this.repository.deleteById(existingId);
+    @InjectMocks
+    private BrandService brandService;
 
-        Optional<Brand> result = this.repository.findById(existingId);
+    @InjectMocks
+    private ModelMapper mapper;
 
-        Assertions.assertFalse(result.isPresent());
+    private Brand brand;
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        brand = new Brand(null, "Test Brand");
     }
 
     @Test
-    @DisplayName("Deve deletar caso haja o ID")
-    void getdeleteShouldDeleteObjectWhenIdExists() {
-        long existingId = 1L;
+    @DisplayName("Should save a brand with generated ID and creation date")
+    void shouldSaveBrand() {
+        // Configuração do mock do repository
+        when(brandRepository.save(any(Brand.class)))
+                .thenAnswer(invocation -> invocation.<Brand>getArgument(0));
 
-        Optional<Brand> result = this.repository.findById(existingId);
+        BrandRequest request = this.mapper.map(brand, BrandRequest.class);
 
-        Assertions.assertFalse(result.isPresent());
+        // Execução do serviço
+        BrandResponse savedBrand = this.brandService.saveBrand(request);
+
+        // Verificação do resultado
+        assertNotNull(savedBrand.getId());
+        assertNotNull(savedBrand.getCreatedAt());
     }
 
 }
+
