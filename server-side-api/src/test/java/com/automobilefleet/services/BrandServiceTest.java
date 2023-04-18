@@ -1,57 +1,82 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.AplicationConfigTest;
 import com.automobilefleet.api.reponse.BrandResponse;
-import com.automobilefleet.api.request.BrandRequest;
 import com.automobilefleet.entities.Brand;
 import com.automobilefleet.repositories.BrandRepository;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-@DisplayName("BrandServiceTest")
-class BrandServiceTest extends AplicationConfigTest {
-
-    @Mock
-    private BrandRepository repository;
+@DataJpaTest
+class BrandServiceTest {
 
     @InjectMocks
     private BrandService brandService;
 
-    @InjectMocks
+    @Mock
+    private BrandRepository brandRepository;
+
+    @Mock
     private ModelMapper mapper;
 
-    private Brand brand;
+    @Test
+    @DisplayName("Should return a brand that was saved.")
+    void shouldReturnABrandWhenCallingGetBrand() {
+        /* Cria uma Brand */
+        Brand brand = new Brand(1L, "Brand 1");
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        brand = new Brand(null, "Test Brand");
+        /* Configura o comportamento do objeto de repositório simulado */
+        Mockito.when(this.brandRepository.findById(1L).thenReturn(Optional.of(brand));
+
+        /* Cria uma lista simulada de objetos BrandResponse */
+        List<BrandResponse> expectedResponses = new ArrayList<>();
+        expectedResponses.add(new BrandResponse(1L, "Brand 1"));
+        expectedResponses.add(new BrandResponse(2L, "Brand 2"));
+        expectedResponses.add(new BrandResponse(3L, "Brand 3"));
+
+        /* Configura o comportamento do objeto de mapeador de modelo simulado */
+        brands.forEach(
+                b -> Mockito.when(this.mapper.map(b, BrandResponse.class))
+                        .thenReturn(expectedResponses.get(brands.indexOf(b)))
+        );
+
+        /* Chama o método listBrand() e verifica se a lista retornada é igual à lista simulada de objetos BrandResponse */
+        List<BrandResponse> actualResponses = this.brandService.listBrand();
+        Assertions.assertEquals(expectedResponses, actualResponses);
     }
 
     @Test
-    @DisplayName("Should save a brand with generated ID and creation date")
-    void shouldSaveBrand() {
-        // Configuração do mock do repository
-        when(this.repository.save(any(Brand.class)))
-                .thenAnswer(invocation -> invocation.<Brand>getArgument(0));
+    @DisplayName("Should return a list of brands.")
+    void shouldReturnListOfBrandsWhenCallingFindAll() {
+        List<Brand> brands = List.of(
+                new Brand(1L, "Brand 1"),
+                new Brand(2L, "Brand 2"),
+                new Brand(3L, "Brand 3")
+        );
 
-        BrandRequest request = this.mapper.map(brand, BrandRequest.class);
+        Mockito.when(this.brandRepository.findAll()).thenReturn(brands);
 
-        // Execução do serviço
-        BrandResponse savedBrand = this.brandService.saveBrand(request);
+        List<BrandResponse> expectedResponses = new ArrayList<>();
+        expectedResponses.add(new BrandResponse(1L, "Brand 1"));
+        expectedResponses.add(new BrandResponse(2L, "Brand 2"));
+        expectedResponses.add(new BrandResponse(3L, "Brand 3"));
 
-        // Verificação do resultado
-        assertNotNull(savedBrand.getId());
-        assertNotNull(savedBrand.getCreatedAt());
+        /* Configura o comportamento do objeto de mapeador de modelo simulado */
+        brands.forEach(
+                b -> Mockito.when(this.mapper.map(b, BrandResponse.class))
+                        .thenReturn(expectedResponses.get(brands.indexOf(b)))
+        );
+
+        List<BrandResponse> actualResponses = this.brandService.listBrand();
+        Assertions.assertEquals(expectedResponses, actualResponses);
     }
-
 }
