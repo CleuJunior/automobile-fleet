@@ -19,7 +19,6 @@ public class BrandService {
     private final BrandRepository repository;
     private final ModelMapper mapper;
     public List<BrandResponse> listBrand() {
-
         return this.repository.findAll().stream()
                 .map(brand -> this.mapper.map(brand, BrandResponse.class))
                 .collect(Collectors.toList());
