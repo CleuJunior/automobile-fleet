@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 @Table(name = "category_entity")
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode
 public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -35,7 +34,6 @@ public class Category implements Serializable {
     @Getter
     @Setter
     private String name;
-
     @Column(name = "category_description", columnDefinition="TEXT", nullable = false)
     @Getter
     @Setter
@@ -45,6 +43,11 @@ public class Category implements Serializable {
     @Column(name = "created_at", nullable = false)
     @Getter
     private LocalDateTime createdAt;
+
+    public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 
     @PrePersist
     public void prePersist() {
