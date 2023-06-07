@@ -4,34 +4,34 @@
 --                                                                                    --
 -- -------------------------------------------------------------------------------------
 
-INSERT INTO costumer_entity (costumer_name, costumer_bd, costumer_email, drive_license, address, costumer_phone_number, created_at, update_at)
+INSERT INTO costumer_entity (name, birth_date, email, driver_license, address, phone_number, created_at, update_at)
 VALUES ('Raimunda Regina Porto', '1974-03-05', 'raimundareginaporto@clinicasilhouette.com.br', '08493447718', 'Rua Astrogildo de Almeida, 328', '(73) 99362-1339', '2022-12-21 21:13:12', '2023-02-18 09:31:00');
 
-INSERT INTO costumer_entity (costumer_name, costumer_bd, costumer_email, drive_license, address, costumer_phone_number, created_at, update_at)
+INSERT INTO costumer_entity (name, birth_date, email, driver_license, address, phone_number, created_at, update_at)
 VALUES ('Gustavo Rafael Elias da Mata', '1960-10-03', 'gustavo-damata84@vipsaude.com.br', '02911058331', 'Jardim Novo Niterói, 378', '(65) 98238-1865', '2022-08-13 18:08:30', '2023-03-18 13:11:09');
 
-INSERT INTO costumer_entity (costumer_name, costumer_bd, costumer_email, drive_license, address, costumer_phone_number, created_at, update_at)
+INSERT INTO costumer_entity (name, birth_date, email, driver_license, address, phone_number, created_at, update_at)
 VALUES ('Heloisa Aurora Jéssica dos Santos', '1988-08-12', 'heloisaauroradossantos@sha.com.br', '18895846006', 'Rua Astrogildo de Almeida, 328', '(47) 98101-9804', '2023-01-21 10:18:20', '2023-03-24 21:44:11');
 
-INSERT INTO costumer_entity (costumer_name, costumer_bd, costumer_email, drive_license, address, costumer_phone_number, created_at, update_at)
+INSERT INTO costumer_entity (name, birth_date, email, driver_license, address, phone_number, created_at, update_at)
 VALUES ('Julio Marcelo Nelson Melo', '1974-03-05', 'julio.marcelo.melo@attglobal.net', '90897130198', 'Praça Vereador Osvaldo Mendonça, 752', '(79) 99539-6592', '2022-02-21 23:08:23', '2022-12-11 08:31:33');
 
-INSERT INTO costumer_entity (costumer_name, costumer_bd, costumer_email, drive_license, address, costumer_phone_number, created_at, update_at)
+INSERT INTO costumer_entity (name, birth_date, email, driver_license, address, phone_number, created_at, update_at)
 VALUES ('Hugo Benjamin Barbosa', '1980-11-02', 'hugo.benjamin.barbosa@cathedranet.com.br', '74091777742', 'Travessa Jasmim, 101', '(68) 99602-7578', '2022-12-03 09:23:14', '2023-02-18 14:31:57');
 
-INSERT INTO costumer_entity (costumer_name, costumer_bd, costumer_email, drive_license, address, costumer_phone_number, created_at, update_at)
+INSERT INTO costumer_entity (name, birth_date, email, driver_license, address, phone_number, created_at, update_at)
 VALUES ('Marta Ferreira Castro', '1995-06-22', 'martafc@gmail.com', '00230558184', 'Rua das Flores, 45', '(11) 98765-4321', '2022-09-18 11:22:33', '2023-03-21 16:55:44');
 
-INSERT INTO costumer_entity (costumer_name, costumer_bd, costumer_email, drive_license, address, costumer_phone_number, created_at, update_at)
+INSERT INTO costumer_entity (name, birth_date, email, driver_license, address, phone_number, created_at, update_at)
 VALUES ('Pedro Henrique Silva', '1989-03-15', 'pedro.henrique.silva@outlook.com', '03482045429', 'Avenida Brasil, 2345', '(21) 99876-5432', '2022-10-20 15:42:00', '2023-03-22 09:11:22');
 
-INSERT INTO costumer_entity (costumer_name, costumer_bd, costumer_email, drive_license, address, costumer_phone_number, created_at, update_at)
+INSERT INTO costumer_entity (name, birth_date, email, driver_license, address, phone_number, created_at, update_at)
 VALUES ('Luana Oliveira Costa', '1991-12-05', 'luanaoliveiracosta@gmail.com', '03780614280', 'Rua São Paulo, 123', '(31) 98765-4321', '2022-11-11 08:15:45', '2023-03-23 14:33:00');
 
-INSERT INTO costumer_entity (costumer_name, costumer_bd, costumer_email, drive_license, address, costumer_phone_number, created_at, update_at)
+INSERT INTO costumer_entity (name, birth_date, email, driver_license, address, phone_number, created_at, update_at)
 VALUES ('Fernando Henrique Ribeiro', '1985-05-11', 'fernando.hr@gmail.com', '01234567890', 'Rua das Palmeiras, 67', '(41) 99876-5432', '2022-12-01 12:30:15', '2023-03-24 11:22:33');
 
-INSERT INTO costumer_entity (costumer_name, costumer_bd, costumer_email, drive_license, address, costumer_phone_number, created_at, update_at)
+INSERT INTO costumer_entity (name, birth_date, email, driver_license, address, phone_number, created_at, update_at)
 VALUES ('Marcela Souza Santos', '1992-09-29', 'marcela.ss@gmail.com', '12345678901', 'Avenida Paulista, 1000', '(11) 98765-4321', '2023-01-02 18:05:00', '2023-03-24 16:44:11');
 
 -- -------------------------------------------------------------------------------------
@@ -77,34 +77,34 @@ VALUES ('Honda', '1948-09-24 08:05:13');
 --                                                                                    --
 -- -------------------------------------------------------------------------------------
 
-INSERT INTO category_entity (category_name, category_description, created_at)
+INSERT INTO category_entity (name, description, created_at)
 VALUES ('SUVs', 'Veículos utilitários esportivos', '2022-02-18 09:31:02');
 
-INSERT INTO category_entity (category_name, category_description, created_at)
+INSERT INTO category_entity (name, description, created_at)
 VALUES ('Carros Elétricos', 'Veículos movidos a energia elétrica', '2021-01-13 23:08:23');
 
-INSERT INTO category_entity (category_name, category_description, created_at)
+INSERT INTO category_entity (name, description, created_at)
 VALUES ('Hatch', 'Categoria de carros com carroceria hatchback', '2020-11-8 21:44:11');
 
-INSERT INTO category_entity (category_name, category_description, created_at)
+INSERT INTO category_entity (name, description, created_at)
 VALUES ('Picape', 'Categoria de carros com carroceria pickup', '2021-08-02 14:12:28');
 
-INSERT INTO category_entity (category_name, category_description, created_at)
+INSERT INTO category_entity (name, description, created_at)
 VALUES ('Esportivo', 'Categoria de carros esportivos com alta performance', '2019-09-29 21:23:52');
 
-INSERT INTO category_entity (category_name, category_description, created_at)
+INSERT INTO category_entity (name, description, created_at)
 VALUES ('Caminhões', 'Veículos de grande porte para transporte de cargas', '2018-06-15 10:27:44');
 
-INSERT INTO category_entity (category_name, category_description, created_at)
+INSERT INTO category_entity (name, description, created_at)
 VALUES ('Carros de Luxo', 'Carros de alta qualidade e com grande valor agregado', '2022-01-05 15:20:17');
 
-INSERT INTO category_entity (category_name, category_description, created_at)
+INSERT INTO category_entity (name, description, created_at)
 VALUES ('Minivans', 'Veículos familiares com grande espaço interno', '2020-07-03 08:15:59');
 
-INSERT INTO category_entity (category_name, category_description, created_at)
+INSERT INTO category_entity (name, description, created_at)
 VALUES ('Coupé', 'Categoria de carros com carroceria coupé', '2019-04-22 17:54:01');
 
-INSERT INTO category_entity (category_name, category_description, created_at)
+INSERT INTO category_entity (name, description, created_at)
 VALUES ('Carros Antigos', 'Veículos com mais de 30 anos de fabricação', '2022-02-28 12:35:46');
 
 -- -------------------------------------------------------------------------------------

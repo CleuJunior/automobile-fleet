@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 public class BrandRequest {
 
-    @JsonProperty("brand_name")
+    @JsonProperty("name")
     private String name;
 
     @JsonProperty("created_at")

@@ -1,11 +1,11 @@
 package com.automobilefleet.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @Table(name = "car_image_entity")
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EqualsAndHashCode
 public class CarImage implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -32,7 +32,6 @@ public class CarImage implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_id", nullable = false)
-    @NonNull
     @Getter
     private Long id;
 
@@ -45,9 +44,10 @@ public class CarImage implements Serializable {
 
     @Lob
     @Column(name = "image", columnDefinition = "BLOB")
+    @NonNull
     @Getter
     @Setter
-    private byte @NonNull [] image;
+    private byte [] image;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "created_at", nullable = false)

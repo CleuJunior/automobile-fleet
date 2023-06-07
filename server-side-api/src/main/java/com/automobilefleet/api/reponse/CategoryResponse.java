@@ -18,10 +18,10 @@ public class CategoryResponse {
     @JsonProperty("_id")
     private Long id;
 
-    @JsonProperty("category_name")
+    @JsonProperty("name")
     private String name;
 
-    @JsonProperty("category_description")
+    @JsonProperty("description")
     private String description;
 
     @JsonProperty("created_at")

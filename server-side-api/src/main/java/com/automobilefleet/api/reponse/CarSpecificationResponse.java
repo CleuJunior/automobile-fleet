@@ -1,7 +1,5 @@
 package com.automobilefleet.api.reponse;
 
-import com.automobilefleet.entities.Car;
-import com.automobilefleet.entities.Specification;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
@@ -18,8 +16,8 @@ public class CarSpecificationResponse {
     private Long id;
 
     @JsonProperty("car_id")
-    private Car car;
+    private Long carId;
 
     @JsonProperty("specification_id")
-    private Specification specification;
+    private Long specificationId;
 }

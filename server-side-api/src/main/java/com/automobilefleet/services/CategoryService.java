@@ -50,10 +50,4 @@ public class CategoryService {
         return this.mapper.map(response, CategoryResponse.class);
     }
 
-    public void deleteCategory(Long id) {
-        Category response = this.repository.findById(id)
-                .orElseThrow(CategoryNotFoundException::new);
-
-        this.repository.delete(response);
-    }
 }

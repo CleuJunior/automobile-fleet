@@ -34,29 +34,29 @@ public class Costumer implements Serializable {
     @Getter
     private Long id;
 
-    @Column(name = "costumer_name", nullable = false)
+    @Column(name = "name", nullable = false)
     @NonNull
     @Getter
     @Setter
     private String name;
 
-    @Column(name = "costumer_bd", nullable = false)
+    @Column(name = "birth_date", nullable = false)
     @NonNull
     @Getter
     @Setter
     private LocalDate birthDate;
 
-    @Column(name = "costumer_email", unique = true, nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     @NonNull
     @Getter
     @Setter
     private String email;
 
-    @Column(name = "drive_license", unique = true, nullable = false)
+    @Column(name = "driver_license", unique = true, nullable = false)
     @NonNull
     @Getter
     @Setter
-    private String driveLicense;
+    private String driverLicense;
 
     @Column(name = "address")
     @NonNull
@@ -64,7 +64,7 @@ public class Costumer implements Serializable {
     @Setter
     private String address;
 
-    @Column(name = "costumer_phone_number", nullable = false)
+    @Column(name = "phone_number", nullable = false)
     @NonNull
     @Getter
     @Setter

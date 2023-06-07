@@ -29,28 +29,22 @@ public class CategoryController {
     }
 
     @GetMapping(value = "/list")
-    public ResponseEntity<List<CategoryResponse>> listOfBrand() {
+    public ResponseEntity<List<CategoryResponse>> listOfCategory() {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.listCategories());
     }
 
     @PostMapping(value = "/save")
-    public ResponseEntity<CategoryResponse> saveBrand(@RequestBody CategoryRequest request) {
+    public ResponseEntity<CategoryResponse> saveCategory(@RequestBody CategoryRequest request) {
         CategoryResponse response = this.service.saveCategory(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping(value = "/update/{id}")
-    public ResponseEntity<CategoryResponse> updateBrand(@PathVariable Long id, @RequestBody CategoryRequest request) {
+    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @RequestBody CategoryRequest request) {
         CategoryResponse response = this.service.updateCategory(id, request);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<Void> deleteBrand(@PathVariable Long id) {
-        this.service.deleteCategory(id);
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
 }

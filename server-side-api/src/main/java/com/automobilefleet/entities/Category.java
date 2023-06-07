@@ -29,17 +29,16 @@ public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_id", nullable = false)
-    @NonNull
     @Getter
     private Long id;
 
-    @Column(name = "category_name", unique = true, nullable = false)
+    @Column(name = "name", unique = true, nullable = false)
     @NonNull
     @Getter
     @Setter
     private String name;
 
-    @Column(name = "category_description", columnDefinition="TEXT", nullable = false)
+    @Column(name = "description", columnDefinition="TEXT", nullable = false)
     @NonNull
     @Getter
     @Setter

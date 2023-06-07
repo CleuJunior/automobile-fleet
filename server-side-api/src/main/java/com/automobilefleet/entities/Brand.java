@@ -29,7 +29,6 @@ public class Brand implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_id", nullable = false)
-    @NonNull
     @Getter
     private Long id;
 

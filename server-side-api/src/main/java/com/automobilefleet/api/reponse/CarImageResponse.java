@@ -1,6 +1,5 @@
 package com.automobilefleet.api.reponse;
 
-import com.automobilefleet.entities.Car;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -22,7 +21,7 @@ public class CarImageResponse {
     private Long id;
 
     @JsonProperty("car_id")
-    private Car car;
+    private Long carId;
 
     @JsonProperty("image")
     private byte[] image;

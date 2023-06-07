@@ -1,14 +1,13 @@
 package com.automobilefleet.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +23,7 @@ import java.time.LocalDateTime;
 @Table(name = "car_entity")
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EqualsAndHashCode
 public class Car implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -32,7 +31,6 @@ public class Car implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_id", nullable = false)
-    @NonNull
     @Getter
     private Long id;
 
@@ -66,14 +64,14 @@ public class Car implements Serializable {
     @Setter
     private String licensePlate;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "brand_id", referencedColumnName = "_id", insertable = false, updatable = false)
+    @OneToOne()
+    @JoinColumn(name = "brand_id", referencedColumnName = "_id", nullable = false)
     @NonNull
     @Getter
     @Setter
     private Brand brand;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "category_id", referencedColumnName = "_id", nullable = false)
     @NonNull
     @Getter

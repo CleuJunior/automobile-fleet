@@ -19,25 +19,25 @@ public class CostumerResponse {
     @JsonProperty("_id")
     private Long id;
 
-    @JsonProperty("costumer_name")
+    @JsonProperty("name")
     private String name;
 
-    @JsonProperty("costumer_bd")
+    @JsonProperty("birth_date")
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
             pattern = "dd-MM-yyyy")
     private LocalDate birthDate;
 
-    @JsonProperty("costumer_email")
+    @JsonProperty("email")
     private String email;
 
-    @JsonProperty("drive_license")
-    private String driveLicense;
+    @JsonProperty("driver_license")
+    private String driverLicense;
 
     @JsonProperty("address")
     private String address;
 
-    @JsonProperty("costumer_phone_number")
+    @JsonProperty("phone_number")
     private String phone;
 
     @JsonProperty("created_at")

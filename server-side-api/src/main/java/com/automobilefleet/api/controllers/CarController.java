@@ -25,7 +25,7 @@ public class CarController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<CarResponse> getCardById(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(this.service.getCar(id));
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.getCarById(id));
     }
 
     @GetMapping(value = "/available")

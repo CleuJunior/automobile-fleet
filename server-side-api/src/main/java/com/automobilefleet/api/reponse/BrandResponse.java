@@ -18,7 +18,7 @@ public class BrandResponse {
     @JsonProperty("_id")
     private Long id;
 
-    @JsonProperty("brand_name")
+    @JsonProperty("name")
     private String name;
 
     @JsonProperty("created_at")

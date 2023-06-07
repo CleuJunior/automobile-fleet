@@ -60,8 +60,8 @@ public class CostumerService {
         response.setName(response.getName());
         response.setBirthDate(response.getBirthDate());
         response.setEmail(request.getEmail());
-        response.setDriveLicense(response.getDriveLicense());
-        response.setDriveLicense(request.getDriveLicense());
+        response.setDriverLicense(response.getDriverLicense());
+        response.setDriverLicense(request.getDriverLicense());
         response.setAddress(response.getAddress());
         response.setPhone(request.getPhone());
         response.setUpdateAt(LocalDateTime.now());

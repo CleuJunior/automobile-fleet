@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 @Setter
 public class CategoryRequest {
 
-    @JsonProperty("category_name")
+    @JsonProperty("name")
     private String name;
 
-    @JsonProperty("category_description")
+    @JsonProperty("description")
     private String description;
 
     @JsonProperty("created_at")

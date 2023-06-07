@@ -1,7 +1,5 @@
 package com.automobilefleet.api.request;
 
-import com.automobilefleet.entities.Brand;
-import com.automobilefleet.entities.Category;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -15,29 +13,29 @@ import java.time.LocalDateTime;
 @Setter
 public class CarRequest {
 
-    @JsonProperty("car_name")
+    @JsonProperty("name")
     private String name;
 
-    @JsonProperty("car_description")
+    @JsonProperty("description")
     private String description;
 
 
     @JsonProperty("daily_rate")
     private Double dailyRate;
 
-    @JsonProperty("car_available")
+    @JsonProperty("available")
     private Boolean available;
 
     @JsonProperty("license_plate")
     private String licensePlate;
 
     @JsonProperty("brand_id")
-    private Brand brand;
+    private Long brandId;
 
     @JsonProperty("category_id")
-    private Category category;
+    private Long categoryId;
 
-    @JsonProperty("car_color")
+    @JsonProperty("color")
     private String color;
 
     @JsonProperty("created_at")

@@ -1,7 +1,5 @@
 package com.automobilefleet.api.reponse;
 
-import com.automobilefleet.entities.Brand;
-import com.automobilefleet.entities.Category;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -20,29 +18,29 @@ public class CarResponse {
     @JsonProperty("_id")
     private Long id;
 
-    @JsonProperty("car_name")
+    @JsonProperty("name")
     private String name;
 
-    @JsonProperty("car_description")
+    @JsonProperty("description")
     private String description;
 
 
     @JsonProperty("daily_rate")
     private Double dailyRate;
 
-    @JsonProperty("car_avaliable")
+    @JsonProperty("avaliable")
     private Boolean available;
 
     @JsonProperty("license_plate")
     private String licensePlate;
 
     @JsonProperty("brand_id")
-    private Brand brand;
+    private Long brandId;
 
     @JsonProperty("category_id")
-    private Category category;
+    private Long categoryId;
 
-    @JsonProperty("car_color")
+    @JsonProperty("color")
     private String color;
 
     @JsonProperty("created_at")
