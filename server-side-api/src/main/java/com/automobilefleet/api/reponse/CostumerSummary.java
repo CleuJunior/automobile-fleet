@@ -1,9 +1,13 @@
 package com.automobilefleet.api.reponse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
 public class CostumerSummary {
 
     @JsonProperty("costumer_name")

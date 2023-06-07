@@ -2,7 +2,6 @@ package com.automobilefleet.api.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,7 +22,4 @@ public class BrandRequest {
             pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime createdAt;
 
-    public BrandRequest(String name) {
-        this.name = name;
-    }
 }

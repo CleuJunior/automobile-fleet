@@ -3,7 +3,6 @@ package com.automobilefleet.api.reponse;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,8 +27,4 @@ public class BrandResponse {
             pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime createdAt;
 
-    public BrandResponse(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 }

@@ -18,9 +18,9 @@ import java.io.Serializable;
 
 @Table(name = "car_specification")
 @Entity
+@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@NoArgsConstructor
 public class CarSpecification implements Serializable {
     private static final long serialVersionUID = 1L;
 

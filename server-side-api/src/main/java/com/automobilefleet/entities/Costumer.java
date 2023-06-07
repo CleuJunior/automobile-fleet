@@ -1,10 +1,11 @@
 package com.automobilefleet.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -20,8 +21,8 @@ import java.time.LocalDateTime;
 
 @Table(name = "costumer_entity")
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 @EqualsAndHashCode
 public class Costumer implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -29,35 +30,42 @@ public class Costumer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_id", nullable = false)
+    @NonNull
     @Getter
     private Long id;
 
     @Column(name = "costumer_name", nullable = false)
+    @NonNull
     @Getter
     @Setter
     private String name;
 
     @Column(name = "costumer_bd", nullable = false)
+    @NonNull
     @Getter
     @Setter
     private LocalDate birthDate;
 
     @Column(name = "costumer_email", unique = true, nullable = false)
+    @NonNull
     @Getter
     @Setter
     private String email;
 
     @Column(name = "drive_license", unique = true, nullable = false)
+    @NonNull
     @Getter
     @Setter
     private String driveLicense;
 
     @Column(name = "address")
+    @NonNull
     @Getter
     @Setter
     private String address;
 
     @Column(name = "costumer_phone_number", nullable = false)
+    @NonNull
     @Getter
     @Setter
     private String phone;
@@ -68,7 +76,7 @@ public class Costumer implements Serializable {
     private LocalDateTime createdAt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-    @Column(name = "update_at")
+    @Column(name = "update_at", nullable = false)
     @Getter
     @Setter
     private LocalDateTime updateAt;
@@ -76,5 +84,6 @@ public class Costumer implements Serializable {
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
+        this.updateAt = LocalDateTime.now();
     }
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -31,11 +32,13 @@ public class CarImage implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_id", nullable = false)
+    @NonNull
     @Getter
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "car_id")
+    @NonNull
     @Getter
     @Setter
     private Car car;
@@ -44,7 +47,7 @@ public class CarImage implements Serializable {
     @Column(name = "image", columnDefinition = "BLOB")
     @Getter
     @Setter
-    private byte[] image;
+    private byte @NonNull [] image;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "created_at", nullable = false)

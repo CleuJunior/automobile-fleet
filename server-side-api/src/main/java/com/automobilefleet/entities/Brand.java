@@ -1,10 +1,11 @@
 package com.automobilefleet.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -20,18 +21,20 @@ import java.time.LocalDateTime;
 @Table(name = "brand_entity")
 @Entity
 @NoArgsConstructor
+@RequiredArgsConstructor
 @EqualsAndHashCode
 public class Brand implements Serializable {
     private static final long serialVersionUID = 1L;
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_id", nullable = false)
+    @NonNull
     @Getter
     private Long id;
 
     @Column(name = "brand_name", nullable = false)
+    @NonNull
     @Getter
     @Setter
     private String name;
@@ -40,11 +43,6 @@ public class Brand implements Serializable {
     @Column(name = "created_at", nullable = false)
     @Getter
     private LocalDateTime createdAt;
-
-    public Brand(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
     @PrePersist
     public void prePersist() {

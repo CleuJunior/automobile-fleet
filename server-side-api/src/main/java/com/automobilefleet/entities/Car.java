@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 
 import javax.persistence.CascadeType;
@@ -31,47 +32,56 @@ public class Car implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_id", nullable = false)
+    @NonNull
     @Getter
     private Long id;
 
     @Column(name = "car_name", unique = true, nullable = false)
+    @NonNull
     @Getter
     @Setter
     private String name;
 
     @Column(name = "car_description", length = 30, nullable = false)
+    @NonNull
     @Getter
     @Setter
     private String description;
 
     @Column(name = "daily_rate", nullable = false)
+    @NonNull
     @Getter
     @Setter
     private Double dailyRate;
 
     @Column(name = "car_available", nullable = false)
+    @NonNull
     @Getter
     @Setter
     private Boolean available;
 
     @Column(name = "license_plate", length = 30, nullable = false)
+    @NonNull
     @Getter
     @Setter
     private String licensePlate;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "brand_id", referencedColumnName = "_id",  nullable = true, insertable = false, updatable = false)
+    @JoinColumn(name = "brand_id", referencedColumnName = "_id", insertable = false, updatable = false)
+    @NonNull
     @Getter
     @Setter
     private Brand brand;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", referencedColumnName = "_id", nullable = false)
+    @NonNull
     @Getter
     @Setter
     private Category category;
 
     @Column(name = "car_color", nullable = false)
+    @NonNull
     @Getter
     @Setter
     private String color;
