@@ -1,8 +1,8 @@
 package com.automobilefleet.exceptions;
 
-public class CarImageNotFoundException extends NotFoundException{
+public class CarImageNotFoundException extends NotFoundException {
 
     public CarImageNotFoundException() {
-        super("Image not found!");
+        super(NotFoundExceptionsConstants.IMAGE_NOT_FOUND);
     }
 }

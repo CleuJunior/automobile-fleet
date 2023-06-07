@@ -1,8 +1,8 @@
 package com.automobilefleet.exceptions;
 
-public class SpecificationNotFoundException extends NotFoundException{
+public class SpecificationNotFoundException extends NotFoundException {
 
     public SpecificationNotFoundException() {
-        super("Specification not found!");
+        super(NotFoundExceptionsConstants.SPECIFICATION_NOT_FOUND);
     }
 }

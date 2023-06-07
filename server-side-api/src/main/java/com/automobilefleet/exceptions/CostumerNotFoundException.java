@@ -1,8 +1,8 @@
 package com.automobilefleet.exceptions;
 
-public class CostumerNotFoundException extends NotFoundException{
+public class CostumerNotFoundException extends NotFoundException {
 
     public CostumerNotFoundException() {
-        super("Costumer not found!");
+        super(NotFoundExceptionsConstants.COSTUMER_NOT_FOUND);
     }
 }

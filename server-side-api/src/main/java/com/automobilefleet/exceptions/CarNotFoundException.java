@@ -1,8 +1,8 @@
 package com.automobilefleet.exceptions;
 
-public class CarNotFoundException extends NotFoundException{
+public class CarNotFoundException extends NotFoundException {
 
     public CarNotFoundException() {
-        super("Car not found!");
+        super(NotFoundExceptionsConstants.CAR_NOT_FOUND);
     }
 }
