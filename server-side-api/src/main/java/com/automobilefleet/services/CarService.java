@@ -11,6 +11,7 @@ import com.automobilefleet.exceptions.CategoryNotFoundException;
 import com.automobilefleet.repositories.BrandRepository;
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.repositories.CategoryRepository;
+import com.automobilefleet.util.CarUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -59,17 +60,8 @@ public class CarService {
         Category category = this.categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(CategoryNotFoundException::new);
 
-        Car response = new Car(
-                request.getName(),
-                request.getDescription(),
-                request.getDailyRate(),
-                request.getAvailable(),
-                request.getLicensePlate(),
-                brand,
-                category,
-                request.getColor()
-        );
 
+        Car response =  CarUtils.ofCar(request, brand, category);
         response = this.carRepository.save(response);
 
         return this.mapper.map(response, CarResponse.class);
@@ -85,23 +77,10 @@ public class CarService {
         Category category = this.categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(CategoryNotFoundException::new);
 
-        response.setName(request.getName());
-        response.setDescription(request.getDescription());
-        response.setDailyRate(request.getDailyRate());
-        response.setAvailable(request.getAvailable());
-        response.setLicensePlate(response.getLicensePlate());
-        response.setBrand(brand);
-        response.setCategory(category);
-        response.setColor(response.getColor());
+        CarUtils.updateCar(response, request, brand, category);
         response = this.carRepository.save(response);
 
         return this.mapper.map(response, CarResponse.class);
     }
 
-    public void deleteCar(Long id) {
-        Car response = this.carRepository.findById(id).
-                orElseThrow(CarNotFoundException::new);
-
-        this.carRepository.delete(response);
-    }
 }

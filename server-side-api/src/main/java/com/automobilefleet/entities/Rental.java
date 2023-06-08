@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.PostPersist;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -33,7 +34,6 @@ public class Rental implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_id", nullable = false)
-    @NonNull
     @Getter
     private Long id;
 
@@ -86,5 +86,10 @@ public class Rental implements Serializable {
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
         this.updateAt = LocalDateTime.now();
+    }
+
+    @PostPersist
+    public void postPersist() {
+        this.createdAt = LocalDateTime.now();
     }
 }

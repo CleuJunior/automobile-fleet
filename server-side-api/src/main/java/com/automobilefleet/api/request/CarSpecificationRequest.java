@@ -13,8 +13,8 @@ import lombok.Setter;
 public class CarSpecificationRequest {
 
     @JsonProperty("car_id")
-    private Car car;
+    private Long carId;
 
     @JsonProperty("specification_id")
-    private Specification specification;
+    private Long specificationId;
 }

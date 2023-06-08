@@ -60,10 +60,4 @@ public class CostumerController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<Void> deleteCostumer(@PathVariable Long id) {
-        this.service.deleteCostumer(id);
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
 }

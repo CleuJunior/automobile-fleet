@@ -50,10 +50,4 @@ public class SpecificationService {
         return this.mapper.map(response, SpecificationResponse.class);
     }
 
-    public void deleteSpecification(Long id) {
-        Specification response = this.repository.findById(id).
-                orElseThrow(SpecificationNotFoundException::new);
-
-        this.repository.delete(response);
-    }
 }

@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PostPersist;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -30,7 +31,6 @@ public class Costumer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_id", nullable = false)
-    @NonNull
     @Getter
     private Long id;
 
@@ -78,12 +78,16 @@ public class Costumer implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "update_at", nullable = false)
     @Getter
-    @Setter
     private LocalDateTime updateAt;
 
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
+        this.updateAt = LocalDateTime.now();
+    }
+
+    @PostPersist
+    public void postPersist() {
         this.updateAt = LocalDateTime.now();
     }
 }

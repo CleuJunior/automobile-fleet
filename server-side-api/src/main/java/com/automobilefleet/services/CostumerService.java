@@ -5,11 +5,11 @@ import com.automobilefleet.api.request.CostumerRequest;
 import com.automobilefleet.entities.Costumer;
 import com.automobilefleet.exceptions.CostumerNotFoundException;
 import com.automobilefleet.repositories.CostumerRepository;
+import com.automobilefleet.util.CostumerUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,24 +57,10 @@ public class CostumerService {
         Costumer response = this.repository.findById(id)
                 .orElseThrow(CostumerNotFoundException::new);
 
-        response.setName(response.getName());
-        response.setBirthDate(response.getBirthDate());
-        response.setEmail(request.getEmail());
-        response.setDriverLicense(response.getDriverLicense());
-        response.setDriverLicense(request.getDriverLicense());
-        response.setAddress(response.getAddress());
-        response.setPhone(request.getPhone());
-        response.setUpdateAt(LocalDateTime.now());
-
+        CostumerUtils.updateCostumer(response, request);
         this.repository.save(response);
 
         return  this.mapper.map(response, CostumerResponse.class);
     }
 
-    public void deleteCostumer(Long id) {
-        Costumer costumer = this.repository.findById(id)
-                .orElseThrow(CostumerNotFoundException::new);
-
-        this.repository.delete(costumer);
-    }
 }

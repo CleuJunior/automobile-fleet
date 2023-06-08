@@ -1,9 +1,10 @@
 package com.automobilefleet.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -19,7 +20,7 @@ import java.io.Serializable;
 @Table(name = "car_specification")
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EqualsAndHashCode
 public class CarSpecification implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -32,12 +33,14 @@ public class CarSpecification implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "car_id", referencedColumnName = "_id", nullable = false)
+    @NonNull
     @Getter
     @Setter
     private Car car;
 
     @OneToOne
     @JoinColumn(name = "specification_id", referencedColumnName = "_id", nullable = false)
+    @NonNull
     @Getter
     @Setter
     private Specification specification;

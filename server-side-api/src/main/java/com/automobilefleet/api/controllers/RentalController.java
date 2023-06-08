@@ -47,10 +47,4 @@ public class RentalController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<Void> deleteBrand(@PathVariable Long id) {
-        this.service.deleteRental(id);
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
 }

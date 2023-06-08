@@ -58,10 +58,4 @@ public class CarController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<Void> deleteCar(@PathVariable Long id) {
-        service.deleteCar(id);
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
 }

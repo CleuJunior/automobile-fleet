@@ -19,11 +19,11 @@ public class RentalResponse {
     @JsonProperty("_id")
     private Long id;
 
-    @JsonProperty("car_summary")
-    private CarResponse car;
+    @JsonProperty("car_id")
+    private Long carId;
 
-    @JsonProperty("costumer_summary")
-    private CostumerResponse costumer;
+    @JsonProperty("costumer_id")
+    private Long costumerId;
 
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,

@@ -47,10 +47,4 @@ public class SpecificationController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<Void> deleteSpecification(@PathVariable Long id) {
-        this.service.deleteSpecification(id);
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
 }

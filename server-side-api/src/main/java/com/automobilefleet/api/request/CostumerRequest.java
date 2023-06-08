@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Setter
 public class CostumerRequest {
 
-    @JsonProperty("costumer_name")
+    @JsonProperty("name")
     private String name;
 
     @JsonProperty("birth_date")
@@ -21,7 +21,7 @@ public class CostumerRequest {
     @JsonProperty("email")
     private String email;
 
-    @JsonProperty("driver")
+    @JsonProperty("driver_license")
     private String driverLicense;
 
     @JsonProperty("address")
