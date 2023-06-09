@@ -13,7 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 
@@ -31,14 +31,14 @@ public class CarSpecification implements Serializable {
     @Getter
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "car_id", referencedColumnName = "_id", nullable = false)
     @NonNull
     @Getter
     @Setter
     private Car car;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "specification_id", referencedColumnName = "_id", nullable = false)
     @NonNull
     @Getter
