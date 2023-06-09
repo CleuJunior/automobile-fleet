@@ -24,7 +24,6 @@ public class CarResponse {
     @JsonProperty("description")
     private String description;
 
-
     @JsonProperty("daily_rate")
     private Double dailyRate;
 
@@ -34,11 +33,11 @@ public class CarResponse {
     @JsonProperty("license_plate")
     private String licensePlate;
 
-    @JsonProperty("brand_id")
-    private Long brandId;
+    @JsonProperty("brand")
+    private BrandResponse brand;
 
-    @JsonProperty("category_id")
-    private Long categoryId;
+    @JsonProperty("category")
+    private CategoryResponse category;
 
     @JsonProperty("color")
     private String color;

@@ -20,8 +20,8 @@ public class CarImageResponse {
     @JsonProperty("_id")
     private Long id;
 
-    @JsonProperty("car_id")
-    private Long carId;
+    @JsonProperty("car")
+    private CarResponse car;
 
     @JsonProperty("image")
     private byte[] image;

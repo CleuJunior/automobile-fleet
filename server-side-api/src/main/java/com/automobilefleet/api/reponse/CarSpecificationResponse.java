@@ -15,9 +15,9 @@ public class CarSpecificationResponse {
     @JsonProperty("_id")
     private Long id;
 
-    @JsonProperty("car_id")
-    private Long carId;
+    @JsonProperty("car")
+    private CarResponse car;
 
-    @JsonProperty("specification_id")
-    private Long specificationId;
+    @JsonProperty("specification")
+    private SpecificationResponse specification;
 }
