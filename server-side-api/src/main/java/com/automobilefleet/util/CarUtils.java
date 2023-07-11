@@ -8,7 +8,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class CarUtils {
+public final class CarUtils {
 
     public static Car ofCar(CarRequest request, Brand brand, Category category) {
         return new Car(
