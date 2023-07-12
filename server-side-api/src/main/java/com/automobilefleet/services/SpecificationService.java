@@ -1,6 +1,6 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.reponse.SpecificationResponse;
+import com.automobilefleet.api.response.SpecificationResponse;
 import com.automobilefleet.api.request.SpecificationRequest;
 import com.automobilefleet.entities.Specification;
 import com.automobilefleet.exceptions.SpecificationNotFoundException;

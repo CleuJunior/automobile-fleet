@@ -1,6 +1,6 @@
 package com.automobilefleet.api.controllers;
 
-import com.automobilefleet.api.reponse.BrandResponse;
+import com.automobilefleet.api.response.BrandResponse;
 import com.automobilefleet.api.request.BrandRequest;
 import com.automobilefleet.services.BrandService;
 import lombok.RequiredArgsConstructor;

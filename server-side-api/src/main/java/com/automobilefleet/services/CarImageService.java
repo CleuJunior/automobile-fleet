@@ -1,6 +1,6 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.reponse.CarImageResponse;
+import com.automobilefleet.api.response.CarImageResponse;
 import com.automobilefleet.api.request.CarImageRequest;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.CarImage;

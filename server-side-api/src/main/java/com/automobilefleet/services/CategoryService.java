@@ -1,6 +1,6 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.reponse.CategoryResponse;
+import com.automobilefleet.api.response.CategoryResponse;
 import com.automobilefleet.api.request.CategoryRequest;
 import com.automobilefleet.entities.Category;
 import com.automobilefleet.exceptions.CategoryNotFoundException;

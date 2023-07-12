@@ -1,4 +1,4 @@
-package com.automobilefleet.api.reponse;
+package com.automobilefleet.api.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @JsonPropertyOrder({"_id"})
-public class CategoryResponse {
+public class CarResponse {
 
     @JsonProperty("_id")
     private Long id;
@@ -24,9 +24,27 @@ public class CategoryResponse {
     @JsonProperty("description")
     private String description;
 
+    @JsonProperty("daily_rate")
+    private Double dailyRate;
+
+    @JsonProperty("avaliable")
+    private Boolean available;
+
+    @JsonProperty("license_plate")
+    private String licensePlate;
+
+    @JsonProperty("brand")
+    private BrandResponse brand;
+
+    @JsonProperty("category")
+    private CategoryResponse category;
+
+    @JsonProperty("color")
+    private String color;
+
     @JsonProperty("created_at")
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "dd-MM-yyyy HH:mm:ss")
+            pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime createdAt;
 }

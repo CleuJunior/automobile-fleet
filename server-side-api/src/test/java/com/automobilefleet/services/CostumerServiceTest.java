@@ -1,6 +1,7 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.reponse.CostumerResponse;
+import com.automobilefleet.api.request.CostumerRequest;
+import com.automobilefleet.api.response.CostumerResponse;
 import com.automobilefleet.entities.Costumer;
 import com.automobilefleet.exceptions.CostumerNotFoundException;
 import com.automobilefleet.repositories.CostumerRepository;
@@ -28,7 +29,10 @@ class CostumerServiceTest {
     @Mock
     private ModelMapper mapper;
     private Costumer costumer;
+    private CostumerRequest costumerRequestMock;
+    private CostumerResponse costumerResponseMock;
     private static final long ID = 1L;
+    private static final long NON_EXISTING_ID = 99L;
     private static final String NAME = "John Doe";
     private static final LocalDate BIRTH_DATE = LocalDate.of(1988, 12, 30);
     private static final String EMAIL = "johndoe@outlook.com";
@@ -40,33 +44,49 @@ class CostumerServiceTest {
 
     @BeforeEach
     void setUp() {
-        this.costumer = new Costumer(NAME, BIRTH_DATE, EMAIL, DRIVE_LICENSE, ADDRESS, PHONE);
-        this.costumer.setCreatedAt(CREATED_AT);
-        this.costumer.setUpdateAt(UPDATE_AT);
+        this.costumer = new Costumer(ID, NAME, BIRTH_DATE, EMAIL, DRIVE_LICENSE, ADDRESS, PHONE, CREATED_AT, UPDATE_AT);
+        this.costumerResponseMock = new CostumerResponse(ID, NAME, BIRTH_DATE, EMAIL, DRIVE_LICENSE, ADDRESS, PHONE, CREATED_AT, UPDATE_AT);
+        this.costumerRequestMock = new CostumerRequest(NAME, BIRTH_DATE, EMAIL, DRIVE_LICENSE, ADDRESS, PHONE);
     }
 
     @AfterEach
     void tearDown() {
-        this.costumer = null;
     }
 
     @Test
     void shouldReturnOneCostumerById() {
-        CostumerResponse costumerMock = new CostumerResponse(ID, NAME, BIRTH_DATE, EMAIL, DRIVE_LICENSE, ADDRESS,
-                PHONE, CREATED_AT, UPDATE_AT);
-
         Mockito.when(this.costumerRepository.findById(ID)).thenReturn(Optional.of(this.costumer));
-        Mockito.when(this.mapper.map(this.costumer, CostumerResponse.class)).thenReturn(costumerMock);
+        Mockito.when(this.mapper.map(this.costumer, CostumerResponse.class)).thenReturn(this.costumerResponseMock);
 
         CostumerResponse expected =  this.costumerService.getCostumerById(ID);
-        CostumerResponse actual = this.mapper.map(this.costumer, CostumerResponse.class);
-
         Assertions.assertNotNull(expected);
         Assertions.assertDoesNotThrow(CostumerNotFoundException::new);
         Assertions.assertInstanceOf(CostumerResponse.class, expected);
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals(expected, this.costumerResponseMock);
 
-        Mockito.verify(this.costumerRepository).findById(1L);
+        Mockito.verify(this.costumerRepository).findById(ID);
         Mockito.verifyNoMoreInteractions(this.costumerRepository);
+    }
+
+    @Test
+    void shouldThrowsCostumerNotFoundExceptionWhenIdNonExisting() {
+        Mockito.when(this.costumerRepository.findById(NON_EXISTING_ID)).thenReturn(Optional.empty());
+        Assertions.assertThrows(CostumerNotFoundException.class, () -> this.costumerService.getCostumerById(NON_EXISTING_ID));
+
+        Mockito.verify(this.costumerRepository).findById(NON_EXISTING_ID);
+        Mockito.verifyNoMoreInteractions(this.costumerRepository);
+    }
+
+    @Test
+    void shouldSaveCostumerWhenCallingSaveCostumer() {
+        Mockito.when(this.costumerRepository.save(this.costumer)).thenReturn(this.costumer);
+        Mockito.when(this.mapper.map(this.costumer, CostumerResponse.class)).thenReturn(this.costumerResponseMock);
+        Mockito.when(this.mapper.map(this.costumerRequestMock, Costumer.class)).thenReturn(this.costumer);
+
+        CostumerResponse expected = this.costumerService.saveCostumer(this.costumerRequestMock);
+
+        Assertions.assertNotNull(expected);
+        Assertions.assertInstanceOf(CostumerResponse.class, expected);
+        Assertions.assertEquals(expected, this.costumerResponseMock);
     }
 }

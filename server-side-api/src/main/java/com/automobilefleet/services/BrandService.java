@@ -1,6 +1,6 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.reponse.BrandResponse;
+import com.automobilefleet.api.response.BrandResponse;
 import com.automobilefleet.api.request.BrandRequest;
 import com.automobilefleet.entities.Brand;
 import com.automobilefleet.exceptions.BrandNotFoundException;

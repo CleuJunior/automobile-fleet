@@ -1,7 +1,6 @@
 package com.automobilefleet.api.controllers;
 
-import com.automobilefleet.api.reponse.CarImageResponse;
-import com.automobilefleet.api.reponse.CarResponse;
+import com.automobilefleet.api.response.CarImageResponse;
 import com.automobilefleet.api.request.CarImageRequest;
 import com.automobilefleet.services.CarImageService;
 import lombok.RequiredArgsConstructor;

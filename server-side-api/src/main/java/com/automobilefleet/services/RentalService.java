@@ -1,6 +1,6 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.reponse.RentalResponse;
+import com.automobilefleet.api.response.RentalResponse;
 import com.automobilefleet.api.request.RentalRequest;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.Costumer;

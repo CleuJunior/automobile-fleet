@@ -1,4 +1,4 @@
-package com.automobilefleet.api.reponse;
+package com.automobilefleet.api.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;

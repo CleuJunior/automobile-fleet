@@ -1,11 +1,11 @@
 package com.automobilefleet.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @Table(name = "costumer_entity")
 @Entity
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -38,27 +38,22 @@ public class Costumer implements Serializable {
     private Long id;
 
     @Column(name = "name", nullable = false)
-    @NonNull
+    @NotNull
     private String name;
 
     @Column(name = "birth_date", nullable = false)
-    @NonNull
     private LocalDate birthDate;
 
     @Column(name = "email", unique = true, nullable = false)
-    @NonNull
     private String email;
 
     @Column(name = "driver_license", unique = true, nullable = false)
-    @NonNull
     private String driverLicense;
 
     @Column(name = "address")
-    @NonNull
     private String address;
 
     @Column(name = "phone_number", nullable = false)
-    @NonNull
     private String phone;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")

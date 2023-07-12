@@ -1,6 +1,6 @@
 package com.automobilefleet.api.controllers;
 
-import com.automobilefleet.api.reponse.CarSpecificationResponse;
+import com.automobilefleet.api.response.CarSpecificationResponse;
 import com.automobilefleet.api.request.CarSpecificationRequest;
 import com.automobilefleet.services.CarSpecificationService;
 import lombok.RequiredArgsConstructor;
