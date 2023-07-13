@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class NotFoundExceptionsConstants {
+public class ExceptionsConstants {
     public static final String BRAND_NOT_FOUND = "Brand not found!";
     public static final String IMAGE_NOT_FOUND = "Image not found!";
     public static final String CAR_NOT_FOUND = "Car not found!";
@@ -13,5 +13,7 @@ public class NotFoundExceptionsConstants {
     public static final String COSTUMER_NOT_FOUND = "Costumer not found!";
     public static final String RENTAL_NOT_FOUND = "Rental not found!";
     public static final String SPECIFICATION_NOT_FOUND = "specification not found!";
+    public static final String DATE_CONSTRAIN_ERROR = "Something went wrong with the date format!";
+    public static final String DRIVER_LICENSE_DUPLICATE = "Duplicate key value violates unique constraint for driver lincese!";
 
 }

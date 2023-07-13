@@ -59,8 +59,9 @@ public class CostumerService {
 
     public CostumerResponse saveCostumer(CostumerRequest request) {
         Costumer response = this.mapper.map(request, Costumer.class);
-        LOG.info("Costumer saved!");
+
         response = repository.save(response);
+        LOG.info("Costumer saved!");
 
         return this.mapper.map(response, CostumerResponse.class);
     }

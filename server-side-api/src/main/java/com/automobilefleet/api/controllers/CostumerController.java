@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -46,7 +47,7 @@ public class CostumerController {
     }
 
     @PostMapping(value = "/save")
-    public ResponseEntity<CostumerResponse> saveCostumer(@RequestBody CostumerRequest request) {
+    public ResponseEntity<CostumerResponse> saveCostumer(@RequestBody @Valid CostumerRequest request) {
         CostumerResponse response = this.service.saveCostumer(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

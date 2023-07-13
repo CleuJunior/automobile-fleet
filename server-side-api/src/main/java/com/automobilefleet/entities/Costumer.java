@@ -1,7 +1,6 @@
 package com.automobilefleet.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -38,7 +37,6 @@ public class Costumer implements Serializable {
     private Long id;
 
     @Column(name = "name", nullable = false)
-    @NotNull
     private String name;
 
     @Column(name = "birth_date", nullable = false)
