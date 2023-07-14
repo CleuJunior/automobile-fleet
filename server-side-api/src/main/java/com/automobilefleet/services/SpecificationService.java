@@ -3,7 +3,7 @@ package com.automobilefleet.services;
 import com.automobilefleet.api.response.SpecificationResponse;
 import com.automobilefleet.api.request.SpecificationRequest;
 import com.automobilefleet.entities.Specification;
-import com.automobilefleet.exceptions.SpecificationNotFoundException;
+import com.automobilefleet.exceptions.notfoundexception.SpecificationNotFoundException;
 import com.automobilefleet.repositories.SpecificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

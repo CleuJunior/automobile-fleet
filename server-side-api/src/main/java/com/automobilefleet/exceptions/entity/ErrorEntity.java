@@ -1,4 +1,4 @@
-package com.automobilefleet.exceptions;
+package com.automobilefleet.exceptions.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -8,9 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.Map;
 
 @AllArgsConstructor
 @NoArgsConstructor

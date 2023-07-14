@@ -1,4 +1,6 @@
-package com.automobilefleet.exceptions;
+package com.automobilefleet.exceptions.notfoundexception;
+
+import com.automobilefleet.exceptions.ExceptionsConstants;
 
 public class CarImageNotFoundException extends NotFoundException {
 

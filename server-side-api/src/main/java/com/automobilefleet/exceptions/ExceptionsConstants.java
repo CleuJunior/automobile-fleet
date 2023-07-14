@@ -15,5 +15,7 @@ public class ExceptionsConstants {
     public static final String SPECIFICATION_NOT_FOUND = "specification not found!";
     public static final String DATE_CONSTRAIN_ERROR = "Something went wrong with the date format!";
     public static final String DRIVER_LICENSE_DUPLICATE = "Duplicate key value violates unique constraint for driver lincese!";
+    public static final String EMAIL_DUPLICATE = "Duplicate key value violates unique constraint for email!";
+    public static final String PHONE_REGEX_ERROR = "Phone format must be (12) 12345-1234";
 
 }

@@ -3,7 +3,7 @@ package com.automobilefleet.services;
 import com.automobilefleet.api.response.BrandResponse;
 import com.automobilefleet.api.request.BrandRequest;
 import com.automobilefleet.entities.Brand;
-import com.automobilefleet.exceptions.BrandNotFoundException;
+import com.automobilefleet.exceptions.notfoundexception.BrandNotFoundException;
 import com.automobilefleet.repositories.BrandRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

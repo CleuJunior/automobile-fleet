@@ -3,7 +3,7 @@
 //import com.automobilefleet.api.reponse.BrandResponse;
 //import com.automobilefleet.api.request.BrandRequest;
 //import com.automobilefleet.entities.Brand;
-//import com.automobilefleet.exceptions.BrandNotFoundException;
+//import com.automobilefleet.exceptions.notfoundexception.BrandNotFoundException;
 //import com.automobilefleet.repositories.BrandRepository;
 //import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.BeforeEach;

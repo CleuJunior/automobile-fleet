@@ -3,7 +3,7 @@ package com.automobilefleet.services;
 import com.automobilefleet.api.request.CostumerRequest;
 import com.automobilefleet.api.response.CostumerResponse;
 import com.automobilefleet.entities.Costumer;
-import com.automobilefleet.exceptions.CostumerNotFoundException;
+import com.automobilefleet.exceptions.notfoundexception.CostumerNotFoundException;
 import com.automobilefleet.repositories.CostumerRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;

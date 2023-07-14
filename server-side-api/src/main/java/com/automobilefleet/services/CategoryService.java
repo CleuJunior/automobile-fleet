@@ -3,7 +3,7 @@ package com.automobilefleet.services;
 import com.automobilefleet.api.response.CategoryResponse;
 import com.automobilefleet.api.request.CategoryRequest;
 import com.automobilefleet.entities.Category;
-import com.automobilefleet.exceptions.CategoryNotFoundException;
+import com.automobilefleet.exceptions.notfoundexception.CategoryNotFoundException;
 import com.automobilefleet.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

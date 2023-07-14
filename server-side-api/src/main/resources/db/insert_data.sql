@@ -2,16 +2,16 @@
 --                              Inserir clientes                                      --
 -- -------------------------------------------------------------------------------------
 
-CALL insert_costumer('Raimunda Regina Porto', '1974-03-05', 'raimundareginaporto@clinicasilhouette.com.br', '08493447718', 'Rua Astrogildo de Almeida, 328', '(73) 99362-1339', '2022-12-21 21:13:12', '2023-02-18 09:31:00');
-CALL insert_costumer('Gustavo Rafael Elias da Mata', '1960-10-03', 'gustavo-damata84@vipsaude.com.br', '02911058331', 'Jardim Novo Niterói, 378', '(65) 98238-1865', '2022-08-13 18:08:30', '2023-03-18 13:11:09');
-CALL insert_costumer('Heloisa Aurora Jéssica dos Santos', '1988-08-12', 'heloisaauroradossantos@sha.com.br', '18895846006', 'Rua Astrogildo de Almeida, 328', '(47) 98101-9804', '2023-01-21 10:18:20', '2023-03-24 21:44:11');
-CALL insert_costumer('Julio Marcelo Nelson Melo', '1974-03-05', 'julio.marcelo.melo@attglobal.net', '90897130198', 'Praça Vereador Osvaldo Mendonça, 752', '(79) 99539-6592', '2022-02-21 23:08:23', '2022-12-11 08:31:33');
-CALL insert_costumer('Hugo Benjamin Barbosa', '1980-11-02', 'hugo.benjamin.barbosa@cathedranet.com.br', '74091777742', 'Travessa Jasmim, 101', '(68) 99602-7578', '2022-12-03 09:23:14', '2023-02-18 14:31:57');
-CALL insert_costumer('Marta Ferreira Castro', '1995-06-22', 'martafc@gmail.com', '00230558184', 'Rua das Flores, 45', '(11) 98765-4321', '2022-09-18 11:22:33', '2023-03-21 16:55:44');
-CALL insert_costumer('Pedro Henrique Silva', '1989-03-15', 'pedro.henrique.silva@outlook.com', '03482045429', 'Avenida Brasil, 2345', '(21) 99876-5432', '2022-10-20 15:42:00', '2023-03-22 09:11:22');
-CALL insert_costumer('Luana Oliveira Costa', '1991-12-05', 'luanaoliveiracosta@gmail.com', '03780614280', 'Rua São Paulo, 123', '(31) 98765-4321', '2022-11-11 08:15:45', '2023-03-23 14:33:00');
-CALL insert_costumer('Fernando Henrique Ribeiro', '1985-05-11', 'fernando.hr@gmail.com', '01234567890', 'Rua das Palmeiras, 67', '(41) 99876-5432', '2022-12-01 12:30:15', '2023-03-24 11:22:33');
-CALL insert_costumer('Marcela Souza Santos', '1992-09-29', 'marcela.ss@gmail.com', '12345678901', 'Avenida Paulista, 1000', '(11) 98765-4321', '2023-01-02 18:05:00', '2023-03-24 16:44:11');
+CALL insert_costumer('Raimunda Regina Porto', '1974-03-05', 'raimundareginaporto@clinicasilhouette.com.br', '08493447718', 'Rua Astrogildo de Almeida, 328', '(73) 99362-1339');
+CALL insert_costumer('Gustavo Rafael Elias da Mata', '1960-10-03', 'gustavo-damata84@vipsaude.com.br', '02911058331', 'Jardim Novo Niterói, 378', '(65) 98238-1865');
+CALL insert_costumer('Heloisa Aurora Jéssica dos Santos', '1988-08-12', 'heloisaauroradossantos@sha.com.br', '18895846006', 'Rua Astrogildo de Almeida, 328', '(47) 98101-9804');
+CALL insert_costumer('Julio Marcelo Nelson Melo', '1974-03-05', 'julio.marcelo.melo@attglobal.net', '90897130198', 'Praça Vereador Osvaldo Mendonça, 752', '(79) 99539-6592');
+CALL insert_costumer('Hugo Benjamin Barbosa', '1980-11-02', 'hugo.benjamin.barbosa@cathedranet.com.br', '74091777742', 'Travessa Jasmim, 101', '(68) 99602-7578');
+CALL insert_costumer('Marta Ferreira Castro', '1995-06-22', 'martafc@gmail.com', '00230558184', 'Rua das Flores, 45', '(11) 98765-4321');
+CALL insert_costumer('Pedro Henrique Silva', '1989-03-15', 'pedro.henrique.silva@outlook.com', '03482045429', 'Avenida Brasil, 2345', '(21) 99876-5432');
+CALL insert_costumer('Luana Oliveira Costa', '1991-12-05', 'luanaoliveiracosta@gmail.com', '03780614280', 'Rua São Paulo, 123', '(31) 98765-4321');
+CALL insert_costumer('Fernando Henrique Ribeiro', '1985-05-11', 'fernando.hr@gmail.com', '01234567890', 'Rua das Palmeiras, 67', '(41) 99876-5432');
+CALL insert_costumer('Marcela Souza Santos', '1992-09-29', 'marcela.ss@gmail.com', '12345678901', 'Avenida Paulista, 1000', '(11) 98765-4321');
 
 -- -------------------------------------------------------------------------------------
 --                              Inserir marca                                         --

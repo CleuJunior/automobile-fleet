@@ -4,7 +4,7 @@ import com.automobilefleet.api.response.CostumerResponse;
 import com.automobilefleet.api.request.CostumerRequest;
 import com.automobilefleet.dao.CostumerJdbcDAO;
 import com.automobilefleet.entities.Costumer;
-import com.automobilefleet.exceptions.CostumerNotFoundException;
+import com.automobilefleet.exceptions.notfoundexception.CostumerNotFoundException;
 import com.automobilefleet.repositories.CostumerRepository;
 import com.automobilefleet.util.CostumerUtils;
 import lombok.RequiredArgsConstructor;

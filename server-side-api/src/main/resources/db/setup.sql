@@ -11,7 +11,7 @@ CREATE TABLE costumer_entity (
     driver_license VARCHAR(255) NOT NULL UNIQUE,
     address VARCHAR(255),
     phone_number VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP,
+    created_at TIMESTAMP NOT NULL,
     update_at TIMESTAMP NOT NULL
 );
 
@@ -97,14 +97,12 @@ CREATE OR REPLACE PROCEDURE insert_costumer(
     p_driver_license VARCHAR(255),
     p_address VARCHAR(255),
     p_phone_number VARCHAR(255),
-    p_created_at TIMESTAMP,
-    p_update_at TIMESTAMP
 )
 LANGUAGE plpgsql
 AS $$
 BEGIN
     INSERT INTO costumer_entity (name, birth_date, email, driver_license, address, phone_number, created_at, update_at)
-    VALUES (p_name, p_birth_date, p_email, p_driver_license, p_address, p_phone_number, p_created_at, p_update_at);
+    VALUES (p_name, p_birth_date, p_email, p_driver_license, p_address, p_phone_number, NOW(), NOW());
 END;
 $$;
 
