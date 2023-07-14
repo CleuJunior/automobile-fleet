@@ -5,8 +5,9 @@ import com.automobilefleet.api.request.RentalRequest;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.Costumer;
 import com.automobilefleet.entities.Rental;
+import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.CarNotFoundException;
-import com.automobilefleet.exceptions.notfoundexception.CostumerNotFoundException;
+import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.exceptions.notfoundexception.RentalNotFoundException;
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.repositories.CostumerRepository;
@@ -48,7 +49,7 @@ public class RentalService {
                 .orElseThrow(CarNotFoundException::new);
 
         Costumer costumer = this.costumerRepository.findById(request.getCostumerId())
-                .orElseThrow(CostumerNotFoundException::new);
+                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.COSTUMER_NOT_FOUND));
 
 
         Rental response = RentalUtils.ofRental(car, costumer, request);
@@ -65,7 +66,7 @@ public class RentalService {
                 .orElseThrow(CarNotFoundException::new);
 
         Costumer costumer = this.costumerRepository.findById(request.getCostumerId())
-                .orElseThrow(CostumerNotFoundException::new);
+                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.COSTUMER_NOT_FOUND));
 
         RentalUtils.updateRental(response, request, car, costumer);
 

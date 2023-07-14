@@ -1,7 +1,9 @@
 package com.automobilefleet.exceptions;
 
-import com.automobilefleet.exceptions.entity.ErrorEntity;
+import com.automobilefleet.exceptions.entity.ErrorResponse;
+import com.automobilefleet.exceptions.entity.MultiplesErrorsResponse;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,20 +12,20 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
-import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class ErrorExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorEntity> entityNotFound(NotFoundException notFoundException) {
+    public ResponseEntity<ErrorResponse> entityNotFound(NotFoundException notFoundException) {
         HttpStatus status = HttpStatus.NOT_FOUND;
 
-        ErrorEntity err = ErrorEntity.builder()
+        ErrorResponse err = ErrorResponse.builder()
                 .status(status.value())
-                .error(status.getReasonPhrase())
+                .statusErrorMessage(status.getReasonPhrase())
                 .message(notFoundException.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -32,12 +34,12 @@ public class ErrorExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorEntity> costumerBirthDateConstrainError() {
+    public ResponseEntity<ErrorResponse> costumerBirthDateConstrainError() {
         HttpStatus status = HttpStatus.BAD_REQUEST;
 
-        ErrorEntity err =  ErrorEntity.builder()
+        ErrorResponse err =  ErrorResponse.builder()
                 .status(status.value())
-                .error(status.getReasonPhrase())
+                .statusErrorMessage(status.getReasonPhrase())
                 .message(ExceptionsConstants.DATE_CONSTRAIN_ERROR)
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -46,13 +48,13 @@ public class ErrorExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorEntity> duplicateConstraintError(DataIntegrityViolationException exception) {
+    public ResponseEntity<ErrorResponse> duplicateConstraintError(DataIntegrityViolationException exception) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         String cause = exception.getMostSpecificCause().getMessage();
 
-        ErrorEntity err =  ErrorEntity.builder()
+        ErrorResponse err =  ErrorResponse.builder()
                 .status(status.value())
-                .error(status.getReasonPhrase())
+                .statusErrorMessage(status.getReasonPhrase())
                 .timestamp(LocalDateTime.now())
                 .build();
 
@@ -68,39 +70,19 @@ public class ErrorExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorEntity> phoneRegexError(MethodArgumentNotValidException exception) {
+    public ResponseEntity<MultiplesErrorsResponse> phoneRegexError(MethodArgumentNotValidException exception) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
 
-        System.out.println("***************************************************");
-        System.out.println("***************************************************");
-        System.out.println("***************************************************");
-        System.out.println("***************************************************");
-        System.out.println(exception.getParameter());
-        System.out.println("***************************************************");
-        System.out.println("***************************************************");
-        System.out.println("***************************************************");
-        System.out.println("***************************************************");
-        System.out.println(exception.getMessage());
-        System.out.println("***************************************************");
-        System.out.println("***************************************************");
-        System.out.println("***************************************************");
-        System.out.println("***********************getCode()*******************");
-        System.out.println(exception.getAllErrors().get(0).toString().equals("Cleonildo"));
-        System.out.println("***************************************************");
-        System.out.println("***************************************************");
-        System.out.println("***************************************************");
-        System.out.println("***************************************************");
-        System.out.println(exception.getBindingResult());
-        System.out.println("***************************************************");
-        System.out.println("***************************************************");
-        System.out.println("***************************************************");
-        System.out.println("***************************************************");
-        System.out.println("**********************FIM**************************");
+        List<String> errorMessages = exception.getBindingResult()
+                .getAllErrors()
+                .stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.toList());
 
-        ErrorEntity err =  ErrorEntity.builder()
+        MultiplesErrorsResponse err =  MultiplesErrorsResponse.builder()
                 .status(status.value())
-                .error(status.getReasonPhrase())
-                .message(ExceptionsConstants.PHONE_REGEX_ERROR)
+                .statusErrorMessage(status.getReasonPhrase())
+                .message(errorMessages)
                 .timestamp(LocalDateTime.now())
                 .build();
 

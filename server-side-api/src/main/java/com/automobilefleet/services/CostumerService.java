@@ -1,10 +1,10 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.response.CostumerResponse;
 import com.automobilefleet.api.request.CostumerRequest;
-import com.automobilefleet.dao.CostumerJdbcDAO;
+import com.automobilefleet.api.response.CostumerResponse;
 import com.automobilefleet.entities.Costumer;
-import com.automobilefleet.exceptions.notfoundexception.CostumerNotFoundException;
+import com.automobilefleet.exceptions.ExceptionsConstants;
+import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.CostumerRepository;
 import com.automobilefleet.util.CostumerUtils;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 public class CostumerService {
     private static final Logger LOG = LoggerFactory.getLogger(CostumerService.class);
     private final CostumerRepository repository;
-    private final CostumerJdbcDAO costumerDao;
     private final ModelMapper mapper;
 
     public List<CostumerResponse> listCostumer() {
@@ -35,7 +34,7 @@ public class CostumerService {
 
     public CostumerResponse getCostumerByName(String name) {
         Costumer response = this.repository.findByName(name)
-                .orElseThrow(CostumerNotFoundException::new);
+                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.COSTUMER_NOT_FOUND));
 
         return this.mapper.map(response,CostumerResponse.class);
     }
@@ -51,7 +50,7 @@ public class CostumerService {
 
         if (response.isEmpty()) {
             LOG.error("Costumer not found!");
-            throw new CostumerNotFoundException();
+            throw new NotFoundException(ExceptionsConstants.COSTUMER_NOT_FOUND);
         }
 
         return this.mapper.map(response.get(), CostumerResponse.class);
@@ -71,13 +70,13 @@ public class CostumerService {
 
         if (response.isEmpty()) {
             LOG.error("Costumer not found!");
-            throw new CostumerNotFoundException();
+            throw new NotFoundException(ExceptionsConstants.COSTUMER_NOT_FOUND);
         }
 
         CostumerUtils.updateCostumer(response.get(), request);
         this.repository.save(response.get());
         LOG.info("Costumer updated!");
-        return  this.mapper.map(response, CostumerResponse.class);
-    }
 
+        return this.mapper.map(response.get(), CostumerResponse.class);
+    }
 }

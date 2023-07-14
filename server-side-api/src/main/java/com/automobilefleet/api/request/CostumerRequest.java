@@ -21,27 +21,27 @@ import java.time.LocalDate;
 public class CostumerRequest {
 
     @JsonProperty("name")
-    @NotBlank
-    @Size(min = 2, max = 255)
+    @NotBlank(message = "Name can't be blank!")
+    @Size(min = 2, max = 255, message = "Name must contain between 2 to 255 characters!")
     private String name;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @JsonProperty("birth_date")
-    @Past
+    @Past(message = "Entered date is incorrect!")
     private LocalDate birthDate;
 
     @JsonProperty("email")
-    @Email
+    @Email(message = "Must be a well-formed email address!")
     private String email;
 
     @JsonProperty("driver_license")
-    @NotBlank
-    @Size(min = 11, max = 11)
+    @NotBlank(message = "Driver's license can't be blank!")
+    @Size(min = 11, max = 11, message = "Driver's license length must be 11!")
     private String driverLicense;
 
     @JsonProperty("address")
-    @NotBlank
-    @Size(min = 8, max = 255)
+    @NotBlank(message = "Address can't be blank!")
+    @Size(min = 8, max = 255, message = "Address must contain between 8 to 255 characters!")
     private String address;
 
     @JsonProperty("phone_number")

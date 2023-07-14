@@ -1,7 +1,7 @@
 package com.automobilefleet.exceptions.notfoundexception;
 
-public abstract class NotFoundException extends RuntimeException {
-    protected NotFoundException(String message) {
+public class NotFoundException extends RuntimeException {
+    public NotFoundException(String message) {
         super(message);
     }
 }
