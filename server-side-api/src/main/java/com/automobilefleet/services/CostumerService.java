@@ -32,19 +32,6 @@ public class CostumerService {
                 .collect(Collectors.toList());
     }
 
-    public CostumerResponse getCostumerByName(String name) {
-        Costumer response = this.repository.findByName(name)
-                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.COSTUMER_NOT_FOUND));
-
-        return this.mapper.map(response,CostumerResponse.class);
-    }
-
-    public List<CostumerResponse> findListNamesLike(String name) {
-        return this.repository.findByNameListLike(name).stream()
-                .map(costumer -> this.mapper.map(costumer, CostumerResponse.class))
-                .collect(Collectors.toList());
-    }
-
     public CostumerResponse getCostumerById(Long id) {
         Optional<Costumer> response = this.repository.findById(id);
 
@@ -53,6 +40,7 @@ public class CostumerService {
             throw new NotFoundException(ExceptionsConstants.COSTUMER_NOT_FOUND);
         }
 
+        LOG.info("Costumer found successfully!");
         return this.mapper.map(response.get(), CostumerResponse.class);
     }
 
@@ -60,8 +48,8 @@ public class CostumerService {
         Costumer response = this.mapper.map(request, Costumer.class);
 
         response = repository.save(response);
-        LOG.info("Costumer saved!");
 
+        LOG.info("Costumer saved!");
         return this.mapper.map(response, CostumerResponse.class);
     }
 

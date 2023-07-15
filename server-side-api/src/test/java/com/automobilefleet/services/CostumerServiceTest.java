@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -72,7 +71,7 @@ class CostumerServiceTest {
 
     @Test
     void shouldThrowsCostumerNotFoundExceptionWhenIdNonExisting() {
-        Mockito.doThrow(NotFoundException.class).when(this.costumerRepository).findById(NON_EXISTING_ID);
+        Mockito.when(this.costumerRepository.findById(NON_EXISTING_ID)).thenReturn(Optional.empty());
         Assertions.assertThrows(NotFoundException.class, () -> this.costumerService.getCostumerById(NON_EXISTING_ID));
 
         Mockito.verify(this.costumerRepository).findById(NON_EXISTING_ID);
@@ -95,18 +94,26 @@ class CostumerServiceTest {
     @Test
     void shouldUpdateCostumerWhenCallingUpdate() {
         String nameUpdate = "Update Working";
+        this.costumerRequestMock.setName(nameUpdate);
+        this.costumerResponseMock.setName(nameUpdate);
 
-        CostumerRequest updateRequeste = new CostumerRequest(nameUpdate, BIRTH_DATE, EMAIL,DRIVE_LICENSE, ADDRESS, PHONE);
-        CostumerResponse updateResponse = new CostumerResponse(ID, nameUpdate, BIRTH_DATE, EMAIL,DRIVE_LICENSE, ADDRESS,
-                PHONE, CREATED_AT, UPDATE_AT);
+        // Configurar o comportamento dos mocks
+        Mockito.when(this.costumerRepository.findById(ID)).thenReturn(Optional.of(this.costumer));
+        Mockito.when(this.mapper.map(this.costumer, CostumerResponse.class)).thenReturn(this.costumerResponseMock);
 
-//        Mockito.when(this.costumerRepository.findById(ID)).thenReturn(Optional.ofNullable(this.costumer));
+        // Chamar o método a ser testado
+        CostumerResponse result = this.costumerService.updateCostumer(ID, this.costumerRequestMock);
 
-        this.costumer.setName("Update Working");
+        // Verificar o resultado
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(this.costumerResponseMock.getId(), result.getId());
+        Assertions.assertEquals(this.costumerResponseMock.getName(), result.getName());
+        Assertions.assertSame(this.costumerResponseMock, result);
 
-//        Mockito.when(this.costumerRepository.save(ArgumentMatchers.any())).thenReturn(this.costumer);
-//        Mockito.when(this.mapper.map(this.costumer, CostumerResponse.class)).thenReturn(updateResponse);
-//        Mockito.when(this.costumerService.updateCostumer(ID, updateRequeste)).thenReturn(updateResponse);
-        Assertions.assertTrue(true);
+        // Verificar as interações dos mocks
+        Mockito.verify(this.costumerRepository).findById(ID);
+        Mockito.verify(costumerRepository).save(this.costumer);
+        Mockito.verify(this.mapper).map(this.costumer, CostumerResponse.class);
+        Mockito.verifyNoMoreInteractions(this.costumerRepository, this.mapper);
     }
 }
