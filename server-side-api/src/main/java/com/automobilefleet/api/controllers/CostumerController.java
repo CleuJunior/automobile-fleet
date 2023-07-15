@@ -29,18 +29,6 @@ public class CostumerController {
                 .body(this.service.getCostumerById(id));
     }
 
-    @GetMapping(value = "/name/{name}")
-    public ResponseEntity<CostumerResponse> getCostumerByName(@PathVariable("name") String name) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(this.service.getCostumerByName(name));
-    }
-
-    @GetMapping(value = "/names/{name}")
-    public ResponseEntity<List<CostumerResponse>> findListNamesLike(@PathVariable("name") String name) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(this.service.findListNamesLike(name));
-    }
-
     @GetMapping(value = "/list")
     public ResponseEntity<List<CostumerResponse>> getListCostumer() {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.listCostumer());

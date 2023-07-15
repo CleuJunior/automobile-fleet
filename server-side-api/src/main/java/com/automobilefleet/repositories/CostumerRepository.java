@@ -11,9 +11,4 @@ import java.util.Optional;
 
 @Repository
 public interface CostumerRepository extends JpaRepository<Costumer, Long> {
-    @Query("SELECT c FROM Costumer c WHERE c.name = :name")
-    Optional<Costumer> findByName(@Param("name") String name);
-
-    @Query("SELECT c FROM Costumer c WHERE c.name LIKE %:name%")
-    List<Costumer> findByNameListLike(@Param("name") String name);
 }

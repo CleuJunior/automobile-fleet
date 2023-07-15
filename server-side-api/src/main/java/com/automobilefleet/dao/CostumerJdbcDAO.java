@@ -2,10 +2,7 @@ package com.automobilefleet.dao;
 
 import com.automobilefleet.entities.Costumer;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,11 +11,10 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class CostumerJdbcDAO implements DAO<Costumer> {
-    private static final Logger LOG = LoggerFactory.getLogger(CostumerJdbcDAO.class);
     private final JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<Costumer> listObjects() {
+    public List<Costumer> findAll() {
         return this.jdbcTemplate.query(CostumerJdbcConstants.QUERY_SELECT, (rs, row) -> {
             Costumer costumer = new Costumer();
             costumer.setId(rs.getLong(CostumerJdbcConstants.COSTUMER_COLUMN_ID));

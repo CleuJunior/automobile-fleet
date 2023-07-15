@@ -19,6 +19,7 @@ import org.modelmapper.ModelMapper;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,6 +53,20 @@ class CostumerServiceTest {
 
     @AfterEach
     void tearDown() {
+    }
+
+    @Test
+    void shouldReturnAListWithOneElement() {
+        Mockito.when(this.costumerRepository.findAll()).thenReturn(List.of(this.costumer));
+        Mockito.when(this.mapper.map(this.costumer, CostumerResponse.class)).thenReturn(this.costumerResponseMock);
+
+        List<CostumerResponse> expected =  this.costumerService.listCostumer();
+        Assertions.assertNotNull(expected);
+
+//        Assertions.assertDoesNotThrow(() -> new NotFoundException(ExceptionsConstants.COSTUMER_NOT_FOUND));
+
+        Mockito.verify(this.costumerRepository).findAll();
+        Mockito.verifyNoMoreInteractions(this.costumerRepository);
     }
 
     @Test
