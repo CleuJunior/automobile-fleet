@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -27,6 +28,7 @@ public class CostumerService {
     private final ModelMapper mapper;
 
     public List<CostumerResponse> listCostumer() {
+       LOG.info("List costumer registered!");
         return this.repository.findAll().stream()
                 .map(customer -> this.mapper.map(customer,CostumerResponse.class))
                 .collect(Collectors.toList());

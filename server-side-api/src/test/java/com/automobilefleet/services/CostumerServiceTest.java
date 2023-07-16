@@ -6,6 +6,8 @@ import com.automobilefleet.entities.Costumer;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.CostumerRepository;
+import com.automobilefleet.utils.costumer.CostumerFactoryUtils;
+import com.automobilefleet.utils.costumer.CostumersTemplate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,24 +33,16 @@ class CostumerServiceTest {
     @Mock
     private ModelMapper mapper;
     private Costumer costumer;
-    private CostumerRequest costumerRequestMock;
-    private CostumerResponse costumerResponseMock;
+    private CostumerRequest costumerRequest;
+    private CostumerResponse costumerResponse;
     private static final long ID = 1L;
     private static final long NON_EXISTING_ID = 99L;
-    private static final String NAME = "John Doe";
-    private static final LocalDate BIRTH_DATE = LocalDate.of(1988, 12, 30);
-    private static final String EMAIL = "johndoe@outlook.com";
-    private static final String DRIVE_LICENSE = "51530697720";
-    private static final String ADDRESS = "Street test, 00";
-    private static final String PHONE = "(98) 3789-7445";
-    private static final LocalDateTime CREATED_AT = LocalDateTime.of(2022, 9, 11, 9, 31, 23);
-    private static final LocalDateTime UPDATE_AT = LocalDateTime.of(2022, 9, 14, 9, 31, 23);
 
     @BeforeEach
     void setUp() {
-        this.costumer = new Costumer(ID, NAME, BIRTH_DATE, EMAIL, DRIVE_LICENSE, ADDRESS, PHONE, CREATED_AT, UPDATE_AT);
-        this.costumerResponseMock = new CostumerResponse(ID, NAME, BIRTH_DATE, EMAIL, DRIVE_LICENSE, ADDRESS, PHONE, CREATED_AT, UPDATE_AT);
-        this.costumerRequestMock = new CostumerRequest(NAME, BIRTH_DATE, EMAIL, DRIVE_LICENSE, ADDRESS, PHONE);
+        this.costumer = CostumerFactoryUtils.costumerBuildRegina();
+        this.costumerResponse = CostumerFactoryUtils.costumerResponseBuildRegina();
+        this.costumerRequest = CostumerFactoryUtils.costumerRequestBuildRegina();
     }
 
     @AfterEach
@@ -57,13 +51,24 @@ class CostumerServiceTest {
 
     @Test
     void shouldReturnAListWithOneElement() {
-        Mockito.when(this.costumerRepository.findAll()).thenReturn(List.of(this.costumer));
-        Mockito.when(this.mapper.map(this.costumer, CostumerResponse.class)).thenReturn(this.costumerResponseMock);
+        final List<Costumer> costumerList = CostumerFactoryUtils.costumerListBuild();
+        final List<CostumerResponse> costumerResponseList = CostumerFactoryUtils.costumerResponseListBuild();
 
-        List<CostumerResponse> expected =  this.costumerService.listCostumer();
-        Assertions.assertNotNull(expected);
+        Mockito.when(this.costumerRepository.findAll()).thenReturn(costumerList);
+        Mockito.when(this.mapper.map(costumerList.get(0), CostumerResponse.class)).thenReturn(costumerResponseList.get(0));
+        Mockito.when(this.mapper.map(costumerList.get(1), CostumerResponse.class)).thenReturn(costumerResponseList.get(1));
+        Mockito.when(this.mapper.map(costumerList.get(2), CostumerResponse.class)).thenReturn(costumerResponseList.get(2));
 
-//        Assertions.assertDoesNotThrow(() -> new NotFoundException(ExceptionsConstants.COSTUMER_NOT_FOUND));
+        final List<CostumerResponse> acutal = this.costumerService.listCostumer();
+
+        // Assert list has data
+        Assertions.assertNotNull(acutal);
+        Assertions.assertFalse(acutal.isEmpty());
+        Assertions.assertEquals(3, acutal.size());
+
+        // Assert for Costumer Id 1
+        final String actualNameCostumerOne = acutal.get(0).getName();
+        Assertions.assertEquals(CostumersTemplate.NAME_RAIMUNDA_REGINA, actualNameCostumerOne);
 
         Mockito.verify(this.costumerRepository).findAll();
         Mockito.verifyNoMoreInteractions(this.costumerRepository);
@@ -72,13 +77,13 @@ class CostumerServiceTest {
     @Test
     void shouldReturnOneCostumerById() {
         Mockito.when(this.costumerRepository.findById(ID)).thenReturn(Optional.ofNullable(this.costumer));
-        Mockito.when(this.mapper.map(this.costumer, CostumerResponse.class)).thenReturn(this.costumerResponseMock);
+        Mockito.when(this.mapper.map(this.costumer, CostumerResponse.class)).thenReturn(this.costumerResponse);
 
         CostumerResponse expected =  this.costumerService.getCostumerById(ID);
         Assertions.assertNotNull(expected);
         Assertions.assertDoesNotThrow(() -> new NotFoundException(ExceptionsConstants.COSTUMER_NOT_FOUND));
         Assertions.assertInstanceOf(CostumerResponse.class, expected);
-        Assertions.assertEquals(expected, this.costumerResponseMock);
+        Assertions.assertEquals(expected, this.costumerResponse);
 
         Mockito.verify(this.costumerRepository).findById(ID);
         Mockito.verifyNoMoreInteractions(this.costumerRepository);
@@ -96,34 +101,34 @@ class CostumerServiceTest {
     @Test
     void shouldSaveCostumerWhenCallingSaveCostumer() {
         Mockito.when(this.costumerRepository.save(this.costumer)).thenReturn(this.costumer);
-        Mockito.when(this.mapper.map(this.costumer, CostumerResponse.class)).thenReturn(this.costumerResponseMock);
-        Mockito.when(this.mapper.map(this.costumerRequestMock, Costumer.class)).thenReturn(this.costumer);
+        Mockito.when(this.mapper.map(this.costumer, CostumerResponse.class)).thenReturn(this.costumerResponse);
+        Mockito.when(this.mapper.map(this.costumerRequest, Costumer.class)).thenReturn(this.costumer);
 
-        CostumerResponse expected = this.costumerService.saveCostumer(this.costumerRequestMock);
+        CostumerResponse expected = this.costumerService.saveCostumer(this.costumerRequest);
 
         Assertions.assertNotNull(expected);
         Assertions.assertInstanceOf(CostumerResponse.class, expected);
-        Assertions.assertEquals(expected, this.costumerResponseMock);
+        Assertions.assertEquals(expected, this.costumerResponse);
     }
 
     @Test
     void shouldUpdateCostumerWhenCallingUpdate() {
         String nameUpdate = "Update Working";
-        this.costumerRequestMock.setName(nameUpdate);
-        this.costumerResponseMock.setName(nameUpdate);
+        this.costumerRequest.setName(nameUpdate);
+        this.costumerResponse.setName(nameUpdate);
 
         // Configurar o comportamento dos mocks
         Mockito.when(this.costumerRepository.findById(ID)).thenReturn(Optional.of(this.costumer));
-        Mockito.when(this.mapper.map(this.costumer, CostumerResponse.class)).thenReturn(this.costumerResponseMock);
+        Mockito.when(this.mapper.map(this.costumer, CostumerResponse.class)).thenReturn(this.costumerResponse);
 
         // Chamar o método a ser testado
-        CostumerResponse result = this.costumerService.updateCostumer(ID, this.costumerRequestMock);
+        CostumerResponse result = this.costumerService.updateCostumer(ID, this.costumerRequest);
 
         // Verificar o resultado
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(this.costumerResponseMock.getId(), result.getId());
-        Assertions.assertEquals(this.costumerResponseMock.getName(), result.getName());
-        Assertions.assertSame(this.costumerResponseMock, result);
+        Assertions.assertEquals(this.costumerResponse.getId(), result.getId());
+        Assertions.assertEquals(this.costumerResponse.getName(), result.getName());
+        Assertions.assertSame(this.costumerResponse, result);
 
         // Verificar as interações dos mocks
         Mockito.verify(this.costumerRepository).findById(ID);
