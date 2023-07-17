@@ -25,14 +25,15 @@ public class CostumerJdbcDAO implements DAO<Costumer> {
             costumer.setAddress(rs.getString(CostumerJdbcConstants.COSTUMER_COLUMN_ADDRESS));
             costumer.setPhone(rs.getString(CostumerJdbcConstants.COSTUMER_COLUMN_PHONE_NUMBER));
             costumer.setCreatedAt(rs.getTimestamp(CostumerJdbcConstants.COSTUMER_COLUMN_CREATED_AT).toLocalDateTime());
-            costumer.setUpdateAt(rs.getTimestamp(CostumerJdbcConstants.COSTUMER_COLUMN_UPDATE_AT).toLocalDateTime());
+            costumer.setUpdatedAt(rs.getTimestamp(CostumerJdbcConstants.COSTUMER_COLUMN_UPDATED_AT).toLocalDateTime());
             return costumer;
         });
     }
 
     @Override
-    public Costumer createObject(Costumer costumer) {
-        Object[] args = {
+    public int save(Costumer costumer) {
+        return this.jdbcTemplate.update(
+                CostumerJdbcConstants.QUERY_INSERT,
                 costumer.getName(),
                 costumer.getBirthDate(),
                 costumer.getEmail(),
@@ -40,16 +41,13 @@ public class CostumerJdbcDAO implements DAO<Costumer> {
                 costumer.getAddress(),
                 costumer.getPhone(),
                 costumer.getCreatedAt(),
-                costumer.getUpdateAt()
-        };
+                costumer.getUpdatedAt()
+        );
 
-        int insert = this.jdbcTemplate.update(CostumerJdbcConstants.QUERY_INSERT, args);
-
-        if (insert == 0) {
-            return null;
-        }
-
-        return costumer;
+        //TODO build a Exception
+//        if (insert == 0) {
+//            return null;
+//        }
     }
 
     @Override
@@ -58,7 +56,7 @@ public class CostumerJdbcDAO implements DAO<Costumer> {
     }
 
     @Override
-    public void deleteObject(Long id) {
+    public void deleteById(Long id) {
 
     }
 }

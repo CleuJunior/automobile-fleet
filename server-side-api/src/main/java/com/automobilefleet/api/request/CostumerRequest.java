@@ -2,7 +2,9 @@ package com.automobilefleet.api.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,7 +17,8 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Getter
 @Setter
 public class CostumerRequest {
@@ -26,9 +29,9 @@ public class CostumerRequest {
     private String name;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    @JsonProperty("birth_date")
+    @JsonProperty("birthdate")
     @Past(message = "Entered date is incorrect!")
-    private LocalDate birthDate;
+    private LocalDate birthdate;
 
     @JsonProperty("email")
     @Email(message = "Must be a well-formed email address!")

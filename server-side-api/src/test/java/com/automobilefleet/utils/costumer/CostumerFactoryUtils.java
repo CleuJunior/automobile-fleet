@@ -7,110 +7,131 @@ import lombok.experimental.UtilityClass;
 
 import java.util.List;
 
+import static com.automobilefleet.utils.costumer.CostumersTemplate.ADDRESS_GUSTAVO_RAFAEL;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.ADDRESS_MACERLA_SOUZA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.ADDRESS_RAIMUNDA_REGINA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.BIRTHDATE_GUSTAVO_RAFAEL;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.BIRTHDATE_MACERLA_SOUZA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.BIRTHDATE_RAIMUNDA_REGINA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.CREATED_AT_GUSTAVO_RAFAEL;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.CREATED_AT_MACERLA_SOUZA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.CREATED_AT_RAIMUNDA_REGINA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.DRIVER_LICENSE_GUSTAVO_RAFAEL;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.DRIVER_LICENSE_MACERLA_SOUZA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.DRIVER_LICENSE_RAIMUNDA_REGINA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.EMAIL_GUSTAVO_RAFAEL;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.EMAIL_MACERLA_SOUZA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.EMAIL_RAIMUNDA_REGINA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.ID_GUSTAVO_RAFAEL;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.ID_MACERLA_SOUZA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.ID_RAIMUNDA_REGINA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.NAME_GUSTAVO_RAFAEL;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.NAME_MACERLA_SOUZA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.NAME_RAIMUNDA_REGINA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.PHONE_GUSTAVO_RAFAEL;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.PHONE_MACERLA_SOUZA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.PHONE_RAIMUNDA_REGINA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.UPDATED_AT_GUSTAVO_RAFAEL;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.UPDATED_AT_MACERLA_SOUZA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.UPDATED_AT_RAIMUNDA_REGINA;
+
 
 @UtilityClass
 public class CostumerFactoryUtils {
 
-    public static Costumer costumerBuildRegina() {
-        return new Costumer(
-                CostumersTemplate.ID_RAIMUNDA_REGINA,
-                CostumersTemplate.NAME_RAIMUNDA_REGINA,
-                CostumersTemplate.BIRTH_DATE_RAIMUNDA_REGINA,
-                CostumersTemplate.EMAIL_RAIMUNDA_REGINA,
-                CostumersTemplate.DRIVER_LICENSE_RAIMUNDA_REGINA,
-                CostumersTemplate.ADDRESS_RAIMUNDA_REGINA,
-                CostumersTemplate.PHONE_RAIMUNDA_REGINA,
-                CostumersTemplate.CREATED_AT_RAIMUNDA_REGINA,
-                CostumersTemplate.UPDATED_AT_RAIMUNDA_REGINA
-        );
+    public static Costumer costumerBuilRaimunda() {
+        return Costumer.builder()
+                .id(ID_RAIMUNDA_REGINA)
+                .name(NAME_RAIMUNDA_REGINA)
+                .birthDate(BIRTHDATE_RAIMUNDA_REGINA)
+                .email(EMAIL_RAIMUNDA_REGINA)
+                .driverLicense(DRIVER_LICENSE_RAIMUNDA_REGINA)
+                .address(ADDRESS_RAIMUNDA_REGINA)
+                .phone(PHONE_RAIMUNDA_REGINA)
+                .createdAt(CREATED_AT_RAIMUNDA_REGINA)
+                .updatedAt(UPDATED_AT_RAIMUNDA_REGINA)
+                .build();
     }
 
-    public static CostumerResponse costumerResponseBuildRegina() {
-        return new CostumerResponse(
-                CostumersTemplate.ID_RAIMUNDA_REGINA,
-                CostumersTemplate.NAME_RAIMUNDA_REGINA,
-                CostumersTemplate.BIRTH_DATE_RAIMUNDA_REGINA,
-                CostumersTemplate.EMAIL_RAIMUNDA_REGINA,
-                CostumersTemplate.DRIVER_LICENSE_RAIMUNDA_REGINA,
-                CostumersTemplate.ADDRESS_RAIMUNDA_REGINA,
-                CostumersTemplate.PHONE_RAIMUNDA_REGINA,
-                CostumersTemplate.CREATED_AT_RAIMUNDA_REGINA,
-                CostumersTemplate.UPDATED_AT_RAIMUNDA_REGINA
-        );
+    public static CostumerResponse costumerResponseBuildRaimunda() {
+        return CostumerResponse.builder()
+                .id(ID_RAIMUNDA_REGINA)
+                .name(NAME_RAIMUNDA_REGINA)
+                .birthDate(BIRTHDATE_RAIMUNDA_REGINA)
+                .email(EMAIL_RAIMUNDA_REGINA)
+                .driverLicense(DRIVER_LICENSE_RAIMUNDA_REGINA)
+                .address(ADDRESS_RAIMUNDA_REGINA)
+                .phone(PHONE_RAIMUNDA_REGINA)
+                .createdAt(CREATED_AT_RAIMUNDA_REGINA)
+                .updatedAt(UPDATED_AT_RAIMUNDA_REGINA)
+                .build();
     }
 
-    public static CostumerRequest costumerRequestBuildRegina() {
-        return new CostumerRequest(
-                CostumersTemplate.NAME_RAIMUNDA_REGINA,
-                CostumersTemplate.BIRTH_DATE_RAIMUNDA_REGINA,
-                CostumersTemplate.EMAIL_RAIMUNDA_REGINA,
-                CostumersTemplate.DRIVER_LICENSE_RAIMUNDA_REGINA,
-                CostumersTemplate.ADDRESS_RAIMUNDA_REGINA,
-                CostumersTemplate.PHONE_RAIMUNDA_REGINA
-        );
+    public static CostumerRequest costumerRequestBuildRaimunda() {
+        return CostumerRequest.builder()
+                .name(NAME_RAIMUNDA_REGINA)
+                .birthdate(BIRTHDATE_RAIMUNDA_REGINA)
+                .email(EMAIL_RAIMUNDA_REGINA)
+                .driverLicense(DRIVER_LICENSE_RAIMUNDA_REGINA)
+                .address(ADDRESS_RAIMUNDA_REGINA)
+                .phone(PHONE_RAIMUNDA_REGINA)
+                .build();
     }
 
     public static Costumer costumerBuildGustavo() {
-        return new Costumer(
-                CostumersTemplate.ID_GUSTAVO_RAFAEL,
-                CostumersTemplate.NAME_GUSTAVO_RAFAEL,
-                CostumersTemplate.BIRTH_DATE_GUSTAVO_RAFAEL,
-                CostumersTemplate.EMAIL_GUSTAVO_RAFAEL,
-                CostumersTemplate.DRIVER_LICENSE_GUSTAVO_RAFAEL,
-                CostumersTemplate.ADDRESS_GUSTAVO_RAFAEL,
-                CostumersTemplate.PHONE_GUSTAVO_RAFAEL,
-                CostumersTemplate.CREATED_AT_GUSTAVO_RAFAEL,
-                CostumersTemplate.UPDATED_AT_GUSTAVO_RAFAEL
-        );
+        return Costumer.builder()
+                .id(ID_GUSTAVO_RAFAEL)
+                .name(NAME_GUSTAVO_RAFAEL)
+                .birthDate(BIRTHDATE_GUSTAVO_RAFAEL)
+                .email(EMAIL_GUSTAVO_RAFAEL)
+                .driverLicense(DRIVER_LICENSE_GUSTAVO_RAFAEL)
+                .address(ADDRESS_GUSTAVO_RAFAEL)
+                .phone(PHONE_GUSTAVO_RAFAEL)
+                .createdAt(CREATED_AT_GUSTAVO_RAFAEL)
+                .updatedAt(UPDATED_AT_GUSTAVO_RAFAEL)
+                .build();
     }
 
     public static CostumerResponse costumerResponseBuildGustavo() {
-        return new CostumerResponse(
-                CostumersTemplate.ID_GUSTAVO_RAFAEL,
-                CostumersTemplate.NAME_GUSTAVO_RAFAEL,
-                CostumersTemplate.BIRTH_DATE_GUSTAVO_RAFAEL,
-                CostumersTemplate.EMAIL_GUSTAVO_RAFAEL,
-                CostumersTemplate.DRIVER_LICENSE_GUSTAVO_RAFAEL,
-                CostumersTemplate.ADDRESS_GUSTAVO_RAFAEL,
-                CostumersTemplate.PHONE_GUSTAVO_RAFAEL,
-                CostumersTemplate.CREATED_AT_GUSTAVO_RAFAEL,
-                CostumersTemplate.UPDATED_AT_GUSTAVO_RAFAEL
-        );
+        return CostumerResponse.builder()
+                .id(ID_GUSTAVO_RAFAEL)
+                .name(NAME_GUSTAVO_RAFAEL)
+                .birthDate(BIRTHDATE_GUSTAVO_RAFAEL)
+                .email(EMAIL_GUSTAVO_RAFAEL)
+                .driverLicense(DRIVER_LICENSE_GUSTAVO_RAFAEL)
+                .address(ADDRESS_GUSTAVO_RAFAEL)
+                .phone(PHONE_GUSTAVO_RAFAEL)
+                .createdAt(CREATED_AT_GUSTAVO_RAFAEL)
+                .updatedAt(UPDATED_AT_GUSTAVO_RAFAEL)
+                .build();
     }
 
     public static Costumer costumerBuildMaercela() {
-        return new Costumer(
-                CostumersTemplate.ID_MACERLA_SOUZA,
-                CostumersTemplate.NAME_MACERLA_SOUZA,
-                CostumersTemplate.BIRTH_DATE_MACERLA_SOUZA,
-                CostumersTemplate.EMAIL_MACERLA_SOUZA,
-                CostumersTemplate.DRIVER_LICENSE_MACERLA_SOUZA,
-                CostumersTemplate.ADDRESS_MACERLA_SOUZA,
-                CostumersTemplate.PHONE_MACERLA_SOUZA,
-                CostumersTemplate.CREATED_AT_MACERLA_SOUZA,
-                CostumersTemplate.UPDATED_AT_MACERLA_SOUZA
-        );
+        return Costumer.builder()
+                .id(ID_MACERLA_SOUZA)
+                .name(NAME_MACERLA_SOUZA)
+                .birthDate(BIRTHDATE_MACERLA_SOUZA)
+                .email(EMAIL_MACERLA_SOUZA)
+                .driverLicense(DRIVER_LICENSE_MACERLA_SOUZA)
+                .address(ADDRESS_MACERLA_SOUZA)
+                .phone(PHONE_MACERLA_SOUZA)
+                .createdAt(CREATED_AT_MACERLA_SOUZA)
+                .updatedAt(UPDATED_AT_MACERLA_SOUZA)
+                .build();
     }
 
     public static CostumerResponse costumerReponseBuildMaercela() {
-        return new CostumerResponse(
-                CostumersTemplate.ID_MACERLA_SOUZA,
-                CostumersTemplate.NAME_MACERLA_SOUZA,
-                CostumersTemplate.BIRTH_DATE_MACERLA_SOUZA,
-                CostumersTemplate.EMAIL_MACERLA_SOUZA,
-                CostumersTemplate.DRIVER_LICENSE_MACERLA_SOUZA,
-                CostumersTemplate.ADDRESS_MACERLA_SOUZA,
-                CostumersTemplate.PHONE_MACERLA_SOUZA,
-                CostumersTemplate.CREATED_AT_MACERLA_SOUZA,
-                CostumersTemplate.UPDATED_AT_MACERLA_SOUZA
-        );
+        return CostumerResponse.builder()
+                .id(ID_MACERLA_SOUZA)
+                .name(NAME_MACERLA_SOUZA)
+                .birthDate(BIRTHDATE_MACERLA_SOUZA)
+                .email(EMAIL_MACERLA_SOUZA)
+                .driverLicense(DRIVER_LICENSE_MACERLA_SOUZA)
+                .address(ADDRESS_MACERLA_SOUZA)
+                .phone(PHONE_MACERLA_SOUZA)
+                .createdAt(CREATED_AT_MACERLA_SOUZA)
+                .updatedAt(UPDATED_AT_MACERLA_SOUZA)
+                .build();
     }
 
-    public static List<Costumer> costumerListBuild() {
-        return List.of(costumerBuildRegina(), costumerBuildGustavo(), costumerBuildMaercela());
-    }
-
-    public static List<CostumerResponse> costumerResponseListBuild() {
-        return List.of(costumerResponseBuildRegina(), costumerResponseBuildGustavo(), costumerReponseBuildMaercela());
-    }
 }

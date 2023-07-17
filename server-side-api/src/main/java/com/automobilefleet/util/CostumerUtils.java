@@ -10,7 +10,7 @@ public class CostumerUtils {
 
     public static void updateCostumer(Costumer costumer, CostumerRequest request) {
         costumer.setName(request.getName());
-        costumer.setBirthDate(request.getBirthDate());
+        costumer.setBirthDate(request.getBirthdate());
         costumer.setEmail(request.getEmail());
         costumer.setDriverLicense(request.getDriverLicense());
         costumer.setAddress(request.getAddress());

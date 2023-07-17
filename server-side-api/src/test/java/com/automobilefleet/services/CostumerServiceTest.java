@@ -19,22 +19,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static com.automobilefleet.utils.costumer.CostumersTemplate.DRIVER_LICENSE_GUSTAVO_RAFAEL;
-import static com.automobilefleet.utils.costumer.CostumersTemplate.DRIVER_LICENSE_MACERLA_SOUZA;
-import static com.automobilefleet.utils.costumer.CostumersTemplate.DRIVER_LICENSE_RAIMUNDA_REGINA;
-import static com.automobilefleet.utils.costumer.CostumersTemplate.EMAIL_GUSTAVO_RAFAEL;
-import static com.automobilefleet.utils.costumer.CostumersTemplate.EMAIL_MACERLA_SOUZA;
-import static com.automobilefleet.utils.costumer.CostumersTemplate.EMAIL_RAIMUNDA_REGINA;
-import static com.automobilefleet.utils.costumer.CostumersTemplate.NAME_GUSTAVO_RAFAEL;
-import static com.automobilefleet.utils.costumer.CostumersTemplate.NAME_MACERLA_SOUZA;
-import static com.automobilefleet.utils.costumer.CostumersTemplate.NAME_RAIMUNDA_REGINA;
 
 @ExtendWith(MockitoExtension.class)
-class CostumerServiceTest {
+class CostumerServiceTest  {
     @InjectMocks
     private CostumerService costumerService;
     @Mock
@@ -49,9 +37,9 @@ class CostumerServiceTest {
 
     @BeforeEach
     void setUp() {
-        this.costumer = CostumerFactoryUtils.costumerBuildRegina();
-        this.costumerResponse = CostumerFactoryUtils.costumerResponseBuildRegina();
-        this.costumerRequest = CostumerFactoryUtils.costumerRequestBuildRegina();
+        this.costumer = CostumerFactoryUtils.costumerBuilRaimunda();
+        this.costumerResponse = CostumerFactoryUtils.costumerResponseBuildRaimunda();
+        this.costumerRequest = CostumerFactoryUtils.costumerRequestBuildRaimunda();
     }
 
     @AfterEach
@@ -59,41 +47,45 @@ class CostumerServiceTest {
     }
 
     @Test
-    void shouldReturnAListWithOneElement() {
-        final List<Costumer> costumerList = CostumerFactoryUtils.costumerListBuild();
-        final List<CostumerResponse> costumerResponseList = CostumerFactoryUtils.costumerResponseListBuild();
+    void shouldReturnAListWithThreeElement() {
+        final List<Costumer> costumerList = List.of(
+                CostumerFactoryUtils.costumerBuilRaimunda(),
+                CostumerFactoryUtils.costumerBuildGustavo(),
+                CostumerFactoryUtils.costumerBuildMaercela()
+        );
+
+        final CostumerResponse expectedRaimunda = CostumerFactoryUtils.costumerResponseBuildRaimunda();
+        final CostumerResponse expectedGustavo = CostumerFactoryUtils.costumerResponseBuildGustavo();
+        final CostumerResponse expectedMacercela = CostumerFactoryUtils.costumerReponseBuildMaercela();
 
         Mockito.when(this.costumerRepository.findAll()).thenReturn(costumerList);
-        Mockito.when(this.mapper.map(costumerList.get(0), CostumerResponse.class)).thenReturn(costumerResponseList.get(0));
-        Mockito.when(this.mapper.map(costumerList.get(1), CostumerResponse.class)).thenReturn(costumerResponseList.get(1));
-        Mockito.when(this.mapper.map(costumerList.get(2), CostumerResponse.class)).thenReturn(costumerResponseList.get(2));
+        Mockito.when(this.mapper.map(costumerList.get(0), CostumerResponse.class)).thenReturn(expectedRaimunda);
+        Mockito.when(this.mapper.map(costumerList.get(1), CostumerResponse.class)).thenReturn(expectedGustavo);
+        Mockito.when(this.mapper.map(costumerList.get(2), CostumerResponse.class)).thenReturn(expectedMacercela);
 
-        final List<CostumerResponse> acutal = this.costumerService.listCostumer();
+        final List<CostumerResponse> actual = this.costumerService.listCostumer();
 
         // Assert list has data
-        Assertions.assertNotNull(acutal);
-        Assertions.assertFalse(acutal.isEmpty());
-        Assertions.assertEquals(3, acutal.size());
+        Assertions.assertNotNull(actual);
+        Assertions.assertFalse(actual.isEmpty());
+        Assertions.assertEquals(3, actual.size());
 
-        // Setup data for Strings check
-        Map<String, List<String>> checkDataStrings =
-                Map.of(
-                        "Name", acutal.stream().map(CostumerResponse::getName).collect(Collectors.toList()),
-                        "Email", acutal.stream().map(CostumerResponse::getEmail).collect(Collectors.toList()),
-                        "License", acutal.stream().map(CostumerResponse::getDriverLicense).collect(Collectors.toList())
-                );
+        this.assertionsDatas(expectedRaimunda, actual.get(0));
+        this.assertionsDatas(expectedGustavo, actual.get(1));
+        this.assertionsDatas(expectedMacercela, actual.get(2));
+    }
 
-        // Assert list of names costumers
-        final List<String> listOfCostumerName = List.of(NAME_RAIMUNDA_REGINA, NAME_GUSTAVO_RAFAEL, NAME_MACERLA_SOUZA);
-        Assertions.assertEquals(listOfCostumerName, checkDataStrings.get("Name"));
-
-        // Assert list of emails costumers
-        final List<String> listOfCostumerEmail = List.of(EMAIL_RAIMUNDA_REGINA, EMAIL_GUSTAVO_RAFAEL, EMAIL_MACERLA_SOUZA);
-        Assertions.assertEquals(listOfCostumerEmail, checkDataStrings.get("Email"));
-
-        // Assert list of driver's linceses costumers
-        final List<String> listOfLicenses = List.of(DRIVER_LICENSE_RAIMUNDA_REGINA, DRIVER_LICENSE_GUSTAVO_RAFAEL, DRIVER_LICENSE_MACERLA_SOUZA);
-        Assertions.assertEquals(listOfLicenses, checkDataStrings.get("License"));
+    private void assertionsDatas(CostumerResponse expected, CostumerResponse actual) {
+        Assertions.assertEquals(expected.getId(), actual.getId());
+        Assertions.assertEquals(expected.getName(), actual.getName());
+        Assertions.assertEquals(expected.getBirthDate(), actual.getBirthDate());
+        Assertions.assertEquals(expected.getEmail(), actual.getEmail());
+        Assertions.assertEquals(expected.getDriverLicense(), actual.getDriverLicense());
+        Assertions.assertEquals(expected.getAddress(), actual.getAddress());
+        Assertions.assertEquals(expected.getPhone(), actual.getPhone());
+        Assertions.assertEquals(expected.getCreatedAt(), actual.getCreatedAt());
+        Assertions.assertEquals(expected.getUpdatedAt(), actual.getUpdatedAt());
+        Assertions.assertEquals(expected.getUpdatedAt(), actual.getUpdatedAt());
     }
 
     @Test

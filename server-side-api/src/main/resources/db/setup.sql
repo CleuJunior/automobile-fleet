@@ -6,13 +6,13 @@ DROP TABLE IF EXISTS costumer_entity;
 CREATE TABLE costumer_entity (
     _id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    birth_date DATE NOT NULL,
+    birthdate DATE NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     driver_license VARCHAR(255) NOT NULL UNIQUE,
     address VARCHAR(255),
     phone_number VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL,
-    update_at TIMESTAMP NOT NULL
+    updated_at TIMESTAMP NOT NULL
 );
 
 DROP TABLE IF EXISTS brand_entity;
@@ -92,17 +92,17 @@ CREATE TABLE car_image_entity (
 
 CREATE OR REPLACE PROCEDURE insert_costumer(
     p_name VARCHAR(255),
-    p_birth_date DATE,
+    p_birthdate DATE,
     p_email VARCHAR(255),
     p_driver_license VARCHAR(255),
     p_address VARCHAR(255),
-    p_phone_number VARCHAR(255),
+    p_phone_number VARCHAR(255)
 )
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    INSERT INTO costumer_entity (name, birth_date, email, driver_license, address, phone_number, created_at, update_at)
-    VALUES (p_name, p_birth_date, p_email, p_driver_license, p_address, p_phone_number, NOW(), NOW());
+    INSERT INTO costumer_entity (name, birthdate, email, driver_license, address, phone_number, created_at, updated_at)
+    VALUES (p_name, p_birthdate, p_email, p_driver_license, p_address, p_phone_number, NOW(), NOW());
 END;
 $$;
 

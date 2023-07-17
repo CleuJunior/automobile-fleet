@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface DAO<T>{
     List<T> findAll();
-    T createObject(T t);
+    int save(T t);
     Optional<T> getById(Long id);
-    void deleteObject(Long id);
+    void deleteById(Long id);
 }
