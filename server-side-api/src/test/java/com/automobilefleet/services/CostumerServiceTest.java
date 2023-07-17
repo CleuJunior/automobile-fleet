@@ -7,7 +7,6 @@ import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.CostumerRepository;
 import com.automobilefleet.utils.costumer.CostumerFactoryUtils;
-import com.automobilefleet.utils.costumer.CostumersTemplate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,10 +18,20 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.automobilefleet.utils.costumer.CostumersTemplate.DRIVER_LICENSE_GUSTAVO_RAFAEL;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.DRIVER_LICENSE_MACERLA_SOUZA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.DRIVER_LICENSE_RAIMUNDA_REGINA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.EMAIL_GUSTAVO_RAFAEL;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.EMAIL_MACERLA_SOUZA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.EMAIL_RAIMUNDA_REGINA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.NAME_GUSTAVO_RAFAEL;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.NAME_MACERLA_SOUZA;
+import static com.automobilefleet.utils.costumer.CostumersTemplate.NAME_RAIMUNDA_REGINA;
 
 @ExtendWith(MockitoExtension.class)
 class CostumerServiceTest {
@@ -66,12 +75,25 @@ class CostumerServiceTest {
         Assertions.assertFalse(acutal.isEmpty());
         Assertions.assertEquals(3, acutal.size());
 
-        // Assert for Costumer Id 1
-        final String actualNameCostumerOne = acutal.get(0).getName();
-        Assertions.assertEquals(CostumersTemplate.NAME_RAIMUNDA_REGINA, actualNameCostumerOne);
+        // Setup data for Strings check
+        Map<String, List<String>> checkDataStrings =
+                Map.of(
+                        "Name", acutal.stream().map(CostumerResponse::getName).collect(Collectors.toList()),
+                        "Email", acutal.stream().map(CostumerResponse::getEmail).collect(Collectors.toList()),
+                        "License", acutal.stream().map(CostumerResponse::getDriverLicense).collect(Collectors.toList())
+                );
 
-        Mockito.verify(this.costumerRepository).findAll();
-        Mockito.verifyNoMoreInteractions(this.costumerRepository);
+        // Assert list of names costumers
+        final List<String> listOfCostumerName = List.of(NAME_RAIMUNDA_REGINA, NAME_GUSTAVO_RAFAEL, NAME_MACERLA_SOUZA);
+        Assertions.assertEquals(listOfCostumerName, checkDataStrings.get("Name"));
+
+        // Assert list of emails costumers
+        final List<String> listOfCostumerEmail = List.of(EMAIL_RAIMUNDA_REGINA, EMAIL_GUSTAVO_RAFAEL, EMAIL_MACERLA_SOUZA);
+        Assertions.assertEquals(listOfCostumerEmail, checkDataStrings.get("Email"));
+
+        // Assert list of driver's linceses costumers
+        final List<String> listOfLicenses = List.of(DRIVER_LICENSE_RAIMUNDA_REGINA, DRIVER_LICENSE_GUSTAVO_RAFAEL, DRIVER_LICENSE_MACERLA_SOUZA);
+        Assertions.assertEquals(listOfLicenses, checkDataStrings.get("License"));
     }
 
     @Test

@@ -30,7 +30,7 @@ public class CostumerFactoryUtils {
                 CostumersTemplate.ID_RAIMUNDA_REGINA,
                 CostumersTemplate.NAME_RAIMUNDA_REGINA,
                 CostumersTemplate.BIRTH_DATE_RAIMUNDA_REGINA,
-                CostumersTemplate.NAME_RAIMUNDA_REGINA,
+                CostumersTemplate.EMAIL_RAIMUNDA_REGINA,
                 CostumersTemplate.DRIVER_LICENSE_RAIMUNDA_REGINA,
                 CostumersTemplate.ADDRESS_RAIMUNDA_REGINA,
                 CostumersTemplate.PHONE_RAIMUNDA_REGINA,
@@ -43,7 +43,7 @@ public class CostumerFactoryUtils {
         return new CostumerRequest(
                 CostumersTemplate.NAME_RAIMUNDA_REGINA,
                 CostumersTemplate.BIRTH_DATE_RAIMUNDA_REGINA,
-                CostumersTemplate.NAME_RAIMUNDA_REGINA,
+                CostumersTemplate.EMAIL_RAIMUNDA_REGINA,
                 CostumersTemplate.DRIVER_LICENSE_RAIMUNDA_REGINA,
                 CostumersTemplate.ADDRESS_RAIMUNDA_REGINA,
                 CostumersTemplate.PHONE_RAIMUNDA_REGINA
