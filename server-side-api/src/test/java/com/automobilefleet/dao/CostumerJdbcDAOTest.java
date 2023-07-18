@@ -11,13 +11,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementSetter;
-import org.springframework.util.Assert;
 
 import java.util.List;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 
 @ExtendWith(MockitoExtension.class)
 class CostumerJdbcDAOTest {
@@ -69,7 +64,7 @@ class CostumerJdbcDAOTest {
 
     @Test
     void shouldReturnCostumerAndSave() {
-        Mockito.when(this.jdbcTemplate.update(CostumerJdbcConstants.QUERY_INSERT,
+        Mockito.when(this.jdbcTemplate.update(CostumerJdbcConstants.INSERT,
                         this.costumer.getName(),
                         this.costumer.getBirthDate(),
                         this.costumer.getEmail(),

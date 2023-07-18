@@ -31,6 +31,7 @@ public class CostumerService {
     private final ModelMapper mapper;
 
     public List<CostumerResponse> listCostumer() {
+        costumerDAO.getById(1L);
        LOG.info("List costumer registered!");
         return this.repository.findAll().stream()
                 .map(customer -> this.mapper.map(customer,CostumerResponse.class))

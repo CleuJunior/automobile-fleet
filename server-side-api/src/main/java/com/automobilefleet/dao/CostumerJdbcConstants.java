@@ -3,8 +3,11 @@ package com.automobilefleet.dao;
 public class CostumerJdbcConstants {
 
     private CostumerJdbcConstants() { }
-    public static final String QUERY_SELECT = "SELECT * FROM costumer_entity";
-    public static final String QUERY_INSERT = "INSERT INTO costumer_entity(name, birthdate, email, driver_license, address, phone_number, created_at, updated_at) values(?, ?, ?, ?, ?, ?, ?, ?)";
+    public static final String QUERY = "SELECT * FROM costumer_entity";
+    public static final String INSERT
+            = "INSERT INTO costumer_entity(name, birthdate, email, driver_license, address, phone_number, created_at, updated_at) " +
+            "values(?, ?, ?, ?, ?, ?, ?, ?)";
+    public static final String GET_BY_ID = "SELECT * FROM costumer_entity WHERE _id = ?";
     public static final String COSTUMER_COLUMN_ID = "_id";
     public static final String COSTUMER_COLUMN_NAME = "name";
     public static final String COSTUMER_COLUMN_BIRTH_DATE = "birthdate";
