@@ -2,7 +2,6 @@ package com.automobilefleet.services;
 
 import com.automobilefleet.api.request.CostumerRequest;
 import com.automobilefleet.api.response.CostumerResponse;
-import com.automobilefleet.dao.CostumerJdbcDAO;
 import com.automobilefleet.entities.Costumer;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
@@ -15,8 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,11 +24,9 @@ import java.util.stream.Collectors;
 public class CostumerService {
     private static final Logger LOG = LoggerFactory.getLogger(CostumerService.class);
     private final CostumerRepository repository;
-    private final CostumerJdbcDAO costumerDAO;
     private final ModelMapper mapper;
 
     public List<CostumerResponse> listCostumer() {
-        costumerDAO.getById(1L);
        LOG.info("List costumer registered!");
         return this.repository.findAll().stream()
                 .map(customer -> this.mapper.map(customer,CostumerResponse.class))
