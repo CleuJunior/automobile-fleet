@@ -5,9 +5,10 @@ import com.automobilefleet.api.request.CarRequest;
 import com.automobilefleet.entities.Brand;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.Category;
+import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.BrandNotFoundException;
 import com.automobilefleet.exceptions.notfoundexception.CarNotFoundException;
-import com.automobilefleet.exceptions.notfoundexception.CategoryNotFoundException;
+import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.BrandRepository;
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.repositories.CategoryRepository;
@@ -60,7 +61,7 @@ public class CarService {
                 .orElseThrow(BrandNotFoundException::new);
 
         Category category = this.categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(CategoryNotFoundException::new);
+                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
 
         Car response =  CarUtils.ofCar(request, brand, category);
@@ -77,7 +78,7 @@ public class CarService {
                 .orElseThrow(BrandNotFoundException::new);
 
         Category category = this.categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(CategoryNotFoundException::new);
+                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
         CarUtils.updateCar(response, request, brand, category);
         response = this.carRepository.save(response);

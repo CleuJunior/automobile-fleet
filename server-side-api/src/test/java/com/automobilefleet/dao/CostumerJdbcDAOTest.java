@@ -1,7 +1,7 @@
 package com.automobilefleet.dao;
 
 import com.automobilefleet.entities.Costumer;
-import com.automobilefleet.utils.costumer.CostumerFactoryUtils;
+import com.automobilefleet.utils.FactoryUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.util.List;
+import java.util.Collections;
 
 @ExtendWith(MockitoExtension.class)
 class CostumerJdbcDAOTest {
@@ -24,42 +24,30 @@ class CostumerJdbcDAOTest {
 
     @BeforeEach
     void setUp() {
-        this.costumer = CostumerFactoryUtils.costumerBuilRaimunda();
+        this.costumer = FactoryUtils.createCostumer();
     }
 
     @Test
     void shouldReturnListWhenCallingFindAll()  {
-        final List<Costumer> costumers = List.of(
-                CostumerFactoryUtils.costumerBuilRaimunda(),
-                CostumerFactoryUtils.costumerBuildGustavo(),
-                CostumerFactoryUtils.costumerBuildMaercela()
-        );
+        Mockito.when(this.costumerJdbcDAO.findAll()).thenReturn(Collections.singletonList(this.costumer));
 
-        Mockito.when(this.costumerJdbcDAO.findAll()).thenReturn(costumers);
-        List<Costumer> actual = this.costumerJdbcDAO.findAll();
+        final Costumer actual = this.costumerJdbcDAO.findAll().stream()
+                .findFirst()
+                .orElse(null);
 
-        // Assert Null, Empty and Size
+        // Assertions
         Assertions.assertNotNull(actual);
-        Assertions.assertFalse(actual.isEmpty());
-        Assertions.assertEquals(3, actual.size());
+        Assertions.assertEquals(this.costumer.getId(), actual.getId());
+        Assertions.assertEquals(this.costumer.getName(), actual.getName());
+        Assertions.assertEquals(this.costumer.getBirthDate(), actual.getBirthDate());
+        Assertions.assertEquals(this.costumer.getEmail(), actual.getEmail());
+        Assertions.assertEquals(this.costumer.getDriverLicense(), actual.getDriverLicense());
+        Assertions.assertEquals(this.costumer.getAddress(), actual.getAddress());
+        Assertions.assertEquals(this.costumer.getPhone(), actual.getPhone());
+        Assertions.assertEquals(this.costumer.getCreatedAt(), actual.getCreatedAt());
+        Assertions.assertEquals(this.costumer.getUpdatedAt(), actual.getUpdatedAt());
+        Assertions.assertEquals(this.costumer.getUpdatedAt(), actual.getUpdatedAt());
 
-        // Assert same Object
-        this.assertionsDatas(costumers.get(0), actual.get(0));
-        this.assertionsDatas(costumers.get(1), actual.get(1));
-        this.assertionsDatas(costumers.get(2), actual.get(2));
-    }
-
-    private void assertionsDatas(Costumer expected, Costumer actual) {
-        Assertions.assertEquals(expected.getId(), actual.getId());
-        Assertions.assertEquals(expected.getName(), actual.getName());
-        Assertions.assertEquals(expected.getBirthDate(), actual.getBirthDate());
-        Assertions.assertEquals(expected.getEmail(), actual.getEmail());
-        Assertions.assertEquals(expected.getDriverLicense(), actual.getDriverLicense());
-        Assertions.assertEquals(expected.getAddress(), actual.getAddress());
-        Assertions.assertEquals(expected.getPhone(), actual.getPhone());
-        Assertions.assertEquals(expected.getCreatedAt(), actual.getCreatedAt());
-        Assertions.assertEquals(expected.getUpdatedAt(), actual.getUpdatedAt());
-        Assertions.assertEquals(expected.getUpdatedAt(), actual.getUpdatedAt());
     }
 
     @Test
@@ -75,7 +63,7 @@ class CostumerJdbcDAOTest {
                         this.costumer.getUpdatedAt()))
                 .thenReturn(1);
 
-        int acutal = this.costumerJdbcDAO.save(CostumerFactoryUtils.costumerBuilRaimunda());
+        int acutal = this.costumerJdbcDAO.save(FactoryUtils.createCostumer());
         Assertions.assertEquals(1, acutal);
     }
 }

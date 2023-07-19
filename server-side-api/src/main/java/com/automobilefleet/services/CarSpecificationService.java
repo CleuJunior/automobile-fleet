@@ -5,9 +5,10 @@ import com.automobilefleet.api.request.CarSpecificationRequest;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.CarSpecification;
 import com.automobilefleet.entities.Specification;
+import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.CarNotFoundException;
 import com.automobilefleet.exceptions.notfoundexception.CarSpecificationsNotFoundException;
-import com.automobilefleet.exceptions.notfoundexception.CategoryNotFoundException;
+import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.exceptions.notfoundexception.SpecificationNotFoundException;
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.repositories.CarSpecificationRepository;
@@ -59,7 +60,7 @@ public class CarSpecificationService {
 
     public CarSpecificationResponse updateCarSpecification(Long id, CarSpecificationRequest request) {
         CarSpecification response = this.carSpecificationRepository.findById(id)
-                .orElseThrow(CategoryNotFoundException::new);
+                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
         Car car = this.carRepository.findById(request.getCarId()).
                 orElseThrow(CarNotFoundException::new);

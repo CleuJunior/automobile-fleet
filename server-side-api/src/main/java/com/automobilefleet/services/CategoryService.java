@@ -3,7 +3,8 @@ package com.automobilefleet.services;
 import com.automobilefleet.api.response.CategoryResponse;
 import com.automobilefleet.api.request.CategoryRequest;
 import com.automobilefleet.entities.Category;
-import com.automobilefleet.exceptions.notfoundexception.CategoryNotFoundException;
+import com.automobilefleet.exceptions.ExceptionsConstants;
+import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -27,9 +28,9 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }
 
-    public CategoryResponse getCategory(Long id) {
+    public CategoryResponse getCategoryById(Long id) {
         Category response = this.repository.findById(id)
-                .orElseThrow(CategoryNotFoundException::new);
+                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
         return this.mapper.map(response, CategoryResponse.class);
     }
@@ -43,7 +44,7 @@ public class CategoryService {
 
     public CategoryResponse updateCategory(Long id, CategoryRequest request) {
         Category response = this.repository.findById(id)
-                .orElseThrow(CategoryNotFoundException::new);
+                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
         response.setName(request.getName());
         response.setDescription(response.getDescription());

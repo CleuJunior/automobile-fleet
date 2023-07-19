@@ -1,11 +1,11 @@
 package com.automobilefleet.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -21,7 +21,9 @@ import java.time.LocalDateTime;
 @Table(name = "category_entity")
 @Entity
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @EqualsAndHashCode
 public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -29,24 +31,20 @@ public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_id", nullable = false)
-    @Getter
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @Column(name = "name", unique = true, nullable = false)
-    @NonNull
     @Getter
     @Setter
     private String name;
 
     @Column(name = "description", columnDefinition="TEXT", nullable = false)
-    @NonNull
-    @Getter
-    @Setter
     private String description;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "created_at", nullable = false)
-    @Getter
+    @Setter(AccessLevel.NONE)
     private LocalDateTime createdAt;
 
     @PrePersist

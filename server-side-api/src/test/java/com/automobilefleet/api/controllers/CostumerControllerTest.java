@@ -2,9 +2,8 @@ package com.automobilefleet.api.controllers;
 
 import com.automobilefleet.api.request.CostumerRequest;
 import com.automobilefleet.api.response.CostumerResponse;
-import com.automobilefleet.entities.Costumer;
 import com.automobilefleet.services.CostumerService;
-import com.automobilefleet.utils.costumer.CostumerFactoryUtils;
+import com.automobilefleet.utils.FactoryUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -51,8 +50,8 @@ class CostumerControllerTest {
     @BeforeEach
     void setup() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).alwaysDo(print()).build();
-        this.response = CostumerFactoryUtils.costumerResponseBuildRaimunda();
-        this.request = CostumerFactoryUtils.costumerRequestBuildRaimunda();
+        this.response = FactoryUtils.createCostumerResponse();
+        this.request = FactoryUtils.createCostumerRequest();
     }
 
     @Test
@@ -68,13 +67,7 @@ class CostumerControllerTest {
 
     @Test
     void shouldGetListCostumerAndStatusCodeOK() throws Exception {
-        List<CostumerResponse> listCostumerResponse = List.of(
-                CostumerFactoryUtils.costumerResponseBuildRaimunda(),
-                CostumerFactoryUtils.costumerResponseBuildGustavo(),
-                CostumerFactoryUtils.costumerReponseBuildMaercela()
-        );
-
-        Mockito.when(this.service.listCostumer()).thenReturn(listCostumerResponse);
+        Mockito.when(this.service.listCostumer()).thenReturn(Collections.singletonList(this.response));
         mockMvc.perform(get(URL_LIST).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
