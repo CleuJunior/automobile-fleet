@@ -1,5 +1,6 @@
 package com.automobilefleet.utils;
 
+import com.automobilefleet.api.request.CategoryRequest;
 import com.automobilefleet.api.request.CostumerRequest;
 import com.automobilefleet.api.response.CategoryResponse;
 import com.automobilefleet.api.response.CostumerResponse;
@@ -73,6 +74,10 @@ public class FactoryUtils {
 
     public static CategoryResponse createCategoryResponse() {
         return new CategoryResponse(ID_CATEGORY, NAME_CATEGORY, DESCRIPTION_CATEGORY, CREATED_AT_CATEGORY);
+    }
+
+    public static CategoryRequest createCategoryRequest() {
+        return new CategoryRequest(NAME_CATEGORY, DESCRIPTION_CATEGORY, CREATED_AT_CATEGORY);
     }
 
 }

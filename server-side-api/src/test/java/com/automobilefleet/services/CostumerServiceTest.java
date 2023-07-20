@@ -30,16 +30,15 @@ class CostumerServiceTest  {
     @Mock
     private ModelMapper mapper;
     private Costumer costumer;
-    private CostumerRequest costumerRequest;
+    private CostumerRequest request;
     private CostumerResponse reponse;
     private static final long ID = 1L;
-    private static final long NON_EXISTING_ID = 99L;
 
     @BeforeEach
     void setUp() {
         this.costumer = FactoryUtils.createCostumer();
         this.reponse = FactoryUtils.createCostumerResponse();
-        this.costumerRequest = FactoryUtils.createCostumerRequest();
+        this.request = FactoryUtils.createCostumerRequest();
     }
 
     @AfterEach
@@ -107,10 +106,10 @@ class CostumerServiceTest  {
 
     @Test
     void shouldThrowsCostumerNotFoundExceptionWhenIdNonExisting() {
-        Mockito.when(this.repository.findById(NON_EXISTING_ID)).thenReturn(Optional.empty());
-        Assertions.assertThrows(NotFoundException.class, () -> this.costumerService.getCostumerById(NON_EXISTING_ID));
+        Mockito.when(this.repository.findById(ID)).thenReturn(Optional.empty());
+        Assertions.assertThrows(NotFoundException.class, () -> this.costumerService.getCostumerById(ID));
 
-        Mockito.verify(this.repository).findById(NON_EXISTING_ID);
+        Mockito.verify(this.repository).findById(ID);
         Mockito.verifyNoMoreInteractions(this.repository);
     }
 
@@ -118,38 +117,53 @@ class CostumerServiceTest  {
     void shouldSaveCostumerWhenCallingSaveCostumer() {
         Mockito.when(this.repository.save(this.costumer)).thenReturn(this.costumer);
         Mockito.when(this.mapper.map(this.costumer, CostumerResponse.class)).thenReturn(this.reponse);
-        Mockito.when(this.mapper.map(this.costumerRequest, Costumer.class)).thenReturn(this.costumer);
+        Mockito.when(this.mapper.map(this.request, Costumer.class)).thenReturn(this.costumer);
 
-        CostumerResponse expected = this.costumerService.saveCostumer(this.costumerRequest);
-
-        Assertions.assertNotNull(expected);
-        Assertions.assertInstanceOf(CostumerResponse.class, expected);
-        Assertions.assertEquals(expected, this.reponse);
+        final CostumerResponse actual = this.costumerService.saveCostumer(this.request);
+        this.basicAssertions(actual);
     }
 
     @Test
     void shouldUpdateCostumerWhenCallingUpdate() {
-        String nameUpdate = "Update Working";
-        this.costumerRequest.setName(nameUpdate);
-        this.reponse.setName(nameUpdate);
+        final String expected = "Update Working";
+        this.request.setName(expected);
+        this.costumer.setName(expected);
+        this.reponse.setName(expected);
 
-        // Configurar o comportamento dos mocks
+        // Config mocks behavior
         Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.costumer));
         Mockito.when(this.mapper.map(this.costumer, CostumerResponse.class)).thenReturn(this.reponse);
 
-        // Chamar o método a ser testado
-        CostumerResponse result = this.costumerService.updateCostumer(ID, this.costumerRequest);
+        // Call the method to be tested
+        final CostumerResponse actual = this.costumerService.updateCostumer(ID, this.request);
 
-        // Verificar o resultado
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(this.reponse.getId(), result.getId());
-        Assertions.assertEquals(this.reponse.getName(), result.getName());
-        Assertions.assertSame(this.reponse, result);
+        // Assertions
+        Assertions.assertNotNull(actual);
+        Assertions.assertEquals(this.reponse.getId(), actual.getId());
+        Assertions.assertEquals(expected, actual.getName());
+        Assertions.assertSame(this.reponse, actual);
 
-        // Verificar as interações dos mocks
+        // Check mock interactions
         Mockito.verify(this.repository).findById(ID);
         Mockito.verify(repository).save(this.costumer);
         Mockito.verify(this.mapper).map(this.costumer, CostumerResponse.class);
         Mockito.verifyNoMoreInteractions(this.repository, this.mapper);
+    }
+
+    private void basicAssertions(CostumerResponse actual) {
+        Assertions.assertNotNull(actual);
+        Assertions.assertInstanceOf(CostumerResponse.class, actual);
+        Assertions.assertSame(this.reponse, actual);
+        Assertions.assertEquals(this.reponse.getId(), actual.getId());
+        Assertions.assertEquals(this.reponse.getName(), actual.getName());
+        Assertions.assertEquals(this.reponse.getBirthDate(), actual.getBirthDate());
+        Assertions.assertEquals(this.reponse.getEmail(), actual.getEmail());
+        Assertions.assertEquals(this.reponse.getDriverLicense(), actual.getDriverLicense());
+        Assertions.assertEquals(this.reponse.getAddress(), actual.getAddress());
+        Assertions.assertEquals(this.reponse.getPhone(), actual.getPhone());
+        Assertions.assertEquals(this.reponse.getCreatedAt(), actual.getCreatedAt());
+        Assertions.assertEquals(this.reponse.getUpdatedAt(), actual.getUpdatedAt());
+        Assertions.assertEquals(this.reponse.getUpdatedAt(), actual.getUpdatedAt());
+        Assertions.assertEquals(this.reponse, actual);
     }
 }

@@ -1,5 +1,6 @@
 package com.automobilefleet.services;
 
+import com.automobilefleet.api.request.CategoryRequest;
 import com.automobilefleet.api.response.CategoryResponse;
 import com.automobilefleet.entities.Category;
 import com.automobilefleet.exceptions.ExceptionsConstants;
@@ -13,11 +14,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.modelmapper.ModelMapper;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Collections;
 import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(SpringExtension.class)
 class CategoryServiceTest {
@@ -25,30 +27,27 @@ class CategoryServiceTest {
     private CategoryService service;
     @Mock
     private CategoryRepository repository;
-    @Mock
-    private ModelMapper mapper;
     private Category category;
     private CategoryResponse reponse;
+    private CategoryRequest request;
     private final static Long ID = 1L;
     @BeforeEach
     void setup() {
         this.category = FactoryUtils.createCategory();
         this.reponse = FactoryUtils.createCategoryResponse();
+        this.request = FactoryUtils.createCategoryRequest();
     }
 
     @Test
     void shouldReturnASingleCategoryWhenCallingListCategories() {
         Mockito.when(this.repository.findAll()).thenReturn(Collections.singletonList(this.category));
-        Mockito.when(this.mapper.map(this.category, CategoryResponse.class)).thenReturn(this.reponse);
 
-        final CategoryResponse actual = this.service.listCategories()
-                .stream()
+        final CategoryResponse actual = this.service.listCategories().stream()
                 .findFirst()
                 .orElse(null);
 
         // Assertions
         Assertions.assertNotNull(actual);
-        Assertions.assertSame(this.reponse, actual);
         Assertions.assertEquals(this.reponse.getId(), actual.getId());
         Assertions.assertEquals(this.reponse.getName(), actual.getName());
         Assertions.assertEquals(this.reponse.getDescription(), actual.getDescription());
@@ -59,20 +58,15 @@ class CategoryServiceTest {
     }
 
     @Test
-    void shouldReturnOneCostumerById() {
+    void shouldReturnOneCategoryById() {
         Mockito.when(this.repository.findById(ID)).thenReturn(Optional.ofNullable(this.category));
-        Mockito.when(this.mapper.map(this.category, CategoryResponse.class)).thenReturn(this.reponse);
 
         final CategoryResponse actual =  this.service.getCategoryById(ID);
 
         // Assertions
         Assertions.assertDoesNotThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
-
         Assertions.assertNotNull(actual);
-        Assertions.assertSame(this.reponse, actual);
         Assertions.assertInstanceOf(CategoryResponse.class, actual);
-
-        Assertions.assertSame(this.reponse, actual);
         Assertions.assertEquals(this.reponse.getId(), actual.getId());
         Assertions.assertEquals(this.reponse.getName(), actual.getName());
         Assertions.assertEquals(this.reponse.getDescription(), actual.getDescription());
@@ -82,5 +76,49 @@ class CategoryServiceTest {
         Mockito.verifyNoMoreInteractions(this.repository);
     }
 
+    @Test
+    void shouldThrowsCategoryNotFoundExceptionWhenIdNonExisting() {
+        Mockito.when(this.repository.findById(ID)).thenReturn(Optional.empty());
+        Assertions.assertThrows(NotFoundException.class, () -> this.service.getCategoryById(ID));
 
+        Mockito.verify(this.repository).findById(ID);
+        Mockito.verifyNoMoreInteractions(this.repository);
+    }
+
+    @Test
+    void shouldSaveCategoryWhenCallingSaveCategory() {
+        Mockito.when(this.repository.save(any(Category.class))).thenReturn(this.category);
+        final CategoryResponse actual = this.service.saveCategory(this.request);
+
+        // Assertions
+        Assertions.assertNotNull(actual);
+        Assertions.assertInstanceOf(CategoryResponse.class, actual);
+        Assertions.assertEquals(this.reponse.getId(), actual.getId());
+        Assertions.assertEquals(this.reponse.getName(), actual.getName());
+        Assertions.assertEquals(this.reponse.getDescription(), actual.getDescription());
+        Assertions.assertEquals(this.reponse.getCreatedAt(), actual.getCreatedAt());
+    }
+
+    @Test
+    void shouldUpdateCategoryWhenCallingUpdate() {
+        String nameUpdate = "Update Working";
+        this.request.setName(nameUpdate);
+        this.reponse.setName(nameUpdate);
+
+        // Config mocks behavior
+        Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.category));
+
+        // Call the method to be tested
+        final CategoryResponse actual = this.service.updateCategory(ID, this.request);
+
+        // Assertions
+        Assertions.assertNotNull(actual);
+        Assertions.assertEquals(this.reponse.getId(), actual.getId());
+        Assertions.assertEquals(this.reponse.getName(), actual.getName());
+        Assertions.assertEquals(this.reponse.getDescription(), actual.getDescription());
+
+        // Check mock interactions
+        Mockito.verify(this.repository).findById(ID);
+        Mockito.verify(this.repository).save(this.category);
+    }
 }
