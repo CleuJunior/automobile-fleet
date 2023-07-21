@@ -6,6 +6,7 @@ import com.automobilefleet.services.BrandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,16 +25,19 @@ public class BrandController {
     private final BrandService service;
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<BrandResponse> getBrandById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.getBrand(id));
     }
 
     @GetMapping(value = "/list")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<BrandResponse>> listOfBrand() {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.listBrand());
     }
 
     @PostMapping(value = "/save")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<BrandResponse> saveBrand(@RequestBody BrandRequest request) {
         BrandResponse response = this.service.saveBrand(request);
 
@@ -41,6 +45,7 @@ public class BrandController {
     }
 
     @PutMapping(value = "/update/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<BrandResponse> updateBrand(@PathVariable Long id, @RequestBody BrandRequest request) {
         BrandResponse response = this.service.updateBrand(id, request);
 
@@ -48,6 +53,7 @@ public class BrandController {
     }
 
     @DeleteMapping(value = "/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteBrand(@PathVariable Long id) {
         this.service.deleteBrand(id);
 

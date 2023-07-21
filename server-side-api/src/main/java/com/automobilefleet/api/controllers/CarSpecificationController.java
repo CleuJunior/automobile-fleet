@@ -6,6 +6,7 @@ import com.automobilefleet.services.CarSpecificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,16 +24,19 @@ public class CarSpecificationController {
     private final CarSpecificationService service;
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<CarSpecificationResponse> getCarSpecificationId(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.getCarSpecificationById(id));
     }
 
     @GetMapping(value = "/list")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<CarSpecificationResponse>> listOfCarSpecification() {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.listCarSpecification());
     }
 
     @PostMapping(value = "/save")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CarSpecificationResponse> saveCarSpecification(@RequestBody CarSpecificationRequest request) {
         CarSpecificationResponse response = this.service.saveCarEspecification(request);
 
@@ -40,6 +44,7 @@ public class CarSpecificationController {
     }
 
     @PutMapping(value = "/update/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CarSpecificationResponse> updateCarSpecification(@PathVariable Long id,
                                                                            @RequestBody CarSpecificationRequest request) {
 
