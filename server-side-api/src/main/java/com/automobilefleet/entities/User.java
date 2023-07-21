@@ -1,5 +1,6 @@
 package com.automobilefleet.entities;
 
+import com.automobilefleet.enums.RoleType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,19 +8,20 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,17 +47,19 @@ public class User implements UserDetails, Serializable {
     @NonNull
     private String password;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private List<Role> roles;
+    @Enumerated(EnumType.STRING)
+    @NonNull
+    private RoleType role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles;
+        if (this.role.equals(RoleType.ROLE_ADMIN)){
+            return List.of(
+                    new SimpleGrantedAuthority(RoleType.ROLE_ADMIN.getName()),
+                    new SimpleGrantedAuthority(RoleType.ROLE_USER.getName())
+            );
+        }
+        return Collections.singletonList( new SimpleGrantedAuthority(RoleType.ROLE_USER.getName()));
     }
 
     @Override
@@ -77,4 +81,5 @@ public class User implements UserDetails, Serializable {
     public boolean isEnabled() {
         return true;
     }
+
 }

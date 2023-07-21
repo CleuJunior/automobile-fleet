@@ -4,33 +4,29 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@RequiredArgsConstructor
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserDetailsServiceImpl userDetailsService;
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class WebSecurityConfig {
     private static final String[] END_POINTS_FOR_USER = new String[]{"/api/v1/brand/**"};
 
-    @Override
-    protected void configure(HttpSecurity security) throws Exception {
-        security.httpBasic()
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, END_POINTS_FOR_USER).hasRole("USER")
+                .antMatchers(HttpMethod.POST, "/api/v1/user/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .csrf().disable();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(this.passwordEncoder());
+                .csrf().disable()
+                .build();
     }
 
     @Bean

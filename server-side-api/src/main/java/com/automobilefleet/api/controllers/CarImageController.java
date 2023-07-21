@@ -6,6 +6,7 @@ import com.automobilefleet.services.CarImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,16 +26,19 @@ public class CarImageController {
     private final CarImageService service;
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<CarImageResponse> getCarImageById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.getImageById(id));
     }
 
     @GetMapping(value = "/list")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<CarImageResponse>> listOfCarImages() {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.listAllImage());
     }
 
     @PostMapping(value = "/save")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CarImageResponse> saveImage(@RequestBody CarImageRequest request) {
         CarImageResponse response = this.service.saveCarImage(request);
 
@@ -42,6 +46,7 @@ public class CarImageController {
     }
 
     @PutMapping(value = "/update/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CarImageResponse> updateCarImage(@PathVariable Long id, @RequestBody CarImageRequest request) {
         CarImageResponse response = this.service.updateCarImage(id, request);
 
@@ -49,7 +54,8 @@ public class CarImageController {
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<Void> deleteCar(@PathVariable Long id) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> deletCarImageById(@PathVariable Long id) {
         this.service.deleteCarImage(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

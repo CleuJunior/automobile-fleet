@@ -6,6 +6,7 @@ import com.automobilefleet.services.CostumerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,17 +25,20 @@ public class CostumerController {
     private final CostumerService service;
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CostumerResponse> getCostumerById(@PathVariable("id") Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(this.service.getCostumerById(id));
     }
 
     @GetMapping(value = "/list")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<CostumerResponse>> getListCostumer() {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.listCostumer());
     }
 
     @PostMapping(value = "/save")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<CostumerResponse> saveCostumer(@RequestBody @Valid CostumerRequest request) {
         CostumerResponse response = this.service.saveCostumer(request);
 
@@ -42,6 +46,7 @@ public class CostumerController {
     }
 
     @PutMapping(value = "/update/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<CostumerResponse> updateCostumer(@PathVariable Long id, @RequestBody CostumerRequest request) {
         CostumerResponse response = this.service.updateCostumer(id, request);
 
