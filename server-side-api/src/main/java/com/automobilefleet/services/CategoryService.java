@@ -1,12 +1,13 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.response.CategoryResponse;
 import com.automobilefleet.api.request.CategoryRequest;
+import com.automobilefleet.api.response.CategoryResponse;
 import com.automobilefleet.entities.Category;
-import com.automobilefleet.exceptions.notfoundexception.CategoryNotFoundException;
+import com.automobilefleet.exceptions.ExceptionsConstants;
+import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.CategoryRepository;
+import com.automobilefleet.util.CategoryMapperUtils;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,39 +18,37 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class CategoryService {
-
     private final CategoryRepository repository;
-    private final ModelMapper mapper;
 
     public List<CategoryResponse> listCategories() {
         return this.repository.findAll().stream()
-                .map(category -> this.mapper.map(category, CategoryResponse.class))
+                .map(CategoryMapperUtils::toCategorResponse)
                 .collect(Collectors.toList());
     }
 
-    public CategoryResponse getCategory(Long id) {
+    public CategoryResponse getCategoryById(Long id) {
         Category response = this.repository.findById(id)
-                .orElseThrow(CategoryNotFoundException::new);
+                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
-        return this.mapper.map(response, CategoryResponse.class);
+        return CategoryMapperUtils.toCategorResponse(response);
     }
 
     public CategoryResponse saveCategory(CategoryRequest request) {
-        Category categorySave = this.mapper.map(request, Category.class);
+        Category categorySave = CategoryMapperUtils.toCategory(request);
         categorySave = this.repository.save(categorySave);
 
-        return this.mapper.map(categorySave, CategoryResponse.class);
+        return CategoryMapperUtils.toCategorResponse(categorySave);
     }
 
     public CategoryResponse updateCategory(Long id, CategoryRequest request) {
         Category response = this.repository.findById(id)
-                .orElseThrow(CategoryNotFoundException::new);
+                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
         response.setName(request.getName());
         response.setDescription(response.getDescription());
         this.repository.save(response);
 
-        return this.mapper.map(response, CategoryResponse.class);
+        return CategoryMapperUtils.toCategorResponse(response);
     }
 
 }

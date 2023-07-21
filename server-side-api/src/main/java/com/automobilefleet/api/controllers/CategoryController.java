@@ -26,7 +26,7 @@ public class CategoryController {
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(this.service.getCategory(id));
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.getCategoryById(id));
     }
 
     @GetMapping(value = "/list")
