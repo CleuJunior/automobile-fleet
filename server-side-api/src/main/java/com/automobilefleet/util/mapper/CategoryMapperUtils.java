@@ -1,4 +1,4 @@
-package com.automobilefleet.util;
+package com.automobilefleet.util.mapper;
 
 import com.automobilefleet.api.request.CategoryRequest;
 import com.automobilefleet.api.response.CategoryResponse;

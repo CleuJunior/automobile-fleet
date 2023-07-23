@@ -18,6 +18,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Collection;
@@ -51,6 +52,9 @@ public class User implements UserDetails, Serializable {
     @NonNull
     private RoleType role;
 
+    @OneToOne
+    private Costumer costumer;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.role.equals(RoleType.ROLE_ADMIN)){
@@ -59,7 +63,7 @@ public class User implements UserDetails, Serializable {
                     new SimpleGrantedAuthority(RoleType.ROLE_USER.getName())
             );
         }
-        return Collections.singletonList( new SimpleGrantedAuthority(RoleType.ROLE_USER.getName()));
+        return Collections.singletonList(new SimpleGrantedAuthority(RoleType.ROLE_USER.getName()));
     }
 
     @Override
