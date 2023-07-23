@@ -6,7 +6,7 @@ import com.automobilefleet.entities.Category;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.CategoryRepository;
-import com.automobilefleet.util.CategoryMapperUtils;
+import com.automobilefleet.util.mapper.CategoryMapperUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
