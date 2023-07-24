@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,7 +39,7 @@ public class CarSpecificationService {
 
     }
 
-    public CarSpecificationResponse getCarSpecificationById(Long id) {
+    public CarSpecificationResponse getCarSpecificationById(UUID id) {
         CarSpecification response = this.carSpecificationRepository.findById(id)
                 .orElseThrow(CarSpecificationsNotFoundException::new);
 
@@ -58,7 +59,7 @@ public class CarSpecificationService {
         return this.mapper.map(response, CarSpecificationResponse.class);
     }
 
-    public CarSpecificationResponse updateCarSpecification(Long id, CarSpecificationRequest request) {
+    public CarSpecificationResponse updateCarSpecification(UUID id, CarSpecificationRequest request) {
         CarSpecification response = this.carSpecificationRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 

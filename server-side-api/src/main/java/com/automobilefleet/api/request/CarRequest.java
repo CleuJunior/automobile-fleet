@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @NoArgsConstructor
 @Getter
@@ -30,10 +31,10 @@ public class CarRequest {
     private String licensePlate;
 
     @JsonProperty("brand_id")
-    private Long brandId;
+    private UUID brandId;
 
     @JsonProperty("category_id")
-    private Long categoryId;
+    private UUID categoryId;
 
     @JsonProperty("color")
     private String color;

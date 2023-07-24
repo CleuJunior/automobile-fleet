@@ -17,6 +17,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Table(name = "brand_entity")
 @Entity
@@ -27,10 +28,10 @@ public class Brand implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "_id", nullable = false)
     @Getter
-    private Long id;
+    private UUID id;
 
     @Column(name = "brand_name", nullable = false)
     @NonNull

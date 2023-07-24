@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @NoArgsConstructor
 @Getter
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 public class BrandResponse {
 
     @JsonProperty("_id")
-    private Long id;
+    private UUID id;
 
     @JsonProperty("name")
     private String name;

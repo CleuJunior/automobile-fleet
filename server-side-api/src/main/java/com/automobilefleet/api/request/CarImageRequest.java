@@ -5,15 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @NoArgsConstructor
 @Getter
 @Setter
 public class CarImageRequest {
 
     @JsonProperty("car_id")
-    private Long carId;
+    private UUID carId;
 
     @JsonProperty("image")
-    private byte[] image;
+    private String linkImage;
 
 }

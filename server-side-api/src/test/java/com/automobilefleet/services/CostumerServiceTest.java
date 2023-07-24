@@ -20,6 +20,7 @@ import org.modelmapper.ModelMapper;
 
 import java.util.Collections;
 import java.util.Optional;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 class CostumerServiceTest  {
@@ -32,7 +33,7 @@ class CostumerServiceTest  {
     private Costumer costumer;
     private CostumerRequest request;
     private CostumerResponse reponse;
-    private static final long ID = 1L;
+    private static final UUID ID = UUID.fromString("32ca0461-0401-4b15-bf57-3d2b18b3828f");
 
     @BeforeEach
     void setUp() {

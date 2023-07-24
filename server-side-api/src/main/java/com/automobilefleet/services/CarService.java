@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,7 +38,7 @@ public class CarService {
                 .collect(Collectors.toList());
     }
 
-    public CarResponse getCarById(Long id) {
+    public CarResponse getCarById(UUID id) {
         Car response = this.carRepository.findById(id).
                 orElseThrow(CarNotFoundException::new);
 
@@ -70,7 +71,7 @@ public class CarService {
         return this.mapper.map(response, CarResponse.class);
     }
 
-    public CarResponse updateCar(Long id, CarRequest request) {
+    public CarResponse updateCar(UUID id, CarRequest request) {
         Car response = this.carRepository.findById(id).
                 orElseThrow(CarNotFoundException::new);
 

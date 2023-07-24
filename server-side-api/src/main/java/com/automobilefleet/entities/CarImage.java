@@ -1,6 +1,7 @@
 package com.automobilefleet.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,38 +21,37 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @Table(name = "car_image_entity")
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
+@Getter @Setter
 @EqualsAndHashCode
 public class CarImage implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "_id", nullable = false)
-    @Getter
-    private Long id;
+    @Setter(AccessLevel.NONE)
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "car_id")
     @NonNull
-    @Getter
-    @Setter
     private Car car;
 
     @Lob
-    @Column(name = "image", columnDefinition = "BLOB")
+    @Column(name = "image")
     @NonNull
-    @Getter
-    @Setter
-    private byte [] image;
+    private String linkImage;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "created_at", nullable = false)
-    @Getter
+    @Setter(AccessLevel.NONE)
     private LocalDateTime createdAt;
 
     @PrePersist

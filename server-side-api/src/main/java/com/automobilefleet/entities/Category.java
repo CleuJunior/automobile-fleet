@@ -17,26 +17,24 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Table(name = "category_entity")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Getter @Setter
 @EqualsAndHashCode
 public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "_id", nullable = false)
     @Setter(AccessLevel.NONE)
-    private Long id;
+    private UUID id;
 
     @Column(name = "name", unique = true, nullable = false)
-    @Getter
-    @Setter
     private String name;
 
     @Column(name = "description", columnDefinition="TEXT", nullable = false)

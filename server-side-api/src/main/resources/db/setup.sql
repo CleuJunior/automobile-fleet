@@ -1,10 +1,11 @@
 -- -------------------------------------------------------------------------------------
 --                              Criação das tabelas                                   --
 -- -------------------------------------------------------------------------------------
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 DROP TABLE IF EXISTS costumer_entity;
 CREATE TABLE costumer_entity (
-    _id SERIAL PRIMARY KEY,
+    _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     birthdate DATE NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -17,14 +18,14 @@ CREATE TABLE costumer_entity (
 
 DROP TABLE IF EXISTS brand_entity;
 CREATE TABLE brand_entity (
-    _id SERIAL PRIMARY KEY,
+    _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     brand_name VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL
 );
 
 DROP TABLE IF EXISTS category_entity;
 CREATE TABLE category_entity (
-    _id SERIAL PRIMARY KEY,
+    _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name VARCHAR(255) NOT NULL UNIQUE,
     description TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL
@@ -33,7 +34,7 @@ CREATE TABLE category_entity (
 
 DROP TABLE IF EXISTS specification_entity;
 CREATE TABLE specification_entity (
-    _id SERIAL PRIMARY KEY,
+    _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     specification_name VARCHAR(255) NOT NULL UNIQUE,
     specification_description TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL
@@ -41,14 +42,14 @@ CREATE TABLE specification_entity (
 
 DROP TABLE IF EXISTS car_entity;
 CREATE TABLE car_entity (
-    _id SERIAL PRIMARY KEY,
+    _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     car_name VARCHAR(255) NOT NULL UNIQUE,
     car_description VARCHAR(30) NOT NULL,
     daily_rate DOUBLE PRECISION NOT NULL,
     car_available BOOLEAN NOT NULL,
     license_plate VARCHAR(30) NOT NULL,
-    brand_id BIGINT NOT NULL,
-    category_id BIGINT NOT NULL,
+    brand_id UUID NOT NULL,
+    category_id UUID NOT NULL,
     car_color VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL,
     FOREIGN KEY (brand_id) REFERENCES brand_entity (_id),
@@ -56,32 +57,33 @@ CREATE TABLE car_entity (
 );
 
 DROP TABLE IF EXISTS rental_entity;
-
 CREATE TABLE rental_entity (
-    _id SERIAL PRIMARY KEY,
-    car_id BIGINT NOT NULL REFERENCES car_entity (_id),
-    costumer_id BIGINT NOT NULL REFERENCES costumer_entity (_id),
+    _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    car_id UUID NOT NULL,
+    costumer_id UUID NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     total DOUBLE PRECISION NOT NULL,
     created_at TIMESTAMP NOT NULL,
-    update_at TIMESTAMP NOT NULL
+    updated_at TIMESTAMP NOT NULL,
+    FOREIGN KEY (car_id) REFERENCES car_entity (_id),
+    FOREIGN KEY (costumer_id) REFERENCES costumer_entity (_id)
 );
 
 DROP TABLE IF EXISTS car_specification;
 CREATE TABLE car_specification (
-    _id SERIAL PRIMARY KEY,
-    car_id BIGINT NOT NULL,
-    specification_id BIGINT NOT NULL,
+    _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    car_id UUID NOT NULL,
+    specification_id UUID NOT NULL,
     FOREIGN KEY (car_id) REFERENCES car_entity (_id),
     FOREIGN KEY (specification_id) REFERENCES specification_entity (_id)
 );
 
 DROP TABLE IF EXISTS car_image_entity;
 CREATE TABLE car_image_entity (
-    _id SERIAL PRIMARY KEY,
-    car_id BIGINT NOT NULL,
-    image BYTEA NOT NULL,
+    _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    car_id UUID NOT NULL,
+    image VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL,
     FOREIGN KEY (car_id) REFERENCES car_entity (_id)
 );
@@ -139,8 +141,8 @@ CREATE OR REPLACE PROCEDURE insert_car(
     p_daily_rate DOUBLE PRECISION,
     p_car_available BOOLEAN,
     p_license_plate VARCHAR(30),
-    p_brand_id BIGINT,
-    p_category_id BIGINT,
+    p_brand_id UUID,
+    p_category_id UUID,
     p_car_color VARCHAR(255)
 )
 LANGUAGE plpgsql
@@ -152,8 +154,8 @@ END;
 $$;
 
 CREATE OR REPLACE PROCEDURE insert_rental(
-    p_car_id BIGINT,
-    p_costumer_id BIGINT,
+    p_car_id UUID,
+    p_costumer_id UUID,
     p_start_date DATE,
     p_end_date DATE,
     p_total DOUBLE PRECISION
@@ -161,14 +163,14 @@ CREATE OR REPLACE PROCEDURE insert_rental(
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    INSERT INTO rental_entity (car_id, costumer_id, start_date, end_date, total, created_at, update_at)
+    INSERT INTO rental_entity (car_id, costumer_id, start_date, end_date, total, created_at, updated_at)
     VALUES (p_car_id, p_costumer_id, p_start_date, p_end_date, p_total, NOW(), NOW());
 END;
 $$;
 
 CREATE OR REPLACE PROCEDURE insert_car_specification(
-    p_car_id BIGINT,
-    p_specification_id BIGINT
+    p_car_id UUID,
+    p_specification_id UUID
 )
 LANGUAGE plpgsql
 AS $$
@@ -179,8 +181,8 @@ END;
 $$;
 
 CREATE OR REPLACE PROCEDURE insert_car_image(
-    p_car_id BIGINT,
-    p_image BYTEA
+    p_car_id UUID,
+    p_image VARCHAR(255)
 )
 LANGUAGE plpgsql
 AS $$

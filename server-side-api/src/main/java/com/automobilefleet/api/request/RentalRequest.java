@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.UUID;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -15,10 +17,10 @@ import java.time.LocalDate;
 public class RentalRequest {
 
     @JsonProperty("car_id")
-    private Long carId;
+    private UUID carId;
 
     @JsonProperty("costumer_id")
-    private Long costumerId;
+    private UUID costumerId;
 
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,

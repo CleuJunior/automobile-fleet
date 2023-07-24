@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -40,7 +41,7 @@ class CostumerControllerTest {
     private MockMvc mockMvc;
     private CostumerResponse response;
     private CostumerRequest request;
-    private final static Long ID = 1L;
+    private final static UUID ID = UUID.fromString("32ca0461-0401-4b15-bf57-3d2b18b3828f");
     private final static String BASE_URL = "/api/v1/costumer";
     private final static String URL_ID = BASE_URL + "/{id}";
     private final static String URL_LIST = BASE_URL + "/list";
