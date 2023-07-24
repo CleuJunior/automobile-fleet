@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -70,7 +71,7 @@ public class CostumerJdbcDAO implements DAO<Costumer> {
     private RowMapper<Costumer> getRowMapperCostumer() {
         return (rs, row) -> {
             Costumer costumer = new Costumer();
-            costumer.setId(rs.getLong(CostumerJdbcConstants.COSTUMER_COLUMN_ID));
+            costumer.setId(UUID.fromString(rs.getString(CostumerJdbcConstants.COSTUMER_COLUMN_ID)));
             costumer.setName(rs.getString(CostumerJdbcConstants.COSTUMER_COLUMN_NAME));
             costumer.setBirthDate(rs.getDate(CostumerJdbcConstants.COSTUMER_COLUMN_BIRTH_DATE).toLocalDate());
             costumer.setEmail(rs.getString(CostumerJdbcConstants.COSTUMER_COLUMN_EMAIL));

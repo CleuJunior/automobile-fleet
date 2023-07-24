@@ -1,6 +1,7 @@
 package com.automobilefleet.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +23,13 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Table(name = "rental_entity")
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
+@Getter @Setter
 @EqualsAndHashCode
 public class Rental implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -34,52 +37,40 @@ public class Rental implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_id", nullable = false)
-    @Getter
-    private Long id;
+    @Setter(AccessLevel.NONE)
+    private UUID id;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_id", referencedColumnName = "_id", nullable = false)
     @NonNull
-    @Getter
-    @Setter
     private Car car;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "costumer_id", referencedColumnName = "_id", nullable = false)
     @NonNull
-    @Getter
-    @Setter
     private Costumer costumer;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "start_date", nullable = false)
     @NonNull
-    @Getter
-    @Setter
     private LocalDate startDate;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "end_date", nullable = false)
     @NonNull
-    @Getter
-    @Setter
     private LocalDate endDate;
 
     @Column(name = "total", nullable = false)
     @NonNull
-    @Getter
-    @Setter
     private Double total;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "created_at", nullable = false)
-    @Getter
+    @Setter(AccessLevel.NONE)
     private LocalDateTime createdAt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "update_at", nullable = false)
-    @Getter
-    @Setter
     private LocalDateTime updateAt;
 
     @PrePersist

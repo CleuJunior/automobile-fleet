@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/v1/car-specification")
@@ -25,7 +26,7 @@ public class CarSpecificationController {
 
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<CarSpecificationResponse> getCarSpecificationId(@PathVariable Long id) {
+    public ResponseEntity<CarSpecificationResponse> getCarSpecificationId(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.getCarSpecificationById(id));
     }
 
@@ -45,7 +46,7 @@ public class CarSpecificationController {
 
     @PutMapping(value = "/update/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<CarSpecificationResponse> updateCarSpecification(@PathVariable Long id,
+    public ResponseEntity<CarSpecificationResponse> updateCarSpecification(@PathVariable UUID id,
                                                                            @RequestBody CarSpecificationRequest request) {
 
         CarSpecificationResponse response = this.service.updateCarSpecification(id, request);

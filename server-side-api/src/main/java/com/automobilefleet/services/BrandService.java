@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +28,7 @@ public class BrandService {
                 .collect(Collectors.toList());
     }
 
-    public BrandResponse getBrand(Long id) {
+    public BrandResponse getBrand(UUID id) {
         Brand response = this.repository.findById(id)
                 .orElseThrow(BrandNotFoundException::new);
 
@@ -41,7 +42,7 @@ public class BrandService {
         return this.mapper.map(brandSave, BrandResponse.class);
     }
 
-    public BrandResponse updateBrand(Long id, BrandRequest request) {
+    public BrandResponse updateBrand(UUID id, BrandRequest request) {
         Brand response = this.repository.findById(id)
                 .orElseThrow(BrandNotFoundException::new);
 
@@ -51,7 +52,7 @@ public class BrandService {
         return this.mapper.map(response, BrandResponse.class);
     }
 
-    public void deleteBrand(Long id) {
+    public void deleteBrand(UUID id) {
         Brand brand = this.repository.findById(id)
                 .orElseThrow(BrandNotFoundException::new);
 

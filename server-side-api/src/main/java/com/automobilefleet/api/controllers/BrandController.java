@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/v1/brand")
@@ -26,7 +27,7 @@ public class BrandController {
 
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<BrandResponse> getBrandById(@PathVariable Long id) {
+    public ResponseEntity<BrandResponse> getBrandById(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.getBrand(id));
     }
 
@@ -46,7 +47,7 @@ public class BrandController {
 
     @PutMapping(value = "/update/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<BrandResponse> updateBrand(@PathVariable Long id, @RequestBody BrandRequest request) {
+    public ResponseEntity<BrandResponse> updateBrand(@PathVariable UUID id, @RequestBody BrandRequest request) {
         BrandResponse response = this.service.updateBrand(id, request);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
@@ -54,7 +55,7 @@ public class BrandController {
 
     @DeleteMapping(value = "/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> deleteBrand(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteBrand(@PathVariable UUID id) {
         this.service.deleteBrand(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

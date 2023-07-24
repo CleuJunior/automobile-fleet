@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +34,7 @@ public class CostumerService {
                 .collect(Collectors.toList());
     }
 
-    public CostumerResponse getCostumerById(Long id) {
+    public CostumerResponse getCostumerById(UUID id) {
         Optional<Costumer> response = this.repository.findById(id);
 
         if (response.isEmpty()) {
@@ -54,7 +55,7 @@ public class CostumerService {
         return this.mapper.map(response, CostumerResponse.class);
     }
 
-    public CostumerResponse updateCostumer(Long id, CostumerRequest request) {
+    public CostumerResponse updateCostumer(UUID id, CostumerRequest request) {
         Optional<Costumer> response = this.repository.findById(id);
 
         if (response.isEmpty()) {

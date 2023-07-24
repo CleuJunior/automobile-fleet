@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/v1/car-images")
@@ -27,7 +28,7 @@ public class CarImageController {
 
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<CarImageResponse> getCarImageById(@PathVariable Long id) {
+    public ResponseEntity<CarImageResponse> getCarImageById(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.getImageById(id));
     }
 
@@ -47,7 +48,7 @@ public class CarImageController {
 
     @PutMapping(value = "/update/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<CarImageResponse> updateCarImage(@PathVariable Long id, @RequestBody CarImageRequest request) {
+    public ResponseEntity<CarImageResponse> updateCarImage(@PathVariable UUID id, @RequestBody CarImageRequest request) {
         CarImageResponse response = this.service.updateCarImage(id, request);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
@@ -55,7 +56,7 @@ public class CarImageController {
 
     @DeleteMapping(value = "/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> deletCarImageById(@PathVariable Long id) {
+    public ResponseEntity<Void> deletCarImageById(@PathVariable UUID id) {
         this.service.deleteCarImage(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

@@ -10,6 +10,7 @@ import lombok.experimental.UtilityClass;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static com.automobilefleet.utils.EntitiesTemplate.ADDRESS_RAIMUNDA_REGINA;
 import static com.automobilefleet.utils.EntitiesTemplate.BIRTHDATE_RAIMUNDA_REGINA;
@@ -85,7 +86,7 @@ public class FactoryUtils {
 class EntitiesTemplate {
 
     // COSTUMER 01
-    public static final long ID_RAIMUNDA_REGINA = 1L;
+    public static final UUID ID_RAIMUNDA_REGINA = UUID.fromString("32ca0461-0401-4b15-bf57-3d2b18b3828f");
     public static final String NAME_RAIMUNDA_REGINA = "Raimunda Regina Porto";
     public static final LocalDate BIRTHDATE_RAIMUNDA_REGINA = LocalDate.of(1974, 3, 5);
     public static final String EMAIL_RAIMUNDA_REGINA = "raimundareginaporto@clinicasilhouette.com.br";
@@ -96,7 +97,7 @@ class EntitiesTemplate {
     public static final LocalDateTime UPDATED_AT_RAIMUNDA_REGINA = LocalDateTime.of(2022, 12, 24, 21, 29, 21);
 
     // CATEGORY
-    public static final long ID_CATEGORY = 1L;
+    public static final UUID ID_CATEGORY = UUID.fromString("b86a92d8-6908-426e-8316-f72b0c849a4b");
     public static final String NAME_CATEGORY = "SUVs";
     public static final String DESCRIPTION_CATEGORY = "Veículos utilitários esportivos";
     public static final LocalDateTime CREATED_AT_CATEGORY = LocalDateTime.of(2019, 12, 23, 8, 22, 11);

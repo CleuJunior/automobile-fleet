@@ -1,6 +1,7 @@
 package com.automobilefleet.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,11 +20,13 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Table(name = "car_entity")
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
+@Getter @Setter
 @EqualsAndHashCode
 public class Car implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -31,62 +34,46 @@ public class Car implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_id", nullable = false)
-    @Getter
-    private Long id;
+    @Setter(AccessLevel.NONE)
+    private UUID id;
 
     @Column(name = "car_name", unique = true, nullable = false)
     @NonNull
-    @Getter
-    @Setter
     private String name;
 
     @Column(name = "car_description", length = 30, nullable = false)
     @NonNull
-    @Getter
-    @Setter
     private String description;
 
     @Column(name = "daily_rate", nullable = false)
     @NonNull
-    @Getter
-    @Setter
     private Double dailyRate;
 
     @Column(name = "car_available", nullable = false)
     @NonNull
-    @Getter
-    @Setter
     private Boolean available;
 
     @Column(name = "license_plate", length = 30, nullable = false)
     @NonNull
-    @Getter
-    @Setter
     private String licensePlate;
 
-    @OneToOne()
+    @OneToOne
     @JoinColumn(name = "brand_id", referencedColumnName = "_id", nullable = false)
     @NonNull
-    @Getter
-    @Setter
     private Brand brand;
 
     @OneToOne()
     @JoinColumn(name = "category_id", referencedColumnName = "_id", nullable = false)
     @NonNull
-    @Getter
-    @Setter
     private Category category;
 
     @Column(name = "car_color", nullable = false)
     @NonNull
-    @Getter
-    @Setter
     private String color;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "created_at", nullable = false)
-    @Getter
+    @Setter(AccessLevel.NONE)
     private LocalDateTime createdAt;
 
     @PrePersist

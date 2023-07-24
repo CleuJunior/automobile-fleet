@@ -7,14 +7,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @NoArgsConstructor
 @Getter
 @Setter
 public class CarSpecificationRequest {
 
     @JsonProperty("car_id")
-    private Long carId;
+    private UUID carId;
 
     @JsonProperty("specification_id")
-    private Long specificationId;
+    private UUID specificationId;
 }

@@ -1,5 +1,6 @@
 package com.automobilefleet.entities;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,11 +17,13 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Table(name = "specification_entity")
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
+@Getter @Setter
 @EqualsAndHashCode
 public class Specification implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -29,23 +32,19 @@ public class Specification implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_id", nullable = false)
     @NonNull
-    @Getter
-    private Long id;
+    @Setter(AccessLevel.NONE)
+    private UUID id;
 
     @Column(name = "specification_name", unique = true, nullable = false)
     @NonNull
-    @Getter
-    @Setter
     private String name;
 
     @Column(name = "specification_description", columnDefinition="TEXT", nullable = false)
     @NonNull
-    @Getter
-    @Setter
     private String description;
 
     @Column(name = "created_at", nullable = false)
-    @Getter
+    @Setter(AccessLevel.NONE)
     private LocalDateTime createdAt;
 
     @PrePersist

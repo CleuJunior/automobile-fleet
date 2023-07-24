@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,7 +38,7 @@ public class RentalService {
                 .collect(Collectors.toList());
     }
 
-    public RentalResponse getRentalById(Long id) {
+    public RentalResponse getRentalById(UUID id) {
         Rental response = this.rentalRepository.findById(id)
                 .orElseThrow(RentalNotFoundException::new);
 
@@ -58,7 +59,7 @@ public class RentalService {
         return this.mapper.map(response, RentalResponse.class);
     }
 
-    public RentalResponse updateRental(Long id, RentalRequest request) {
+    public RentalResponse updateRental(UUID id, RentalRequest request) {
         Rental response = this.rentalRepository.findById(id)
                 .orElseThrow(RentalNotFoundException::new);
 

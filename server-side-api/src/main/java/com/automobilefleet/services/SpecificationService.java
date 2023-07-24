@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +28,7 @@ public class SpecificationService {
                 .collect(Collectors.toList());
     }
 
-    public SpecificationResponse getSpecification(Long id) {
+    public SpecificationResponse getSpecification(UUID id) {
         Specification response = this.repository.findById(id).
                 orElseThrow(SpecificationNotFoundException::new);
 
@@ -41,7 +42,7 @@ public class SpecificationService {
         return this.mapper.map(response, SpecificationResponse.class);
     }
 
-    public SpecificationResponse updateSpecification(Long id, SpecificationRequest request) {
+    public SpecificationResponse updateSpecification(UUID id, SpecificationRequest request) {
         Specification response = this.repository.findById(id).
                 orElseThrow(SpecificationNotFoundException::new);
 

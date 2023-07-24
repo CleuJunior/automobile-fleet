@@ -18,6 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Collections;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -30,7 +31,7 @@ class CategoryServiceTest {
     private Category category;
     private CategoryResponse reponse;
     private CategoryRequest request;
-    private final static Long ID = 1L;
+    private final static UUID ID = UUID.fromString("b86a92d8-6908-426e-8316-f72b0c849a4b");
     @BeforeEach
     void setup() {
         this.category = FactoryUtils.createCategory();

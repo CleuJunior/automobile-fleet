@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -13,7 +15,7 @@ import lombok.Setter;
 public class CarSpecificationResponse {
 
     @JsonProperty("_id")
-    private Long id;
+    private UUID id;
 
     @JsonProperty("car")
     private CarResponse car;

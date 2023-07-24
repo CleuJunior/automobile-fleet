@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +32,7 @@ public class CarImageService {
                 .collect(Collectors.toList());
     }
 
-    public CarImageResponse getImageById(Long id) {
+    public CarImageResponse getImageById(UUID id) {
         CarImage response = this.carImageRepository.findById(id)
                 .orElseThrow(CarImageNotFoundException::new);
 
@@ -42,14 +43,14 @@ public class CarImageService {
         Car car = this.carRepository.findById(request.getCarId())
             .orElseThrow(BrandNotFoundException::new);
 
-        CarImage response = new CarImage(car, request.getImage());
+        CarImage response = new CarImage(car, request.getLinkImage());
 
         response = carImageRepository.save(response);
 
         return this.mapper.map(response, CarImageResponse.class);
     }
 
-    public CarImageResponse updateCarImage(Long id, CarImageRequest request) {
+    public CarImageResponse updateCarImage(UUID id, CarImageRequest request) {
         CarImage response = this.carImageRepository.findById(id)
                 .orElseThrow(CarImageNotFoundException::new);
 
@@ -57,13 +58,13 @@ public class CarImageService {
                 .orElseThrow(BrandNotFoundException::new);
 
         response.setCar(car);
-        response.setImage(request.getImage());
+        response.setLinkImage(request.getLinkImage());
         response = this.carImageRepository.save(response);
 
         return this.mapper.map(response, CarImageResponse.class);
     }
 
-    public void deleteCarImage(Long id) {
+    public void deleteCarImage(UUID id) {
         CarImage response = this.carImageRepository.findById(id)
                 .orElseThrow(CarImageNotFoundException::new);
 
