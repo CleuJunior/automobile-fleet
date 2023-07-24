@@ -29,7 +29,7 @@ public class CarSpecification implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "_id", nullable = false)
     @Setter(AccessLevel.NONE)
     private UUID id;

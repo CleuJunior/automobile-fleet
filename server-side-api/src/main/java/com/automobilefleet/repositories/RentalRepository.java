@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface RentalRepository extends JpaRepository<Rental, UUID> {
-    Optional<Rental> finbById(UUID id);
+    Optional<Rental> findById(UUID id);
 }
