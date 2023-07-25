@@ -1,7 +1,7 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.response.CarResponse;
 import com.automobilefleet.api.request.CarRequest;
+import com.automobilefleet.api.response.CarResponse;
 import com.automobilefleet.entities.Brand;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.Category;
@@ -12,9 +12,8 @@ import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.BrandRepository;
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.repositories.CategoryRepository;
-import com.automobilefleet.util.CarUtils;
+import com.automobilefleet.util.mapper.CarMapperUtils;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,15 +25,13 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class CarService {
-
     private final CarRepository carRepository;
     private final BrandRepository brandRepository;
     private final CategoryRepository categoryRepository;
-    private final ModelMapper mapper;
 
     public List<CarResponse> listOfCars() {
         return this.carRepository.findAll().stream()
-                .map(car -> this.mapper.map(car, CarResponse.class))
+                .map(CarMapperUtils::toCarResponse)
                 .collect(Collectors.toList());
     }
 
@@ -42,18 +39,18 @@ public class CarService {
         Car response = this.carRepository.findById(id).
                 orElseThrow(CarNotFoundException::new);
 
-        return this.mapper.map(response, CarResponse.class);
+        return CarMapperUtils.toCarResponse(response);
     }
 
     public List<CarResponse> findByCarBrand(String brandName) {
         return this.carRepository.findCarsByBrand_Name(brandName).stream()
-                .map(car -> this.mapper.map(car, CarResponse.class))
+                .map(CarMapperUtils::toCarResponse)
                 .collect(Collectors.toList());
     }
 
     public List<CarResponse> findByCarAvailable() {
         return this.carRepository.findByAvailable(true).stream()
-                .map(car -> this.mapper.map(car, CarResponse.class))
+                .map(CarMapperUtils::toCarResponse)
                 .collect(Collectors.toList());
     }
 
@@ -64,11 +61,8 @@ public class CarService {
         Category category = this.categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
-
-        Car response =  CarUtils.ofCar(request, brand, category);
-        response = this.carRepository.save(response);
-
-        return this.mapper.map(response, CarResponse.class);
+        Car response = CarMapperUtils.toCar(request, brand, category);
+        return CarMapperUtils.toCarResponse(this.carRepository.save(response));
     }
 
     public CarResponse updateCar(UUID id, CarRequest request) {
@@ -81,10 +75,7 @@ public class CarService {
         Category category = this.categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
-        CarUtils.updateCar(response, request, brand, category);
-        response = this.carRepository.save(response);
-
-        return this.mapper.map(response, CarResponse.class);
+        CarMapperUtils.updateCar(response, request, brand, category);
+        return CarMapperUtils.toCarResponse(this.carRepository.save(response));
     }
-
 }

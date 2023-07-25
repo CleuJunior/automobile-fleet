@@ -2,6 +2,8 @@ package com.automobilefleet.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +27,8 @@ import java.util.UUID;
 @Table(name = "car_entity")
 @Entity
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Getter @Setter
 @EqualsAndHashCode
 public class Car implements Serializable {
@@ -62,7 +65,7 @@ public class Car implements Serializable {
     @NonNull
     private Brand brand;
 
-    @OneToOne()
+    @OneToOne
     @JoinColumn(name = "category_id", referencedColumnName = "_id", nullable = false)
     @NonNull
     private Category category;

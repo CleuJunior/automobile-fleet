@@ -42,7 +42,7 @@ public class Costumer implements Serializable {
     private String name;
 
     @Column(name = "birthdate", nullable = false)
-    private LocalDate birthDate;
+    private LocalDate birthdate;
 
     @Column(name = "email", unique = true, nullable = false)
     private String email;

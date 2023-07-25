@@ -1,12 +1,12 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.response.SpecificationResponse;
 import com.automobilefleet.api.request.SpecificationRequest;
+import com.automobilefleet.api.response.SpecificationResponse;
 import com.automobilefleet.entities.Specification;
 import com.automobilefleet.exceptions.notfoundexception.SpecificationNotFoundException;
 import com.automobilefleet.repositories.SpecificationRepository;
+import com.automobilefleet.util.mapper.SpecificationMapperUtils;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,13 +18,11 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class SpecificationService {
-
     private final SpecificationRepository repository;
-    private final ModelMapper mapper;
 
     public List<SpecificationResponse> listSpecifications() {
         return this.repository.findAll().stream()
-                .map(specification -> this.mapper.map(specification, SpecificationResponse.class))
+                .map(SpecificationMapperUtils::toSpecificationReponse)
                 .collect(Collectors.toList());
     }
 
@@ -32,14 +30,12 @@ public class SpecificationService {
         Specification response = this.repository.findById(id).
                 orElseThrow(SpecificationNotFoundException::new);
 
-        return this.mapper.map(response, SpecificationResponse.class);
+        return SpecificationMapperUtils.toSpecificationReponse(response);
     }
 
     public SpecificationResponse saveSpecification(SpecificationRequest request) {
-        Specification response = this.mapper.map(request, Specification.class);
-        response = repository.save(response);
-
-        return this.mapper.map(response, SpecificationResponse.class);
+        Specification response = SpecificationMapperUtils.toSpecification(request);
+        return SpecificationMapperUtils.toSpecificationReponse(this.repository.save(response));
     }
 
     public SpecificationResponse updateSpecification(UUID id, SpecificationRequest request) {
@@ -48,9 +44,6 @@ public class SpecificationService {
 
         response.setName(request.getName());
         response.setDescription(request.getDescription());
-        response = this.repository.save(response);
-
-        return this.mapper.map(response, SpecificationResponse.class);
+        return SpecificationMapperUtils.toSpecificationReponse(this.repository.save(response));
     }
-
 }

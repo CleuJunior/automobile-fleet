@@ -19,9 +19,4 @@ public class SpecificationRequest {
     @JsonProperty("specification_description")
     private String description;
 
-    @JsonProperty("created_at")
-    @JsonFormat(
-            shape = JsonFormat.Shape.STRING,
-            pattern = "dd-MM-yyyy hh:mm:ss")
-    private LocalDateTime createdAt;
 }

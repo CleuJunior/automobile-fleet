@@ -1,5 +1,6 @@
 package com.automobilefleet.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -31,7 +32,6 @@ public class Specification implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "_id", nullable = false)
-    @NonNull
     @Setter(AccessLevel.NONE)
     private UUID id;
 
@@ -43,6 +43,7 @@ public class Specification implements Serializable {
     @NonNull
     private String description;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "created_at", nullable = false)
     @Setter(AccessLevel.NONE)
     private LocalDateTime createdAt;
