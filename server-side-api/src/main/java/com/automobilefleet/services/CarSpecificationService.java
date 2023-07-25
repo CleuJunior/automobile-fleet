@@ -1,7 +1,7 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.response.CarSpecificationResponse;
 import com.automobilefleet.api.request.CarSpecificationRequest;
+import com.automobilefleet.api.response.CarSpecificationResponse;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.CarSpecification;
 import com.automobilefleet.entities.Specification;
@@ -13,36 +13,34 @@ import com.automobilefleet.exceptions.notfoundexception.SpecificationNotFoundExc
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.repositories.CarSpecificationRepository;
 import com.automobilefleet.repositories.SpecificationRepository;
+import com.automobilefleet.util.mapper.CarSpecificationServiceMapperUtils;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class CarSpecificationService {
-
     private final CarSpecificationRepository carSpecificationRepository;
     private final CarRepository carRepository;
     private final SpecificationRepository specificationRepository;
-    private final ModelMapper mapper;
 
     public List<CarSpecificationResponse> listCarSpecification() {
          return this.carSpecificationRepository.findAll().stream()
-                .map(carSpecification -> this.mapper.map(carSpecification, CarSpecificationResponse.class))
+                .map(CarSpecificationServiceMapperUtils::toCarSpecificationResponse)
                 .collect(Collectors.toList());
-
     }
 
-    public CarSpecificationResponse getCarSpecificationById(Long id) {
+    public CarSpecificationResponse getCarSpecificationById(UUID id) {
         CarSpecification response = this.carSpecificationRepository.findById(id)
                 .orElseThrow(CarSpecificationsNotFoundException::new);
 
-        return this.mapper.map(response, CarSpecificationResponse.class);
+        return CarSpecificationServiceMapperUtils.toCarSpecificationResponse(response);
     }
 
     public CarSpecificationResponse saveCarEspecification(CarSpecificationRequest request) {
@@ -53,12 +51,12 @@ public class CarSpecificationService {
                 orElseThrow(SpecificationNotFoundException::new);
 
         CarSpecification response = new CarSpecification(car, specification);
-        response = this.carSpecificationRepository.save(response);
 
-        return this.mapper.map(response, CarSpecificationResponse.class);
+        return CarSpecificationServiceMapperUtils
+                .toCarSpecificationResponse(this.carSpecificationRepository.save(response));
     }
 
-    public CarSpecificationResponse updateCarSpecification(Long id, CarSpecificationRequest request) {
+    public CarSpecificationResponse updateCarSpecification(UUID id, CarSpecificationRequest request) {
         CarSpecification response = this.carSpecificationRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
@@ -70,8 +68,7 @@ public class CarSpecificationService {
 
         response.setCar(car);
         response.setSpecification(specification);
-        response = this.carSpecificationRepository.save(response);
-
-        return this.mapper.map(response, CarSpecificationResponse.class);
+        return CarSpecificationServiceMapperUtils
+                .toCarSpecificationResponse(this.carSpecificationRepository.save(response));
     }
 }

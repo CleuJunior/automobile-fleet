@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
-    private static final String[] END_POINTS_FOR_USER = new String[]{"/api/v1/brand/**"};
+    private static final String[] END_POINTS_FOR_USER = new String[]{"/api/v1/user/register", "/api/v1/user/register"};
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -22,7 +22,7 @@ public class WebSecurityConfig {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/v1/user/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/v1/user/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()

@@ -6,12 +6,13 @@ import com.automobilefleet.entities.Category;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.CategoryRepository;
-import com.automobilefleet.util.CategoryMapperUtils;
+import com.automobilefleet.util.mapper.CategoryMapperUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +27,7 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }
 
-    public CategoryResponse getCategoryById(Long id) {
+    public CategoryResponse getCategoryById(UUID id) {
         Category response = this.repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
@@ -35,20 +36,15 @@ public class CategoryService {
 
     public CategoryResponse saveCategory(CategoryRequest request) {
         Category categorySave = CategoryMapperUtils.toCategory(request);
-        categorySave = this.repository.save(categorySave);
-
-        return CategoryMapperUtils.toCategorResponse(categorySave);
+        return CategoryMapperUtils.toCategorResponse(this.repository.save(categorySave));
     }
 
-    public CategoryResponse updateCategory(Long id, CategoryRequest request) {
+    public CategoryResponse updateCategory(UUID id, CategoryRequest request) {
         Category response = this.repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
         response.setName(request.getName());
         response.setDescription(response.getDescription());
-        this.repository.save(response);
-
-        return CategoryMapperUtils.toCategorResponse(response);
+        return CategoryMapperUtils.toCategorResponse(this.repository.save(response));
     }
-
 }

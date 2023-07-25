@@ -9,26 +9,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Getter @Setter
 @JsonPropertyOrder({"_id"})
 public class CarImageResponse {
 
     @JsonProperty("_id")
-    private Long id;
+    private UUID id;
 
     @JsonProperty("car")
     private CarResponse car;
 
     @JsonProperty("image")
-    private byte[] image;
+    private String linkImage;
 
     @JsonProperty("created_at")
-    @JsonFormat(
-            shape = JsonFormat.Shape.STRING,
-            pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdAt;
 }

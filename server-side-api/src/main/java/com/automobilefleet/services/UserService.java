@@ -1,14 +1,15 @@
 package com.automobilefleet.services;
 
 import com.automobilefleet.api.request.UserRequest;
+import com.automobilefleet.api.response.UserResponse;
 import com.automobilefleet.entities.User;
-import com.automobilefleet.enums.RoleType;
 import com.automobilefleet.repositories.UserRepository;
+import com.automobilefleet.util.mapper.UserMapperUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -16,14 +17,12 @@ import javax.transaction.Transactional;
 public class UserService {
     private final UserRepository repository;
 
-    public User saveUser(UserRequest request) {
-        User user = new User(
-                request.getUsername(),
-                new BCryptPasswordEncoder().encode(request.getPassword()),
-                RoleType.ROLE_USER
-        );
+    public UserResponse saveUser(UserRequest request) {
+        User user = UserMapperUtils.toUser(request);
+        return UserMapperUtils.toUserResponse(this.repository.save(user));
+    }
 
-        this.repository.save(user);
-        return user;
+    public User getById(UUID id) {
+        return this.repository.findById(id).orElse(null);
     }
 }

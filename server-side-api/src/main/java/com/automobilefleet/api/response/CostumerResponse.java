@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -22,14 +23,14 @@ import java.time.LocalDateTime;
 public class CostumerResponse {
 
     @JsonProperty("_id")
-    private Long id;
+    private UUID id;
 
     @JsonProperty("name")
     private String name;
 
     @JsonProperty("birthdate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private LocalDate birthDate;
+    private LocalDate birthdate;
 
     @JsonProperty("email")
     private String email;

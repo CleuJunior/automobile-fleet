@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/v1/specification")
@@ -25,7 +26,7 @@ public class SpecificationController {
     private final SpecificationService service;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<SpecificationResponse> getSpecificationById(@PathVariable Long id) {
+    public ResponseEntity<SpecificationResponse> getSpecificationById(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.getSpecification(id));
     }
 
@@ -42,9 +43,10 @@ public class SpecificationController {
     }
 
     @PutMapping(value = "/update/{id}")
-    public ResponseEntity<SpecificationResponse> updateSpecification(@PathVariable Long id, @RequestBody SpecificationRequest request) {
-        SpecificationResponse response = this.service.updateSpecification(id, request);
+    public ResponseEntity<SpecificationResponse> updateSpecification(@PathVariable UUID id,
+                                                                     @RequestBody SpecificationRequest request) {
 
+        SpecificationResponse response = this.service.updateSpecification(id, request);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 

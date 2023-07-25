@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/v1/category")
@@ -25,7 +26,7 @@ public class CategoryController {
 
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable Long id) {
+    public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.getCategoryById(id));
     }
 
@@ -45,7 +46,7 @@ public class CategoryController {
 
     @PutMapping(value = "/update/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @RequestBody CategoryRequest request) {
+    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable UUID id, @RequestBody CategoryRequest request) {
         CategoryResponse response = this.service.updateCategory(id, request);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
