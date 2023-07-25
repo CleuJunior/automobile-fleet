@@ -36,9 +36,7 @@ public class CategoryService {
 
     public CategoryResponse saveCategory(CategoryRequest request) {
         Category categorySave = CategoryMapperUtils.toCategory(request);
-        categorySave = this.repository.save(categorySave);
-
-        return CategoryMapperUtils.toCategorResponse(categorySave);
+        return CategoryMapperUtils.toCategorResponse(this.repository.save(categorySave));
     }
 
     public CategoryResponse updateCategory(UUID id, CategoryRequest request) {
@@ -47,9 +45,6 @@ public class CategoryService {
 
         response.setName(request.getName());
         response.setDescription(response.getDescription());
-        this.repository.save(response);
-
-        return CategoryMapperUtils.toCategorResponse(response);
+        return CategoryMapperUtils.toCategorResponse(this.repository.save(response));
     }
-
 }

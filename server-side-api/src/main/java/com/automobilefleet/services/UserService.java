@@ -19,8 +19,7 @@ public class UserService {
 
     public UserResponse saveUser(UserRequest request) {
         User user = UserMapperUtils.toUser(request);
-        this.repository.save(user);
-        return UserMapperUtils.toUserResponse(user);
+        return UserMapperUtils.toUserResponse(this.repository.save(user));
     }
 
     public User getById(UUID id) {

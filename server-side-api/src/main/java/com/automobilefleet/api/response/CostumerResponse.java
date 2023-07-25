@@ -30,7 +30,7 @@ public class CostumerResponse {
 
     @JsonProperty("birthdate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private LocalDate birthDate;
+    private LocalDate birthdate;
 
     @JsonProperty("email")
     private String email;

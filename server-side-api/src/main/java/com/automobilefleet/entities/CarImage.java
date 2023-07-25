@@ -44,7 +44,6 @@ public class CarImage implements Serializable {
     @NonNull
     private Car car;
 
-    @Lob
     @Column(name = "image")
     @NonNull
     private String linkImage;

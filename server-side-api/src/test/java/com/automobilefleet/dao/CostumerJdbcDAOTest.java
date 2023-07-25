@@ -39,7 +39,7 @@ class CostumerJdbcDAOTest {
         Assertions.assertNotNull(actual);
         Assertions.assertEquals(this.costumer.getId(), actual.getId());
         Assertions.assertEquals(this.costumer.getName(), actual.getName());
-        Assertions.assertEquals(this.costumer.getBirthDate(), actual.getBirthDate());
+        Assertions.assertEquals(this.costumer.getBirthdate(), actual.getBirthdate());
         Assertions.assertEquals(this.costumer.getEmail(), actual.getEmail());
         Assertions.assertEquals(this.costumer.getDriverLicense(), actual.getDriverLicense());
         Assertions.assertEquals(this.costumer.getAddress(), actual.getAddress());
@@ -54,7 +54,7 @@ class CostumerJdbcDAOTest {
     void shouldReturnCostumerAndSave() {
         Mockito.when(this.jdbcTemplate.update(CostumerJdbcConstants.INSERT,
                         this.costumer.getName(),
-                        this.costumer.getBirthDate(),
+                        this.costumer.getBirthdate(),
                         this.costumer.getEmail(),
                         this.costumer.getDriverLicense(),
                         this.costumer.getAddress(),
