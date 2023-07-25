@@ -4,14 +4,28 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/CleuJunior/Teste-Desenvolvedor-Java.git'
+                // Replace the repository URL and credentials
+                checkout([$class: 'GitSCM',
+                          branches: [[name: '*/main']],
+                          userRemoteConfigs: [[url: 'https://github.com/CleuJunior/Teste-Desenvolvedor-Java.git']]])
             }
         }
-        stage ('Build Image') {
+
+        stage('Test') {
             steps {
-                echo 'Iniciando a pipeline'
-                sh 'java --version'
-                // dockerapp = docker.build("fleetautomobile/api", '-f ./Dockerfile')
+                sh 'mvn clean test'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+
+            post {
+                success {
+                    archiveArtifacts 'target/*.jar'
+                }
             }
         }
     }
