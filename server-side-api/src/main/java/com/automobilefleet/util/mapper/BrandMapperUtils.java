@@ -9,8 +9,9 @@ import lombok.experimental.UtilityClass;
 public final class BrandMapperUtils {
 
     public static Brand toBrand(BrandRequest request) {
-        return new Brand(request.getName());
-
+        return Brand.builder()
+                .name(request.getName())
+                .build();
     }
 
     public static BrandResponse toBrandReponse(Brand brand) {

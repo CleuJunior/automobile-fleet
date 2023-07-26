@@ -28,7 +28,7 @@ public class BrandController {
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<BrandResponse> getBrandById(@PathVariable UUID id) {
-        return ResponseEntity.status(HttpStatus.OK).body(this.service.getBrand(id));
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.getBrandById(id));
     }
 
     @GetMapping(value = "/list")
@@ -56,7 +56,7 @@ public class BrandController {
     @DeleteMapping(value = "/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteBrand(@PathVariable UUID id) {
-        this.service.deleteBrand(id);
+        this.service.deleteBrandById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

@@ -3,7 +3,8 @@ package com.automobilefleet.services;
 import com.automobilefleet.api.request.BrandRequest;
 import com.automobilefleet.api.response.BrandResponse;
 import com.automobilefleet.entities.Brand;
-import com.automobilefleet.exceptions.notfoundexception.BrandNotFoundException;
+import com.automobilefleet.exceptions.ExceptionsConstants;
+import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.BrandRepository;
 import com.automobilefleet.util.mapper.BrandMapperUtils;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +27,9 @@ public class BrandService {
                 .collect(Collectors.toList());
     }
 
-    public BrandResponse getBrand(UUID id) {
+    public BrandResponse getBrandById(UUID id) {
         Brand response = this.repository.findById(id)
-                .orElseThrow(BrandNotFoundException::new);
+                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.BRAND_NOT_FOUND));
 
         return BrandMapperUtils.toBrandReponse(response);
     }
@@ -40,16 +41,15 @@ public class BrandService {
 
     public BrandResponse updateBrand(UUID id, BrandRequest request) {
         Brand response = this.repository.findById(id)
-                .orElseThrow(BrandNotFoundException::new);
+                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.BRAND_NOT_FOUND));
 
         response.setName(request.getName());
         return BrandMapperUtils.toBrandReponse(this.repository.save(response));
     }
 
-    public void deleteBrand(UUID id) {
+    public void deleteBrandById(UUID id) {
         Brand brand = this.repository.findById(id)
-                .orElseThrow(BrandNotFoundException::new);
-
+                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.BRAND_NOT_FOUND));
         this.repository.delete(brand);
     }
 }
