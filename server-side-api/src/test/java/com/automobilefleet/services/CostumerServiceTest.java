@@ -2,6 +2,7 @@ package com.automobilefleet.services;
 
 import com.automobilefleet.api.request.CostumerRequest;
 import com.automobilefleet.api.response.CostumerResponse;
+import com.automobilefleet.entities.Category;
 import com.automobilefleet.entities.Costumer;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -100,16 +102,7 @@ class CostumerServiceTest  {
 
     @Test
     void shouldSaveCostumerWhenCallingSaveCostumer() {
-        Costumer costumerSaveTest = Costumer.builder()
-                .name(this.costumer.getName())
-                .birthdate(this.costumer.getBirthdate())
-                .email(this.costumer.getEmail())
-                .driverLicense(this.costumer.getDriverLicense())
-                .address(this.costumer.getAddress())
-                .phone(this.costumer.getPhone())
-                .build();
-
-        Mockito.when(this.repository.save(costumerSaveTest)).thenReturn(this.costumer);
+        Mockito.when(this.repository.save(ArgumentMatchers.any(Costumer.class))).thenReturn(this.costumer);
         final CostumerResponse actual = this.costumerService.saveCostumer(this.request);
         this.basicAssertions(actual);
     }
@@ -138,6 +131,7 @@ class CostumerServiceTest  {
 
         // Config mocks behavior
         Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.costumer));
+        Mockito.when(this.repository.save(ArgumentMatchers.any(Costumer.class))).thenReturn(this.costumer);
 
         // Call the method to be tested
         final CostumerResponse actual = this.costumerService.updateCostumer(ID, this.request);

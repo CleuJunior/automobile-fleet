@@ -4,27 +4,27 @@ import com.automobilefleet.api.request.CategoryRequest;
 import com.automobilefleet.api.request.CostumerRequest;
 import com.automobilefleet.api.response.CategoryResponse;
 import com.automobilefleet.api.response.CostumerResponse;
+import com.automobilefleet.entities.Brand;
 import com.automobilefleet.entities.Category;
 import com.automobilefleet.entities.Costumer;
 import lombok.experimental.UtilityClass;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-import static com.automobilefleet.utils.EntitiesTemplate.ADDRESS_COSTUMER;
-import static com.automobilefleet.utils.EntitiesTemplate.BIRTHDATE_COSTUMERA;
-import static com.automobilefleet.utils.EntitiesTemplate.CREATED_AT_CATEGORY;
-import static com.automobilefleet.utils.EntitiesTemplate.CREATED_AT_COSTUMER;
-import static com.automobilefleet.utils.EntitiesTemplate.DESCRIPTION_CATEGORY;
-import static com.automobilefleet.utils.EntitiesTemplate.DRIVER_LICENSE_COSTUMER;
-import static com.automobilefleet.utils.EntitiesTemplate.EMAIL_COSTUMER;
-import static com.automobilefleet.utils.EntitiesTemplate.ID_CATEGORY;
-import static com.automobilefleet.utils.EntitiesTemplate.ID_COSTUMER;
-import static com.automobilefleet.utils.EntitiesTemplate.NAME_CATEGORY;
-import static com.automobilefleet.utils.EntitiesTemplate.NAME_COSTUMER;
-import static com.automobilefleet.utils.EntitiesTemplate.PHONE_COSTUMER;
-import static com.automobilefleet.utils.EntitiesTemplate.UPDATED_AT_COSTUMER;
+import static com.automobilefleet.constant.ExpectedAttributesConstant.ADDRESS_COSTUMER;
+import static com.automobilefleet.constant.ExpectedAttributesConstant.BIRTHDATE_COSTUMERA;
+import static com.automobilefleet.constant.ExpectedAttributesConstant.EXPECTED_CREATED_AT_BRAND;
+import static com.automobilefleet.constant.ExpectedAttributesConstant.CREATED_AT_CATEGORY;
+import static com.automobilefleet.constant.ExpectedAttributesConstant.CREATED_AT_COSTUMER;
+import static com.automobilefleet.constant.ExpectedAttributesConstant.DESCRIPTION_CATEGORY;
+import static com.automobilefleet.constant.ExpectedAttributesConstant.DRIVER_LICENSE_COSTUMER;
+import static com.automobilefleet.constant.ExpectedAttributesConstant.EMAIL_COSTUMER;
+import static com.automobilefleet.constant.ExpectedAttributesConstant.EXPECTED_ID_BRAND;
+import static com.automobilefleet.constant.ExpectedAttributesConstant.ID_CATEGORY;
+import static com.automobilefleet.constant.ExpectedAttributesConstant.ID_COSTUMER;
+import static com.automobilefleet.constant.ExpectedAttributesConstant.EXPECTED_NAME_BRAND;
+import static com.automobilefleet.constant.ExpectedAttributesConstant.NAME_CATEGORY;
+import static com.automobilefleet.constant.ExpectedAttributesConstant.NAME_COSTUMER;
+import static com.automobilefleet.constant.ExpectedAttributesConstant.PHONE_COSTUMER;
+import static com.automobilefleet.constant.ExpectedAttributesConstant.UPDATED_AT_COSTUMER;
 
 
 @UtilityClass
@@ -70,7 +70,12 @@ public class FactoryUtils {
     }
 
     public static Category createCategory() {
-        return new Category(ID_CATEGORY, NAME_CATEGORY, DESCRIPTION_CATEGORY, CREATED_AT_CATEGORY);
+        return Category.builder()
+                .id(ID_CATEGORY)
+                .name(NAME_CATEGORY)
+                .description(DESCRIPTION_CATEGORY)
+                .createdAt(CREATED_AT_CATEGORY)
+                .build();
     }
 
     public static CategoryResponse createCategoryResponse() {
@@ -78,28 +83,14 @@ public class FactoryUtils {
     }
 
     public static CategoryRequest createCategoryRequest() {
-        return new CategoryRequest(NAME_CATEGORY, DESCRIPTION_CATEGORY, CREATED_AT_CATEGORY);
+        return new CategoryRequest(NAME_CATEGORY, DESCRIPTION_CATEGORY);
     }
 
-}
-
-
-class EntitiesTemplate {
-
-    // COSTUMER 01
-    public static final UUID ID_COSTUMER = UUID.fromString("32ca0461-0401-4b15-bf57-3d2b18b3828f");
-    public static final String NAME_COSTUMER = "Raimunda Regina Porto";
-    public static final LocalDate BIRTHDATE_COSTUMERA = LocalDate.of(1974, 3, 5);
-    public static final String EMAIL_COSTUMER = "raimundareginaporto@clinicasilhouette.com.br";
-    public static final String DRIVER_LICENSE_COSTUMER = "08493447718";
-    public static final String ADDRESS_COSTUMER = "Rua Astrogildo de Almeida, 328";
-    public static final String PHONE_COSTUMER = "(73) 99362-1339";
-    public static final LocalDateTime CREATED_AT_COSTUMER = LocalDateTime.of(2021, 8, 2, 8, 22, 1);
-    public static final LocalDateTime UPDATED_AT_COSTUMER = LocalDateTime.of(2022, 12, 24, 21, 29, 21);
-
-    // CATEGORY
-    public static final UUID ID_CATEGORY = UUID.fromString("b86a92d8-6908-426e-8316-f72b0c849a4b");
-    public static final String NAME_CATEGORY = "SUVs";
-    public static final String DESCRIPTION_CATEGORY = "Veículos utilitários esportivos";
-    public static final LocalDateTime CREATED_AT_CATEGORY = LocalDateTime.of(2019, 12, 23, 8, 22, 11);
+    public static Brand createBrand() {
+        return Brand.builder()
+                .id(EXPECTED_ID_BRAND)
+                .name(EXPECTED_NAME_BRAND)
+                .createdAt(EXPECTED_CREATED_AT_BRAND)
+                .build();
+    }
 }

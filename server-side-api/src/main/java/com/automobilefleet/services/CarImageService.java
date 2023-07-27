@@ -4,8 +4,9 @@ import com.automobilefleet.api.response.CarImageResponse;
 import com.automobilefleet.api.request.CarImageRequest;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.CarImage;
-import com.automobilefleet.exceptions.notfoundexception.BrandNotFoundException;
+import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.CarImageNotFoundException;
+import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.CarImageRepository;
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.util.mapper.CarImageMapperUtils;
@@ -39,7 +40,7 @@ public class CarImageService {
 
     public CarImageResponse saveCarImage(CarImageRequest request) {
         Car car = this.carRepository.findById(request.getCarId())
-                .orElseThrow(BrandNotFoundException::new);
+                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.BRAND_NOT_FOUND));
 
         CarImage response = new CarImage(car, request.getLinkImage());
        return CarImageMapperUtils.toCarImageReponse(this.carImageRepository.save(response));
@@ -50,7 +51,7 @@ public class CarImageService {
                 .orElseThrow(CarImageNotFoundException::new);
 
         Car car = this.carRepository.findById(request.getCarId())
-                .orElseThrow(BrandNotFoundException::new);
+                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.BRAND_NOT_FOUND));
 
         response.setCar(car);
         response.setLinkImage(request.getLinkImage());

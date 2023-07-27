@@ -6,7 +6,6 @@ import com.automobilefleet.entities.Brand;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.Category;
 import com.automobilefleet.exceptions.ExceptionsConstants;
-import com.automobilefleet.exceptions.notfoundexception.BrandNotFoundException;
 import com.automobilefleet.exceptions.notfoundexception.CarNotFoundException;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.BrandRepository;
@@ -56,7 +55,7 @@ public class CarService {
 
     public CarResponse saveCar(CarRequest request) {
         Brand brand = this.brandRepository.findById(request.getBrandId())
-                .orElseThrow(BrandNotFoundException::new);
+                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.BRAND_NOT_FOUND));
 
         Category category = this.categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
@@ -70,7 +69,7 @@ public class CarService {
                 orElseThrow(CarNotFoundException::new);
 
         Brand brand = this.brandRepository.findById(request.getBrandId())
-                .orElseThrow(BrandNotFoundException::new);
+                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.BRAND_NOT_FOUND));
 
         Category category = this.categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
