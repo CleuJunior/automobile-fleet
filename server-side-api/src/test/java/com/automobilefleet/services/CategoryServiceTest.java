@@ -2,6 +2,7 @@ package com.automobilefleet.services;
 
 import com.automobilefleet.api.request.CategoryRequest;
 import com.automobilefleet.api.response.CategoryResponse;
+import com.automobilefleet.entities.Brand;
 import com.automobilefleet.entities.Category;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -32,6 +34,7 @@ class CategoryServiceTest {
     private CategoryResponse reponse;
     private CategoryRequest request;
     private final static UUID ID = UUID.fromString("b86a92d8-6908-426e-8316-f72b0c849a4b");
+
     @BeforeEach
     void setup() {
         this.category = FactoryUtils.createCategory();
@@ -108,6 +111,8 @@ class CategoryServiceTest {
 
         // Config mocks behavior
         Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.category));
+        Mockito.when(this.repository.save(ArgumentMatchers.any(Category.class))).thenReturn(this.category);
+
 
         // Call the method to be tested
         final CategoryResponse actual = this.service.updateCategory(ID, this.request);

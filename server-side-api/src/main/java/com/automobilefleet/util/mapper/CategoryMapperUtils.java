@@ -9,7 +9,10 @@ import lombok.experimental.UtilityClass;
 public final class CategoryMapperUtils {
 
     public static Category toCategory(CategoryRequest req) {
-        return new Category(null, req.getName(), req.getDescription(), req.getCreatedAt());
+        return Category.builder()
+                .name(req.getName())
+                .description(req.getDescription())
+                .build();
     }
 
     public static CategoryResponse toCategorResponse(Category cat) {

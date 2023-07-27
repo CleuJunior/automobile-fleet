@@ -2,6 +2,7 @@ package com.automobilefleet.services;
 
 import com.automobilefleet.api.request.CostumerRequest;
 import com.automobilefleet.api.response.CostumerResponse;
+import com.automobilefleet.entities.Category;
 import com.automobilefleet.entities.Costumer;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
@@ -130,6 +131,7 @@ class CostumerServiceTest  {
 
         // Config mocks behavior
         Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.costumer));
+        Mockito.when(this.repository.save(ArgumentMatchers.any(Costumer.class))).thenReturn(this.costumer);
 
         // Call the method to be tested
         final CostumerResponse actual = this.costumerService.updateCostumer(ID, this.request);

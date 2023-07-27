@@ -70,7 +70,12 @@ public class FactoryUtils {
     }
 
     public static Category createCategory() {
-        return new Category(ID_CATEGORY, NAME_CATEGORY, DESCRIPTION_CATEGORY, CREATED_AT_CATEGORY);
+        return Category.builder()
+                .id(ID_CATEGORY)
+                .name(NAME_CATEGORY)
+                .description(DESCRIPTION_CATEGORY)
+                .createdAt(CREATED_AT_CATEGORY)
+                .build();
     }
 
     public static CategoryResponse createCategoryResponse() {
@@ -78,7 +83,7 @@ public class FactoryUtils {
     }
 
     public static CategoryRequest createCategoryRequest() {
-        return new CategoryRequest(NAME_CATEGORY, DESCRIPTION_CATEGORY, CREATED_AT_CATEGORY);
+        return new CategoryRequest(NAME_CATEGORY, DESCRIPTION_CATEGORY);
     }
 
     public static Brand createBrand() {
