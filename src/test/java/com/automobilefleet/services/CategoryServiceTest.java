@@ -2,7 +2,6 @@ package com.automobilefleet.services;
 
 import com.automobilefleet.api.request.CategoryRequest;
 import com.automobilefleet.api.response.CategoryResponse;
-import com.automobilefleet.entities.Brand;
 import com.automobilefleet.entities.Category;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;

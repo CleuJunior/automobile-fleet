@@ -1,7 +1,9 @@
 package com.automobilefleet.utils;
 
+import com.automobilefleet.api.request.BrandRequest;
 import com.automobilefleet.api.request.CategoryRequest;
 import com.automobilefleet.api.request.CostumerRequest;
+import com.automobilefleet.api.response.BrandResponse;
 import com.automobilefleet.api.response.CategoryResponse;
 import com.automobilefleet.api.response.CostumerResponse;
 import com.automobilefleet.entities.Brand;
@@ -92,5 +94,13 @@ public class FactoryUtils {
                 .name(EXPECTED_NAME_BRAND)
                 .createdAt(EXPECTED_CREATED_AT_BRAND)
                 .build();
+    }
+
+    public static BrandResponse createBrandReponse() {
+        return new BrandResponse(EXPECTED_ID_BRAND, EXPECTED_NAME_BRAND, EXPECTED_CREATED_AT_BRAND);
+    }
+
+    public static BrandRequest createBrandRequest() {
+        return new BrandRequest(EXPECTED_NAME_BRAND);
     }
 }
