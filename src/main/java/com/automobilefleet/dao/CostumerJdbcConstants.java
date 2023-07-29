@@ -1,8 +1,10 @@
 package com.automobilefleet.dao;
 
-public class CostumerJdbcConstants {
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-    private CostumerJdbcConstants() { }
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class CostumerJdbcConstants {
     public static final String QUERY = "SELECT * FROM costumer_entity";
     public static final String INSERT
             = "INSERT INTO costumer_entity(name, birthdate, email, driver_license, address, phone_number, created_at, updated_at) " +
