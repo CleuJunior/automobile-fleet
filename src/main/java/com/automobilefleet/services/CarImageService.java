@@ -42,7 +42,12 @@ public class CarImageService {
         Car car = this.carRepository.findById(request.getCarId())
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.BRAND_NOT_FOUND));
 
-        CarImage response = new CarImage(car, request.getLinkImage());
+        CarImage response = CarImage
+                .builder()
+                .car(car)
+                .linkImage(request.getLinkImage())
+                .build();
+
        return CarImageMapperUtils.toCarImageReponse(this.carImageRepository.save(response));
     }
 
