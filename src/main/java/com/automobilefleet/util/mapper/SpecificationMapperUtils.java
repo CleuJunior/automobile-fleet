@@ -9,7 +9,11 @@ import lombok.experimental.UtilityClass;
 public final class SpecificationMapperUtils {
 
     public static Specification toSpecification(SpecificationRequest req) {
-        return new Specification(req.getName(), req.getDescription());
+        return Specification
+                .builder()
+                .name(req.getName())
+                .description(req.getDescription())
+                .build();
     }
 
     public static SpecificationResponse toSpecificationReponse(Specification specification) {

@@ -9,7 +9,6 @@ import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.CarNotFoundException;
 import com.automobilefleet.exceptions.notfoundexception.CarSpecificationsNotFoundException;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
-import com.automobilefleet.exceptions.notfoundexception.SpecificationNotFoundException;
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.repositories.CarSpecificationRepository;
 import com.automobilefleet.repositories.SpecificationRepository;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -47,10 +47,12 @@ public class CarSpecificationService {
         Car car = this.carRepository.findById(request.getCarId()).
                 orElseThrow(CarNotFoundException::new);
 
-        Specification specification = this.specificationRepository.findById(request.getSpecificationId()).
-                orElseThrow(SpecificationNotFoundException::new);
+        Optional<Specification> specification = this.specificationRepository.findById(request.getSpecificationId());
 
-        CarSpecification response = new CarSpecification(car, specification);
+        if (specification.isEmpty())
+            throw new NotFoundException(ExceptionsConstants.SPECIFICATION_NOT_FOUND);
+
+        CarSpecification response = new CarSpecification(car, specification.get());
 
         return CarSpecificationServiceMapperUtils
                 .toCarSpecificationResponse(this.carSpecificationRepository.save(response));
@@ -63,11 +65,13 @@ public class CarSpecificationService {
         Car car = this.carRepository.findById(request.getCarId()).
                 orElseThrow(CarNotFoundException::new);
 
-        Specification specification = this.specificationRepository.findById(request.getSpecificationId()).
-                orElseThrow(SpecificationNotFoundException::new);
+        Optional<Specification> specification = this.specificationRepository.findById(request.getSpecificationId());
+
+        if (specification.isEmpty())
+            throw new NotFoundException(ExceptionsConstants.SPECIFICATION_NOT_FOUND);
 
         response.setCar(car);
-        response.setSpecification(specification);
+        response.setSpecification(specification.get());
         return CarSpecificationServiceMapperUtils
                 .toCarSpecificationResponse(this.carSpecificationRepository.save(response));
     }

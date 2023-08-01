@@ -3,7 +3,8 @@ package com.automobilefleet.services;
 import com.automobilefleet.api.dto.request.SpecificationRequest;
 import com.automobilefleet.api.dto.response.SpecificationResponse;
 import com.automobilefleet.entities.Specification;
-import com.automobilefleet.exceptions.notfoundexception.SpecificationNotFoundException;
+import com.automobilefleet.exceptions.ExceptionsConstants;
+import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.SpecificationRepository;
 import com.automobilefleet.util.mapper.SpecificationMapperUtils;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -27,10 +29,12 @@ public class SpecificationService {
     }
 
     public SpecificationResponse getSpecification(UUID id) {
-        Specification response = this.repository.findById(id).
-                orElseThrow(SpecificationNotFoundException::new);
+        Optional<Specification> response = this.repository.findById(id);
 
-        return SpecificationMapperUtils.toSpecificationReponse(response);
+        if (response.isEmpty())
+            throw new NotFoundException(ExceptionsConstants.SPECIFICATION_NOT_FOUND);
+
+        return SpecificationMapperUtils.toSpecificationReponse(response.get());
     }
 
     public SpecificationResponse saveSpecification(SpecificationRequest request) {
@@ -39,11 +43,13 @@ public class SpecificationService {
     }
 
     public SpecificationResponse updateSpecification(UUID id, SpecificationRequest request) {
-        Specification response = this.repository.findById(id).
-                orElseThrow(SpecificationNotFoundException::new);
+        Optional<Specification> response = this.repository.findById(id);
 
-        response.setName(request.getName());
-        response.setDescription(request.getDescription());
-        return SpecificationMapperUtils.toSpecificationReponse(this.repository.save(response));
+        if (response.isEmpty())
+            throw new NotFoundException(ExceptionsConstants.SPECIFICATION_NOT_FOUND);
+
+        response.get().setName(request.getName());
+        response.get().setDescription(request.getDescription());
+        return SpecificationMapperUtils.toSpecificationReponse(this.repository.save(response.get()));
     }
 }
