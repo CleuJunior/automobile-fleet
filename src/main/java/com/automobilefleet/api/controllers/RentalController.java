@@ -1,12 +1,11 @@
 package com.automobilefleet.api.controllers;
 
-import com.automobilefleet.api.response.RentalResponse;
-import com.automobilefleet.api.request.RentalRequest;
+import com.automobilefleet.api.dto.response.RentalResponse;
+import com.automobilefleet.api.dto.request.RentalRequest;
 import com.automobilefleet.services.RentalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/v1/rental")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+//@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequiredArgsConstructor
 public class RentalController {
     private final RentalService service;

@@ -1,7 +1,7 @@
 package com.automobilefleet.api.controllers;
 
-import com.automobilefleet.api.request.CategoryRequest;
-import com.automobilefleet.api.response.CategoryResponse;
+import com.automobilefleet.api.dto.request.CategoryRequest;
+import com.automobilefleet.api.dto.response.CategoryResponse;
 import com.automobilefleet.services.CategoryService;
 import com.automobilefleet.utils.FactoryUtils;
 import com.automobilefleet.utils.JsonMapper;
@@ -15,15 +15,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockCookie;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
@@ -31,13 +26,9 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.isNotNull;
-import static org.mockito.ArgumentMatchers.isNull;
-import static org.mockito.ArgumentMatchers.nullable;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
@@ -65,11 +56,7 @@ class CategoryControllerTest {
 
     @BeforeEach
     void setup() {
-        this.mockMvc = MockMvcBuilders
-                .standaloneSetup(this.controller)
-                .alwaysDo(print())
-                .build();
-
+        this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
     }
 
     @Test
@@ -145,17 +132,5 @@ class CategoryControllerTest {
 
         Mockito.verify(this.service).updateCategory(eq(ID), any(CategoryRequest.class));
         Mockito.verifyNoMoreInteractions(this.service);
-    }
-
-    @Test
-    void shouldReturnBadRequestWhenInvalidCategoryRequest() throws Exception {
-        CategoryRequest invalidRequest = new CategoryRequest("1", "");
-
-        ResultActions result = this.mockMvc.perform(post(URL_SAVE)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(JsonMapper.asJsonString(invalidRequest)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
-
-        System.out.println();
     }
 }

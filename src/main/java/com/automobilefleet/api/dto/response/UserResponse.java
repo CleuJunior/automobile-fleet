@@ -1,4 +1,4 @@
-package com.automobilefleet.api.response;
+package com.automobilefleet.api.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;

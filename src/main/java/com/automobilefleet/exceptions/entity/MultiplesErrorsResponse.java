@@ -16,14 +16,14 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Builder
-@JsonPropertyOrder({"timestamp", "status", "status_message", "errors_message"})
+@JsonPropertyOrder({"timestamp", "status", "status_message", "error_message"})
 public class MultiplesErrorsResponse implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer status;
     @JsonProperty("status_message")
     private String statusErrorMessage;
-    @JsonProperty("errors_message")
-    private List<String> message;
+    @JsonProperty("error_message")
+    private String messages;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:SS")
     private LocalDateTime timestamp;
 }

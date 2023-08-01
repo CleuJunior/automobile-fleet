@@ -1,12 +1,11 @@
 package com.automobilefleet.api.controllers;
 
-import com.automobilefleet.api.response.SpecificationResponse;
-import com.automobilefleet.api.request.SpecificationRequest;
+import com.automobilefleet.api.dto.response.SpecificationResponse;
+import com.automobilefleet.api.dto.request.SpecificationRequest;
 import com.automobilefleet.services.SpecificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/v1/specification")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+//@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequiredArgsConstructor
 public class SpecificationController {
     private final SpecificationService service;

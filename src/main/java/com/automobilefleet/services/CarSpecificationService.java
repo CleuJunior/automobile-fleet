@@ -1,7 +1,7 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.request.CarSpecificationRequest;
-import com.automobilefleet.api.response.CarSpecificationResponse;
+import com.automobilefleet.api.dto.request.CarSpecificationRequest;
+import com.automobilefleet.api.dto.response.CarSpecificationResponse;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.CarSpecification;
 import com.automobilefleet.entities.Specification;

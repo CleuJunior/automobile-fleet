@@ -1,7 +1,7 @@
 package com.automobilefleet.api.controllers;
 
-import com.automobilefleet.api.request.CostumerRequest;
-import com.automobilefleet.api.response.CostumerResponse;
+import com.automobilefleet.api.dto.request.CostumerRequest;
+import com.automobilefleet.api.dto.response.CostumerResponse;
 import com.automobilefleet.services.CostumerService;
 import com.automobilefleet.utils.FactoryUtils;
 import com.automobilefleet.utils.JsonMapper;

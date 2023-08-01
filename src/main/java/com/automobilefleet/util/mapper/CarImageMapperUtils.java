@@ -1,7 +1,7 @@
 package com.automobilefleet.util.mapper;
 
-import com.automobilefleet.api.response.CarImageResponse;
-import com.automobilefleet.api.response.CarResponse;
+import com.automobilefleet.api.dto.response.CarImageResponse;
+import com.automobilefleet.api.dto.response.CarResponse;
 import com.automobilefleet.entities.CarImage;
 import lombok.experimental.UtilityClass;
 

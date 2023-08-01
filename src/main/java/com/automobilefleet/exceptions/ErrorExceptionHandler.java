@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
@@ -70,19 +69,19 @@ public class ErrorExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<MultiplesErrorsResponse> phoneRegexError(MethodArgumentNotValidException exception) {
+    public ResponseEntity<MultiplesErrorsResponse> constraintErrosMessages(MethodArgumentNotValidException exception) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
 
-        List<String> errorMessages = exception.getBindingResult()
+        String errorMessages = exception.getBindingResult()
                 .getAllErrors()
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.toList());
+                .collect(Collectors.joining(" | "));
 
         MultiplesErrorsResponse err =  MultiplesErrorsResponse.builder()
                 .status(status.value())
                 .statusErrorMessage(status.getReasonPhrase())
-                .message(errorMessages)
+                .messages(errorMessages)
                 .timestamp(LocalDateTime.now())
                 .build();
 

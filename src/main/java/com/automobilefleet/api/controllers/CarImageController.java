@@ -1,12 +1,11 @@
 package com.automobilefleet.api.controllers;
 
-import com.automobilefleet.api.response.CarImageResponse;
-import com.automobilefleet.api.request.CarImageRequest;
+import com.automobilefleet.api.dto.response.CarImageResponse;
+import com.automobilefleet.api.dto.request.CarImageRequest;
 import com.automobilefleet.services.CarImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,19 +26,19 @@ public class CarImageController {
     private final CarImageService service;
 
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<CarImageResponse> getCarImageById(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.getImageById(id));
     }
 
     @GetMapping(value = "/list")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<CarImageResponse>> listOfCarImages() {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.listAllImage());
     }
 
     @PostMapping(value = "/save")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CarImageResponse> saveImage(@RequestBody CarImageRequest request) {
         CarImageResponse response = this.service.saveCarImage(request);
 
@@ -47,7 +46,7 @@ public class CarImageController {
     }
 
     @PutMapping(value = "/update/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CarImageResponse> updateCarImage(@PathVariable UUID id, @RequestBody CarImageRequest request) {
         CarImageResponse response = this.service.updateCarImage(id, request);
 
@@ -55,7 +54,7 @@ public class CarImageController {
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deletCarImageById(@PathVariable UUID id) {
         this.service.deleteCarImage(id);
 

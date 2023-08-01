@@ -1,9 +1,9 @@
 package com.automobilefleet.util.mapper;
 
-import com.automobilefleet.api.request.RentalRequest;
-import com.automobilefleet.api.response.CarResponse;
-import com.automobilefleet.api.response.CostumerResponse;
-import com.automobilefleet.api.response.RentalResponse;
+import com.automobilefleet.api.dto.request.RentalRequest;
+import com.automobilefleet.api.dto.response.CarResponse;
+import com.automobilefleet.api.dto.response.CostumerResponse;
+import com.automobilefleet.api.dto.response.RentalResponse;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.Costumer;
 import com.automobilefleet.entities.Rental;

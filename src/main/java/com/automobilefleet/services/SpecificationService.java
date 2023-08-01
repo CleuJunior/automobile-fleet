@@ -1,7 +1,7 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.request.SpecificationRequest;
-import com.automobilefleet.api.response.SpecificationResponse;
+import com.automobilefleet.api.dto.request.SpecificationRequest;
+import com.automobilefleet.api.dto.response.SpecificationResponse;
 import com.automobilefleet.entities.Specification;
 import com.automobilefleet.exceptions.notfoundexception.SpecificationNotFoundException;
 import com.automobilefleet.repositories.SpecificationRepository;
