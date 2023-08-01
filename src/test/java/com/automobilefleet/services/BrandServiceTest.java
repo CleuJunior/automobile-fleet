@@ -1,7 +1,7 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.request.BrandRequest;
-import com.automobilefleet.api.response.BrandResponse;
+import com.automobilefleet.api.dto.request.BrandRequest;
+import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.entities.Brand;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.BrandRepository;
@@ -20,9 +20,9 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.automobilefleet.constant.ExpectedAttributesConstant.EXPECTED_CREATED_AT_BRAND;
-import static com.automobilefleet.constant.ExpectedAttributesConstant.EXPECTED_ID_BRAND;
-import static com.automobilefleet.constant.ExpectedAttributesConstant.EXPECTED_NAME_BRAND;
+import static com.automobilefleet.utils.constant.ExpectedAttributesConstant.EXPECTED_CREATED_AT_BRAND;
+import static com.automobilefleet.utils.constant.ExpectedAttributesConstant.EXPECTED_ID_BRAND;
+import static com.automobilefleet.utils.constant.ExpectedAttributesConstant.EXPECTED_NAME_BRAND;
 
 @ExtendWith(SpringExtension.class)
 class BrandServiceTest {

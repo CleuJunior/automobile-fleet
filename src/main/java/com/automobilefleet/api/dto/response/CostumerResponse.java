@@ -1,4 +1,4 @@
-package com.automobilefleet.api.response;
+package com.automobilefleet.api.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,29 +17,32 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-@Getter @Setter
+@Getter
+@Setter
 @JsonPropertyOrder({"_id"})
-public class RentalResponse {
+public class CostumerResponse {
 
     @JsonProperty("_id")
     private UUID id;
 
-    @JsonProperty("car")
-    private CarResponse car;
+    @JsonProperty("name")
+    private String name;
 
-    @JsonProperty("costumer")
-    private CostumerResponse costumer;
-
+    @JsonProperty("birthdate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    @JsonProperty("start_date")
-    private LocalDate startDate;
+    private LocalDate birthdate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    @JsonProperty("end_date")
-    private LocalDate endDate;
+    @JsonProperty("email")
+    private String email;
 
-    @JsonProperty("total")
-    private Double total;
+    @JsonProperty("driver_license")
+    private String driverLicense;
+
+    @JsonProperty("address")
+    private String address;
+
+    @JsonProperty("phone_number")
+    private String phone;
 
     @JsonProperty("created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")

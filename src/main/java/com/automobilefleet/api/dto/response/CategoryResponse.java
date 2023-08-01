@@ -1,4 +1,4 @@
-package com.automobilefleet.api.response;
+package com.automobilefleet.api.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,21 +9,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 @JsonPropertyOrder({"_id"})
-public class SpecificationResponse {
+public class CategoryResponse {
 
     @JsonProperty("_id")
     private UUID id;
 
-    @JsonProperty("specification_name")
+    @JsonProperty("name")
     private String name;
 
-    @JsonProperty("specification_description")
+    @JsonProperty("description")
     private String description;
 
     @JsonProperty("created_at")

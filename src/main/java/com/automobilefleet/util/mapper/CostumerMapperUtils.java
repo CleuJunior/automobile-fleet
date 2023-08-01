@@ -1,7 +1,7 @@
 package com.automobilefleet.util.mapper;
 
-import com.automobilefleet.api.request.CostumerRequest;
-import com.automobilefleet.api.response.CostumerResponse;
+import com.automobilefleet.api.dto.request.CostumerRequest;
+import com.automobilefleet.api.dto.response.CostumerResponse;
 import com.automobilefleet.entities.Costumer;
 import lombok.experimental.UtilityClass;
 

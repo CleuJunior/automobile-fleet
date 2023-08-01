@@ -1,7 +1,7 @@
 package com.automobilefleet.api.controllers;
 
-import com.automobilefleet.api.request.BrandRequest;
-import com.automobilefleet.api.response.BrandResponse;
+import com.automobilefleet.api.dto.request.BrandRequest;
+import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.services.BrandService;
 import com.automobilefleet.utils.FactoryUtils;
 import com.automobilefleet.utils.JsonMapper;

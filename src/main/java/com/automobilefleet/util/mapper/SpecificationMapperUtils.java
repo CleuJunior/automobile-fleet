@@ -1,7 +1,7 @@
 package com.automobilefleet.util.mapper;
 
-import com.automobilefleet.api.request.SpecificationRequest;
-import com.automobilefleet.api.response.SpecificationResponse;
+import com.automobilefleet.api.dto.request.SpecificationRequest;
+import com.automobilefleet.api.dto.response.SpecificationResponse;
 import com.automobilefleet.entities.Specification;
 import lombok.experimental.UtilityClass;
 
@@ -9,7 +9,11 @@ import lombok.experimental.UtilityClass;
 public final class SpecificationMapperUtils {
 
     public static Specification toSpecification(SpecificationRequest req) {
-        return new Specification(req.getName(), req.getDescription());
+        return Specification
+                .builder()
+                .name(req.getName())
+                .description(req.getDescription())
+                .build();
     }
 
     public static SpecificationResponse toSpecificationReponse(Specification specification) {

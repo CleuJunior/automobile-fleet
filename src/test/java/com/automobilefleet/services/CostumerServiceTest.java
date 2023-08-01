@@ -1,8 +1,7 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.request.CostumerRequest;
-import com.automobilefleet.api.response.CostumerResponse;
-import com.automobilefleet.entities.Category;
+import com.automobilefleet.api.dto.request.CostumerRequest;
+import com.automobilefleet.api.dto.response.CostumerResponse;
 import com.automobilefleet.entities.Costumer;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;

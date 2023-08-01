@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
@@ -52,37 +51,38 @@ public class ErrorExceptionHandler {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         String cause = exception.getMostSpecificCause().getMessage();
 
-        ErrorResponse err =  ErrorResponse.builder()
+        ErrorResponse err = ErrorResponse.builder()
                 .status(status.value())
                 .statusErrorMessage(status.getReasonPhrase())
                 .timestamp(LocalDateTime.now())
                 .build();
 
-        if (cause.contains("costumer_entity_driver_license_key")) {
-            err.setMessage(ExceptionsConstants.DRIVER_LICENSE_DUPLICATE);
-        }
+        String costumerEntityDriverLicenseKeyConstraint = "costumer_entity_driver_license_key";
+        String costumerEntityEmailKeyContraint = "costumer_entity_email_key";
 
-        if (cause.contains("costumer_entity_email_key")) {
+        if (cause.contains(costumerEntityDriverLicenseKeyConstraint))
+            err.setMessage(ExceptionsConstants.DRIVER_LICENSE_DUPLICATE);
+
+        if (cause.contains(costumerEntityEmailKeyContraint))
             err.setMessage(ExceptionsConstants.EMAIL_DUPLICATE);
-        }
 
         return ResponseEntity.status(status).body(err);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<MultiplesErrorsResponse> phoneRegexError(MethodArgumentNotValidException exception) {
+    public ResponseEntity<MultiplesErrorsResponse> constraintErrosMessages(MethodArgumentNotValidException exception) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
 
-        List<String> errorMessages = exception.getBindingResult()
+        String errorMessages = exception.getBindingResult()
                 .getAllErrors()
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.toList());
+                .collect(Collectors.joining(" | "));
 
         MultiplesErrorsResponse err =  MultiplesErrorsResponse.builder()
                 .status(status.value())
                 .statusErrorMessage(status.getReasonPhrase())
-                .message(errorMessages)
+                .messages(errorMessages)
                 .timestamp(LocalDateTime.now())
                 .build();
 

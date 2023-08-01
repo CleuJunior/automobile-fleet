@@ -1,4 +1,4 @@
-package com.automobilefleet.api.response;
+package com.automobilefleet.api.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,16 +15,16 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter @Setter
 @JsonPropertyOrder({"_id"})
-public class CarImageResponse {
+public class SpecificationResponse {
 
     @JsonProperty("_id")
     private UUID id;
 
-    @JsonProperty("car")
-    private CarResponse car;
+    @JsonProperty("specification_name")
+    private String name;
 
-    @JsonProperty("image")
-    private String linkImage;
+    @JsonProperty("specification_description")
+    private String description;
 
     @JsonProperty("created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")

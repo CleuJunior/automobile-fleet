@@ -1,4 +1,4 @@
-package com.automobilefleet.api.request;
+package com.automobilefleet.api.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -8,11 +8,8 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-public class CategoryRequest {
+@Getter @Setter
+public class BrandRequest {
     @JsonProperty("name")
     private String name;
-    @JsonProperty("description")
-    private String description;
 }

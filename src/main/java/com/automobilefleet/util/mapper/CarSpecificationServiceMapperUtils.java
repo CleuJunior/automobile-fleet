@@ -1,9 +1,9 @@
 package com.automobilefleet.util.mapper;
 
-import com.automobilefleet.api.response.BrandResponse;
-import com.automobilefleet.api.response.CarResponse;
-import com.automobilefleet.api.response.CarSpecificationResponse;
-import com.automobilefleet.api.response.SpecificationResponse;
+import com.automobilefleet.api.dto.response.BrandResponse;
+import com.automobilefleet.api.dto.response.CarResponse;
+import com.automobilefleet.api.dto.response.CarSpecificationResponse;
+import com.automobilefleet.api.dto.response.SpecificationResponse;
 import com.automobilefleet.entities.Brand;
 import com.automobilefleet.entities.CarSpecification;
 import lombok.experimental.UtilityClass;

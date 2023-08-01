@@ -1,7 +1,7 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.api.request.RentalRequest;
-import com.automobilefleet.api.response.RentalResponse;
+import com.automobilefleet.api.dto.request.RentalRequest;
+import com.automobilefleet.api.dto.response.RentalResponse;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.Costumer;
 import com.automobilefleet.entities.Rental;
