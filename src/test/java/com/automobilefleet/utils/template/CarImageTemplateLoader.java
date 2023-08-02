@@ -19,9 +19,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class CarImageTemplateLoader implements TemplateLoader {
-    public static final UUID ID = UUID.fromString("4bfad864-59e7-4fc3-b45e-3886694b3717");
-    public static final String URL_IMAGE = "89504E470D0A1A0A0000000D49484452000000";
-    public static final LocalDateTime CREATED_AT = LocalDateTime.of(2017, 3, 12, 22, 28, 12);
+    private static final UUID ID = UUID.fromString("4bfad864-59e7-4fc3-b45e-3886694b3717");
+    private static final String URL_IMAGE = "89504E470D0A1A0A0000000D49484452000000";
+    private static final LocalDateTime CREATED_AT = LocalDateTime.of(2017, 3, 12, 22, 28, 12);
 
     @Override
     public void load() {

@@ -14,14 +14,14 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class CarTemplateLoader implements TemplateLoader {
-    public static final UUID ID = UUID.fromString("4f2e3bc7-8522-4543-922c-03480d044e62");
-    public static final String NAME = "488";
-    public static final String DESCRIPTION = "Esportivo da Ferrari";
-    public static final Double DAILY_RATE = 1_500.0;
-    public static final Boolean AVAILABLE = false;
-    public static final String LICENSE_PLATE = "LMN-3456";
-    public static final String COLOR = "Vermelho";
-    public static final LocalDateTime CREATED_AT = LocalDateTime.of(2017, 3, 12, 22, 28, 12);
+    private static final UUID ID = UUID.fromString("4f2e3bc7-8522-4543-922c-03480d044e62");
+    private static final String NAME = "488";
+    private static final String DESCRIPTION = "Esportivo da Ferrari";
+    private static final Double DAILY_RATE = 1_500.0;
+    private static final Boolean AVAILABLE = false;
+    private static final String LICENSE_PLATE = "LMN-3456";
+    private static final String COLOR = "Vermelho";
+    private static final LocalDateTime CREATED_AT = LocalDateTime.of(2017, 3, 12, 22, 28, 12);
 
     @Override
     public void load() {
