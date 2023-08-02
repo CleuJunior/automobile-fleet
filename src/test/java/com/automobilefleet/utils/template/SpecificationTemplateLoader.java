@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class SpecificationTemplateLoader implements TemplateLoader {
-    public static final UUID ID = UUID.fromString("6b83e4cd-ead6-4af0-8e1e-4c332a842717");
-    public static final String NAME = "Motor";
-    public static final String DESCRIPTION = "Especificação técnica que define o tipo e a potência do motor do veículo.";
-    public static final LocalDateTime CREATED_AT = LocalDateTime.of(2017, 3, 12, 22, 28, 12);
+    private static final UUID ID = UUID.fromString("6b83e4cd-ead6-4af0-8e1e-4c332a842717");
+    private static final String NAME = "Motor";
+    private static final String DESCRIPTION = "Especificação técnica que define o tipo e a potência do motor do veículo.";
+    private static final LocalDateTime CREATED_AT = LocalDateTime.of(2017, 3, 12, 22, 28, 12);
 
     @Override
     public void load() {

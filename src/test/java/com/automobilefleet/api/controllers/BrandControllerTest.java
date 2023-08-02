@@ -1,10 +1,12 @@
 package com.automobilefleet.api.controllers;
 
+import br.com.six2six.fixturefactory.Fixture;
+import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 import com.automobilefleet.api.dto.request.BrandRequest;
 import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.services.BrandService;
-import com.automobilefleet.utils.FactoryUtils;
 import com.automobilefleet.utils.JsonMapper;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,11 +51,16 @@ class BrandControllerTest {
     private final static String UPDATE_ID = BASE_URL + "/update/{id}";
     private final static String DELETE_ID = BASE_URL + "/delete/{id}";
 
+    @BeforeAll
+    static void setup() {
+        FixtureFactoryLoader.loadTemplates("com.automobilefleet.utils");
+    }
+
     @BeforeEach
-    void setup() {
+    void setupAttributes() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).alwaysDo(print()).build();
-        this.response = FactoryUtils.createBrandReponse();
-        this.request = FactoryUtils.createBrandRequest();
+        this.response = Fixture.from(BrandResponse.class).gimme("response");
+        this.request = Fixture.from(BrandRequest.class).gimme("request");
     }
 
     @Test

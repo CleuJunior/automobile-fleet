@@ -1,11 +1,13 @@
 package com.automobilefleet.api.controllers;
 
+import br.com.six2six.fixturefactory.Fixture;
+import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 import com.automobilefleet.api.dto.request.CategoryRequest;
 import com.automobilefleet.api.dto.response.CategoryResponse;
 import com.automobilefleet.services.CategoryService;
-import com.automobilefleet.utils.FactoryUtils;
 import com.automobilefleet.utils.JsonMapper;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,8 +42,8 @@ class CategoryControllerTest {
     private CategoryService service;
     private MockMvc mockMvc;
     private MockHttpServletResponse httpResponse;
-    private final static CategoryResponse RESPONSE = FactoryUtils.createCategoryResponse();
-    private final static CategoryRequest REQUEST = FactoryUtils.createCategoryRequest();
+    private CategoryResponse reponse;
+    private CategoryRequest request;
     private final static UUID ID = UUID.fromString("b86a92d8-6908-426e-8316-f72b0c849a4b");
     private final static String URL_ID = "/api/v1/category/{id}";
     private final static String URL_LIST = "/api/v1/category/list";
@@ -54,14 +56,21 @@ class CategoryControllerTest {
     private final static int HTTP_STATUS_IS_CREATED = 201;
     private final static int HTTP_STATUS_IS_ACCEPETD = 202;
 
+    @BeforeAll
+    static void setup() {
+        FixtureFactoryLoader.loadTemplates("com.automobilefleet.utils");
+    }
+    
     @BeforeEach
-    void setup() {
+    void setupAttributes() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
+        this.reponse = Fixture.from(CategoryResponse.class).gimme("response");
+        this.request = Fixture.from(CategoryRequest.class).gimme("request");;
     }
 
     @Test
     void shouldGetBrandByIdAndStatusCodeOK() throws Exception {
-        Mockito.when(this.service.getCategoryById(ID)).thenReturn(RESPONSE);
+        Mockito.when(this.service.getCategoryById(ID)).thenReturn(this.reponse);
 
         this.httpResponse = this.mockMvc.perform(get(URL_ID, ID)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -80,7 +89,7 @@ class CategoryControllerTest {
 
     @Test
     void shouldGetListBrandAndStatusCodeOK() throws Exception {
-        Mockito.when(this.service.listCategories()).thenReturn(Collections.singletonList(RESPONSE));
+        Mockito.when(this.service.listCategories()).thenReturn(Collections.singletonList(this.reponse));
 
         this.httpResponse = this.mockMvc.perform(get(URL_LIST).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -98,10 +107,10 @@ class CategoryControllerTest {
 
     @Test
     void shoulSaveBrandAndStatusCodeCreated() throws Exception {
-        Mockito.when(this.service.saveCategory(any(CategoryRequest.class))).thenReturn(RESPONSE);
+        Mockito.when(this.service.saveCategory(any(CategoryRequest.class))).thenReturn(this.reponse);
 
         this.httpResponse = this.mockMvc.perform(post(URL_SAVE).contentType(MediaType.APPLICATION_JSON)
-                        .content(JsonMapper.asJsonString(RESPONSE)))
+                        .content(JsonMapper.asJsonString(this.reponse)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andReturn()
                 .getResponse();
@@ -117,10 +126,10 @@ class CategoryControllerTest {
 
     @Test
     void shouldUpdateBrandAndStatusCodeAccepted() throws Exception {
-        Mockito.when(this.service.updateCategory(eq(ID), any(CategoryRequest.class))).thenReturn(RESPONSE);
+        Mockito.when(this.service.updateCategory(eq(ID), any(CategoryRequest.class))).thenReturn(this.reponse);
 
         this.httpResponse = this.mockMvc.perform(put(UPDATE_ID, ID).contentType(MediaType.APPLICATION_JSON)
-                        .content(JsonMapper.asJsonString(REQUEST)))
+                        .content(JsonMapper.asJsonString(this.request)))
                 .andExpect(MockMvcResultMatchers.status().isAccepted())
                 .andReturn()
                 .getResponse();

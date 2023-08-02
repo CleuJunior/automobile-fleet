@@ -1,8 +1,10 @@
 package com.automobilefleet.dao;
 
+import br.com.six2six.fixturefactory.Fixture;
+import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 import com.automobilefleet.entities.Costumer;
-import com.automobilefleet.utils.FactoryUtils;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,9 +24,14 @@ class CostumerJdbcDAOTest {
     private JdbcTemplate jdbcTemplate;
     private Costumer costumer;
 
+    @BeforeAll
+    static void setup() {
+        FixtureFactoryLoader.loadTemplates("com.automobilefleet.utils");
+    }
+
     @BeforeEach
-    void setUp() {
-        this.costumer = FactoryUtils.createCostumer();
+    void setupAttributes() {
+        this.costumer = Fixture.from(Costumer.class).gimme("costumer");
     }
 
     @Test
@@ -63,7 +70,7 @@ class CostumerJdbcDAOTest {
                         this.costumer.getUpdatedAt()))
                 .thenReturn(1);
 
-        int acutal = this.costumerJdbcDAO.save(FactoryUtils.createCostumer());
+        int acutal = this.costumerJdbcDAO.save(this.costumer);
         Assertions.assertEquals(1, acutal);
     }
 }

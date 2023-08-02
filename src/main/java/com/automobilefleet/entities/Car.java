@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -41,37 +39,29 @@ public class Car implements Serializable {
     private UUID id;
 
     @Column(name = "car_name", unique = true, nullable = false)
-    @NonNull
     private String name;
 
     @Column(name = "car_description", length = 30, nullable = false)
-    @NonNull
     private String description;
 
     @Column(name = "daily_rate", nullable = false)
-    @NonNull
     private Double dailyRate;
 
     @Column(name = "car_available", nullable = false)
-    @NonNull
     private Boolean available;
 
     @Column(name = "license_plate", length = 30, nullable = false)
-    @NonNull
     private String licensePlate;
 
     @OneToOne
     @JoinColumn(name = "brand_id", referencedColumnName = "_id", nullable = false)
-    @NonNull
     private Brand brand;
 
     @OneToOne
     @JoinColumn(name = "category_id", referencedColumnName = "_id", nullable = false)
-    @NonNull
     private Category category;
 
     @Column(name = "car_color", nullable = false)
-    @NonNull
     private String color;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")

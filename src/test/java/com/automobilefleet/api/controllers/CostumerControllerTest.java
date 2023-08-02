@@ -1,10 +1,12 @@
 package com.automobilefleet.api.controllers;
 
+import br.com.six2six.fixturefactory.Fixture;
+import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 import com.automobilefleet.api.dto.request.CostumerRequest;
 import com.automobilefleet.api.dto.response.CostumerResponse;
 import com.automobilefleet.services.CostumerService;
-import com.automobilefleet.utils.FactoryUtils;
 import com.automobilefleet.utils.JsonMapper;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,17 +43,21 @@ class CostumerControllerTest {
     private CostumerResponse response;
     private CostumerRequest request;
     private final static UUID ID = UUID.fromString("32ca0461-0401-4b15-bf57-3d2b18b3828f");
-    private final static String BASE_URL = "/api/v1/costumer";
-    private final static String URL_ID = BASE_URL + "/{id}";
-    private final static String URL_LIST = BASE_URL + "/list";
-    private final static String URL_SAVE = BASE_URL + "/save";
-    private final static String UPDATE_ID = BASE_URL + "/update/{id}";
+    private final static String URL_ID = "/api/v1/costumer/{id}";
+    private final static String URL_LIST = "/api/v1/costumer/list";
+    private final static String URL_SAVE = "/api/v1/costumer/save";
+    private final static String UPDATE_ID = "/api/v1/costumer/update/{id}";
+
+    @BeforeAll
+    static void setup() {
+        FixtureFactoryLoader.loadTemplates("com.automobilefleet.utils");
+    }
 
     @BeforeEach
-    void setup() {
+    void setupAttributes() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).alwaysDo(print()).build();
-        this.response = FactoryUtils.createCostumerResponse();
-        this.request = FactoryUtils.createCostumerRequest();
+        this.response = Fixture.from(CostumerResponse.class).gimme("response");
+        this.request = Fixture.from(CostumerRequest.class).gimme("request");
     }
 
     @Test

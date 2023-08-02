@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -13,8 +15,12 @@ import java.util.UUID;
 @Getter @Setter
 public class CarImageRequest {
     @JsonProperty("car_id")
+    @NotBlank(message = "Car ID can't be blank")
+    @NotNull(message = "Car ID can't be null")
     private UUID carId;
 
     @JsonProperty("image")
+    @NotBlank(message = "Image can't be blank")
+    @NotNull(message = "Image can't be null")
     private String linkImage;
 }
