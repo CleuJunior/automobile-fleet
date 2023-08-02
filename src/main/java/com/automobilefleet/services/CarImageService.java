@@ -5,7 +5,6 @@ import com.automobilefleet.api.dto.request.CarImageRequest;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.CarImage;
 import com.automobilefleet.exceptions.ExceptionsConstants;
-import com.automobilefleet.exceptions.notfoundexception.CarImageNotFoundException;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.CarImageRepository;
 import com.automobilefleet.repositories.CarRepository;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -32,19 +32,23 @@ public class CarImageService {
     }
 
     public CarImageResponse getImageById(UUID id) {
-        CarImage response = this.carImageRepository.findById(id)
-                .orElseThrow(CarImageNotFoundException::new);
+        Optional<CarImage> response = this.carImageRepository.findById(id);
 
-        return CarImageMapperUtils.toCarImageReponse(response);
+        if (response.isEmpty())
+            throw new NotFoundException(ExceptionsConstants.IMAGE_NOT_FOUND);
+
+        return CarImageMapperUtils.toCarImageReponse(response.get());
     }
 
     public CarImageResponse saveCarImage(CarImageRequest request) {
-        Car car = this.carRepository.findById(request.getCarId())
-                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.BRAND_NOT_FOUND));
+        Optional<Car> car = this.carRepository.findById(request.getCarId());
+
+        if (car.isEmpty())
+            throw new NotFoundException(ExceptionsConstants.CAR_NOT_FOUND);
 
         CarImage response = CarImage
                 .builder()
-                .car(car)
+                .car(car.get())
                 .linkImage(request.getLinkImage())
                 .build();
 
@@ -52,21 +56,27 @@ public class CarImageService {
     }
 
     public CarImageResponse updateCarImage(UUID id, CarImageRequest request) {
-        CarImage response = this.carImageRepository.findById(id)
-                .orElseThrow(CarImageNotFoundException::new);
+        Optional<CarImage> response = this.carImageRepository.findById(id);
 
-        Car car = this.carRepository.findById(request.getCarId())
-                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.BRAND_NOT_FOUND));
+        if (response.isEmpty())
+            throw new NotFoundException(ExceptionsConstants.IMAGE_NOT_FOUND);
 
-        response.setCar(car);
-        response.setLinkImage(request.getLinkImage());
-        return CarImageMapperUtils.toCarImageReponse(this.carImageRepository.save(response));
+        Optional<Car> car = this.carRepository.findById(request.getCarId());
+
+        if (car.isEmpty())
+           throw new NotFoundException(ExceptionsConstants.CAR_NOT_FOUND);
+
+        response.get().setCar(car.get());
+        response.get().setLinkImage(request.getLinkImage());
+        return CarImageMapperUtils.toCarImageReponse(this.carImageRepository.save(response.get()));
     }
 
-    public void deleteCarImage(UUID id) {
-        CarImage response = this.carImageRepository.findById(id)
-                .orElseThrow(CarImageNotFoundException::new);
+    public void deleteCarImageById(UUID id) {
+        Optional<CarImage> response = this.carImageRepository.findById(id);
 
-        this.carImageRepository.delete(response);
+        if (response.isEmpty())
+            throw new NotFoundException(ExceptionsConstants.IMAGE_NOT_FOUND);
+
+        this.carImageRepository.deleteById(response.get().getId());
     }
 }

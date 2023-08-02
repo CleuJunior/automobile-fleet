@@ -56,7 +56,7 @@ public class CarImageController {
     @DeleteMapping(value = "/delete/{id}")
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deletCarImageById(@PathVariable UUID id) {
-        this.service.deleteCarImage(id);
+        this.service.deleteCarImageById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
