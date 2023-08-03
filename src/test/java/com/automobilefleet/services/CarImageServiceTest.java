@@ -3,6 +3,7 @@ package com.automobilefleet.services;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 import com.automobilefleet.api.dto.request.CarImageRequest;
+import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.api.dto.response.CarImageResponse;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.CarImage;
@@ -20,6 +21,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -33,6 +35,8 @@ class CarImageServiceTest {
     private CarImageRepository repository;
     @Mock
     private CarRepository carRepository;
+    @Mock
+    private ModelMapper mapper;
     private CarImage carImage;
     private CarImageRequest request;
     private CarImageResponse response;
@@ -52,6 +56,7 @@ class CarImageServiceTest {
 
     @Test
     void shouldReturnSingleListCarImage() {
+        Mockito.when(this.mapper.map(this.carImage, CarImageResponse.class)).thenReturn(this.response);
         Mockito.when(this.repository.findAll()).thenReturn(Collections.singletonList(this.carImage));
 
         final CarImageResponse actual = this.service.listAllImage()
@@ -71,7 +76,8 @@ class CarImageServiceTest {
 
     @Test
     void shouldReturnOneCarImagenById() {
-        Mockito.when(this.repository.findById(ID)).thenReturn(Optional.ofNullable(this.carImage));
+        Mockito.when(this.mapper.map(this.carImage, CarImageResponse.class)).thenReturn(this.response);
+        Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.carImage));
 
         final CarImageResponse actual = this.service.getImageById(ID);
 
@@ -91,6 +97,9 @@ class CarImageServiceTest {
 
     @Test
     void shouldSaveCarImageWhenCallingSaveCarImage() {
+        Mockito.when(this.mapper.map(this.carImage, CarImageResponse.class)).thenReturn(this.response);
+        Mockito.when(this.mapper.map(this.request, CarImage.class)).thenReturn(this.carImage);
+
         Mockito.when(this.repository.save(ArgumentMatchers.any(CarImage.class))).thenReturn(this.carImage);
         Mockito.when(this.carRepository.findById(this.request.getCarId())).thenReturn(Optional.of(new Car()));
 
@@ -112,22 +121,18 @@ class CarImageServiceTest {
 
     @Test
     void shouldUpdateCarImageWhenCallingUpdate() {
-        Car car = Fixture.from(Car.class).gimme("car");
-
-        Mockito.when(this.carRepository.findById(ArgumentMatchers.any())).thenReturn(Optional.ofNullable(car));
+        Mockito.when(this.carRepository.findById(ArgumentMatchers.any())).thenReturn(Optional.of(new Car()));
         Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.carImage));
         Mockito.when(this.repository.save(ArgumentMatchers.any(CarImage.class))).thenReturn(this.carImage);
+        Mockito.when(this.mapper.map(this.carImage, CarImageResponse.class)).thenReturn(this.response);
 
-        final UUID uuid = UUID.fromString("4f2e3bc7-8522-4543-922c-03480d044e62");
-        final String update = "new link";
-
-        final CarImageResponse updatedCarImage = this.service.updateCarImage(ID, new CarImageRequest(uuid, update));
+        final CarImageResponse updatedCarImage = this.service.updateCarImage(ID, this.request);
 
         // Assertions
         Assertions.assertNotNull(updatedCarImage);
         Assertions.assertEquals(this.response.getId(), updatedCarImage.getId());
-        Assertions.assertEquals(uuid, updatedCarImage.getCar().getId());
-        Assertions.assertEquals(update, updatedCarImage.getLinkImage());
+        Assertions.assertEquals(this.response.getCar().getId(), updatedCarImage.getCar().getId());
+        Assertions.assertEquals(this.response.getLinkImage(), updatedCarImage.getLinkImage());
 
         // Check mock interactions
         Mockito.verify(this.repository).findById(ID);

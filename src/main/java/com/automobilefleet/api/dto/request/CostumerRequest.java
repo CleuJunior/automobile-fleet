@@ -50,5 +50,4 @@ public class CostumerRequest {
     @JsonProperty("phone_number")
     @Pattern(regexp= "^\\(?\\d{2}\\)?[\\s-]?[\\s9]?\\d{5}-?\\d{4}$", message= "Phone format must be (12) 12345-1234")
     private String phone;
-
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,7 +51,7 @@ public class CarController {
 
     @PostMapping(value = "/save")
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<CarResponse> saveCar(@RequestBody CarRequest request) {
+    public ResponseEntity<CarResponse> saveCar(@RequestBody @Valid CarRequest request) {
         CarResponse response = this.service.saveCar(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -58,7 +59,7 @@ public class CarController {
 
     @PutMapping(value = "/update/{id}")
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<CarResponse> updateCar(@PathVariable UUID id, @RequestBody CarRequest request) {
+    public ResponseEntity<CarResponse> updateCar(@PathVariable UUID id, @RequestBody @Valid CarRequest request) {
         CarResponse response = this.service.updateCar(id, request);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);

@@ -17,6 +17,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.modelmapper.ModelMapper;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Collections;
@@ -31,6 +32,8 @@ class CategoryServiceTest {
     private CategoryService service;
     @Mock
     private CategoryRepository repository;
+    @Mock
+    private ModelMapper mapper;
     private Category category;
     private CategoryResponse response;
     private CategoryRequest request;
@@ -51,6 +54,7 @@ class CategoryServiceTest {
     @Test
     void shouldReturnASingleCategoryWhenCallingListCategories() {
         Mockito.when(this.repository.findAll()).thenReturn(Collections.singletonList(this.category));
+        Mockito.when(this.mapper.map(this.category, CategoryResponse.class)).thenReturn(this.response);
 
         final CategoryResponse actual = this.service.listCategories().stream()
                 .findFirst()
@@ -69,7 +73,8 @@ class CategoryServiceTest {
 
     @Test
     void shouldReturnOneCategoryById() {
-        Mockito.when(this.repository.findById(ID)).thenReturn(Optional.ofNullable(this.category));
+        Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.category));
+        Mockito.when(this.mapper.map(this.category, CategoryResponse.class)).thenReturn(this.response);
 
         final CategoryResponse actual =  this.service.getCategoryById(ID);
 
@@ -90,6 +95,9 @@ class CategoryServiceTest {
     @Test
     void shouldSaveCategoryWhenCallingSaveCategory() {
         Mockito.when(this.repository.save(any(Category.class))).thenReturn(this.category);
+        Mockito.when(this.mapper.map(this.category, CategoryResponse.class)).thenReturn(this.response);
+        Mockito.when(this.mapper.map(this.request, Category.class)).thenReturn(this.category);
+
         final CategoryResponse actual = this.service.saveCategory(this.request);
 
         // Assertions
@@ -103,14 +111,10 @@ class CategoryServiceTest {
 
     @Test
     void shouldUpdateCategoryWhenCallingUpdate() {
-        String nameUpdate = "Update Working";
-        this.request.setName(nameUpdate);
-        this.response.setName(nameUpdate);
-
         // Config mocks behavior
         Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.category));
         Mockito.when(this.repository.save(ArgumentMatchers.any(Category.class))).thenReturn(this.category);
-
+        Mockito.when(this.mapper.map(this.category, CategoryResponse.class)).thenReturn(this.response);
 
         // Call the method to be tested
         final CategoryResponse actual = this.service.updateCategory(ID, this.request);

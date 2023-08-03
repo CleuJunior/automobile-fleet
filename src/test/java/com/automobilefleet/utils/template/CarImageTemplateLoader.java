@@ -4,16 +4,14 @@ import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.Rule;
 import br.com.six2six.fixturefactory.loader.TemplateLoader;
 import com.automobilefleet.api.dto.request.CarImageRequest;
-import com.automobilefleet.api.dto.request.SpecificationRequest;
+import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.api.dto.response.CarImageResponse;
 import com.automobilefleet.api.dto.response.CarResponse;
-import com.automobilefleet.api.dto.response.SpecificationResponse;
+import com.automobilefleet.api.dto.response.CategoryResponse;
 import com.automobilefleet.entities.Brand;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.CarImage;
 import com.automobilefleet.entities.Category;
-import com.automobilefleet.entities.Specification;
-import com.automobilefleet.util.mapper.CarMapperUtils;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -34,7 +32,7 @@ public class CarImageTemplateLoader implements TemplateLoader {
 
         Fixture.of(CarImageResponse.class).addTemplate("response", new Rule() {{
             add("id", ID);
-            add("car", CarMapperUtils.toCarResponse(buildCar()));
+            add("car", buildCarResponse(buildCar()));
             add("linkImage", URL_IMAGE);
             add("createdAt", CREATED_AT);
         }});
@@ -77,6 +75,34 @@ public class CarImageTemplateLoader implements TemplateLoader {
                 .name("Carros Antigos")
                 .description("Veículos com mais de 30 anos de fabricação")
                 .createdAt(CREATED_AT)
+                .build();
+    }
+
+    private CarResponse buildCarResponse(Car car) {
+        BrandResponse brandReponse = new BrandResponse(
+                car.getBrand().getId(),
+                car.getBrand().getName(),
+                car.getBrand().getCreatedAt()
+        );
+
+        CategoryResponse categoryResponse = new CategoryResponse(
+                car.getCategory().getId(),
+                car.getCategory().getName(),
+                car.getCategory().getDescription(),
+                car.getCategory().getCreatedAt()
+        );
+
+        return CarResponse.builder()
+                .id(car.getId())
+                .name(car.getName())
+                .description(car.getDescription())
+                .dailyRate(car.getDailyRate())
+                .available(car.isAvailable())
+                .licensePlate(car.getLicensePlate())
+                .brand(brandReponse)
+                .category(categoryResponse)
+                .color(car.getColor())
+                .createdAt(car.getCreatedAt())
                 .build();
     }
 }

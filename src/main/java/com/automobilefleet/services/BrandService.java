@@ -6,12 +6,13 @@ import com.automobilefleet.entities.Brand;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.BrandRepository;
-import com.automobilefleet.util.mapper.BrandMapperUtils;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -20,10 +21,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BrandService {
     private final BrandRepository repository;
+    private final ModelMapper mapper;
 
     public List<BrandResponse> listBrand() {
         return this.repository.findAll().stream()
-                .map(BrandMapperUtils::toBrandReponse)
+                .filter(Objects::nonNull)
+                .map(brand -> this.mapper.map(brand, BrandResponse.class))
                 .collect(Collectors.toList());
     }
 
@@ -31,12 +34,12 @@ public class BrandService {
         Brand response = this.repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.BRAND_NOT_FOUND));
 
-        return BrandMapperUtils.toBrandReponse(response);
+        return this.mapper.map(response, BrandResponse.class);
     }
 
     public BrandResponse saveBrand(BrandRequest request) {
-        Brand response = BrandMapperUtils.toBrand(request);
-        return BrandMapperUtils.toBrandReponse(this.repository.save(response));
+        Brand response = this.mapper.map(request, Brand.class);
+        return this.mapper.map(this.repository.save(response), BrandResponse.class);
     }
 
     public BrandResponse updateBrand(UUID id, BrandRequest request) {
@@ -44,7 +47,7 @@ public class BrandService {
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.BRAND_NOT_FOUND));
 
         response.setName(request.getName());
-        return BrandMapperUtils.toBrandReponse(this.repository.save(response));
+        return this.mapper.map(this.repository.save(response), BrandResponse.class);
     }
 
     public void deleteBrandById(UUID id) {

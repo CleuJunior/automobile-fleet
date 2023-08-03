@@ -17,6 +17,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.modelmapper.ModelMapper;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Collections;
@@ -29,6 +30,8 @@ class BrandServiceTest {
     private BrandService service;
     @Mock
     private BrandRepository repository;
+    @Mock
+    private ModelMapper mapper;
     private Brand brand;
     private BrandResponse response;
     private BrandRequest request;
@@ -44,6 +47,8 @@ class BrandServiceTest {
         this.brand = Fixture.from(Brand.class).gimme("brand");
         this.response = Fixture.from(BrandResponse.class).gimme("response");
         this.request = Fixture.from(BrandRequest.class).gimme("request");
+        Mockito.when(this.mapper.map(this.brand, BrandResponse.class)).thenReturn(this.response);
+        Mockito.when(this.mapper.map(this.request, Brand.class)).thenReturn(this.brand);
     }
 
     @Test
@@ -84,7 +89,7 @@ class BrandServiceTest {
     void shouldReturnBrandWhenCallingSaveBrand() {
         Mockito.when(this.repository.save(ArgumentMatchers.any(Brand.class))).thenReturn(this.brand);
 
-        final BrandResponse actual = this.service.saveBrand(new BrandRequest("BMW"));
+        final BrandResponse actual = this.service.saveBrand(this.request);
 
         // Assertions
         Assertions.assertNotNull(actual);
@@ -102,12 +107,11 @@ class BrandServiceTest {
         Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.brand));
         Mockito.when(this.repository.save(ArgumentMatchers.any(Brand.class))).thenReturn(this.brand);
 
-        final String expected = "Test Update";
-        final BrandResponse brandResponse = this.service.updateBrand(ID, new BrandRequest(expected));
+        final BrandResponse brandResponse = this.service.updateBrand(ID, this.request);
 
         // Assertions
         Assertions.assertNotNull(brandResponse);
-        Assertions.assertEquals(expected, brandResponse.getName());
+        Assertions.assertEquals(this.request.getName(), brandResponse.getName());
 
         // Verifications
         Mockito.verify(this.repository).findById(ID);

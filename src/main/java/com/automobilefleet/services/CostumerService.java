@@ -6,14 +6,15 @@ import com.automobilefleet.entities.Costumer;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.CostumerRepository;
-import com.automobilefleet.util.mapper.CostumerMapperUtils;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -24,12 +25,15 @@ import java.util.stream.Collectors;
 public class CostumerService {
     private static final Logger LOG = LoggerFactory.getLogger(CostumerService.class);
     private final CostumerRepository repository;
+    private final ModelMapper mapper;
 
     public List<CostumerResponse> listCostumer() {
        LOG.info("List costumer registered!");
 
-        return this.repository.findAll().stream()
-                .map(CostumerMapperUtils::toCostumerReponse)
+        return this.repository.findAll()
+                .stream()
+                .filter(Objects::nonNull)
+                .map(costumer -> this.mapper.map(costumer, CostumerResponse.class))
                 .collect(Collectors.toList());
     }
 
@@ -42,13 +46,13 @@ public class CostumerService {
         }
 
         LOG.info("Costumer found successfully!");
-        return CostumerMapperUtils.toCostumerReponse(response.get());
+        return this.mapper.map(response.get(), CostumerResponse.class);
     }
 
     public CostumerResponse saveCostumer(CostumerRequest request) {
-        Costumer response = CostumerMapperUtils.toCostumer(request);
+        Costumer response = this.mapper.map(request, Costumer.class);
         LOG.info("Costumer saved!");
-        return CostumerMapperUtils.toCostumerReponse(this.repository.save(response));
+        return this.mapper.map(this.repository.save(response), CostumerResponse.class);
     }
 
     public CostumerResponse updateCostumer(UUID id, CostumerRequest request) {
@@ -59,8 +63,17 @@ public class CostumerService {
             throw new NotFoundException(ExceptionsConstants.COSTUMER_NOT_FOUND);
         }
 
-        CostumerMapperUtils.updateCostumer(response.get(), request);
+        this.updateCostumer(response.get(), request);
         LOG.info("Costumer updated!");
-        return CostumerMapperUtils.toCostumerReponse(this.repository.save(response.get()));
+        return this.mapper.map(this.repository.save(response.get()), CostumerResponse.class);
+    }
+
+    private void updateCostumer(Costumer costumer, CostumerRequest request) {
+        costumer.setName(request.getName());
+        costumer.setBirthdate(request.getBirthdate());
+        costumer.setEmail(request.getEmail());
+        costumer.setDriverLicense(request.getDriverLicense());
+        costumer.setAddress(request.getAddress());
+        costumer.setPhone(request.getPhone());
     }
 }

@@ -2,6 +2,8 @@ package com.automobilefleet.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +30,8 @@ import java.util.UUID;
 @Table(name = "rental_entity")
 @Entity
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Getter @Setter
 @EqualsAndHashCode
 public class Rental implements Serializable {
@@ -42,26 +45,21 @@ public class Rental implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_id", referencedColumnName = "_id", nullable = false)
-    @NonNull
     private Car car;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "costumer_id", referencedColumnName = "_id", nullable = false)
-    @NonNull
     private Costumer costumer;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "start_date", nullable = false)
-    @NonNull
     private LocalDate startDate;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "end_date", nullable = false)
-    @NonNull
     private LocalDate endDate;
 
     @Column(name = "total", nullable = false)
-    @NonNull
     private Double total;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")

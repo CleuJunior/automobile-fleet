@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -29,6 +30,8 @@ class SpecificationServiceTest {
     private SpecificationService service;
     @Mock
     private SpecificationRepository repository;
+    @Mock
+    private ModelMapper mapper;
     private Specification specification;
     private SpecificationRequest request;
     private SpecificationResponse response;
@@ -48,6 +51,7 @@ class SpecificationServiceTest {
 
     @Test
     void shouldReturnSingleListSpecification() {
+        Mockito.when(this.mapper.map(this.specification, SpecificationResponse.class)).thenReturn(this.response);
         Mockito.when(this.repository.findAll()).thenReturn(Collections.singletonList(this.specification));
 
         final SpecificationResponse actual = this.service.listSpecifications()
@@ -67,6 +71,7 @@ class SpecificationServiceTest {
 
     @Test
     void shouldReturnOneSpecificationById() {
+        Mockito.when(this.mapper.map(this.specification, SpecificationResponse.class)).thenReturn(this.response);
         Mockito.when(this.repository.findById(ID)).thenReturn(Optional.ofNullable(this.specification));
 
         final SpecificationResponse actual = this.service.getSpecification(ID);
@@ -87,33 +92,33 @@ class SpecificationServiceTest {
 
     @Test
     void shouldSaveSpecificationWhenCallingSaveSpecification() {
+        Mockito.when(this.mapper.map(this.specification, SpecificationResponse.class)).thenReturn(this.response);
         Mockito.when(this.repository.save(ArgumentMatchers.any(Specification.class))).thenReturn(this.specification);
         final SpecificationResponse actual = this.service.saveSpecification(this.request);
 
         Assertions.assertNotNull(actual);
         Assertions.assertInstanceOf(SpecificationResponse.class, actual);
         Assertions.assertEquals(this.response.getId(), actual.getId());
-        Assertions.assertEquals(this.response.getName(), actual.getName());
-        Assertions.assertEquals(this.response.getDescription(), actual.getDescription());
+        Assertions.assertEquals(this.request.getName(), actual.getName());
+        Assertions.assertEquals(this.request.getDescription(), actual.getDescription());
         Assertions.assertEquals(this.response.getCreatedAt(), actual.getCreatedAt());
     }
 
     @Test
     void shouldUpdateCostumerWhenCallingUpdate() {
-        final SpecificationRequest update = new SpecificationRequest("Update name", "Update desc");
-
         // Config mocks behavior
+        Mockito.when(this.mapper.map(this.specification, SpecificationResponse.class)).thenReturn(this.response);
         Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.specification));
         Mockito.when(this.repository.save(ArgumentMatchers.any(Specification.class))).thenReturn(this.specification);
 
         // Call the method to be tested
-        final SpecificationResponse actual = this.service.updateSpecification(ID, update);
+        final SpecificationResponse actual = this.service.updateSpecification(ID, this.request);
 
         // Assertions
         Assertions.assertNotNull(actual);
         Assertions.assertEquals(this.response.getId(), actual.getId());
-        Assertions.assertEquals(update.getName(), actual.getName());
-        Assertions.assertEquals(update.getDescription(), actual.getDescription());
+        Assertions.assertEquals(this.request.getName(), actual.getName());
+        Assertions.assertEquals(this.request.getDescription(), actual.getDescription());
 
         // Check mock interactions
         Mockito.verify(this.repository).findById(ID);

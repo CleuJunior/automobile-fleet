@@ -17,5 +17,4 @@ public class SpecificationRequest {
 
     @JsonProperty("specification_description")
     private String description;
-
 }
