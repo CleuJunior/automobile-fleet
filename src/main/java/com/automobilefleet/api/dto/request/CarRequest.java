@@ -1,7 +1,7 @@
 package com.automobilefleet.api.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,10 +10,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class CarRequest {
@@ -34,7 +34,7 @@ public class CarRequest {
     private Double dailyRate;
 
     @JsonProperty("available")
-    private boolean available;
+    private boolean isAvailable;
 
     @JsonProperty("license_plate")
     @NotBlank(message = "License plate can't be blank")

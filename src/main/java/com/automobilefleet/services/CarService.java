@@ -72,7 +72,7 @@ public class CarService {
                 .name(request.getName())
                 .description(request.getDescription())
                 .dailyRate(request.getDailyRate())
-                .available(request.isAvailable())
+                .isAvailable(request.isAvailable())
                 .licensePlate(request.getLicensePlate())
                 .brand(brand)
                 .category(category)

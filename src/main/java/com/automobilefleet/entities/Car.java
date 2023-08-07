@@ -48,7 +48,7 @@ public class Car implements Serializable {
     private Double dailyRate;
 
     @Column(name = "car_available", nullable = false)
-    private boolean available;
+    private boolean isAvailable;
 
     @Column(name = "license_plate", length = 30, nullable = false)
     private String licensePlate;

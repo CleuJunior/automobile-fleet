@@ -48,7 +48,7 @@ public class CategoryService {
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
         response.setName(request.getName());
-        response.setDescription(response.getDescription());
+        response.setDescription(request.getDescription());
         return this.mapper.map(this.repository.save(response), CategoryResponse.class);
     }
 }
