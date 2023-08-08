@@ -8,15 +8,14 @@ import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.CarImageRepository;
 import com.automobilefleet.repositories.CarRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -29,7 +28,7 @@ public class CarImageService {
     public List<CarImageResponse> listAllImage() {
         return this.carImageRepository.findAll().stream()
                 .map(carImage -> this.mapper.map(carImage, CarImageResponse.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public CarImageResponse getImageById(UUID id) {

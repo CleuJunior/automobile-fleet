@@ -6,15 +6,14 @@ import com.automobilefleet.entities.Category;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.CategoryRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -28,7 +27,7 @@ public class CategoryService {
                 .stream()
                 .filter(Objects::nonNull)
                 .map(category -> this.mapper.map(category, CategoryResponse.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public CategoryResponse getCategoryById(UUID id) {

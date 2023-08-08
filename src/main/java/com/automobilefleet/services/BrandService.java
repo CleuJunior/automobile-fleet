@@ -6,15 +6,14 @@ import com.automobilefleet.entities.Brand;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.BrandRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -27,7 +26,7 @@ public class BrandService {
         return this.repository.findAll().stream()
                 .filter(Objects::nonNull)
                 .map(brand -> this.mapper.map(brand, BrandResponse.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public BrandResponse getBrandById(UUID id) {

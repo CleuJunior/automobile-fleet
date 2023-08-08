@@ -12,16 +12,15 @@ import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.repositories.CarSpecificationRepository;
 import com.automobilefleet.repositories.SpecificationRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -37,7 +36,7 @@ public class CarSpecificationService {
                  .stream()
                  .filter(Objects::nonNull)
                  .map(carSpecification -> this.mapper.map(carSpecification, CarSpecificationResponse.class))
-                 .collect(Collectors.toList());
+                 .toList();
     }
 
     public CarSpecificationResponse getCarSpecificationById(UUID id) {

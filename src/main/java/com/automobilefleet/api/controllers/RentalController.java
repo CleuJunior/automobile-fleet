@@ -1,7 +1,7 @@
 package com.automobilefleet.api.controllers;
 
-import com.automobilefleet.api.dto.response.RentalResponse;
 import com.automobilefleet.api.dto.request.RentalRequest;
+import com.automobilefleet.api.dto.response.RentalResponse;
 import com.automobilefleet.services.RentalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

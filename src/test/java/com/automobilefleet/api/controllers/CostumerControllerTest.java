@@ -6,6 +6,7 @@ import com.automobilefleet.api.dto.request.CostumerRequest;
 import com.automobilefleet.api.dto.response.CostumerResponse;
 import com.automobilefleet.services.CostumerService;
 import com.automobilefleet.utils.JsonMapper;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.UUID;
 

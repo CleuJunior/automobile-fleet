@@ -1,7 +1,7 @@
 package com.automobilefleet.api.controllers;
 
-import com.automobilefleet.api.dto.response.CarImageResponse;
 import com.automobilefleet.api.dto.request.CarImageRequest;
+import com.automobilefleet.api.dto.response.CarImageResponse;
 import com.automobilefleet.services.CarImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

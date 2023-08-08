@@ -6,18 +6,17 @@ import com.automobilefleet.entities.Costumer;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.CostumerRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -34,7 +33,7 @@ public class CostumerService {
                 .stream()
                 .filter(Objects::nonNull)
                 .map(costumer -> this.mapper.map(costumer, CostumerResponse.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public CostumerResponse getCostumerById(UUID id) {
