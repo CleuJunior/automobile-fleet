@@ -23,7 +23,7 @@ public class CarTemplateLoader implements TemplateLoader {
     private static final String NAME = "488";
     private static final String DESCRIPTION = "Esportivo da Ferrari";
     private static final Double DAILY_RATE = 1_500.0;
-    private static final Boolean AVAILABLE = false;
+    private static final Boolean AVAILABLE = true;
     private static final String LICENSE_PLATE = "LMN-3456";
     private static final String COLOR = "Vermelho";
     private static final LocalDateTime CREATED_AT = LocalDateTime.of(2017, 3, 12, 22, 28, 12);
@@ -44,7 +44,7 @@ public class CarTemplateLoader implements TemplateLoader {
             add("name", NAME);
             add("description", DESCRIPTION);
             add("dailyRate", DAILY_RATE);
-            add("isAvailable", AVAILABLE);
+            add("available", AVAILABLE);
             add("licensePlate", LICENSE_PLATE);
             add("brand", buildBrand());
             add("category", buildCategory());
@@ -57,10 +57,10 @@ public class CarTemplateLoader implements TemplateLoader {
             add("name", NAME);
             add("description", DESCRIPTION);
             add("dailyRate", DAILY_RATE);
-            add("isAvailable", AVAILABLE);
+            add("available", AVAILABLE);
             add("licensePlate", LICENSE_PLATE);
-            add("brand", new BrandResponse());
-            add("category", new CategoryResponse());
+            add("brand", buildBrandReponse());
+            add("category", buildCategoryResponse());
             add("color", COLOR);
             add("createdAt", CREATED_AT);
         }});

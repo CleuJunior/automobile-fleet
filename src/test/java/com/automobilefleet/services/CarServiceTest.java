@@ -33,6 +33,13 @@ class CarServiceTest extends ServiceInitialSetup<Car, CarResponse> {
     @Mock
     private CategoryRepository categoryRepository;
     private static final UUID ID = UUID.fromString("4f2e3bc7-8522-4543-922c-03480d044e62");
+    private static final String NAME = "488";
+    private static final String DESCRIPTION = "Esportivo da Ferrari";
+    private static final Double DAILY_RATE = 1_500.0;
+    private static final Boolean AVAILABLE = true;
+    private static final String LICENSE_PLATE = "LMN-3456";
+    private static final String COLOR = "Vermelho";
+    private static final LocalDateTime CREATED_AT = LocalDateTime.of(2017, 3, 12, 22, 28, 12);
 
     @BeforeEach
     void setupAttributes() {
@@ -45,16 +52,45 @@ class CarServiceTest extends ServiceInitialSetup<Car, CarResponse> {
         Mockito.when(this.mapper.map(this.entity, CarResponse.class)).thenReturn(super.response);
         Mockito.when(this.carRepository.findAll()).thenReturn(Collections.singletonList(super.entity));
 
-        final CarResponse actual = this.service.listOfCars()
-                .stream()
-                .findFirst()
-                .orElse(null);
+        final CarResponse actual = this.service.listOfCars().get(0);
 
         // Assertions
         this.basicAssertions(actual);
 
         // Verifications
         Mockito.verify(this.carRepository).findAll();
+        Mockito.verifyNoMoreInteractions(this.carRepository);
+    }
+
+    @Test
+    void shouldReturnSingleListCallingByName() {
+        Mockito.when(this.mapper.map(super.entity, CarResponse.class)).thenReturn(super.response);
+        Mockito.when(this.carRepository.findCarsByBrand_Name(ArgumentMatchers.anyString()))
+                .thenReturn(Collections.singletonList(super.entity));
+
+        final CarResponse actual = this.service.findByCarBrand("Ferrari").get(0);
+
+        // Assertions
+        this.basicAssertions(actual);
+
+        // Verifications
+        Mockito.verify(this.carRepository).findCarsByBrand_Name(ArgumentMatchers.anyString());
+        Mockito.verifyNoMoreInteractions(this.carRepository);
+    }
+
+    @Test
+    void shouldReturnSingleListCallingByAvailable() {
+        Mockito.when(this.mapper.map(super.entity, CarResponse.class)).thenReturn(super.response);
+        Mockito.when(this.carRepository.findByAvailable(true))
+                .thenReturn(Collections.singletonList(super.entity));
+
+        final CarResponse actual = this.service.findByCarAvailable().get(0);
+
+        // Assertions
+        this.basicAssertions(actual);
+
+        // Verifications
+        Mockito.verify(this.carRepository).findByAvailable(true);
         Mockito.verifyNoMoreInteractions(this.carRepository);
     }
 
@@ -147,35 +183,18 @@ class CarServiceTest extends ServiceInitialSetup<Car, CarResponse> {
         Assertions.assertThrows(NotFoundException.class, () -> this.service.updateCar(ID, carRequest));
     }
 
-//
-//    @Test
-//    void shouldThrowExpecitonsWhenCategoryNotFoundWhenCallingSave() {
-//        CarRequest carRequest = new CarRequest();
-//        Mockito.when(this.brandRepository.findById(ArgumentMatchers.any())).thenReturn(Optional.of(new Brand()));
-//        Mockito.when(this.categoryRepository.findById(ArgumentMatchers.any())).thenReturn(Optional.empty());
-//        Assertions.assertThrows(NotFoundException.class, () -> this.service.saveCar(carRequest));
-//    }
-
     private void basicAssertions(CarResponse actual) {
-        final UUID id = UUID.fromString("4f2e3bc7-8522-4543-922c-03480d044e62");
-        final String name = "488";
-        final String description = "Esportivo da Ferrari";
-        final Double dailyRate = 1_500.0;
-        final Boolean available = false;
-        final String licensePlate = "LMN-3456";
-        final String color = "Vermelho";
-        final LocalDateTime createdAt = LocalDateTime.of(2017, 3, 12, 22, 28, 12);
-
         Assertions.assertNotNull(actual);
         Assertions.assertNotNull(actual.getBrand());
         Assertions.assertNotNull(actual.getCategory());
-        Assertions.assertEquals(id, actual.getId());
-        Assertions.assertEquals(name, actual.getName());
-        Assertions.assertEquals(description, actual.getDescription());
-        Assertions.assertEquals(dailyRate, actual.getDailyRate());
-        Assertions.assertEquals(available, actual.isAvailable());
-        Assertions.assertEquals(licensePlate, actual.getLicensePlate());
-        Assertions.assertEquals(color, actual.getColor());
-        Assertions.assertEquals(createdAt, actual.getCreatedAt());
+
+        Assertions.assertEquals(ID, actual.getId());
+        Assertions.assertEquals(NAME, actual.getName());
+        Assertions.assertEquals(DESCRIPTION, actual.getDescription());
+        Assertions.assertEquals(DAILY_RATE, actual.getDailyRate());
+        Assertions.assertEquals(AVAILABLE, actual.isAvailable());
+        Assertions.assertEquals(LICENSE_PLATE, actual.getLicensePlate());
+        Assertions.assertEquals(COLOR, actual.getColor());
+        Assertions.assertEquals(CREATED_AT, actual.getCreatedAt());
     }
 }

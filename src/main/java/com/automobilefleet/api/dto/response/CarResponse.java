@@ -33,7 +33,7 @@ public class CarResponse {
     private Double dailyRate;
 
     @JsonProperty("avaliable")
-    private boolean isAvailable;
+    private boolean available;
 
     @JsonProperty("license_plate")
     private String licensePlate;

@@ -34,7 +34,7 @@ public class CarRequest {
     private Double dailyRate;
 
     @JsonProperty("available")
-    private boolean isAvailable;
+    private boolean available;
 
     @JsonProperty("license_plate")
     @NotBlank(message = "License plate can't be blank")
