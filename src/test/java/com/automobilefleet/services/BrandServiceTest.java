@@ -1,125 +1,113 @@
 package com.automobilefleet.services;
 
-import br.com.six2six.fixturefactory.Fixture;
-import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 import com.automobilefleet.api.dto.request.BrandRequest;
 import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.entities.Brand;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
+import com.automobilefleet.mapper.BrandMapper;
 import com.automobilefleet.repositories.BrandRepository;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.modelmapper.ModelMapper;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
 
 @ExtendWith(SpringExtension.class)
-class BrandServiceTest {
-    @InjectMocks
-    private BrandService service;
+class BrandServiceTest extends ServiceInitialSetup {
     @Mock
     private BrandRepository repository;
-    @Mock
-    private ModelMapper mapper;
+    private BrandService service;
     private Brand brand;
     private BrandResponse response;
-    private BrandRequest request;
+    private final BrandMapper mapper = new BrandMapper();
     private static final UUID ID = UUID.fromString("0a7d6250-0be5-4036-8f23-33dc1762bed0");
-
-    @BeforeAll
-    static void setup() {
-        FixtureFactoryLoader.loadTemplates("com.automobilefleet.utils");
-    }
+    private static final String NAME = "BMW";
+    private static final LocalDateTime CREATED_AT = LocalDateTime.of(2018, 7, 30, 12, 33, 33);
 
     @BeforeEach
     void setupAttributes() {
-        this.brand = Fixture.from(Brand.class).gimme("brand");
-        this.response = Fixture.from(BrandResponse.class).gimme("response");
-        this.request = Fixture.from(BrandRequest.class).gimme("request");
-        Mockito.when(this.mapper.map(this.brand, BrandResponse.class)).thenReturn(this.response);
-        Mockito.when(this.mapper.map(this.request, Brand.class)).thenReturn(this.brand);
+        this.service = new BrandService(this.repository, this.mapper);
+        this.brand = Brand.builder().id(ID).name(NAME).createdAt(CREATED_AT).build();
+        this.response = new BrandResponse(ID, NAME);
     }
 
-    @Test
-    void shouldReturnListOfBrandsWhenCallingFindAll() {
+    @Override @Test
+    void shouldReturnSingleList() {
         Mockito.when(this.repository.findAll()).thenReturn(Collections.singletonList(this.brand));
 
-        final BrandResponse actual = this.service.listBrand().stream().findFirst().orElse(null);
+        final Optional<BrandResponse> actual = this.service.listBrand().stream().findFirst();
 
         // Assertions
-        Assertions.assertNotNull(actual);
-        Assertions.assertEquals(this.response.getId(), actual.getId());
-        Assertions.assertEquals(this.response.getName(), actual.getName());
-        Assertions.assertEquals(this.response.getCreatedAt(), actual.getCreatedAt());
+        Assertions.assertTrue(actual.isPresent());
+        Assertions.assertEquals(this.response, actual.get());
 
         // Verifications
         Mockito.verify(this.repository).findAll();
         Mockito.verifyNoMoreInteractions(this.repository);
     }
 
-    @Test
-    void shouldReturnABrandWhenCallingGetBrandById() {
+    @Override @Test
+    void shouldReturnById() {
         Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.brand));
 
         final BrandResponse actual = this.service.getBrandById(ID);
 
         // Assertions
         Assertions.assertNotNull(actual);
-        Assertions.assertEquals(this.response.getId(), actual.getId());
-        Assertions.assertEquals(this.response.getName(), actual.getName());
-        Assertions.assertEquals(this.response.getCreatedAt(), actual.getCreatedAt());
+        Assertions.assertEquals(this.response, actual);
 
         // Verifications
         Mockito.verify(this.repository).findById(ID);
         Mockito.verifyNoMoreInteractions(this.repository);
+
     }
 
-    @Test
-    void shouldReturnBrandWhenCallingSaveBrand() {
+    @Override @Test
+    void shouldSave() {
         Mockito.when(this.repository.save(ArgumentMatchers.any(Brand.class))).thenReturn(this.brand);
 
-        final BrandResponse actual = this.service.saveBrand(this.request);
+        final BrandRequest request = new BrandRequest(NAME);
+        final BrandResponse actual = this.service.saveBrand(request);
 
         // Assertions
         Assertions.assertNotNull(actual);
-        Assertions.assertEquals(this.response.getId(), actual.getId());
-        Assertions.assertEquals(this.response.getName(), actual.getName());
-        Assertions.assertEquals(this.response.getCreatedAt(), actual.getCreatedAt());
+        Assertions.assertEquals(this.response, actual);
 
         // Verifications
         Mockito.verify(this.repository).save(ArgumentMatchers.any());
         Mockito.verifyNoMoreInteractions(this.repository);
+
     }
 
-    @Test
-    void shouldUpdateExistingBrandWhenCallingUpdateBrand() {
+    @Override @Test
+    void shouldUpdate() {
         Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.brand));
         Mockito.when(this.repository.save(ArgumentMatchers.any(Brand.class))).thenReturn(this.brand);
 
-        final BrandResponse brandResponse = this.service.updateBrand(ID, this.request);
+        final BrandRequest request = new BrandRequest(NAME);
+        final BrandResponse brandResponse = this.service.updateBrand(ID, request);
 
         // Assertions
         Assertions.assertNotNull(brandResponse);
-        Assertions.assertEquals(this.request.getName(), brandResponse.getName());
+        Assertions.assertEquals(request.name(), brandResponse.name());
 
         // Verifications
         Mockito.verify(this.repository).findById(ID);
         Mockito.verify(this.repository).save(ArgumentMatchers.any(Brand.class));
+
     }
 
     @Test
-    void shouldDeleteBrandWhenCallinDeleteBrand() {
+    void shouldDelete() {
         Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.brand));
 
         this.service.deleteBrandById(ID);
@@ -129,23 +117,14 @@ class BrandServiceTest {
         Mockito.verify(this.repository).delete(this.brand);
     }
 
-    @Test
-    void shouldThrowBrandNotFoundExceptionWhenCallingGetBrand() {
+    @Override @Test
+    void shouldThrowErros() {
         Mockito.when(this.repository.findById(ID)).thenReturn(Optional.empty());
-        BrandRequest emptyRequest = new BrandRequest();
+        BrandRequest anyRequest = new BrandRequest("Any");
 
-        NotFoundException exceptionFindById =
-                Assertions.assertThrows(NotFoundException.class, () -> this.service.getBrandById(ID));
-
-        NotFoundException exceptionUpdate =
-                Assertions.assertThrows(NotFoundException.class, () -> this.service.updateBrand(ID, emptyRequest));
-
-        NotFoundException exceptionDelete =
-                Assertions.assertThrows(NotFoundException.class, () -> this.service.deleteBrandById(ID));
-
-        Assertions.assertEquals(ExceptionsConstants.BRAND_NOT_FOUND, exceptionFindById.getMessage());
-        Assertions.assertEquals(ExceptionsConstants.BRAND_NOT_FOUND, exceptionUpdate.getMessage());
-        Assertions.assertEquals(ExceptionsConstants.BRAND_NOT_FOUND, exceptionDelete.getMessage());
+        Assertions.assertThrows(NotFoundException.class, () -> this.service.getBrandById(ID));
+        Assertions.assertThrows(NotFoundException.class, () -> this.service.updateBrand(ID, anyRequest));
+        Assertions.assertThrows(NotFoundException.class, () -> this.service.deleteBrandById(ID));
 
         Mockito.verify(this.repository, Mockito.times(3)).findById(ID);
     }

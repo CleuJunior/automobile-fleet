@@ -1,6 +1,5 @@
 package com.automobilefleet.api.controllers;
 
-import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 import com.automobilefleet.api.dto.request.BrandRequest;
 import com.automobilefleet.api.dto.response.BrandResponse;
@@ -43,13 +42,17 @@ class BrandControllerTest {
     private MockMvc mockMvc;
     private BrandResponse response;
     private BrandRequest request;
-    private final static UUID ID = UUID.fromString("b86a92d8-6908-426e-8316-f72b0c849a4b");
-    private final static String BASE_URL = "/api/v1/brand";
-    private final static String URL_ID = BASE_URL + "/{id}";
-    private final static String URL_LIST = BASE_URL + "/list";
-    private final static String URL_SAVE = BASE_URL + "/save";
-    private final static String UPDATE_ID = BASE_URL + "/update/{id}";
-    private final static String DELETE_ID = BASE_URL + "/delete/{id}";
+    private static final UUID ID = UUID.fromString("0a7d6250-0be5-4036-8f23-33dc1762bed0");
+    private static final String NAME = "BMW";
+
+    // Endpoints
+    private final static String URL_ID = "/api/v1/brand/{id}";
+    private final static String URL_LIST = "/api/v1/brand/list";
+    private final static String URL_SAVE =  "/api/v1/brand/save";
+    private final static String UPDATE_ID = "/api/v1/brand/update/{id}";
+    private final static String DELETE_ID = "/api/v1/brand/delete/{id}";
+
+
 
     @BeforeAll
     static void setup() {
@@ -59,8 +62,8 @@ class BrandControllerTest {
     @BeforeEach
     void setupAttributes() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).alwaysDo(print()).build();
-        this.response = Fixture.from(BrandResponse.class).gimme("response");
-        this.request = Fixture.from(BrandRequest.class).gimme("request");
+        this.response = new BrandResponse(ID, NAME);
+        this.request = new BrandRequest(NAME);
     }
 
     @Test

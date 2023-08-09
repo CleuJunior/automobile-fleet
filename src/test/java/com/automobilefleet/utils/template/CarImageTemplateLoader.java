@@ -81,28 +81,16 @@ public class CarImageTemplateLoader implements TemplateLoader {
     private CarResponse buildCarResponse(Car car) {
         BrandResponse brandReponse = new BrandResponse(
                 car.getBrand().getId(),
-                car.getBrand().getName(),
-                car.getBrand().getCreatedAt()
+                car.getBrand().getName()
         );
 
         CategoryResponse categoryResponse = new CategoryResponse(
                 car.getCategory().getId(),
                 car.getCategory().getName(),
-                car.getCategory().getDescription(),
-                car.getCategory().getCreatedAt()
+                car.getCategory().getDescription()
         );
 
-        return CarResponse.builder()
-                .id(car.getId())
-                .name(car.getName())
-                .description(car.getDescription())
-                .dailyRate(car.getDailyRate())
-                .available(car.isAvailable())
-                .licensePlate(car.getLicensePlate())
-                .brand(brandReponse)
-                .category(categoryResponse)
-                .color(car.getColor())
-                .createdAt(car.getCreatedAt())
-                .build();
+        return new CarResponse(car.getId(), car.getName(), car.getDescription(), car.getDailyRate(), car.isAvailable(),
+                car.getLicensePlate(), brandReponse, categoryResponse, car.getColor());
     }
 }

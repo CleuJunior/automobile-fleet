@@ -1,15 +1,10 @@
 package com.automobilefleet.api.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter @Setter
-public class BrandRequest {
-    @JsonProperty("name")
-    private String name;
-}
+public record BrandRequest(
+        @NotBlank(message = "Name can't be blank")
+        @Size(min = 2, max = 255, message = "Name must contain between 2 to 255 characters!")
+        String name
+) {}

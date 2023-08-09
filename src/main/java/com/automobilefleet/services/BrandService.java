@@ -5,10 +5,10 @@ import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.entities.Brand;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
+import com.automobilefleet.mapper.BrandMapper;
 import com.automobilefleet.repositories.BrandRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,12 +20,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BrandService {
     private final BrandRepository repository;
-    private final ModelMapper mapper;
+    private final BrandMapper brandMapper;
 
     public List<BrandResponse> listBrand() {
-        return this.repository.findAll().stream()
+        return this.repository.findAll()
+                .stream()
                 .filter(Objects::nonNull)
-                .map(brand -> this.mapper.map(brand, BrandResponse.class))
+                .map(this.brandMapper)
                 .toList();
     }
 
@@ -33,20 +34,24 @@ public class BrandService {
         Brand response = this.repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.BRAND_NOT_FOUND));
 
-        return this.mapper.map(response, BrandResponse.class);
+        return this.brandMapper.apply(response);
     }
 
     public BrandResponse saveBrand(BrandRequest request) {
-        Brand response = this.mapper.map(request, Brand.class);
-        return this.mapper.map(this.repository.save(response), BrandResponse.class);
+        Brand response = Brand
+                .builder()
+                .name(request.name())
+                .build();
+
+        return this.brandMapper.apply(this.repository.save(response));
     }
 
     public BrandResponse updateBrand(UUID id, BrandRequest request) {
         Brand response = this.repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.BRAND_NOT_FOUND));
 
-        response.setName(request.getName());
-        return this.mapper.map(this.repository.save(response), BrandResponse.class);
+        response.setName(request.name());
+        return this.brandMapper.apply(this.repository.save(response));
     }
 
     public void deleteBrandById(UUID id) {

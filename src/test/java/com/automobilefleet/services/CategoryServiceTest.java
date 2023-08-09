@@ -62,10 +62,9 @@ class CategoryServiceTest {
 
         // Assertions
         Assertions.assertNotNull(actual);
-        Assertions.assertEquals(this.response.getId(), actual.getId());
-        Assertions.assertEquals(this.response.getName(), actual.getName());
-        Assertions.assertEquals(this.response.getDescription(), actual.getDescription());
-        Assertions.assertEquals(this.response.getCreatedAt(), actual.getCreatedAt());
+        Assertions.assertEquals(this.response.id(), actual.id());
+        Assertions.assertEquals(this.response.name(), actual.name());
+        Assertions.assertEquals(this.response.description(), actual.description());
 
         Mockito.verify(this.repository).findAll();
         Mockito.verifyNoMoreInteractions(this.repository);
@@ -82,10 +81,9 @@ class CategoryServiceTest {
         Assertions.assertDoesNotThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
         Assertions.assertNotNull(actual);
         Assertions.assertInstanceOf(CategoryResponse.class, actual);
-        Assertions.assertEquals(this.response.getId(), actual.getId());
-        Assertions.assertEquals(this.response.getName(), actual.getName());
-        Assertions.assertEquals(this.response.getDescription(), actual.getDescription());
-        Assertions.assertEquals(this.response.getCreatedAt(), actual.getCreatedAt());
+        Assertions.assertEquals(this.response.id(), actual.id());
+        Assertions.assertEquals(this.response.name(), actual.name());
+        Assertions.assertEquals(this.response.description(), actual.description());
 
         Mockito.verify(this.repository).findById(ID);
         Mockito.verifyNoMoreInteractions(this.repository);
@@ -103,10 +101,9 @@ class CategoryServiceTest {
         // Assertions
         Assertions.assertNotNull(actual);
         Assertions.assertInstanceOf(CategoryResponse.class, actual);
-        Assertions.assertEquals(this.response.getId(), actual.getId());
-        Assertions.assertEquals(this.response.getName(), actual.getName());
-        Assertions.assertEquals(this.response.getDescription(), actual.getDescription());
-        Assertions.assertEquals(this.response.getCreatedAt(), actual.getCreatedAt());
+        Assertions.assertEquals(this.response.id(), actual.id());
+        Assertions.assertEquals(this.response.name(), actual.name());
+        Assertions.assertEquals(this.response.description(), actual.description());
     }
 
     @Test
@@ -121,9 +118,9 @@ class CategoryServiceTest {
 
         // Assertions
         Assertions.assertNotNull(actual);
-        Assertions.assertEquals(this.response.getId(), actual.getId());
-        Assertions.assertEquals(this.response.getName(), actual.getName());
-        Assertions.assertEquals(this.response.getDescription(), actual.getDescription());
+        Assertions.assertEquals(this.response.id(), actual.id());
+        Assertions.assertEquals(this.response.name(), actual.name());
+        Assertions.assertEquals(this.response.description(), actual.description());
 
         // Check mock interactions
         Mockito.verify(this.repository).findById(ID);

@@ -23,14 +23,14 @@ public class BrandTemplateLoader implements TemplateLoader {
             add("createdAt", CREATED_AT);
         }});
 
-        Fixture.of(BrandResponse.class).addTemplate("response", new Rule() {{
-            add("id", ID);
-            add("name", NAME);
-            add("createdAt", CREATED_AT);
-        }});
-
-        Fixture.of(BrandRequest.class).addTemplate("request", new Rule() {{
-            add("name", NAME);
-        }});
+//        Fixture.of(BrandResponse.class).addTemplate("response", new Rule() {{
+//            add("id", ID);
+//            add("name", NAME);
+//            add("createdAt", CREATED_AT);
+//        }});
+//
+//        Fixture.of(BrandRequest.class).addTemplate("request", new Rule() {{
+//            add("name", NAME);
+//        }});
     }
 }

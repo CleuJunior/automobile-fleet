@@ -131,7 +131,7 @@ class CarImageServiceTest {
         // Assertions
         Assertions.assertNotNull(updatedCarImage);
         Assertions.assertEquals(this.response.getId(), updatedCarImage.getId());
-        Assertions.assertEquals(this.response.getCar().getId(), updatedCarImage.getCar().getId());
+        Assertions.assertEquals(this.response.getCar().id(), updatedCarImage.getCar().id());
         Assertions.assertEquals(this.response.getLinkImage(), updatedCarImage.getLinkImage());
 
         // Check mock interactions

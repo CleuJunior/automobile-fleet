@@ -8,12 +8,12 @@ import com.automobilefleet.entities.Category;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.CarNotFoundException;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
+import com.automobilefleet.mapper.CarMapper;
 import com.automobilefleet.repositories.BrandRepository;
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.repositories.CategoryRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,13 +27,13 @@ public class CarService {
     private final CarRepository carRepository;
     private final BrandRepository brandRepository;
     private final CategoryRepository categoryRepository;
-    private final ModelMapper mapper;
+    private final CarMapper mapper;
 
     public List<CarResponse> listOfCars() {
         return this.carRepository.findAll()
                 .stream()
                 .filter(Objects::nonNull)
-                .map(car -> this.mapper.map(car, CarResponse.class))
+                .map(this.mapper)
                 .toList();
     }
 
@@ -41,14 +41,14 @@ public class CarService {
         Car response = this.carRepository.findById(id).
                 orElseThrow(CarNotFoundException::new);
 
-        return this.mapper.map(response, CarResponse.class);
+        return this.mapper.apply(response);
     }
 
     public List<CarResponse> findByCarBrand(String brandName) {
         return this.carRepository.findCarsByBrand_Name(brandName)
                 .stream()
                 .filter(Objects::nonNull)
-                .map(car -> this.mapper.map(car, CarResponse.class))
+                .map(this.mapper)
                 .toList();
     }
 
@@ -56,7 +56,7 @@ public class CarService {
         return this.carRepository.findByAvailable(true)
                 .stream()
                 .filter(Objects::nonNull)
-                .map(car -> this.mapper.map(car, CarResponse.class))
+                .map(this.mapper)
                 .toList();
     }
 
@@ -78,7 +78,7 @@ public class CarService {
                 .color(request.getColor())
                 .build();
 
-        return this.mapper.map(this.carRepository.save(response), CarResponse.class);
+        return this.mapper.apply(this.carRepository.save(response));
     }
 
     public CarResponse updateCar(UUID id, CarRequest request) {
@@ -92,7 +92,7 @@ public class CarService {
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
         this.updateCar(response, request, brand, category);
-        return this.mapper.map(this.carRepository.save(response), CarResponse.class);
+        return this.mapper.apply(this.carRepository.save(response));
     }
 
     private void updateCar(Car car, CarRequest request, Brand brand, Category category) {

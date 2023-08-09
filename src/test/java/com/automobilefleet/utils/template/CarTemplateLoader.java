@@ -86,10 +86,10 @@ public class CarTemplateLoader implements TemplateLoader {
     }
 
     private BrandResponse buildBrandReponse() {
-        return new BrandResponse(ID_BRAND, BRAND_NAME, CREATED_AT);
+        return new BrandResponse(ID_BRAND, BRAND_NAME);
     }
 
     private CategoryResponse buildCategoryResponse() {
-        return new CategoryResponse(ID_CATEGORY, NAME_CATEGORY, DESCRIPTION_CATEGORY, CREATED_AT);
+        return new CategoryResponse(ID_CATEGORY, NAME_CATEGORY, DESCRIPTION_CATEGORY);
     }
 }
