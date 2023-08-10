@@ -42,14 +42,16 @@ class CategoryControllerTest {
     private CategoryService service;
     private MockMvc mockMvc;
     private MockHttpServletResponse httpResponse;
-    private CategoryResponse reponse;
+    private CategoryResponse response;
     private CategoryRequest request;
     private final static UUID ID = UUID.fromString("b86a92d8-6908-426e-8316-f72b0c849a4b");
+    private static final String NAME = "SUVs";
+    private static final String DESCRIPTION = "Veículos utilitários esportivos";
     private final static String URL_ID = "/api/v1/category/{id}";
     private final static String URL_LIST = "/api/v1/category/list";
     private final static String URL_SAVE = "/api/v1/category/save";
     private final static String UPDATE_ID = "/api/v1/category/update/{id}";
-    private final static String CONTENT_STRING_JSON = "{\"_id\":\"b86a92d8-6908-426e-8316-f72b0c849a4b\",\"name\":\"SUVs\",\"description\":\"Veículos utilitários esportivos\",\"created_at\":\"23-12-2019 08:22:11\"}";
+    private final static String CONTENT_STRING_JSON = "{\"_id\":\"b86a92d8-6908-426e-8316-f72b0c849a4b\",\"name\":\"SUVs\",\"description\":\"Veículos utilitários esportivos\"}";
     private final static String CONTENT_STRING_JSON_LIST = "[" + CONTENT_STRING_JSON + "]";
     private final static String CHARACTER_ENCODING_UTF_8 = "UTF-8";
     private final static int HTTP_STATUS_OK = 200;
@@ -64,13 +66,13 @@ class CategoryControllerTest {
     @BeforeEach
     void setupAttributes() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
-        this.reponse = Fixture.from(CategoryResponse.class).gimme("response");
+        this.response = new CategoryResponse(ID, NAME, DESCRIPTION);
         this.request = Fixture.from(CategoryRequest.class).gimme("request");;
     }
 
     @Test
     void shouldGetBrandByIdAndStatusCodeOK() throws Exception {
-        Mockito.when(this.service.getCategoryById(ID)).thenReturn(this.reponse);
+        Mockito.when(this.service.getCategoryById(ID)).thenReturn(this.response);
 
         this.httpResponse = this.mockMvc.perform(get(URL_ID, ID)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -89,7 +91,7 @@ class CategoryControllerTest {
 
     @Test
     void shouldGetListBrandAndStatusCodeOK() throws Exception {
-        Mockito.when(this.service.listCategories()).thenReturn(Collections.singletonList(this.reponse));
+        Mockito.when(this.service.listCategories()).thenReturn(Collections.singletonList(this.response));
 
         this.httpResponse = this.mockMvc.perform(get(URL_LIST).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -107,10 +109,10 @@ class CategoryControllerTest {
 
     @Test
     void shoulSaveBrandAndStatusCodeCreated() throws Exception {
-        Mockito.when(this.service.saveCategory(any(CategoryRequest.class))).thenReturn(this.reponse);
+        Mockito.when(this.service.saveCategory(any(CategoryRequest.class))).thenReturn(this.response);
 
         this.httpResponse = this.mockMvc.perform(post(URL_SAVE).contentType(MediaType.APPLICATION_JSON)
-                        .content(JsonMapper.asJsonString(this.reponse)))
+                        .content(JsonMapper.asJsonString(this.response)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andReturn()
                 .getResponse();
@@ -126,7 +128,7 @@ class CategoryControllerTest {
 
     @Test
     void shouldUpdateBrandAndStatusCodeAccepted() throws Exception {
-        Mockito.when(this.service.updateCategory(eq(ID), any(CategoryRequest.class))).thenReturn(this.reponse);
+        Mockito.when(this.service.updateCategory(eq(ID), any(CategoryRequest.class))).thenReturn(this.response);
 
         this.httpResponse = this.mockMvc.perform(put(UPDATE_ID, ID).contentType(MediaType.APPLICATION_JSON)
                         .content(JsonMapper.asJsonString(this.request)))

@@ -9,17 +9,10 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter @Setter
 @JsonPropertyOrder({"_id"})
-public class CarSpecificationResponse {
-    @JsonProperty("_id")
-    private UUID id;
-
-    @JsonProperty("car")
-    private CarResponse car;
-
-    @JsonProperty("specification")
-    private SpecificationResponse specification;
-}
+public record CarSpecificationResponse(
+        @JsonProperty("_id")
+        UUID id,
+        CarResponse car,
+        SpecificationResponse specification
+) {}

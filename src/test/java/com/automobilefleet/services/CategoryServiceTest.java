@@ -20,6 +20,8 @@ import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.print.attribute.standard.MediaSize;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
@@ -38,6 +40,8 @@ class CategoryServiceTest {
     private CategoryResponse response;
     private CategoryRequest request;
     private final static UUID ID = UUID.fromString("b86a92d8-6908-426e-8316-f72b0c849a4b");
+    private static final String NAME = "SUVs";
+    private static final String DESCRIPTION = "Veículos utilitários esportivos";
 
     @BeforeAll
     static void setup() {
@@ -47,7 +51,7 @@ class CategoryServiceTest {
     @BeforeEach
     void setupAttributes() {
         this.category = Fixture.from(Category.class).gimme("category");
-        this.response = Fixture.from(CategoryResponse.class).gimme("response");
+        this.response = new CategoryResponse(ID, NAME, DESCRIPTION);
         this.request = Fixture.from(CategoryRequest.class).gimme("request");
     }
 
