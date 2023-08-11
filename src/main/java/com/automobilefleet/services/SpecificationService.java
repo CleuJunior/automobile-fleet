@@ -5,10 +5,10 @@ import com.automobilefleet.api.dto.response.SpecificationResponse;
 import com.automobilefleet.entities.Specification;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
+import com.automobilefleet.mapper.SpecificationMapper;
 import com.automobilefleet.repositories.SpecificationRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,13 +21,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class SpecificationService {
     private final SpecificationRepository repository;
-    private final ModelMapper mapper;
+    private final SpecificationMapper mapper;
 
     public List<SpecificationResponse> listSpecifications() {
         return this.repository.findAll()
                 .stream()
                 .filter(Objects::nonNull)
-                .map(specification -> this.mapper.map(specification, SpecificationResponse.class))
+                .map(this.mapper)
                 .toList();
     }
 
@@ -37,17 +37,17 @@ public class SpecificationService {
         if (response.isEmpty())
             throw new NotFoundException(ExceptionsConstants.SPECIFICATION_NOT_FOUND);
 
-        return this.mapper.map(response.get(), SpecificationResponse.class);
+        return this.mapper.apply(response.get());
     }
 
     public SpecificationResponse saveSpecification(SpecificationRequest request) {
         Specification response = Specification
                 .builder()
-                .name(request.getName())
-                .description(request.getDescription())
+                .name(request.name())
+                .description(request.description())
                 .build();
 
-        return this.mapper.map(this.repository.save(response), SpecificationResponse.class);
+        return this.mapper.apply(this.repository.save(response));
     }
 
     public SpecificationResponse updateSpecification(UUID id, SpecificationRequest request) {
@@ -56,8 +56,8 @@ public class SpecificationService {
         if (response.isEmpty())
             throw new NotFoundException(ExceptionsConstants.SPECIFICATION_NOT_FOUND);
 
-        response.get().setName(request.getName());
-        response.get().setDescription(request.getDescription());
-        return this.mapper.map(this.repository.save(response.get()), SpecificationResponse.class);
+        response.get().setName(request.name());
+        response.get().setDescription(request.description());
+        return this.mapper.apply(this.repository.save(response.get()));
     }
 }

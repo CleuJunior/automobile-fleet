@@ -1,20 +1,11 @@
 package com.automobilefleet.api.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class SpecificationRequest {
+public record SpecificationRequest(
+        @JsonProperty("specification_name")
+        String name,
 
-    @JsonProperty("specification_name")
-    private String name;
-
-    @JsonProperty("specification_description")
-    private String description;
-}
+        @JsonProperty("specification_description")
+        String description
+) {}

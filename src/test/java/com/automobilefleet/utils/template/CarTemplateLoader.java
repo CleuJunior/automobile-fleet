@@ -49,7 +49,6 @@ public class CarTemplateLoader implements TemplateLoader {
             add("brand", buildBrand());
             add("category", buildCategory());
             add("color", COLOR);
-            add("createdAt", CREATED_AT);
         }});
 
         Fixture.of(CarResponse.class).addTemplate("response", new Rule() {{
@@ -62,7 +61,6 @@ public class CarTemplateLoader implements TemplateLoader {
             add("brand", buildBrandReponse());
             add("category", buildCategoryResponse());
             add("color", COLOR);
-            add("createdAt", CREATED_AT);
         }});
     }
 
@@ -71,7 +69,6 @@ public class CarTemplateLoader implements TemplateLoader {
                 .builder()
                 .id(UUID.fromString("4f2dd5bb-ae60-41ca-9227-0fb3dacebcbe"))
                 .name("Ferrari")
-                .createdAt(CREATED_AT)
                 .build();
     }
 
@@ -81,7 +78,6 @@ public class CarTemplateLoader implements TemplateLoader {
                 .id(UUID.fromString("146c8a0a-828c-4d4c-bbc3-fdc70bcf38f9"))
                 .name("Coupé")
                 .description("Categoria de carros com carroceria coupé")
-                .createdAt(CREATED_AT)
                 .build();
     }
 

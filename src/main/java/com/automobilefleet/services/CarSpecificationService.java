@@ -15,6 +15,7 @@ import com.automobilefleet.repositories.CarSpecificationRepository;
 import com.automobilefleet.repositories.SpecificationRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,26 +30,31 @@ public class CarSpecificationService {
     private final CarSpecificationRepository carSpecificationRepository;
     private final CarRepository carRepository;
     private final SpecificationRepository specificationRepository;
-    private final CarSpecificationMapper mapper;
 
     public List<CarSpecificationResponse> listCarSpecification() {
          return this.carSpecificationRepository.findAll()
                  .stream()
                  .filter(Objects::nonNull)
-                 .map(this.mapper)
+                 .map(CarSpecificationResponse::new)
                  .toList();
     }
 
     public CarSpecificationResponse getCarSpecificationById(UUID id) {
-        CarSpecification response = this.carSpecificationRepository.findById(id)
-                .orElseThrow(CarSpecificationsNotFoundException::new);
+        Optional<CarSpecification> response = this.carSpecificationRepository.findById(id);
 
-        return this.mapper.apply(response);
+        if (response.isEmpty()) {
+            throw new NotFoundException(ExceptionsConstants.CAR_SPECIFICATION_NOT_FOUND);
+        }
+
+        return new CarSpecificationResponse(response.get());
     }
 
     public CarSpecificationResponse saveCarEspecification(CarSpecificationRequest request) {
-        Car car = this.carRepository.findById(request.carId()).
-                orElseThrow(CarNotFoundException::new);
+        Optional<Car> car = this.carRepository.findById(request.carId());
+
+        if (car.isEmpty()) {
+            throw new NotFoundException(ExceptionsConstants.CAR_NOT_FOUND);
+        }
 
         Optional<Specification> specification = this.specificationRepository.findById(request.specificationId());
 
@@ -56,27 +62,34 @@ public class CarSpecificationService {
             throw new NotFoundException(ExceptionsConstants.SPECIFICATION_NOT_FOUND);
 
         CarSpecification response = CarSpecification.builder()
-                .car(car)
+                .car(car.get())
                 .specification(specification.get())
                 .build();
 
-        return this.mapper.apply(this.carSpecificationRepository.save(response));
+        return new CarSpecificationResponse(this.carSpecificationRepository.save(response));
     }
 
     public CarSpecificationResponse updateCarSpecification(UUID id, CarSpecificationRequest request) {
-        CarSpecification response = this.carSpecificationRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
+        Optional<CarSpecification> response = this.carSpecificationRepository.findById(id);
 
-        Car car = this.carRepository.findById(request.carId()).
-                orElseThrow(CarNotFoundException::new);
+        if (response.isEmpty()) {
+            throw new NotFoundException(ExceptionsConstants.CAR_SPECIFICATION_NOT_FOUND);
+        }
+
+        Optional<Car> car = this.carRepository.findById(request.carId());
+
+        if (car.isEmpty()) {
+            throw new CarNotFoundException();
+        }
 
         Optional<Specification> specification = this.specificationRepository.findById(request.specificationId());
 
-        if (specification.isEmpty())
+        if (specification.isEmpty()) {
             throw new NotFoundException(ExceptionsConstants.SPECIFICATION_NOT_FOUND);
+        }
 
-        response.setCar(car);
-        response.setSpecification(specification.get());
-        return this.mapper.apply(this.carSpecificationRepository.save(response));
+        response.get().setCar(car.get());
+        response.get().setSpecification(specification.get());
+        return new CarSpecificationResponse(this.carSpecificationRepository.save(response.get()));
     }
 }

@@ -1,5 +1,6 @@
 package com.automobilefleet.api.dto.response;
 
+import com.automobilefleet.entities.Car;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -22,5 +23,21 @@ public record CarResponse(
         CategoryResponse category,
         String color
 
-) {}
+) {
+
+        public CarResponse(Car car) {
+                this(
+                        car.getId(),
+                        car.getName(),
+                        car.getDescription(),
+                        car.getDailyRate(),
+                        car.isAvailable(),
+                        car.getLicensePlate(),
+                        new BrandResponse(car.getBrand()),
+                        new CategoryResponse(car.getCategory()),
+                        car.getColor()
+                );
+        }
+
+}
 

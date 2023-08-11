@@ -1,5 +1,6 @@
 package com.automobilefleet.api.dto.response;
 
+import com.automobilefleet.entities.Category;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -11,4 +12,8 @@ public record CategoryResponse(
         UUID id,
         String name,
         String description
-) {}
+) {
+        public CategoryResponse(Category category) {
+                this(category.getId(), category.getName(), category.getDescription());
+        }
+}
