@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -43,6 +44,12 @@ class CostumerControllerTest {
     private CostumerResponse response;
     private CostumerRequest request;
     private final static UUID ID = UUID.fromString("32ca0461-0401-4b15-bf57-3d2b18b3828f");
+    private static final String NAME = "Raimunda Regina Porto";
+    private static final LocalDate BIRTHDATE = LocalDate.of(1974, 3, 5);
+    private static final String EMAIL = "raimundareginaporto@clinicasilhouette.com.br";
+    private static final String DRIVER_LICENSE = "08493447718";
+    private static final String ADDRESS = "Rua Astrogildo de Almeida, 328";
+    private static final String PHONE = "(73) 99362-1339";
     private final static String URL_ID = "/api/v1/costumer/{id}";
     private final static String URL_LIST = "/api/v1/costumer/list";
     private final static String URL_SAVE = "/api/v1/costumer/save";
@@ -56,8 +63,8 @@ class CostumerControllerTest {
     @BeforeEach
     void setupAttributes() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).alwaysDo(print()).build();
-        this.response = Fixture.from(CostumerResponse.class).gimme("response");
-        this.request = Fixture.from(CostumerRequest.class).gimme("request");
+        this.response = new CostumerResponse(ID, NAME, BIRTHDATE, EMAIL, DRIVER_LICENSE, ADDRESS, PHONE);
+        this.request = new CostumerRequest(NAME, BIRTHDATE, EMAIL, DRIVER_LICENSE, ADDRESS, PHONE);
     }
 
     @Test

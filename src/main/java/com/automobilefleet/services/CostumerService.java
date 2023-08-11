@@ -24,7 +24,6 @@ import java.util.UUID;
 public class CostumerService {
     private static final Logger LOG = LoggerFactory.getLogger(CostumerService.class);
     private final CostumerRepository repository;
-    private final ModelMapper mapper;
 
     public List<CostumerResponse> listCostumer() {
        LOG.info("List costumer registered!");
@@ -32,7 +31,7 @@ public class CostumerService {
         return this.repository.findAll()
                 .stream()
                 .filter(Objects::nonNull)
-                .map(costumer -> this.mapper.map(costumer, CostumerResponse.class))
+                .map(CostumerResponse::new)
                 .toList();
     }
 
@@ -45,13 +44,21 @@ public class CostumerService {
         }
 
         LOG.info("Costumer found successfully!");
-        return this.mapper.map(response.get(), CostumerResponse.class);
+        return new CostumerResponse(response.get());
     }
 
     public CostumerResponse saveCostumer(CostumerRequest request) {
-        Costumer response = this.mapper.map(request, Costumer.class);
+        Costumer response = Costumer.builder()
+                .name(request.name())
+                .birthdate(request.birthdate())
+                .email(request.email())
+                .driverLicense(request.driverLicense())
+                .address(request.address())
+                .phone(request.phone())
+                .build();
+
         LOG.info("Costumer saved!");
-        return this.mapper.map(this.repository.save(response), CostumerResponse.class);
+        return new CostumerResponse(this.repository.save(response));
     }
 
     public CostumerResponse updateCostumer(UUID id, CostumerRequest request) {
@@ -64,15 +71,15 @@ public class CostumerService {
 
         this.updateCostumer(response.get(), request);
         LOG.info("Costumer updated!");
-        return this.mapper.map(this.repository.save(response.get()), CostumerResponse.class);
+        return new CostumerResponse(this.repository.save(response.get()));
     }
 
     private void updateCostumer(Costumer costumer, CostumerRequest request) {
-        costumer.setName(request.getName());
-        costumer.setBirthdate(request.getBirthdate());
-        costumer.setEmail(request.getEmail());
-        costumer.setDriverLicense(request.getDriverLicense());
-        costumer.setAddress(request.getAddress());
-        costumer.setPhone(request.getPhone());
+        costumer.setName(request.name());
+        costumer.setBirthdate(request.birthdate());
+        costumer.setEmail(request.email());
+        costumer.setDriverLicense(request.driverLicense());
+        costumer.setAddress(request.address());
+        costumer.setPhone(request.phone());
     }
 }

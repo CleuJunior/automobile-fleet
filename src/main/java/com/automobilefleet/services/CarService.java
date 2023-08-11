@@ -8,7 +8,6 @@ import com.automobilefleet.entities.Category;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.CarNotFoundException;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
-import com.automobilefleet.mapper.CarMapper;
 import com.automobilefleet.repositories.BrandRepository;
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.repositories.CategoryRepository;
@@ -27,13 +26,12 @@ public class CarService {
     private final CarRepository carRepository;
     private final BrandRepository brandRepository;
     private final CategoryRepository categoryRepository;
-    private final CarMapper mapper;
 
     public List<CarResponse> listOfCars() {
         return this.carRepository.findAll()
                 .stream()
                 .filter(Objects::nonNull)
-                .map(this.mapper)
+                .map(CarResponse::new)
                 .toList();
     }
 
@@ -41,14 +39,14 @@ public class CarService {
         Car response = this.carRepository.findById(id).
                 orElseThrow(CarNotFoundException::new);
 
-        return this.mapper.apply(response);
+        return new CarResponse(response);
     }
 
     public List<CarResponse> findByCarBrand(String brandName) {
         return this.carRepository.findCarsByBrand_Name(brandName)
                 .stream()
                 .filter(Objects::nonNull)
-                .map(this.mapper)
+                .map(CarResponse::new)
                 .toList();
     }
 
@@ -56,50 +54,50 @@ public class CarService {
         return this.carRepository.findByAvailable(true)
                 .stream()
                 .filter(Objects::nonNull)
-                .map(this.mapper)
+                .map(CarResponse::new)
                 .toList();
     }
 
     public CarResponse saveCar(CarRequest request) {
-        Brand brand = this.brandRepository.findById(request.getBrandId())
+        Brand brand = this.brandRepository.findById(request.brandId())
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.BRAND_NOT_FOUND));
 
-        Category category = this.categoryRepository.findById(request.getCategoryId())
+        Category category = this.categoryRepository.findById(request.categoryId())
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
         Car response = Car.builder()
-                .name(request.getName())
-                .description(request.getDescription())
-                .dailyRate(request.getDailyRate())
-                .available(request.isAvailable())
-                .licensePlate(request.getLicensePlate())
+                .name(request.name())
+                .description(request.description())
+                .dailyRate(request.dailyRate())
+                .available(request.available())
+                .licensePlate(request.licensePlate())
                 .brand(brand)
                 .category(category)
-                .color(request.getColor())
+                .color(request.color())
                 .build();
 
-        return this.mapper.apply(this.carRepository.save(response));
+        return new CarResponse(this.carRepository.save(response));
     }
 
     public CarResponse updateCar(UUID id, CarRequest request) {
         Car response = this.carRepository.findById(id).
                 orElseThrow(CarNotFoundException::new);
 
-        Brand brand = this.brandRepository.findById(request.getBrandId())
+        Brand brand = this.brandRepository.findById(request.brandId())
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.BRAND_NOT_FOUND));
 
-        Category category = this.categoryRepository.findById(request.getCategoryId())
+        Category category = this.categoryRepository.findById(request.categoryId())
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
         this.updateCar(response, request, brand, category);
-        return this.mapper.apply(this.carRepository.save(response));
+        return new CarResponse(this.carRepository.save(response));
     }
 
     private void updateCar(Car car, CarRequest request, Brand brand, Category category) {
-        car.setName(request.getName());
-        car.setDescription(request.getDescription());
-        car.setDailyRate(request.getDailyRate());
-        car.setAvailable(request.isAvailable());
+        car.setName(request.name());
+        car.setDescription(request.description());
+        car.setDailyRate(request.dailyRate());
+        car.setAvailable(request.available());
         car.setLicensePlate(car.getLicensePlate());
         car.setBrand(brand);
         car.setCategory(category);

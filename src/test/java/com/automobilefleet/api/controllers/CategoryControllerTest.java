@@ -1,6 +1,5 @@
 package com.automobilefleet.api.controllers;
 
-import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 import com.automobilefleet.api.dto.request.CategoryRequest;
 import com.automobilefleet.api.dto.response.CategoryResponse;
@@ -67,7 +66,7 @@ class CategoryControllerTest {
     void setupAttributes() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
         this.response = new CategoryResponse(ID, NAME, DESCRIPTION);
-        this.request = Fixture.from(CategoryRequest.class).gimme("request");;
+        this.request = new CategoryRequest(NAME, DESCRIPTION);
     }
 
     @Test

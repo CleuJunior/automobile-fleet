@@ -46,8 +46,8 @@ public class CategoryService {
         Category response = this.repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
-        response.setName(request.getName());
-        response.setDescription(request.getDescription());
+        response.setName(request.name());
+        response.setDescription(request.description());
         return this.mapper.map(this.repository.save(response), CategoryResponse.class);
     }
 }

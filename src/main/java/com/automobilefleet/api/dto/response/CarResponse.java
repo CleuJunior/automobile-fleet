@@ -38,6 +38,4 @@ public record CarResponse(
                         car.getColor()
                 );
         }
-
 }
-

@@ -29,7 +29,7 @@ import java.util.UUID;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(SpringExtension.class)
-class CategoryServiceTest {
+class CategoryServiceTest extends ServiceInitialSetup{
     @InjectMocks
     private CategoryService service;
     @Mock
@@ -40,23 +40,16 @@ class CategoryServiceTest {
     private CategoryResponse response;
     private CategoryRequest request;
     private final static UUID ID = UUID.fromString("b86a92d8-6908-426e-8316-f72b0c849a4b");
-    private static final String NAME = "SUVs";
-    private static final String DESCRIPTION = "Veículos utilitários esportivos";
-
-    @BeforeAll
-    static void setup() {
-        FixtureFactoryLoader.loadTemplates("com.automobilefleet.utils");
-    }
 
     @BeforeEach
     void setupAttributes() {
         this.category = Fixture.from(Category.class).gimme("category");
-        this.response = new CategoryResponse(ID, NAME, DESCRIPTION);
-        this.request = Fixture.from(CategoryRequest.class).gimme("request");
+        this.response = new CategoryResponse(this.category);
+        this.request = new CategoryRequest(this.category.getName(), this.category.getDescription());
     }
 
-    @Test
-    void shouldReturnASingleCategoryWhenCallingListCategories() {
+    @Override @Test
+    void shouldReturnSingleList() {
         Mockito.when(this.repository.findAll()).thenReturn(Collections.singletonList(this.category));
         Mockito.when(this.mapper.map(this.category, CategoryResponse.class)).thenReturn(this.response);
 
@@ -74,8 +67,8 @@ class CategoryServiceTest {
         Mockito.verifyNoMoreInteractions(this.repository);
     }
 
-    @Test
-    void shouldReturnOneCategoryById() {
+    @Override @Test
+    void shouldReturnById() {
         Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.category));
         Mockito.when(this.mapper.map(this.category, CategoryResponse.class)).thenReturn(this.response);
 
@@ -94,8 +87,8 @@ class CategoryServiceTest {
     }
 
 
-    @Test
-    void shouldSaveCategoryWhenCallingSaveCategory() {
+    @Override @Test
+    void shouldSave() {
         Mockito.when(this.repository.save(any(Category.class))).thenReturn(this.category);
         Mockito.when(this.mapper.map(this.category, CategoryResponse.class)).thenReturn(this.response);
         Mockito.when(this.mapper.map(this.request, Category.class)).thenReturn(this.category);
@@ -110,8 +103,8 @@ class CategoryServiceTest {
         Assertions.assertEquals(this.response.description(), actual.description());
     }
 
-    @Test
-    void shouldUpdateCategoryWhenCallingUpdate() {
+    @Override @Test
+    void shouldUpdate() {
         // Config mocks behavior
         Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.category));
         Mockito.when(this.repository.save(ArgumentMatchers.any(Category.class))).thenReturn(this.category);
@@ -131,9 +124,9 @@ class CategoryServiceTest {
         Mockito.verify(this.repository).save(this.category);
     }
 
-    @Test
-    void shouldThrowsCategoryNotFoundExceptionWhenIdNonExisting() {
-        CategoryRequest emptyRequest = new CategoryRequest();
+    @Override @Test
+    void shouldThrowErros() {
+        CategoryRequest emptyRequest = new CategoryRequest("", "");
         Mockito.when(this.repository.findById(ID)).thenReturn(Optional.empty());
         Assertions.assertThrows(NotFoundException.class, () -> this.service.getCategoryById(ID));
         Assertions.assertThrows(NotFoundException.class, () -> this.service.updateCategory(ID, emptyRequest));

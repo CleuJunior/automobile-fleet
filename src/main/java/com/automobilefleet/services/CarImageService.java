@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,31 +24,38 @@ import java.util.UUID;
 public class CarImageService {
     private final CarImageRepository carImageRepository;
     private final CarRepository carRepository;
-    private final ModelMapper mapper;
 
     public List<CarImageResponse> listAllImage() {
-        return this.carImageRepository.findAll().stream()
-                .map(carImage -> this.mapper.map(carImage, CarImageResponse.class))
+        return this.carImageRepository.findAll()
+                .stream()
+                .filter(Objects::nonNull)
+                .map(CarImageResponse::new)
                 .toList();
     }
 
     public CarImageResponse getImageById(UUID id) {
         Optional<CarImage> response = this.carImageRepository.findById(id);
 
-        if (response.isEmpty())
+        if (response.isEmpty()) {
             throw new NotFoundException(ExceptionsConstants.IMAGE_NOT_FOUND);
+        }
 
-        return this.mapper.map(response.get(), CarImageResponse.class);
+        return new CarImageResponse(response.get());
     }
 
     public CarImageResponse saveCarImage(CarImageRequest request) {
-        Optional<Car> car = this.carRepository.findById(request.getCarId());
+        Optional<Car> car = this.carRepository.findById(request.carId());
 
-        if (car.isEmpty())
+        if (car.isEmpty()) {
             throw new NotFoundException(ExceptionsConstants.CAR_NOT_FOUND);
+        }
 
-        CarImage response = this.mapper.map(request, CarImage.class);
-        return this.mapper.map(this.carImageRepository.save(response), CarImageResponse.class);
+        CarImage response = CarImage.builder()
+                .car(car.get())
+                .linkImage(request.linkImage())
+                .build();
+
+        return new CarImageResponse(this.carImageRepository.save(response));
     }
 
     public CarImageResponse updateCarImage(UUID id, CarImageRequest request) {
@@ -56,14 +64,14 @@ public class CarImageService {
         if (response.isEmpty())
             throw new NotFoundException(ExceptionsConstants.IMAGE_NOT_FOUND);
 
-        Optional<Car> car = this.carRepository.findById(request.getCarId());
+        Optional<Car> car = this.carRepository.findById(request.carId());
 
         if (car.isEmpty())
            throw new NotFoundException(ExceptionsConstants.CAR_NOT_FOUND);
 
         response.get().setCar(car.get());
-        response.get().setLinkImage(request.getLinkImage());
-        return this.mapper.map(this.carImageRepository.save(response.get()), CarImageResponse.class);
+        response.get().setLinkImage(request.linkImage());
+        return new CarImageResponse(this.carImageRepository.save(response.get()));
     }
 
     public void deleteCarImageById(UUID id) {

@@ -10,23 +10,16 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@NoArgsConstructor
-@Getter
-@Setter
 @JsonPropertyOrder({"_id"})
-public class RentalRequest {
-
-    @JsonProperty("car_id")
-    private UUID carId;
-
-    @JsonProperty("costumer_id")
-    private UUID costumerId;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    @JsonProperty("start_date")
-    private LocalDate startDate;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    @JsonProperty("end_date")
-    private LocalDate endDate;
-}
+public record RentalRequest(
+        @JsonProperty("car_id")
+        UUID carId,
+        @JsonProperty("costumer_id")
+        UUID costumerId,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+        @JsonProperty("start_date")
+        LocalDate startDate,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+        @JsonProperty("end_date")
+        LocalDate endDate
+) { }

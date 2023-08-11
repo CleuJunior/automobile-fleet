@@ -26,16 +26,15 @@ public class CarTemplateLoader implements TemplateLoader {
     private static final Boolean AVAILABLE = true;
     private static final String LICENSE_PLATE = "LMN-3456";
     private static final String COLOR = "Vermelho";
-    private static final LocalDateTime CREATED_AT = LocalDateTime.of(2017, 3, 12, 22, 28, 12);
 
     // Brand
-    private static final UUID ID_BRAND = UUID.fromString("4f2dd5bb-ae60-41ca-9227-0fb3dacebcbe");
+    private static final UUID BRAND_ID = UUID.fromString("4f2dd5bb-ae60-41ca-9227-0fb3dacebcbe");
     private static final String BRAND_NAME =  "Ferrari";
 
     // Category
-    private static final UUID ID_CATEGORY = UUID.fromString("146c8a0a-828c-4d4c-bbc3-fdc70bcf38f9");
-    private static final String NAME_CATEGORY = "Coupé";
-    private static final String DESCRIPTION_CATEGORY = "Categoria de carros com carroceria coupé";
+    private static final UUID CATEGORY_ID = UUID.fromString("146c8a0a-828c-4d4c-bbc3-fdc70bcf38f9");
+    private static final String CATEGORY_NAME = "Coupé";
+    private static final String CATEGORY_DESCRIPTION = "Categoria de carros com carroceria coupé";
 
     @Override
     public void load() {
@@ -50,42 +49,22 @@ public class CarTemplateLoader implements TemplateLoader {
             add("category", buildCategory());
             add("color", COLOR);
         }});
-
-        Fixture.of(CarResponse.class).addTemplate("response", new Rule() {{
-            add("id", ID);
-            add("name", NAME);
-            add("description", DESCRIPTION);
-            add("dailyRate", DAILY_RATE);
-            add("available", AVAILABLE);
-            add("licensePlate", LICENSE_PLATE);
-            add("brand", buildBrandReponse());
-            add("category", buildCategoryResponse());
-            add("color", COLOR);
-        }});
     }
 
     private Brand buildBrand() {
         return Brand
                 .builder()
-                .id(UUID.fromString("4f2dd5bb-ae60-41ca-9227-0fb3dacebcbe"))
-                .name("Ferrari")
+                .id(BRAND_ID)
+                .name(BRAND_NAME)
                 .build();
     }
 
     private Category buildCategory() {
         return Category
                 .builder()
-                .id(UUID.fromString("146c8a0a-828c-4d4c-bbc3-fdc70bcf38f9"))
-                .name("Coupé")
-                .description("Categoria de carros com carroceria coupé")
+                .id(CATEGORY_ID)
+                .name(CATEGORY_NAME)
+                .description(CATEGORY_DESCRIPTION)
                 .build();
-    }
-
-    private BrandResponse buildBrandReponse() {
-        return new BrandResponse(ID_BRAND, BRAND_NAME);
-    }
-
-    private CategoryResponse buildCategoryResponse() {
-        return new CategoryResponse(ID_CATEGORY, NAME_CATEGORY, DESCRIPTION_CATEGORY);
     }
 }

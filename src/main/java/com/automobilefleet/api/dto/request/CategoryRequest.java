@@ -8,18 +8,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class CategoryRequest {
-    @JsonProperty("name")
-    @NotBlank(message = "Name can't be blank!")
-    @Size(min = 2, max = 255, message = "Name must contain between 2 to 255 characters!")
-    private String name;
+public record CategoryRequest(
+        @NotBlank(message = "Name can't be blank!")
+        @Size(min = 2, max = 255, message = "Name must contain between 2 to 255 characters!")
+        String name,
 
-    @JsonProperty("description")
-    @NotBlank(message = "Description can't be blank!")
-    @Size(min = 10, max = 255, message = "Description must contain between 10 to 255 characters!")
-    private String description;
-}
+        @NotBlank(message = "Description can't be blank!")
+        @Size(min = 10, max = 255, message = "Description must contain between 10 to 255 characters!")
+        String description
+) { }

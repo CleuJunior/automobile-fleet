@@ -1,12 +1,10 @@
 package com.automobilefleet.api.controllers;
 
-import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 import com.automobilefleet.api.dto.request.BrandRequest;
 import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.services.BrandService;
 import com.automobilefleet.utils.JsonMapper;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -51,13 +49,6 @@ class BrandControllerTest {
     private final static String URL_SAVE =  "/api/v1/brand/save";
     private final static String UPDATE_ID = "/api/v1/brand/update/{id}";
     private final static String DELETE_ID = "/api/v1/brand/delete/{id}";
-
-
-
-    @BeforeAll
-    static void setup() {
-        FixtureFactoryLoader.loadTemplates("com.automobilefleet.utils");
-    }
 
     @BeforeEach
     void setupAttributes() {

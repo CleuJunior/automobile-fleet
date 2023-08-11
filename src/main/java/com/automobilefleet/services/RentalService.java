@@ -14,12 +14,12 @@ import com.automobilefleet.repositories.CostumerRepository;
 import com.automobilefleet.repositories.RentalRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,69 +29,87 @@ public class RentalService {
     private final RentalRepository rentalRepository;
     private final CarRepository carRepository;
     private final CostumerRepository costumerRepository;
-    private final ModelMapper mapper;
 
     public List<RentalResponse> listOfRental() {
         return this.rentalRepository.findAll()
                 .stream()
                 .filter(Objects::nonNull)
-                .map(rental -> this.mapper.map(rental, RentalResponse.class))
+                .map(RentalResponse::new)
                 .toList();
     }
 
     public RentalResponse getRentalById(UUID id) {
-        Rental response = this.rentalRepository.findById(id)
-                .orElseThrow(RentalNotFoundException::new);
+        Optional<Rental> response = this.rentalRepository.findById(id);
 
-        return this.mapper.map(response, RentalResponse.class);
+        if (response.isEmpty()) {
+            throw new NotFoundException(ExceptionsConstants.RENTAL_NOT_FOUND);
+        }
+
+        return new RentalResponse(response.get());
     }
 
     public RentalResponse saveRental(RentalRequest request) {
-        Car car = this.carRepository.findById(request.getCarId())
-                .orElseThrow(CarNotFoundException::new);
+        Optional<Car> car = this.carRepository.findById(request.carId());
 
-        Costumer costumer = this.costumerRepository.findById(request.getCostumerId())
-                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.COSTUMER_NOT_FOUND));
+        if (car.isEmpty()) {
+            throw new NotFoundException(ExceptionsConstants.CAR_NOT_FOUND);
+        }
 
-        double total = this.totalRental(request, car);
+        Optional<Costumer> costumer = this.costumerRepository.findById(request.costumerId());
+
+        if (costumer.isEmpty()) {
+            throw new NotFoundException(ExceptionsConstants.COSTUMER_NOT_FOUND);
+        }
+
+        double total = this.totalRental(request, car.get());
 
         Rental response = Rental.builder()
-                .car(car)
-                .costumer(costumer)
-                .startDate(request.getStartDate())
-                .endDate(request.getEndDate())
+                .car(car.get())
+                .costumer(costumer.get())
+                .startDate(request.startDate())
+                .endDate(request.endDate())
                 .total(total)
                 .build();
 
-        return this.mapper.map(this.rentalRepository.save(response), RentalResponse.class);
+        return new RentalResponse(this.rentalRepository.save(response));
     }
 
     public RentalResponse updateRental(UUID id, RentalRequest request) {
-        Rental response = this.rentalRepository.findById(id)
-                .orElseThrow(RentalNotFoundException::new);
+        Optional<Rental> response = this.rentalRepository.findById(id);
 
-        Car car = this.carRepository.findById(request.getCarId())
-                .orElseThrow(CarNotFoundException::new);
+        if (response.isEmpty()) {
+            throw new NotFoundException(ExceptionsConstants.RENTAL_NOT_FOUND);
+        }
 
-        Costumer costumer = this.costumerRepository.findById(request.getCostumerId())
-                .orElseThrow(() -> new NotFoundException(ExceptionsConstants.COSTUMER_NOT_FOUND));
+        Optional<Car> car = this.carRepository.findById(request.carId());
 
-        this.updateRental(response, request, car, costumer);
-        return this.mapper.map(this.rentalRepository.save(response), RentalResponse.class);
+        if (car.isEmpty()) {
+            throw new NotFoundException(ExceptionsConstants.CAR_NOT_FOUND);
+        }
+
+        Optional<Costumer> costumer = this.costumerRepository.findById(request.costumerId());
+
+        if (costumer.isEmpty()) {
+            throw new NotFoundException(ExceptionsConstants.COSTUMER_NOT_FOUND);
+        }
+
+        this.updateRental(response.get(), request, car.get(), costumer.get());
+        return new RentalResponse(this.rentalRepository.save(response.get()));
     }
 
-    public void updateRental(Rental rental, RentalRequest request, Car car, Costumer costumer) {
+    private void updateRental(Rental rental, RentalRequest request, Car car, Costumer costumer) {
         double total = this.totalRental(request, car);
 
         rental.setCar(car);
         rental.setCostumer(costumer);
-        rental.setStartDate(request.getStartDate());
-        rental.setEndDate(request.getEndDate());
+        rental.setStartDate(request.startDate());
+        rental.setEndDate(request.endDate());
         rental.setTotal(total);
     }
 
     private double totalRental(RentalRequest request, Car car) {
-        Long days = ChronoUnit.DAYS.between(request.getStartDate(), request.getEndDate());
-        return car.getDailyRate() * days;
+        Long days = ChronoUnit.DAYS.between(request.startDate(), request.endDate());
+        double total = car.getDailyRate() * days;
+        return Math.round(total * 100.0) / 100.0;
     }
 }

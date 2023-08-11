@@ -1,14 +1,12 @@
 package com.automobilefleet.services;
 
+import br.com.six2six.fixturefactory.Fixture;
 import com.automobilefleet.api.dto.request.CarRequest;
-import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.api.dto.response.CarResponse;
-import com.automobilefleet.api.dto.response.CategoryResponse;
 import com.automobilefleet.entities.Brand;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.Category;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
-import com.automobilefleet.mapper.CarMapper;
 import com.automobilefleet.repositories.BrandRepository;
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.repositories.CategoryRepository;
@@ -31,60 +29,16 @@ class CarServiceTest extends ServiceInitialSetup {
     private BrandRepository brandRepository;
     @Mock
     private CategoryRepository categoryRepository;
-    private final CarMapper mapper = new CarMapper();
     private Car car;
     private CarResponse response;
-
-    // Car Attributes
     private static final UUID CAR_ID = UUID.fromString("4f2e3bc7-8522-4543-922c-03480d044e62");
-    private static final String CAR_NAME = "488";
-    private static final String CAR_DESCRIPTION = "Esportivo da Ferrari";
-    private static final Double DAILY_RATE = 1_500.0;
-    private static final Boolean AVAILABLE = true;
-    private static final String LICENSE_PLATE = "LMN-3456";
-    private static final String COLOR = "Vermelho";
-
-    // Brand Attributes
-    private static final UUID BRAND_ID = UUID.fromString("0a7d6250-0be5-4036-8f23-33dc1762bed0");
     private static final String BRAND_NAME = "BMW";
-
-    // Category Attributes
-    private static final UUID CATEGORY_ID = UUID.fromString("b86a92d8-6908-426e-8316-f72b0c849a4b");
-    private static final String CATEGORY_NAME = "SUVs";
-    private static final String CATEGORY_DESCRIPTION = "Veículos utilitários esportivos";
 
     @BeforeEach
     void setupAttributes() {
-        this.service = new CarService(this.carRepository, this.brandRepository, this.categoryRepository, this.mapper);
-
-        BrandResponse brandResponse = new BrandResponse(BRAND_ID, BRAND_NAME);
-        CategoryResponse categoryResponse = new CategoryResponse(CATEGORY_ID, CATEGORY_NAME, CATEGORY_DESCRIPTION);
-
-        this.response = new CarResponse(CAR_ID, CAR_NAME, CAR_DESCRIPTION, DAILY_RATE, AVAILABLE, LICENSE_PLATE,
-                brandResponse, categoryResponse, COLOR);
-
-        Category category = Category.builder()
-                .id(CATEGORY_ID)
-                .name(CATEGORY_NAME)
-                .description(CATEGORY_DESCRIPTION)
-                .build();
-
-        Brand brand = Brand.builder()
-                .id(BRAND_ID)
-                .name(BRAND_NAME)
-                .build();
-
-        this.car = Car.builder()
-                .id(CAR_ID)
-                .name(CAR_NAME)
-                .description(CAR_DESCRIPTION)
-                .dailyRate(DAILY_RATE)
-                .available(AVAILABLE)
-                .licensePlate(LICENSE_PLATE)
-                .brand(brand)
-                .category(category)
-                .color(COLOR)
-                .build();
+        this.service = new CarService(this.carRepository, this.brandRepository, this.categoryRepository);
+        this.car = Fixture.from(Car.class).gimme("car");
+        this.response = new CarResponse(this.car);
     }
 
     @Override @Test
@@ -155,7 +109,18 @@ class CarServiceTest extends ServiceInitialSetup {
         Mockito.when(this.brandRepository.findById(ArgumentMatchers.any())).thenReturn(Optional.of(new Brand()));
         Mockito.when(this.categoryRepository.findById(ArgumentMatchers.any())).thenReturn(Optional.of(new Category()));
 
-        final CarResponse actual = this.service.saveCar(new CarRequest());
+        CarRequest carRequest = new CarRequest(
+                "",
+                "",
+                null,
+                false,
+                "",
+                null,
+                null,
+                ""
+        );
+
+        final CarResponse actual = this.service.saveCar(carRequest);
 
         // Assertions
         Assertions.assertNotNull(actual);
@@ -173,7 +138,18 @@ class CarServiceTest extends ServiceInitialSetup {
         Mockito.when(this.brandRepository.findById(ArgumentMatchers.any())).thenReturn(Optional.of(new Brand()));
         Mockito.when(this.categoryRepository.findById(ArgumentMatchers.any())).thenReturn(Optional.of(new Category()));
 
-        final CarResponse actual = this.service.updateCar(CAR_ID, new CarRequest());
+        CarRequest carRequest = new CarRequest(
+                "",
+                "",
+                null,
+                false,
+                "",
+                null,
+                null,
+                ""
+        );
+
+        final CarResponse actual = this.service.updateCar(CAR_ID, carRequest);
 
         // Assertions
         Assertions.assertNotNull(actual);
@@ -187,26 +163,76 @@ class CarServiceTest extends ServiceInitialSetup {
     @Override @Test
     void shouldThrowErros() {
         // Throwing errors for the save method.
-        CarRequest brandNotFound = new CarRequest();
+        CarRequest brandNotFound = new CarRequest(
+                "",
+                "",
+                null,
+                false,
+                "",
+                null,
+                null,
+                ""
+        );
+
         Mockito.when(this.brandRepository.findById(ArgumentMatchers.any())).thenReturn(Optional.empty());
         Assertions.assertThrows(NotFoundException.class, () -> this.service.saveCar(brandNotFound));
 
-        CarRequest categoryNotFound = new CarRequest();
+        CarRequest categoryNotFound = new CarRequest(
+                "",
+                "",
+                null,
+                false,
+                "",
+                null,
+                null,
+                ""
+        );
+
         Mockito.when(this.brandRepository.findById(ArgumentMatchers.any())).thenReturn(Optional.of(new Brand()));
         Mockito.when(this.categoryRepository.findById(ArgumentMatchers.any())).thenReturn(Optional.empty());
         Assertions.assertThrows(NotFoundException.class, () -> this.service.saveCar(categoryNotFound));
 
-        CarRequest carNotFound = new CarRequest();
+        CarRequest carNotFound = new CarRequest(
+                "",
+                "",
+                null,
+                false,
+                "",
+                null,
+                null,
+                ""
+        );
+
         Mockito.when(this.carRepository.findById(CAR_ID)).thenReturn(Optional.empty());
         Assertions.assertThrows(NotFoundException.class, () -> this.service.updateCar(CAR_ID, carNotFound));
 
         // Throwing errors for the update method.
-        CarRequest carRequest = new CarRequest();
+        CarRequest carRequest = new CarRequest(
+                "",
+                "",
+                null,
+                false,
+                "",
+                null,
+                null,
+                ""
+        );
+
         Mockito.when(this.carRepository.findById(CAR_ID)).thenReturn(Optional.ofNullable(this.car));
         Mockito.when(this.brandRepository.findById(ArgumentMatchers.any())).thenReturn(Optional.empty());
         Assertions.assertThrows(NotFoundException.class, () -> this.service.updateCar(CAR_ID, carRequest));
 
-        CarRequest request = new CarRequest();
+        CarRequest request = new CarRequest(
+                "",
+                "",
+                null,
+                false,
+                "",
+                null,
+                null,
+                ""
+        );
+
         Mockito.when(this.carRepository.findById(CAR_ID)).thenReturn(Optional.ofNullable(this.car));
         Mockito.when(this.brandRepository.findById(ArgumentMatchers.any())).thenReturn(Optional.of(new Brand()));
         Mockito.when(this.categoryRepository.findById(ArgumentMatchers.any())).thenReturn(Optional.empty());
