@@ -6,7 +6,6 @@ import com.automobilefleet.api.dto.response.SpecificationResponse;
 import com.automobilefleet.entities.Specification;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
-import com.automobilefleet.mapper.SpecificationMapper;
 import com.automobilefleet.repositories.SpecificationRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +25,6 @@ class SpecificationServiceTest extends ServiceInitialSetup{
     private SpecificationService service;
     @Mock
     private SpecificationRepository repository;
-    private final SpecificationMapper mapper = new SpecificationMapper();
     private Specification specification;
     private SpecificationRequest request;
     private SpecificationResponse response;
@@ -34,7 +32,7 @@ class SpecificationServiceTest extends ServiceInitialSetup{
 
     @BeforeEach
     void setupAttributes() {
-        this.service = new SpecificationService(this.repository, this.mapper);
+        this.service = new SpecificationService(this.repository);
 
         this.specification = Fixture.from(Specification.class).gimme("specification");
         this.response = new SpecificationResponse(this.specification.getId(), this.specification.getName(),

@@ -5,7 +5,6 @@ import com.automobilefleet.api.dto.response.SpecificationResponse;
 import com.automobilefleet.entities.Specification;
 import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
-import com.automobilefleet.mapper.SpecificationMapper;
 import com.automobilefleet.repositories.SpecificationRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +20,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class SpecificationService {
     private final SpecificationRepository repository;
-    private final SpecificationMapper mapper;
 
     public List<SpecificationResponse> listSpecifications() {
         return this.repository.findAll()
                 .stream()
                 .filter(Objects::nonNull)
-                .map(this.mapper)
+                .map(SpecificationResponse::new)
                 .toList();
     }
 
@@ -37,7 +35,7 @@ public class SpecificationService {
         if (response.isEmpty())
             throw new NotFoundException(ExceptionsConstants.SPECIFICATION_NOT_FOUND);
 
-        return this.mapper.apply(response.get());
+        return new SpecificationResponse(response.get());
     }
 
     public SpecificationResponse saveSpecification(SpecificationRequest request) {
@@ -47,7 +45,7 @@ public class SpecificationService {
                 .description(request.description())
                 .build();
 
-        return this.mapper.apply(this.repository.save(response));
+        return new SpecificationResponse(this.repository.save(response));
     }
 
     public SpecificationResponse updateSpecification(UUID id, SpecificationRequest request) {
@@ -58,6 +56,6 @@ public class SpecificationService {
 
         response.get().setName(request.name());
         response.get().setDescription(request.description());
-        return this.mapper.apply(this.repository.save(response.get()));
+        return new SpecificationResponse(this.repository.save(response.get()));
     }
 }

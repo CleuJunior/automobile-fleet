@@ -20,13 +20,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository repository;
-    private final ModelMapper mapper;
 
     public List<CategoryResponse> listCategories() {
         return this.repository.findAll()
                 .stream()
                 .filter(Objects::nonNull)
-                .map(category -> this.mapper.map(category, CategoryResponse.class))
+                .map(CategoryResponse::new)
                 .toList();
     }
 
@@ -34,12 +33,16 @@ public class CategoryService {
         Category response = this.repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
-        return this.mapper.map(response, CategoryResponse.class);
+        return new CategoryResponse(response);
     }
 
     public CategoryResponse saveCategory(CategoryRequest request) {
-        Category categorySave = this.mapper.map(request, Category.class);
-        return this.mapper.map(this.repository.save(categorySave), CategoryResponse.class);
+        Category categorySave = Category.builder()
+                .name(request.name())
+                .description(request.description())
+                .build();
+
+        return new CategoryResponse(this.repository.save(categorySave));
     }
 
     public CategoryResponse updateCategory(UUID id, CategoryRequest request) {
@@ -48,6 +51,6 @@ public class CategoryService {
 
         response.setName(request.name());
         response.setDescription(request.description());
-        return this.mapper.map(this.repository.save(response), CategoryResponse.class);
+        return new CategoryResponse(this.repository.save(response));
     }
 }

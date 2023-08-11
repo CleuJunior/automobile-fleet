@@ -15,14 +15,20 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@JsonPropertyOrder({"_id"})
+@JsonPropertyOrder({"_id", "name", "birth_date", "email", "driver_license", "address", "phone_number"})
 public record CostumerResponse(
         @JsonProperty("_id") UUID id,
+
         String name,
+
+        @JsonProperty("birth_date")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy") LocalDate birthdate,
         String email,
+
         @JsonProperty("driver_license") String driverLicense,
-        @JsonProperty("address") String address,
+
+        String address,
+
         @JsonProperty("phone_number") String phone
 ) {
 

@@ -10,11 +10,7 @@ import java.util.UUID;
 public record SpecificationResponse(
         @JsonProperty("_id")
          UUID id,
-
-        @JsonProperty("specification_name")
         String name,
-
-        @JsonProperty("specification_description")
         String description
 ) {
     public SpecificationResponse(Specification specification) {

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.UUID;
 
-@JsonPropertyOrder({"_id"})
+@JsonPropertyOrder({"_id", "name", "description", "daily_rate", "available", "license_plate"})
 public record CarResponse(
         @JsonProperty("_id")
         UUID id,

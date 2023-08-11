@@ -6,7 +6,6 @@ import com.automobilefleet.entities.Brand;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.Category;
 import com.automobilefleet.exceptions.ExceptionsConstants;
-import com.automobilefleet.exceptions.notfoundexception.CarNotFoundException;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.BrandRepository;
 import com.automobilefleet.repositories.CarRepository;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -36,10 +36,13 @@ public class CarService {
     }
 
     public CarResponse getCarById(UUID id) {
-        Car response = this.carRepository.findById(id).
-                orElseThrow(CarNotFoundException::new);
+        Optional<Car> response = this.carRepository.findById(id);
 
-        return new CarResponse(response);
+        if (response.isEmpty()) {
+            throw new NotFoundException(ExceptionsConstants.CAR_NOT_FOUND);
+        }
+
+        return new CarResponse(response.get());
     }
 
     public List<CarResponse> findByCarBrand(String brandName) {
@@ -80,8 +83,11 @@ public class CarService {
     }
 
     public CarResponse updateCar(UUID id, CarRequest request) {
-        Car response = this.carRepository.findById(id).
-                orElseThrow(CarNotFoundException::new);
+        Optional<Car> response = this.carRepository.findById(id);
+
+        if (response.isEmpty()) {
+            throw new NotFoundException(ExceptionsConstants.CAR_NOT_FOUND);
+        }
 
         Brand brand = this.brandRepository.findById(request.brandId())
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.BRAND_NOT_FOUND));
@@ -89,8 +95,8 @@ public class CarService {
         Category category = this.categoryRepository.findById(request.categoryId())
                 .orElseThrow(() -> new NotFoundException(ExceptionsConstants.CATEGORY_NOT_FOUND));
 
-        this.updateCar(response, request, brand, category);
-        return new CarResponse(this.carRepository.save(response));
+        this.updateCar(response.get(), request, brand, category);
+        return new CarResponse(this.carRepository.save(response.get()));
     }
 
     private void updateCar(Car car, CarRequest request, Brand brand, Category category) {

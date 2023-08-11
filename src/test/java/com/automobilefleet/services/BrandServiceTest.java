@@ -3,9 +3,7 @@ package com.automobilefleet.services;
 import com.automobilefleet.api.dto.request.BrandRequest;
 import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.entities.Brand;
-import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
-import com.automobilefleet.mapper.BrandMapper;
 import com.automobilefleet.repositories.BrandRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,14 +26,13 @@ class BrandServiceTest extends ServiceInitialSetup {
     private BrandService service;
     private Brand brand;
     private BrandResponse response;
-    private final BrandMapper mapper = new BrandMapper();
     private static final UUID ID = UUID.fromString("0a7d6250-0be5-4036-8f23-33dc1762bed0");
     private static final String NAME = "BMW";
     private static final LocalDateTime CREATED_AT = LocalDateTime.of(2018, 7, 30, 12, 33, 33);
 
     @BeforeEach
     void setupAttributes() {
-        this.service = new BrandService(this.repository, this.mapper);
+        this.service = new BrandService(this.repository);
         this.brand = Brand.builder().id(ID).name(NAME).createdAt(CREATED_AT).build();
         this.response = new BrandResponse(ID, NAME);
     }

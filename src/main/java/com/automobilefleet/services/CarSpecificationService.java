@@ -6,16 +6,12 @@ import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.CarSpecification;
 import com.automobilefleet.entities.Specification;
 import com.automobilefleet.exceptions.ExceptionsConstants;
-import com.automobilefleet.exceptions.notfoundexception.CarNotFoundException;
-import com.automobilefleet.exceptions.notfoundexception.CarSpecificationsNotFoundException;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
-import com.automobilefleet.mapper.CarSpecificationMapper;
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.repositories.CarSpecificationRepository;
 import com.automobilefleet.repositories.SpecificationRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -79,7 +75,7 @@ public class CarSpecificationService {
         Optional<Car> car = this.carRepository.findById(request.carId());
 
         if (car.isEmpty()) {
-            throw new CarNotFoundException();
+            throw new NotFoundException(ExceptionsConstants.CAR_NOT_FOUND);
         }
 
         Optional<Specification> specification = this.specificationRepository.findById(request.specificationId());
