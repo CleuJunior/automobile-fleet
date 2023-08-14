@@ -88,6 +88,10 @@
 			<artifactId>fixture-factory</artifactId>
 			<version>3.1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -131,6 +135,15 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<configuration>
+					<url>jdbc:postgresql://localhost:5432/project_auto</url>
+					<user>postgres</user>
+					<password>postgres</password>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

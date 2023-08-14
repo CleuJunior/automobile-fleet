@@ -10,7 +10,11 @@ spring:
     database: POSTGRESQL
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
+      open-in-view: true
     properties:
       hibernate.jdbc.lob.non_contextual_creation: true
   jpa.defer-datasource-initialization: true
+
+  flyway:
+    enabled: false

@@ -1,9 +1,5 @@
--- -------------------------------------------------------------------------------------
---                              Criação das tabelas                                   --
--- -------------------------------------------------------------------------------------
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-DROP TABLE IF EXISTS costumer_entity;
 CREATE TABLE costumer_entity (
     _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -16,14 +12,12 @@ CREATE TABLE costumer_entity (
     updated_at TIMESTAMP NOT NULL
 );
 
-DROP TABLE IF EXISTS brand_entity;
 CREATE TABLE brand_entity (
     _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     brand_name VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL
 );
 
-DROP TABLE IF EXISTS category_entity;
 CREATE TABLE category_entity (
     _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name VARCHAR(255) NOT NULL UNIQUE,
@@ -32,7 +26,6 @@ CREATE TABLE category_entity (
 );
 
 
-DROP TABLE IF EXISTS specification_entity;
 CREATE TABLE specification_entity (
     _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     specification_name VARCHAR(255) NOT NULL UNIQUE,
@@ -40,7 +33,6 @@ CREATE TABLE specification_entity (
     created_at TIMESTAMP NOT NULL
 );
 
-DROP TABLE IF EXISTS car_entity;
 CREATE TABLE car_entity (
     _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     car_name VARCHAR(255) NOT NULL UNIQUE,
@@ -56,7 +48,6 @@ CREATE TABLE car_entity (
     FOREIGN KEY (category_id) REFERENCES category_entity (_id)
 );
 
-DROP TABLE IF EXISTS rental_entity;
 CREATE TABLE rental_entity (
     _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     car_id UUID NOT NULL,
@@ -70,7 +61,6 @@ CREATE TABLE rental_entity (
     FOREIGN KEY (costumer_id) REFERENCES costumer_entity (_id)
 );
 
-DROP TABLE IF EXISTS car_specification;
 CREATE TABLE car_specification (
     _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     car_id UUID NOT NULL,
@@ -79,7 +69,6 @@ CREATE TABLE car_specification (
     FOREIGN KEY (specification_id) REFERENCES specification_entity (_id)
 );
 
-DROP TABLE IF EXISTS car_image_entity;
 CREATE TABLE car_image_entity (
     _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     car_id UUID NOT NULL,
