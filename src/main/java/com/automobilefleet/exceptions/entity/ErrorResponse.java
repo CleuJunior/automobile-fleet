@@ -3,6 +3,7 @@ package com.automobilefleet.exceptions.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.io.Serial;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 @Builder
 @JsonPropertyOrder({"timestamp", "status", "status_message", "error_message"})
 public class ErrorResponse implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     private Integer status;
     @JsonProperty("status_message")

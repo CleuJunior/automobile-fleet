@@ -1,6 +1,5 @@
 package com.automobilefleet.api.controllers;
 
-import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 import com.automobilefleet.api.dto.request.CategoryRequest;
 import com.automobilefleet.api.dto.response.CategoryResponse;
 import com.automobilefleet.services.CategoryService;
@@ -57,10 +56,6 @@ class CategoryControllerTest {
     private final static int HTTP_STATUS_IS_CREATED = 201;
     private final static int HTTP_STATUS_IS_ACCEPETD = 202;
 
-    @BeforeAll
-    static void setup() {
-        FixtureFactoryLoader.loadTemplates("com.automobilefleet.utils");
-    }
     
     @BeforeEach
     void setupAttributes() {

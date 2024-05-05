@@ -1,6 +1,5 @@
 package com.automobilefleet.services;
 
-import br.com.six2six.fixturefactory.Fixture;
 import com.automobilefleet.api.dto.request.CostumerRequest;
 import com.automobilefleet.api.dto.response.CostumerResponse;
 import com.automobilefleet.entities.Costumer;
@@ -30,7 +29,7 @@ class CostumerServiceTest extends SpecificationServiceTest {
     @BeforeEach
     void setupAttributes() {
         this.service = new CostumerService(this.repository);
-        this.costumer = Fixture.from(Costumer.class).gimme("costumer");
+//        this.costumer = Fixture.from(Costumer.class).gimme("costumer");
         this.response = new CostumerResponse(this.costumer);
         this.request = new CostumerRequest(this.costumer.getName(), this.costumer.getBirthdate(), this.costumer.getEmail(),
                 this.costumer.getDriverLicense(), this.costumer.getAddress(), this.costumer.getPhone());

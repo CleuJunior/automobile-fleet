@@ -1,6 +1,5 @@
 package com.automobilefleet.api.controllers;
 
-import br.com.six2six.fixturefactory.Fixture;
 import com.automobilefleet.api.dto.request.CarRequest;
 import com.automobilefleet.api.dto.response.CarResponse;
 import com.automobilefleet.entities.Car;
@@ -47,21 +46,22 @@ class CarControllerTest extends ControllerLayerTest {
         CarController controller = new CarController(this.service);
         super.mockMvc = MockMvcBuilders.standaloneSetup(controller).alwaysDo(print()).build();
 
-        Car car = Fixture.from(Car.class).gimme("car");
-        this.response = new CarResponse(car);
-        this.request = new CarRequest(
-                car.getName(),
-                car.getDescription(),
-                car.getDailyRate(),
-                car.isAvailable(),
-                car.getLicensePlate(),
-                car.getBrand().getId(),
-                car.getCategory().getId(),
-                car.getColor()
-        );
+//        Car car = Fixture.from(Car.class).gimme("car");
+//        this.response = new CarResponse(car);
+//        this.request = new CarRequest(
+//                car.getName(),
+//                car.getDescription(),
+//                car.getDailyRate(),
+//                car.isAvailable(),
+//                car.getLicensePlate(),
+//                car.getBrand().getId(),
+//                car.getCategory().getId(),
+//                car.getColor()
+//        );
     }
 
-    @Override @Test
+    @Override
+    @Test
     void shouldGetByIdAndStatusCodeOK() throws Exception {
         Mockito.when(this.service.getCarById(ID)).thenReturn(this.response);
 
@@ -80,7 +80,8 @@ class CarControllerTest extends ControllerLayerTest {
         Mockito.verifyNoMoreInteractions(this.service);
     }
 
-    @Override @Test
+    @Override
+    @Test
     void shouldGetSingleListAndStatusCodeOK() throws Exception {
         Mockito.when(this.service.listOfCars()).thenReturn(Collections.singletonList(this.response));
 
@@ -135,7 +136,8 @@ class CarControllerTest extends ControllerLayerTest {
         Mockito.verifyNoMoreInteractions(this.service);
     }
 
-    @Override @Test
+    @Override
+    @Test
     void shoulSaveAndStatusCodeCreated() throws Exception {
         Mockito.when(this.service.saveCar(any(CarRequest.class))).thenReturn(this.response);
 
@@ -155,7 +157,8 @@ class CarControllerTest extends ControllerLayerTest {
 
     }
 
-    @Override @Test
+    @Override
+    @Test
     void shouldUpdateAndStatusCodeAccepted() throws Exception {
         Mockito.when(this.service.updateCar(eq(ID), any(CarRequest.class))).thenReturn(this.response);
 

@@ -1,6 +1,5 @@
 package com.automobilefleet.services;
 
-import br.com.six2six.fixturefactory.Fixture;
 import com.automobilefleet.api.dto.request.SpecificationRequest;
 import com.automobilefleet.api.dto.response.SpecificationResponse;
 import com.automobilefleet.entities.Specification;
@@ -34,7 +33,7 @@ class SpecificationServiceTest extends ServiceInitialSetup{
     void setupAttributes() {
         this.service = new SpecificationService(this.repository);
 
-        this.specification = Fixture.from(Specification.class).gimme("specification");
+//        this.specification = Fixture.from(Specification.class).gimme("specification");
         this.response = new SpecificationResponse(this.specification.getId(), this.specification.getName(),
                 this.specification.getDescription());
 

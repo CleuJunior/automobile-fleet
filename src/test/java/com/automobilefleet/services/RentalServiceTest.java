@@ -1,6 +1,5 @@
 package com.automobilefleet.services;
 
-import br.com.six2six.fixturefactory.Fixture;
 import com.automobilefleet.api.dto.request.RentalRequest;
 import com.automobilefleet.api.dto.response.RentalResponse;
 import com.automobilefleet.entities.Rental;
@@ -35,7 +34,7 @@ class RentalServiceTest extends ServiceInitialSetup {
     @BeforeEach
     void setupAttributes() {
         this.service = new RentalService(this.rentalRepository, this.carRepository, this.costumerRepository);
-        this.rental = Fixture.from(Rental.class).gimme("rental");
+//        this.rental = Fixture.from(Rental.class).gimme("rental");
         this.response = new RentalResponse(this.rental);
         this.request = new RentalRequest(this.rental.getCar().getId(), this.rental.getCostumer().getId(),
                 this.rental.getStartDate(), this.rental.getEndDate());

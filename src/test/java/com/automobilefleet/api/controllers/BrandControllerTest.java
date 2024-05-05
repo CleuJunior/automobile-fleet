@@ -4,6 +4,7 @@ import com.automobilefleet.api.dto.request.BrandRequest;
 import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.services.BrandService;
 import com.automobilefleet.utils.JsonMapper;
+import com.github.javafaker.Faker;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,9 +19,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.UUID;
 
+import static java.time.ZoneId.systemDefault;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -40,8 +43,11 @@ class BrandControllerTest {
     private MockMvc mockMvc;
     private BrandResponse response;
     private BrandRequest request;
+    private static final Faker faker = new Faker();
     private static final UUID ID = UUID.fromString("0a7d6250-0be5-4036-8f23-33dc1762bed0");
     private static final String NAME = "BMW";
+    private static final LocalDateTime CREATED_AT = faker.date().birthday().toInstant().atZone(systemDefault()).toLocalDateTime();
+
 
     // Endpoints
     private final static String URL_ID = "/api/v1/brand/{id}";
@@ -53,7 +59,7 @@ class BrandControllerTest {
     @BeforeEach
     void setupAttributes() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).alwaysDo(print()).build();
-        this.response = new BrandResponse(ID, NAME);
+        this.response = new BrandResponse(ID, NAME, CREATED_AT);
         this.request = new BrandRequest(NAME);
     }
 

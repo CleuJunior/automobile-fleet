@@ -1,7 +1,5 @@
 package com.automobilefleet.api.controllers;
 
-import br.com.six2six.fixturefactory.Fixture;
-import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 import com.automobilefleet.api.dto.request.CostumerRequest;
 import com.automobilefleet.api.dto.response.CostumerResponse;
 import com.automobilefleet.services.CostumerService;
@@ -55,10 +53,10 @@ class CostumerControllerTest {
     private final static String URL_SAVE = "/api/v1/costumer/save";
     private final static String UPDATE_ID = "/api/v1/costumer/update/{id}";
 
-    @BeforeAll
-    static void setup() {
-        FixtureFactoryLoader.loadTemplates("com.automobilefleet.utils");
-    }
+//    @BeforeAll
+//    static void setup() {
+//        FixtureFactoryLoader.loadTemplates("com.automobilefleet.utils");
+//    }
 
     @BeforeEach
     void setupAttributes() {

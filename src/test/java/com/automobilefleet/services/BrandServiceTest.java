@@ -5,124 +5,140 @@ import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.entities.Brand;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.BrandRepository;
-import org.junit.jupiter.api.Assertions;
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Optional;
 import java.util.UUID;
 
+import static java.time.ZoneId.systemDefault;
+import static java.util.Collections.singletonList;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import static java.util.UUID.randomUUID;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+
+
 @ExtendWith(SpringExtension.class)
-class BrandServiceTest extends ServiceInitialSetup {
+class BrandServiceTest {
+
     @Mock
     private BrandRepository repository;
+    @InjectMocks
     private BrandService service;
     private Brand brand;
     private BrandResponse response;
-    private static final UUID ID = UUID.fromString("0a7d6250-0be5-4036-8f23-33dc1762bed0");
-    private static final String NAME = "BMW";
-    private static final LocalDateTime CREATED_AT = LocalDateTime.of(2018, 7, 30, 12, 33, 33);
+    private static final Faker faker = new Faker();
+    private static final UUID ID = randomUUID();
+    private static final String NAME = faker.programmingLanguage().name();
+    private static final LocalDateTime CREATED_AT = faker.date().birthday().toInstant().atZone(systemDefault()).toLocalDateTime();
 
     @BeforeEach
-    void setupAttributes() {
-        this.service = new BrandService(this.repository);
-        this.brand = Brand.builder().id(ID).name(NAME).createdAt(CREATED_AT).build();
-        this.response = new BrandResponse(ID, NAME);
+    void setUp() {
+        brand = Brand.builder()
+                .id(ID)
+                .name(NAME)
+                .createdAt(CREATED_AT)
+                .build();
+
+        response = new BrandResponse(ID, NAME, CREATED_AT);
     }
 
-    @Override @Test
+    @Test
     void shouldReturnSingleList() {
-        Mockito.when(this.repository.findAll()).thenReturn(Collections.singletonList(this.brand));
+        given(repository.findAll()).willReturn(singletonList(brand));
 
-        final Optional<BrandResponse> actual = this.service.listBrand().stream().findFirst();
+        var actual = service.listBrand();
 
-        // Assertions
-        Assertions.assertTrue(actual.isPresent());
-        Assertions.assertEquals(this.response, actual.get());
+        then(actual).hasSize(1);
+        then(actual).contains(response);
 
-        // Verifications
-        Mockito.verify(this.repository).findAll();
-        Mockito.verifyNoMoreInteractions(this.repository);
+        verify(repository).findAll();
+        verifyNoMoreInteractions(repository);
     }
 
-    @Override @Test
+    @Test
     void shouldReturnById() {
-        Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.brand));
+        given(repository.findById(ID)).willReturn(of(brand));
 
-        final BrandResponse actual = this.service.getBrandById(ID);
+        var actual = service.getBrandById(ID);
 
-        // Assertions
-        Assertions.assertNotNull(actual);
-        Assertions.assertEquals(this.response, actual);
+        then(actual).isEqualTo(response);
 
-        // Verifications
-        Mockito.verify(this.repository).findById(ID);
-        Mockito.verifyNoMoreInteractions(this.repository);
-
+        verify(repository).findById(ID);
+        verifyNoMoreInteractions(repository);
     }
 
-    @Override @Test
+    @Test
     void shouldSave() {
-        Mockito.when(this.repository.save(ArgumentMatchers.any(Brand.class))).thenReturn(this.brand);
+        var brandArg = Brand.builder().name(NAME).build();
+        var request = new BrandRequest(NAME);
 
-        final BrandRequest request = new BrandRequest(NAME);
-        final BrandResponse actual = this.service.saveBrand(request);
+        given(repository.save(brandArg)).willReturn(brand);
+
+        var actual = service.saveBrand(request);
 
         // Assertions
-        Assertions.assertNotNull(actual);
-        Assertions.assertEquals(this.response, actual);
+        then(actual).isEqualTo(response);
 
         // Verifications
-        Mockito.verify(this.repository).save(ArgumentMatchers.any());
-        Mockito.verifyNoMoreInteractions(this.repository);
-
+        verify(repository).save(brandArg);
+        verifyNoMoreInteractions(repository);
     }
 
-    @Override @Test
+    @Test
     void shouldUpdate() {
-        Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.brand));
-        Mockito.when(this.repository.save(ArgumentMatchers.any(Brand.class))).thenReturn(this.brand);
+        var updateName = faker.programmingLanguage().name();
+        var request = new BrandRequest(updateName);
+        var brandUpdate = Brand.builder().id(ID).name(updateName).createdAt(CREATED_AT).build();
 
-        final BrandRequest request = new BrandRequest(NAME);
-        final BrandResponse brandResponse = this.service.updateBrand(ID, request);
+        given(repository.findById(ID)).willReturn(of(brand));
+        given(repository.save(brandUpdate)).willReturn(brandUpdate);
 
-        // Assertions
-        Assertions.assertNotNull(brandResponse);
-        Assertions.assertEquals(request.name(), brandResponse.name());
+        var actual = service.updateBrand(ID, request);
+
+        then(actual.name()).isEqualTo(updateName);
+        then(actual.id()).isEqualTo(brand.getId());
 
         // Verifications
-        Mockito.verify(this.repository).findById(ID);
-        Mockito.verify(this.repository).save(ArgumentMatchers.any(Brand.class));
-
+        verify(repository).findById(ID);
+        verify(repository).save(brandUpdate);
+        verifyNoMoreInteractions(repository);
     }
 
     @Test
     void shouldDelete() {
-        Mockito.when(this.repository.findById(ID)).thenReturn(Optional.of(this.brand));
+        given(repository.findById(ID)).willReturn(of(brand));
+        willDoNothing().given(repository).delete(brand);
 
-        this.service.deleteBrandById(ID);
+        service.deleteBrandById(ID);
 
         // Verifications
-        Mockito.verify(this.repository).findById(ID);
-        Mockito.verify(this.repository).delete(this.brand);
+        verify(repository).findById(ID);
+        verify(repository).delete(brand);
+        verifyNoMoreInteractions(repository);
     }
 
-    @Override @Test
+    @Test
     void shouldThrowErros() {
-        Mockito.when(this.repository.findById(ID)).thenReturn(Optional.empty());
-        BrandRequest anyRequest = new BrandRequest("Any");
+        given(repository.findById(ID)).willReturn(empty());
+        var request = new BrandRequest("Any");
 
-        Assertions.assertThrows(NotFoundException.class, () -> this.service.getBrandById(ID));
-        Assertions.assertThrows(NotFoundException.class, () -> this.service.updateBrand(ID, anyRequest));
-        Assertions.assertThrows(NotFoundException.class, () -> this.service.deleteBrandById(ID));
+        assertThrows(NotFoundException.class, () -> service.getBrandById(ID));
+        assertThrows(NotFoundException.class, () -> service.updateBrand(ID, request));
+        assertThrows(NotFoundException.class, () -> service.deleteBrandById(ID));
 
-        Mockito.verify(this.repository, Mockito.times(3)).findById(ID);
+        verify(repository, times(3)).findById(ID);
     }
 }

@@ -1,6 +1,5 @@
 package com.automobilefleet.services;
 
-import br.com.six2six.fixturefactory.Fixture;
 import com.automobilefleet.api.dto.request.CarRequest;
 import com.automobilefleet.api.dto.response.CarResponse;
 import com.automobilefleet.entities.Brand;
@@ -37,7 +36,7 @@ class CarServiceTest extends ServiceInitialSetup {
     @BeforeEach
     void setupAttributes() {
         this.service = new CarService(this.carRepository, this.brandRepository, this.categoryRepository);
-        this.car = Fixture.from(Car.class).gimme("car");
+//        this.car = Fixture.from(Car.class).gimme("car");
         this.response = new CarResponse(this.car);
     }
 

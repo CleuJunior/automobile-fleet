@@ -1,7 +1,5 @@
 package com.automobilefleet.dao;
 
-import br.com.six2six.fixturefactory.Fixture;
-import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 import com.automobilefleet.entities.Costumer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,15 +22,15 @@ class CostumerJdbcDAOTest {
     private JdbcTemplate jdbcTemplate;
     private Costumer costumer;
 
-    @BeforeAll
-    static void setup() {
-        FixtureFactoryLoader.loadTemplates("com.automobilefleet.utils");
-    }
+//    @BeforeAll
+//    static void setup() {
+//        FixtureFactoryLoader.loadTemplates("com.automobilefleet.utils");
+//    }
 
-    @BeforeEach
-    void setupAttributes() {
-        this.costumer = Fixture.from(Costumer.class).gimme("costumer");
-    }
+//    @BeforeEach
+//    void setupAttributes() {
+//        this.costumer = Fixture.from(Costumer.class).gimme("costumer");
+//    }
 
     @Test
     void shouldReturnListWhenCallingFindAll()  {

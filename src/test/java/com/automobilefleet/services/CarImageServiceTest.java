@@ -1,6 +1,5 @@
 package com.automobilefleet.services;
 
-import br.com.six2six.fixturefactory.Fixture;
 import com.automobilefleet.api.dto.request.CarImageRequest;
 import com.automobilefleet.api.dto.response.CarImageResponse;
 import com.automobilefleet.entities.Car;
@@ -34,7 +33,7 @@ class CarImageServiceTest extends ServiceInitialSetup {
     @BeforeEach
     void setupAttributes() {
         this.service = new CarImageService(this.carImageRepository, this.carRepository);
-        this.carImage = Fixture.from(CarImage.class).gimme("car image");
+//        this.carImage = Fixture.from(CarImage.class).gimme("car image");
         this.response = new CarImageResponse(this.carImage);
         this.request = new CarImageRequest(this.carImage.getId(), this.carImage.getLinkImage());
     }

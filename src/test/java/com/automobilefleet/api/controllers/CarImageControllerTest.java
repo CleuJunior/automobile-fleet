@@ -1,6 +1,5 @@
 package com.automobilefleet.api.controllers;
 
-import br.com.six2six.fixturefactory.Fixture;
 import com.automobilefleet.api.dto.request.CarImageRequest;
 import com.automobilefleet.api.dto.response.CarImageResponse;
 import com.automobilefleet.entities.CarImage;
@@ -47,9 +46,9 @@ class CarImageControllerTest extends ControllerLayerTest {
         CarImageController controller = new CarImageController(this.service);
         super.mockMvc = MockMvcBuilders.standaloneSetup(controller).alwaysDo(print()).build();
 
-        CarImage carImage = Fixture.from(CarImage.class).gimme("car image");
-        this.response = new CarImageResponse(carImage);
-        this.request = new CarImageRequest(carImage.getCar().getId(), carImage.getLinkImage());
+////        CarImage carImage = Fixture.from(CarImage.class).gimme("car image");
+//        this.response = new CarImageResponse(carImage);
+//        this.request = new CarImageRequest(carImage.getCar().getId(), carImage.getLinkImage());
     }
 
     @Override @Test

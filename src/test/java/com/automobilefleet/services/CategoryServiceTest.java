@@ -1,7 +1,6 @@
 package com.automobilefleet.services;
 
-import br.com.six2six.fixturefactory.Fixture;
-import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
+
 import com.automobilefleet.api.dto.request.CategoryRequest;
 import com.automobilefleet.api.dto.response.CategoryResponse;
 import com.automobilefleet.entities.Category;
@@ -9,7 +8,6 @@ import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.repositories.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,8 +18,6 @@ import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.print.attribute.standard.MediaSize;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,7 +39,7 @@ class CategoryServiceTest extends ServiceInitialSetup{
 
     @BeforeEach
     void setupAttributes() {
-        this.category = Fixture.from(Category.class).gimme("category");
+//        this.category = Fixture.from(Category.class).gimme("category");
         this.response = new CategoryResponse(this.category);
         this.request = new CategoryRequest(this.category.getName(), this.category.getDescription());
     }
