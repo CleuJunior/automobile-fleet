@@ -31,12 +31,12 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 
 @ExtendWith(SpringExtension.class)
-class BrandServiceTest {
+class BrandServiceImplTest {
 
     @Mock
     private BrandRepository repository;
     @InjectMocks
-    private BrandService service;
+    private BrandServiceImpl service;
     private Brand brand;
     private BrandResponse response;
     private static final Faker faker = new Faker();

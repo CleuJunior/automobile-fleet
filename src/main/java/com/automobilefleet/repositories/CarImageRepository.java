@@ -9,5 +9,4 @@ import java.util.UUID;
 
 @Repository
 public interface CarImageRepository extends JpaRepository<CarImage, UUID> {
-    Optional<CarImage> findById(UUID id);
 }
