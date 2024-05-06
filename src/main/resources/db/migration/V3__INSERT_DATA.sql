@@ -19,16 +19,16 @@ INSERT INTO costumer_entity VALUES
 -- -------------------------------------------------------------------------------------
 
 INSERT INTO brand_entity VALUES
-                             ('51208e86-1f63-4e18-ae59-941fd5e342cf', 'BMW', NOW()),
-                             ('c2f73e68-d820-46e5-bc37-14ed6d2e8759', 'Chevrolet', NOW()),
-                             ('2b7607ef-c314-4e75-992f-41fbd1a30a27', 'Yamaha', NOW()),
-                             ('b306bf4e-ab6d-4c85-8838-dafcc78e1802', 'Renault', NOW()),
-                             ('ab42bf2a-0739-4bc5-b901-4890af4a3ec9', 'Nissan', NOW()),
-                             ('9483ddf3-3bc2-4ac4-abba-4aa5b59625fb', 'Toyota', NOW()),
-                             ('6cf235ae-0759-4ac8-925a-476de5a4f5d0', 'Ford', NOW()),
-                             ('651d807b-b34f-4818-856d-00bb3ff09d71', 'Volkswagen', NOW()),
-                             ('4f2dd5bb-ae60-41ca-9227-0fb3dacebcbe', 'Ferrari', NOW()),
-                             ('3f831dbb-de3b-4b1a-95dc-602cdeaa7012', 'Honda', NOW());
+                             ('51208e86-1f63-4e18-ae59-941fd5e342cf', 'BMW', '2021-07-21T12:05:17.147971'),
+                             ('c2f73e68-d820-46e5-bc37-14ed6d2e8759', 'Chevrolet', '2023-12-21T14:01:19.437572'),
+                             ('2b7607ef-c314-4e75-992f-41fbd1a30a27', 'Yamaha', '2019-11-09T21:21:39.537270'),
+                             ('b306bf4e-ab6d-4c85-8838-dafcc78e1802', 'Renault', '2020-09-11T23:12:21.156273'),
+                             ('ab42bf2a-0739-4bc5-b901-4890af4a3ec9', 'Nissan', '2023-07-11T09:05:17.157661'),
+                             ('9483ddf3-3bc2-4ac4-abba-4aa5b59625fb', 'Toyota', '2022-07-09T13:01:19.138071'),
+                             ('6cf235ae-0759-4ac8-925a-476de5a4f5d0', 'Ford', '2024-08-11T16:01:33.268101'),
+                             ('651d807b-b34f-4818-856d-00bb3ff09d71', 'Volkswagen', '2016-01-01T11:11:29.615971'),
+                             ('4f2dd5bb-ae60-41ca-9227-0fb3dacebcbe', 'Ferrari', '2024-03-04T21:21:39.256777'),
+                             ('3f831dbb-de3b-4b1a-95dc-602cdeaa7012', 'Honda', '2018-03-12T12:11:11.237971');
 
 -- -------------------------------------------------------------------------------------
 --                              Inserir categoria                                     --

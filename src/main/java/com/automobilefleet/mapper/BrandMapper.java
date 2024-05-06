@@ -26,8 +26,9 @@ public class BrandMapper {
     }
 
     public Page<BrandResponse> toBrandResponsePage(Page<Brand> brands, int page, int size) {
+        var total = brands.getTotalElements();
         var response = toListBrandResponse(brands.getContent());
 
-        return new PageImpl<>(response, of(page, size), response.size());
+        return new PageImpl<>(response, of(page, size), total);
     }
 }

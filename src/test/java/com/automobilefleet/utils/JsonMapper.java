@@ -9,7 +9,7 @@ public class JsonMapper {
 
     public static String asJsonString(Object obj) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
+            var objectMapper = new ObjectMapper();
             objectMapper.registerModule(new JavaTimeModule());
             return objectMapper.writeValueAsString(obj);
         } catch (Exception e) {

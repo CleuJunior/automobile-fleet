@@ -3,19 +3,17 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/project_auto?createDatabaseIfNotExist=true
+    url: jdbc:postgresql://localhost:5432/project_auto
     username: postgres
     password: postgres
   jpa:
-    database: POSTGRESQL
-    show-sql: true
-    generate-ddl: false
     hibernate:
-      ddl-auto: none
-    open-in-view: true
+#      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
 
   flyway:
     enabled: false
-    baselineOnMigrate: true
-    validateOnMigrate: true
-    locations: classpath:db/migration
