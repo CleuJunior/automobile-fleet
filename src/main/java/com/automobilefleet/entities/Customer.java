@@ -3,15 +3,12 @@ package com.automobilefleet.entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,22 +18,26 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
-@Table(name = "costumer_entity")
+import static jakarta.persistence.GenerationType.AUTO;
+import static java.time.LocalDateTime.now;
+
+@Table(name = "customer_entity")
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @Builder
-@Getter @Setter
-@EqualsAndHashCode
+@Getter
+@Setter
 @ToString
-public class Costumer implements Serializable {
+public class Customer implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = AUTO)
     @Column(name = "_id", nullable = false)
     private UUID id;
 
@@ -61,17 +62,37 @@ public class Costumer implements Serializable {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updatedAt", nullable = false)
     private LocalDateTime updatedAt;
 
     @PrePersist
     public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        this.createdAt = now();
+        this.updatedAt = now();
     }
 
     @PostPersist
     public void postPersist() {
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = now();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Customer customer)) return false;
+        return Objects.equals(getId(), customer.getId()) &&
+                Objects.equals(getName(), customer.getName()) &&
+                Objects.equals(getBirthdate(), customer.getBirthdate()) &&
+                Objects.equals(getEmail(), customer.getEmail()) &&
+                Objects.equals(getDriverLicense(), customer.getDriverLicense()) &&
+                Objects.equals(getAddress(), customer.getAddress()) &&
+                Objects.equals(getPhone(), customer.getPhone()) &&
+                Objects.equals(getCreatedAt(), customer.getCreatedAt()) &&
+                Objects.equals(getUpdatedAt(), customer.getUpdatedAt());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getBirthdate(), getEmail(), getDriverLicense(), getAddress(), getPhone(), getCreatedAt(), getUpdatedAt());
     }
 }
