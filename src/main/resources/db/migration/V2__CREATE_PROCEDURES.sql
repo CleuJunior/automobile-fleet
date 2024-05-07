@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE insert_costumer(
+CREATE OR REPLACE PROCEDURE insert_customer(
     p_name VARCHAR(255),
     p_birthdate DATE,
     p_email VARCHAR(255),
@@ -9,7 +9,7 @@ CREATE OR REPLACE PROCEDURE insert_costumer(
 LANGUAGE plpgsql
 AS $$
 BEGIN
-INSERT INTO costumer_entity (name, birthdate, email, driver_license, address, phone_number, created_at, updated_at)
+INSERT INTO customer_entity (name, birthdate, email, driver_license, address, phone_number, created_at, updated_at)
 VALUES (p_name, p_birthdate, p_email, p_driver_license, p_address, p_phone_number, NOW(), NOW());
 END;
 $$;
@@ -61,7 +61,7 @@ $$;
 
 CREATE OR REPLACE PROCEDURE insert_rental(
     p_car_id UUID,
-    p_costumer_id UUID,
+    p_customer_id UUID,
     p_start_date DATE,
     p_end_date DATE,
     p_total DOUBLE PRECISION
@@ -69,8 +69,8 @@ CREATE OR REPLACE PROCEDURE insert_rental(
 LANGUAGE plpgsql
 AS $$
 BEGIN
-INSERT INTO rental_entity (car_id, costumer_id, start_date, end_date, total, created_at, updated_at)
-VALUES (p_car_id, p_costumer_id, p_start_date, p_end_date, p_total, NOW(), NOW());
+INSERT INTO rental_entity (car_id, customer_id, start_date, end_date, total, created_at, updated_at)
+VALUES (p_car_id, p_customer_id, p_start_date, p_end_date, p_total, NOW(), NOW());
 END;
 $$;
 

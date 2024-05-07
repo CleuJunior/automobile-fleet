@@ -1,6 +1,6 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE costumer_entity (
+CREATE TABLE customer_entity (
                                  _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
                                  name VARCHAR(255) NOT NULL,
                                  birthdate DATE NOT NULL,
@@ -51,14 +51,14 @@ CREATE TABLE car_entity (
 CREATE TABLE rental_entity (
                                _id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
                                car_id UUID NOT NULL,
-                               costumer_id UUID NOT NULL,
+                               customer_id UUID NOT NULL,
                                start_date DATE NOT NULL,
                                end_date DATE NOT NULL,
                                total DOUBLE PRECISION NOT NULL,
                                created_at TIMESTAMP NOT NULL,
                                updated_at TIMESTAMP NOT NULL,
                                FOREIGN KEY (car_id) REFERENCES car_entity (_id),
-                               FOREIGN KEY (costumer_id) REFERENCES costumer_entity (_id)
+                               FOREIGN KEY (customer_id) REFERENCES customer_entity (_id)
 );
 
 CREATE TABLE car_specification (
@@ -81,7 +81,7 @@ CREATE TABLE car_image_entity (
 --                              Criação de procedures                                 --
 -- -------------------------------------------------------------------------------------
 
-CREATE OR REPLACE PROCEDURE insert_costumer(
+CREATE OR REPLACE PROCEDURE insert_customer(
     p_name VARCHAR(255),
     p_birthdate DATE,
     p_email VARCHAR(255),
@@ -92,7 +92,7 @@ CREATE OR REPLACE PROCEDURE insert_costumer(
 LANGUAGE plpgsql
 AS $$
 BEGIN
-INSERT INTO costumer_entity (name, birthdate, email, driver_license, address, phone_number, created_at, updated_at)
+INSERT INTO customer_entity (name, birthdate, email, driver_license, address, phone_number, created_at, updated_at)
 VALUES (p_name, p_birthdate, p_email, p_driver_license, p_address, p_phone_number, NOW(), NOW());
 END;
 $$;
@@ -144,7 +144,7 @@ $$;
 
 CREATE OR REPLACE PROCEDURE insert_rental(
     p_car_id UUID,
-    p_costumer_id UUID,
+    p_customer_id UUID,
     p_start_date DATE,
     p_end_date DATE,
     p_total DOUBLE PRECISION
@@ -152,8 +152,8 @@ CREATE OR REPLACE PROCEDURE insert_rental(
 LANGUAGE plpgsql
 AS $$
 BEGIN
-INSERT INTO rental_entity (car_id, costumer_id, start_date, end_date, total, created_at, updated_at)
-VALUES (p_car_id, p_costumer_id, p_start_date, p_end_date, p_total, NOW(), NOW());
+INSERT INTO rental_entity (car_id, customer_id, start_date, end_date, total, created_at, updated_at)
+VALUES (p_car_id, p_customer_id, p_start_date, p_end_date, p_total, NOW(), NOW());
 END;
 $$;
 

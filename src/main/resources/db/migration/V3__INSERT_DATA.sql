@@ -2,17 +2,17 @@
 --                              Inserir clientes                                      --
 -- -------------------------------------------------------------------------------------
 
-INSERT INTO costumer_entity VALUES
-                                ('f9ed81db-f90a-42d4-b7e4-d554d8f338fd', 'Raimunda Regina Porto', '1974-03-05', 'raimundareginaporto@clinicasilhouette.com.br', '08493447718', 'Rua Astrogildo de Almeida, 328', '(73) 99362-1339', NOW(), NOW()),
-                                ('ff68e22e-633f-4fe3-b482-590c7163b7e1', 'Gustavo Rafael Elias da Mata', '1960-10-03', 'gustavo-damata84@vipsaude.com.br', '02911058331', 'Jardim Novo Niterói, 378', '(65) 98238-1865', NOW(), NOW()),
-                                ('0723e7a1-ec12-4cdb-b4d5-6169dba540c6', 'Heloisa Aurora Jéssica dos Santos', '1988-08-12', 'heloisaauroradossantos@sha.com.br', '18895846006', 'Rua Astrogildo de Almeida, 328', '(47) 98101-9804', NOW(), NOW()),
-                                ('9960a044-0f78-4489-8e98-211cb294eee3', 'Julio Marcelo Nelson Melo', '1974-03-05', 'julio.marcelo.melo@attglobal.net', '90897130198', 'Praça Vereador Osvaldo Mendonça, 752', '(79) 99539-6592', NOW(), NOW()),
-                                ('98cf1d75-69c4-4e22-aec4-622c1251d7ed', 'Hugo Benjamin Barbosa', '1980-11-02', 'hugo.benjamin.barbosa@cathedranet.com.br', '74091777742', 'Travessa Jasmim, 101', '(68) 99602-7578', NOW(), NOW()),
-                                ('b7bf613b-6619-4a72-abb6-5dc6734b9ae3', 'Marta Ferreira Castro', '1995-06-22', 'martafc@gmail.com', '00230558184', 'Rua das Flores, 45', '(11) 98765-4321', NOW(), NOW()),
-                                ('5c6d5948-2c06-487c-bd3e-9ae23ded960b', 'Pedro Henrique Silva', '1989-03-15', 'pedro.henrique.silva@outlook.com', '03482045429', 'Avenida Brasil, 2345', '(21) 99876-5432', NOW(), NOW()),
-                                ('3b77df60-67df-4071-ac29-abbd451da1c5', 'Luana Oliveira Costa', '1991-12-05', 'luanaoliveiracosta@gmail.com', '03780614280', 'Rua São Paulo, 123', '(31) 98765-4321', NOW(), NOW()),
-                                ('e5a448e3-feaf-4535-9ac0-92b1471de468', 'Fernando Henrique Ribeiro', '1985-05-11', 'fernando.hr@gmail.com', '01234567890', 'Rua das Palmeiras, 67', '(41) 99876-5432', NOW(), NOW()),
-                                ('a242decb-e589-4ecb-be7d-b7ff6f20ade5', 'Marcela Souza Santos', '1992-09-29', 'marcela.ss@gmail.com', '12345678901', 'Avenida Paulista, 1000', '(11) 98765-4321', NOW(), NOW());
+INSERT INTO customer_entity VALUES
+                                ('f9ed81db-f90a-42d4-b7e4-d554d8f338fd', 'Raimunda Regina Porto', '1974-03-05', 'raimundareginaporto@clinicasilhouette.com.br', '08493447718', 'Rua Astrogildo de Almeida, 328', '(73) 99362-1339', '2021-07-21T12:05:17.147971', '2023-10-21T12:05:17.147971'),
+                                ('ff68e22e-633f-4fe3-b482-590c7163b7e1', 'Gustavo Rafael Elias da Mata', '1960-10-03', 'gustavo-damata84@vipsaude.com.br', '02911058331', 'Jardim Novo Niterói, 378', '(65) 98238-1865', '2023-12-21T14:01:19.437572', '2024-03-11T16:15:37.147971'),
+                                ('0723e7a1-ec12-4cdb-b4d5-6169dba540c6', 'Heloisa Aurora Jessica dos Santos', '1988-08-12', 'heloisaauroradossantos@sha.com.br', '18895846006', 'Rua Astrogildo de Almeida, 328', '(47) 98101-9804', '2019-11-09T21:21:39.537270', '2022-11-29T23:31:19.537270'),
+                                ('9960a044-0f78-4489-8e98-211cb294eee3', 'Julio Marcelo Nelson Melo', '1974-03-05', 'julio.marcelo.melo@attglobal.net', '90897130198', 'Praça Vereador Osvaldo Mendonça, 752', '(79) 99539-6592', '2020-09-11T23:12:21.156273', '2022-11-11T21:36:11.156273'),
+                                ('98cf1d75-69c4-4e22-aec4-622c1251d7ed', 'Hugo Benjamin Barbosa', '1980-11-02', 'hugo.benjamin.barbosa@cathedranet.com.br', '74091777742', 'Travessa Jasmim, 101', '(68) 99602-7578', '2023-07-11T09:05:17.157661', '2023-11-14T09:10:33.157661'),
+                                ('b7bf613b-6619-4a72-abb6-5dc6734b9ae3', 'Marta Ferreira Castro', '1995-06-22', 'martafc@gmail.com', '00230558184', 'Rua das Flores, 45', '(11) 98765-4321', '2022-07-09T13:01:19.138071', '2023-10-19T15:35:26.138071'),
+                                ('5c6d5948-2c06-487c-bd3e-9ae23ded960b', 'Pedro Henrique Silva', '1989-03-15', 'pedro.henrique.silva@outlook.com', '03482045429', 'Avenida Brasil, 2345', '(21) 99876-5432', '2023-11-12T17:01:33.268101', '2024-03-11T16:01:12.268101'),
+                                ('3b77df60-67df-4071-ac29-abbd451da1c5', 'Luana Oliveira Costa', '1991-12-05', 'luanaoliveiracosta@gmail.com', '03780614280', 'Rua São Paulo, 123', '(31) 98765-4321', '2016-01-01T11:11:29.615971', '2018-01-12T15:33:24.615971'),
+                                ('e5a448e3-feaf-4535-9ac0-92b1471de468', 'Fernando Henrique Ribeiro', '1985-05-11', 'fernando.hr@gmail.com', '01234567890', 'Rua das Palmeiras, 67', '(41) 99876-5432', '2024-03-04T21:21:39.256777', '2024-03-06T11:23:11.256777'),
+                                ('a242decb-e589-4ecb-be7d-b7ff6f20ade5', 'Marcela Souza Santos', '1992-09-29', 'marcela.ss@gmail.com', '12345678901', 'Avenida Paulista, 1000', '(11) 98765-4321', '2018-03-12T12:11:11.237971', '2022-11-23T17:33:57.237971');
 
 -- -------------------------------------------------------------------------------------
 --                              Inserir marca                                         --
