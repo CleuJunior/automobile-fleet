@@ -1,126 +1,123 @@
-//package com.automobilefleet.api.controllers;
+package com.automobilefleet.api.controllers;
+
+import com.automobilefleet.api.dto.request.SpecificationRequest;
+import com.automobilefleet.api.dto.response.SpecificationResponse;
+import com.automobilefleet.services.SpecificationServiceImpl;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+
+import java.util.UUID;
+
+import static java.util.Collections.singletonList;
+import static java.util.Objects.requireNonNull;
+import static java.util.UUID.randomUUID;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.springframework.data.domain.PageRequest.of;
+import static org.springframework.http.HttpStatus.ACCEPTED;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+
+@AutoConfigureMockMvc(addFilters = false)
+@ExtendWith(MockitoExtension.class)
+class SpecificationControllerTest {
+
+    @Mock
+    private SpecificationServiceImpl service;
+    @Mock
+    private SpecificationResponse response;
+    @Mock
+    private SpecificationRequest request;
+    @InjectMocks
+    private SpecificationController controller;
+
+    private static final UUID ID = randomUUID();
+
+    @Test
+    void shouldGetSpecificationByIdAndStatusCodeOK() {
+        given(service.getSpecificationById(ID)).willReturn(response);
+
+        var result = controller.getSpecificationById(ID);
+
+        then(result.getStatusCode()).isEqualTo(OK);
+        then(result.getBody()).isEqualTo(response);
+
+        verify(service).getSpecificationById(ID);
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    void shouldGetListSpecificationAndStatusCodeOK() {
+        given(service.listSpecifications()).willReturn(singletonList(response));
+
+        var result = controller.listOfSpecifications();
+
+        then(result.getStatusCode()).isEqualTo(OK);
+        then(result.getBody()).isEqualTo(singletonList(response));
+
+        verify(service).listSpecifications();
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    void shouldGetPageSpecificationAndStatusCodeOK() {
+        var listSpecifications = singletonList(response);
+        var pageSpecifications = new PageImpl<>(listSpecifications, of(0, 1), 1);
+
+        given(service.pageSpecification(0, 1)).willReturn(pageSpecifications);
+
+        var result = controller.pageSpecification(0, 1);
+
+        then(result.getStatusCode()).isEqualTo(OK);
+        then(requireNonNull(result.getBody()).getContent()).isEqualTo(listSpecifications);
+
+        verify(service).pageSpecification(0, 1);
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    void shoulSaveSpecificationAndStatusCodeCreated() {
+        given(service.saveSpecification(request)).willReturn(response);
+
+        var result = controller.saveSpecification(request);
+
+        then(result.getStatusCode()).isEqualTo(CREATED);
+        then(result.getBody()).isEqualTo(response);
+
+        verify(service).saveSpecification(request);
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    void shouldUpdateSpecificationAndStatusCodeAccepted() {
+        given(service.updateSpecification(ID, request)).willReturn(response);
+
+        var result = controller.updateSpecification(ID, request);
+
+        then(result.getStatusCode()).isEqualTo(ACCEPTED);
+        then(result.getBody()).isEqualTo(response);
+
+        verify(service).updateSpecification(ID, request);
+        verifyNoMoreInteractions(service);
+    }
+
+//    @Test
+//    void shouldDeleteSpecificationdAndStatusCodeNoContent() {
+//        willDoNothing().given(service).deleteSpecificationById(ID);
 //
-//import com.automobilefleet.api.dto.request.SpecificationRequest;
-//import com.automobilefleet.api.dto.response.SpecificationResponse;
-//import com.automobilefleet.entities.Specification;
-//import com.automobilefleet.services.SpecificationService;
-//import com.automobilefleet.utils.JsonMapper;
-//import org.junit.jupiter.api.Assertions;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.mockito.Mock;
-//import org.mockito.Mockito;
-//import org.springframework.http.MediaType;
-//import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-//import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+//        var result = controller.deleteSpecificaition(ID);
 //
-//import java.util.Collections;
-//import java.util.UUID;
+//        then(result.getStatusCode()).isEqualTo(NO_CONTENT);
+//        then(result.getBody()).isNull();
 //
-//import static org.mockito.ArgumentMatchers.any;
-//import static org.mockito.ArgumentMatchers.eq;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-//
-//class SpecificationControllerTest extends ControllerLayerTest {
-//    @Mock
-//    private SpecificationService service;
-//    private SpecificationResponse response;
-//    private SpecificationRequest request;
-//    private static final UUID ID = UUID.fromString("6b83e4cd-ead6-4af0-8e1e-4c332a842717");
-//
-//    // Endpoints
-//    private final static String URL_ID = "/api/v1/specification/{id}";
-//    private final static String URL_LIST = "/api/v1/specification/list";
-//    private final static String URL_SAVE = "/api/v1/specification/save";
-//    private final static String UPDATE_ID = "/api/v1/specification/update/{id}";
-//    private final static String CONTENT_STRING_JSON =
-//            "{\"_id\":\"6b83e4cd-ead6-4af0-8e1e-4c332a842717\",\"name\":\"Motor\",\"description\":\"Especificação técnica que define o tipo e a potência do motor do veículo.\"}";
-//    private final static String CONTENT_STRING_JSON_LIST =
-//            "[{\"_id\":\"6b83e4cd-ead6-4af0-8e1e-4c332a842717\",\"name\":\"Motor\",\"description\":\"Especificação técnica que define o tipo e a potência do motor do veículo.\"}]";
-//
-//    @BeforeEach
-//    void setupAttributes() {
-//        SpecificationController controller = new SpecificationController(this.service);
-//        super.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-//
+//        verify(service).deleteSpecificationById(ID);
+//        verifyNoMoreInteractions(service);
 //    }
-//
-//    @Override @Test
-//    void shouldGetByIdAndStatusCodeOK() throws Exception {
-//        Mockito.when(this.service.getSpecification(ID)).thenReturn(this.response);
-//
-//        super.httpResponse = super.mockMvc.perform(get(URL_ID, ID)
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andReturn()
-//                .getResponse();
-//
-//        super.httpResponse.setCharacterEncoding(CHARACTER_ENCODING_UTF_8);
-//
-//        Assertions.assertEquals(CONTENT_STRING_JSON, super.httpResponse.getContentAsString());
-//        Assertions.assertEquals(HTTP_STATUS_OK, super.httpResponse.getStatus());
-//
-//        Mockito.verify(this.service).getSpecification(ID);
-//        Mockito.verifyNoMoreInteractions(this.service);
-//    }
-//
-//    @Override @Test
-//    void shouldGetSingleListAndStatusCodeOK() throws Exception {
-//        Mockito.when(this.service.listSpecifications()).thenReturn(Collections.singletonList(this.response));
-//
-//        super.httpResponse = super.mockMvc.perform(get(URL_LIST).contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andReturn()
-//                .getResponse();
-//
-//        super.httpResponse.setCharacterEncoding(CHARACTER_ENCODING_UTF_8);
-//
-//        Assertions.assertEquals(CONTENT_STRING_JSON_LIST, super.httpResponse.getContentAsString());
-//        Assertions.assertEquals(HTTP_STATUS_OK, httpResponse.getStatus());
-//
-//        Mockito.verify(this.service).listSpecifications();
-//        Mockito.verifyNoMoreInteractions(this.service);
-//
-//    }
-//
-//    @Override @Test
-//    void shoulSaveAndStatusCodeCreated() throws Exception {
-//        Mockito.when(this.service.saveSpecification(any(SpecificationRequest.class))).thenReturn(this.response);
-//
-//        super.httpResponse = super.mockMvc.perform(post(URL_SAVE).contentType(MediaType.APPLICATION_JSON)
-//                        .content(JsonMapper.asJsonString(this.response)))
-//                .andExpect(MockMvcResultMatchers.status().isCreated())
-//                .andReturn()
-//                .getResponse();
-//
-//        super.httpResponse.setCharacterEncoding(CHARACTER_ENCODING_UTF_8);
-//
-//        Assertions.assertEquals(CONTENT_STRING_JSON, httpResponse.getContentAsString());
-//        Assertions.assertEquals(HTTP_STATUS_IS_CREATED, httpResponse.getStatus());
-//
-//        Mockito.verify(this.service).saveSpecification(any(SpecificationRequest.class));
-//        Mockito.verifyNoMoreInteractions(this.service);
-//
-//    }
-//
-//    @Override @Test
-//    void shouldUpdateAndStatusCodeAccepted() throws Exception {
-//        Mockito.when(this.service.updateSpecification(eq(ID), any(SpecificationRequest.class))).thenReturn(this.response);
-//
-//        super.httpResponse = super.mockMvc.perform(put(UPDATE_ID, ID).contentType(MediaType.APPLICATION_JSON)
-//                        .content(JsonMapper.asJsonString(this.request)))
-//                .andExpect(MockMvcResultMatchers.status().isAccepted())
-//                .andReturn()
-//                .getResponse();
-//
-//        super.httpResponse.setCharacterEncoding(CHARACTER_ENCODING_UTF_8);
-//
-//        Assertions.assertEquals(CONTENT_STRING_JSON, httpResponse.getContentAsString());
-//        Assertions.assertEquals(HTTP_STATUS_IS_ACCEPETD, httpResponse.getStatus());
-//
-//        Mockito.verify(this.service).updateSpecification(eq(ID), any(SpecificationRequest.class));
-//        Mockito.verifyNoMoreInteractions(this.service);
-//    }
-//}
+}

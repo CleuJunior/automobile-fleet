@@ -35,32 +35,32 @@ INSERT INTO brand_entity VALUES
 -- -------------------------------------------------------------------------------------
 
 INSERT INTO category_entity VALUES
-                                ('1deb1e69-6b1a-4d88-9a1b-a9889398b54a', 'SUVs', 'Veículos utilitários esportivos', NOW()),
-                                ('89658392-1ce5-4523-8b08-b7dd9322d57a', 'Carros Elétricos', 'Veículos movidos a energia elétrica', NOW()),
+                                ('1deb1e69-6b1a-4d88-9a1b-a9889398b54a', 'SUVs', 'Veiculos utilitários esportivos', NOW()),
+                                ('89658392-1ce5-4523-8b08-b7dd9322d57a', 'Carros Elétricos', 'veiculos movidos a energia elétrica', NOW()),
                                 ('1af3289c-f302-4a95-95f6-c9d05c0aa50b', 'Hatch', 'Categoria de carros com carroceria hatchback', NOW()),
                                 ('2e46c0aa-011f-4fc2-81e8-5365de43fff7', 'Picape', 'Categoria de carros com carroceria pickup', NOW()),
                                 ('9755db80-c218-4671-b147-22795510c74e', 'Esportivo', 'Categoria de carros esportivos com alta performance', NOW()),
-                                ('345f40dd-f528-4f6a-83c4-2d47b304f557', 'Caminhões', 'Veículos de grande porte para transporte de cargas', NOW()),
+                                ('345f40dd-f528-4f6a-83c4-2d47b304f557', 'Caminhões', 'veiculos de grande porte para transporte de cargas', NOW()),
                                 ('62a6ddee-9308-4bbc-a819-5064597383a3', 'Carros de Luxo', 'Carros de alta qualidade e com grande valor agregado', NOW()),
-                                ('3b0872df-d47a-48f4-964e-b6a099964ee7', 'Minivans', 'Veículos familiares com grande espaço interno', NOW()),
+                                ('3b0872df-d47a-48f4-964e-b6a099964ee7', 'Minivans', 'Veiculos familiares com grande espaço interno', NOW()),
                                 ('146c8a0a-828c-4d4c-bbc3-fdc70bcf38f9', 'Coupé', 'Categoria de carros com carroceria coupé', NOW()),
-                                ('dc915ab8-aa4f-4dbd-bd09-94f8c12ff52d', 'Carros Antigos', 'Veículos com mais de 30 anos de fabricação', NOW());
+                                ('dc915ab8-aa4f-4dbd-bd09-94f8c12ff52d', 'Carros Antigos', 'Veiculos com mais de 30 anos de fabricação', NOW());
 
 -- -------------------------------------------------------------------------------------
 --                              Inserir especificação                                 --
 -- -------------------------------------------------------------------------------------
 
 INSERT INTO specification_entity VALUES
-                                     ('7eef4f65-96a1-4463-8a7f-3a5df541f310','Motor', 'Especificação técnica que define o tipo e a potência do motor do veículo.', NOW()),
-                                     ('194b82cc-22a3-4058-a9fa-249ad5340268', 'Câmbio', 'Especificação técnica que define o tipo de transmissão do veículo.', NOW()),
-                                     ('3a16cf2b-30d1-4f88-a366-1038746441d4', 'Direção', 'Especificação técnica que define o tipo de direção do veículo.', NOW()),
-                                     ('de88412a-d516-47fd-a723-1ec5a13d8b44', 'Freios', 'Especificação técnica que define o tipo de sistema de freios do veículo.', NOW()),
-                                     ('d20d196b-c329-4a32-a76b-cf5802affcfc', 'Suspensão', 'Especificação técnica que define o tipo de suspensão do veículo.', NOW()),
-                                     ('bcae4e4e-0e7a-41a2-bc24-560077557c0b', 'Capacidade do tanque', 'Especificação técnica que define a capacidade do tanque de combustível do veículo.', NOW()),
-                                     ('8f4647ee-2ef1-4500-8a28-a0d642665c81', 'Peso', 'Especificação técnica que define o peso do veículo.', NOW()),
-                                     ('7c01a5f0-41b3-4a15-adc5-b0b380bb90e2', 'Comprimento', 'Especificação técnica que define o comprimento do veículo.', NOW()),
-                                     ('ddc7f420-47b1-4f7e-bc35-07765cbd811d', 'Altura', 'Especificação técnica que define a altura do veículo.', NOW()),
-                                     ('6b83e4cd-ead6-4af0-8e1e-4c332a842717', 'Largura', 'Especificação técnica que define a largura do veículo.', NOW());
+                                     ('7eef4f65-96a1-4463-8a7f-3a5df541f310','Motor', 'Especificacao tecnica que define o tipo e a potencia do motor do veiculo.', '2021-07-21T12:05:17.147971'),
+                                     ('194b82cc-22a3-4058-a9fa-249ad5340268', 'Cambio', 'Especificacao tecnica que define o tipo de transmissao do veiculo.', '2023-12-21T14:01:19.437572'),
+                                     ('3a16cf2b-30d1-4f88-a366-1038746441d4', 'Direcao', 'Especificacao tecnica que define o tipo de direcao do veiculo.', '2019-11-09T21:21:39.537270'),
+                                     ('de88412a-d516-47fd-a723-1ec5a13d8b44', 'Freios', 'Especificacao tecnica que define o tipo de sistema de freios do veiculo.', '2020-09-11T23:12:21.156273'),
+                                     ('d20d196b-c329-4a32-a76b-cf5802affcfc', 'Suspensao', 'Especificacao tecnica que define o tipo de suspensao do veiculo.', '2023-07-11T09:05:17.157661'),
+                                     ('bcae4e4e-0e7a-41a2-bc24-560077557c0b', 'Capacidade do tanque', 'Especificacao tecnica que define a capacidade do tanque de combustivel do veiculo.', '2022-07-09T13:01:19.138071'),
+                                     ('8f4647ee-2ef1-4500-8a28-a0d642665c81', 'Peso', 'Especificacao tecnica que define o peso do veiculo.', '2024-08-11T16:01:33.268101'),
+                                     ('7c01a5f0-41b3-4a15-adc5-b0b380bb90e2', 'Comprimento', 'Especificacao tecnica que define o comprimento do veiculo.', '2016-01-01T11:11:29.615971'),
+                                     ('ddc7f420-47b1-4f7e-bc35-07765cbd811d', 'Altura', 'Especificacao tecnica que define a altura do veiculo.', '2024-03-04T21:21:39.256777'),
+                                     ('6b83e4cd-ead6-4af0-8e1e-4c332a842717', 'Largura', 'Especificacao tecnica que define a largura do veiculo.', '2018-03-12T12:11:11.237971');
 
 -- -------------------------------------------------------------------------------------
 --                              Inserir carro                                         --
@@ -94,7 +94,7 @@ CALL insert_rental('4f2e3bc7-8522-4543-922c-03480d044e62', 'e5a448e3-feaf-4535-9
 CALL insert_rental('4dafc4f4-5e90-478d-a386-841d74aa368a', 'a242decb-e589-4ecb-be7d-b7ff6f20ade5', '2023-03-24', '2023-03-29', 550.00);
 
 -- -------------------------------------------------------------------------------------
---                              Inserir especificação para carros                     --
+--                              Inserir Especificacao para carros                     --
 -- -------------------------------------------------------------------------------------
 
 CALL insert_car_specification('55491147-1d2f-455e-9958-1e35f1df5a82', '7eef4f65-96a1-4463-8a7f-3a5df541f310');
