@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.automobilefleet.integrationTest.DataIT.BMW_CREATED_AT;
+import static com.automobilefleet.integrationTest.DataIT.CREATED_AT_ONE;
 import static com.automobilefleet.integrationTest.DataIT.BMW_ID;
 import static com.automobilefleet.integrationTest.DataIT.BRAND_BMW;
 import static com.automobilefleet.integrationTest.DataIT.BRAND_CHEVROLET;
@@ -67,12 +67,12 @@ class BrandControllerIT extends IntegrationTest {
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$._id").value(BMW_ID))
                 .andExpect(jsonPath("$.name").value(BRAND_BMW))
-                .andExpect(jsonPath("$.created_at").value(BMW_CREATED_AT));
+                .andExpect(jsonPath("$.created_at").value(CREATED_AT_ONE));
     }
 
     @Test
     void shouldGetListBrandAndStatusCodeOK() throws Exception {
-        this.mockMvc.perform(get(ENDPOINT).contentType(APPLICATION_JSON))
+        mockMvc.perform(get(ENDPOINT).contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
                 .andExpect(content().contentType(APPLICATION_JSON))
@@ -83,7 +83,7 @@ class BrandControllerIT extends IntegrationTest {
 
     @Test
     void shouldGetPagetBrandAndStatusCodeOK() throws Exception {
-        this.mockMvc.perform(get(ENDPOINT)
+        mockMvc.perform(get(ENDPOINT)
                         .param("page", "0")
                         .param("size", "2")
                         .contentType(APPLICATION_JSON))
@@ -123,16 +123,16 @@ class BrandControllerIT extends IntegrationTest {
                 .andDo(print())
                 .andExpect(jsonPath("$._id").value(BMW_ID))
                 .andExpect(jsonPath("$.name").value(name))
-                .andExpect(jsonPath("$.created_at").value(BMW_CREATED_AT));
+                .andExpect(jsonPath("$.created_at").value(CREATED_AT_ONE));
     }
 //
 //    @Test
 //    void shouldDeleteBrandAndStatusCodeNoContent() throws Exception {
-//        this.mockMvc.perform(delete(DELETE_ID, ID).contentType(MediaType.APPLICATION_JSON))
+//        mockMvc.perform(delete(DELETE_ID, ID).contentType(MediaType.APPLICATION_JSON))
 //                .andExpect(MockMvcResultMatchers.status().isNoContent())
 //                .andReturn();
 //
-//        Mockito.verify(this.service).deleteBrandById(ID);
-//        Mockito.verifyNoMoreInteractions(this.service);
+//        Mockito.verify(service).deleteBrandById(ID);
+//        Mockito.verifyNoMoreInteractions(service);
 //    }
 }

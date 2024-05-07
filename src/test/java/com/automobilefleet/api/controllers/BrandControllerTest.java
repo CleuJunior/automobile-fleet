@@ -34,7 +34,6 @@ import static org.springframework.http.HttpStatus.OK;
 
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
-@Transactional
 class BrandControllerTest {
 
     @InjectMocks
