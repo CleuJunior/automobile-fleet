@@ -1,44 +1,45 @@
 package com.automobilefleet.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
+
+import static jakarta.persistence.GenerationType.AUTO;
+import static java.time.LocalDateTime.now;
+import static lombok.AccessLevel.NONE;
+import static lombok.AccessLevel.PRIVATE;
 
 @Table(name = "car_entity")
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = PRIVATE)
 @Builder
-@Getter @Setter
-@EqualsAndHashCode
+@Getter
+@Setter
 public class Car implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = AUTO)
     @Column(name = "_id", nullable = false)
-    @Setter(AccessLevel.NONE)
+    @Setter(NONE)
     private UUID id;
 
     @Column(name = "car_name", unique = true, nullable = false)
@@ -67,13 +68,34 @@ public class Car implements Serializable {
     @Column(name = "car_color", nullable = false)
     private String color;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "created_at", nullable = false)
-    @Setter(AccessLevel.NONE)
+    @Setter(NONE)
     private LocalDateTime createdAt;
 
     @PrePersist
     public void prePersist() {
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = now();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        var car = (Car) o;
+        return available == car.available &&
+                Objects.equals(id, car.id) &&
+                Objects.equals(name, car.name) &&
+                Objects.equals(description, car.description) &&
+                Objects.equals(dailyRate, car.dailyRate) &&
+                Objects.equals(licensePlate, car.licensePlate) &&
+                Objects.equals(brand, car.brand) &&
+                Objects.equals(category, car.category) &&
+                Objects.equals(color, car.color) &&
+                Objects.equals(createdAt, car.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, dailyRate, available, licensePlate, brand, category, color, createdAt);
     }
 }

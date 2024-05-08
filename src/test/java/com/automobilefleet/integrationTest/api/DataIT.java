@@ -150,6 +150,80 @@ public class DataIT {
     public static final String FOUR_EIGHT_EIGHT_CAR_ID = "4f2e3bc7-8522-4543-922c-03480d044e62";
     public static final String CIVIC_CAR_ID = "4dafc4f4-5e90-478d-a386-841d74aa368a";
 
+    public static final String SERIE_THREE_CAR_NAME = "Serie 3";
+    public static final String ONIX_CAR_NAME = "Onix";
+    public static final String MT_ZERO_NINE_CAR_NAME = "MT-09";
+    public static final String KWID_CAR_NAME = "Kwid";
+    public static final String MARCH_CAR_NAME = "March";
+    public static final String COROLLA_CAR_NAME = "Corolla";
+    public static final String MUSTANG_CAR_NAME = "Mustang";
+    public static final String GOL_CAR_NAME = "Gol";
+    public static final String FOUR_EIGHT_EIGHT_CAR_NAME = "488";
+    public static final String CIVIC_CAR_NAME = "Civic";
+
+    public static final String BMW_CAR_DESCRIPTION = "Sedan medio da BMW";
+    public static final String ONIX_CAR_DESCRIPTION = "Carro popular da Chevrolet";
+    public static final String MT_ZERO_CAR_DESCRIPTION = "Moto naked da Yamaha";
+    public static final String KWID_CAR_DESCRIPTION = "Moto naked da Yamaha";
+    public static final String MARCH_CAR_DESCRIPTION = "Carro compacto da Nissan";
+    public static final String COROLLA_CAR_DESCRIPTION = "Sedan medio da Toyota";
+    public static final String MUSTANG_CAR_DESCRIPTION = "Esportivo da Ford";
+    public static final String GOL_CAR_DESCRIPTION = "Carro compacto da Volkswagen";
+    public static final String FOUR_EIGHT_EIGHT_CAR_DESCRIPTION = "Esportivo da Ferrari";
+    public static final String CIVIC_CAR_DESCRIPTION = "Sedan medio da Honda";
+
+    public static final Double BMW_DAILY_RATE = 98.77;
+    public static final Double ONIX_DAILY_RATE = 110.18;
+    public static final Double MT_ZERO_DAILY_RATE = 69.33;
+    public static final Double KWID_DAILY_RATE = 88.99;
+    public static final Double MARCH_DAILY_RATE = 148.99;
+    public static final Double COROLLA_DAILY_RATE = 120.50;
+    public static final Double MUSTANG_DAILY_RATE = 200.00;
+    public static final Double GOL_DAILY_RATE = 80.00;
+    public static final Double FOUR_EIGHT_EIGHT_DAILY_RATE = 1500.00;
+    public static final Double CIVIC_DAILY_RATE = 110.00;
+
+    public static final Boolean BMW_AVAILABLE = true;
+    public static final Boolean ONIX_AVAILABLE = false;
+    public static final Boolean MT_ZERO_AVAILABLE = false;
+    public static final Boolean KWID_AVAILABLE = true;
+    public static final Boolean MARCH_AVAILABLE = false;
+    public static final Boolean COROLLA_AVAILABLE = true;
+    public static final Boolean MUSTANG_AVAILABLE = false;
+    public static final Boolean GOL_AVAILABLE = true;
+    public static final Boolean FOUR_EIGHT_EIGHT_AVAILABLE = false;
+    public static final Boolean CIVIC_AVAILABLE = true;
+
+    public static final String BMW_LICENSE_PLATE = "XPT-1146";
+    public static final String ONIX_LICENSE_PLATE = "ABC-1456";
+    public static final String MT_ZERO_LICENSE_PLATE = "XYZ-4944";
+    public static final String KWID_LICENSE_PLATE = "KLC-0056";
+    public static final String MARCH_LICENSE_PLATEE = "OPL-456";
+    public static final String COROLLA_LICENSE_PLATE = "DEF-1234";
+    public static final String MUSTANG_LICENSE_PLATE = "GHJ-5678";
+    public static final String GOL_LICENSE_PLATE = "IJK-9012";
+    public static final String FOUR_EIGHT_EIGHT_LICENSE_PLATE = "LMN-3456";
+    public static final String CIVIC_LICENSE_PLATE = "OPQ-7890";
+
+    public static final String COLOR_BLACK = "Preto";
+    public static final String COLOR_YELLOW = "Amarelo";
+    public static final String COLOR_GREEN = "Verde";
+    public static final String COLOR_BLUE = "Azul";
+    public static final String COLOR_PUMPKIN = "Abobora";
+    public static final String COLOR_WHITE = "Branco";
+    public static final String COLOR_SILVER = "Prata";
+
+    public static final String CATEGORY_SUVs_ID = "1deb1e69-6b1a-4d88-9a1b-a9889398b54a";
+    public static final String CATEGORY_ELETRICS_CARS_ID = "89658392-1ce5-4523-8b08-b7dd9322d57a";
+    public static final String CATEGORY_HATCH_ID = "1af3289c-f302-4a95-95f6-c9d05c0aa50b";
+    public static final String CATEGORY_PICK_UP_ID = "2e46c0aa-011f-4fc2-81e8-5365de43fff7";
+    public static final String CATEGORY_SPORTING_CAR_ID = "9755db80-c218-4671-b147-22795510c74e";
+    public static final String CATEGORY_TRUCKS_ID = "345f40dd-f528-4f6a-83c4-2d47b304f557";
+    public static final String CATEGORY_LUXURY_CARS_ID = "62a6ddee-9308-4bbc-a819-5064597383a3";
+    public static final String CATEGORY_MINIVANS_ID = "3b0872df-d47a-48f4-964e-b6a099964ee7";
+    public static final String CATEGORY_COUPE_ID = "146c8a0a-828c-4d4c-bbc3-fdc70bcf38f9";
+    public static final String CATEGORY_OLD_CARS_ID = "dc915ab8-aa4f-4dbd-bd09-94f8c12ff52d";
+
     public static final String SERIE_THREE_IMAGE_ID = "ba091788-8edb-4a5a-bab2-2c8dade5addf";
     public static final String ONIX_IMAGE_ID = "8bafe033-b9d2-4051-9bf6-45476c015197";
     public static final String MT_ZERO_IMAGE_ID = "3856093c-6be9-4ed2-9bcc-3de10642aeda";
