@@ -40,10 +40,10 @@ INSERT INTO category_entity VALUES
                                 ('1af3289c-f302-4a95-95f6-c9d05c0aa50b', 'Hatch', 'Categoria de carros com carroceria hatchback', '2022-11-29T23:31:19.537270'),
                                 ('2e46c0aa-011f-4fc2-81e8-5365de43fff7', 'Picape', 'Categoria de carros com carroceria pickup', '2022-11-11T21:36:11.156273'),
                                 ('9755db80-c218-4671-b147-22795510c74e', 'Esportivo', 'Categoria de carros esportivos com alta performance', '2023-11-14T09:10:33.157661'),
-                                ('345f40dd-f528-4f6a-83c4-2d47b304f557', 'Caminhões', 'veiculos de grande porte para transporte de cargas', '2023-10-19T15:35:26.138071'),
+                                ('345f40dd-f528-4f6a-83c4-2d47b304f557', 'Caminhoes', 'veiculos de grande porte para transporte de cargas', '2023-10-19T15:35:26.138071'),
                                 ('62a6ddee-9308-4bbc-a819-5064597383a3', 'Carros de Luxo', 'Carros de alta qualidade e com grande valor agregado', '2024-03-11T16:01:12.268101'),
                                 ('3b0872df-d47a-48f4-964e-b6a099964ee7', 'Minivans', 'Veiculos familiares com grande espaço interno', '2018-01-12T15:33:24.615971'),
-                                ('146c8a0a-828c-4d4c-bbc3-fdc70bcf38f9', 'Coupé', 'Categoria de carros com carroceria coupé', '2024-03-06T11:23:11.256777'),
+                                ('146c8a0a-828c-4d4c-bbc3-fdc70bcf38f9', 'Coupe', 'Categoria de carros com carroceria coupé', '2024-03-06T11:23:11.256777'),
                                 ('dc915ab8-aa4f-4dbd-bd09-94f8c12ff52d', 'Carros Antigos', 'Veiculos com mais de 30 anos de fabricação', '2022-11-23T17:33:57.237971');
 
 -- -------------------------------------------------------------------------------------
@@ -67,16 +67,16 @@ INSERT INTO specification_entity VALUES
 -- -------------------------------------------------------------------------------------
 
 INSERT INTO car_entity VALUES
-                           ('55491147-1d2f-455e-9958-1e35f1df5a82', 'Série 3', 'Sedan médio da BMW', 98.77, true, 'XPT-1146', '51208e86-1f63-4e18-ae59-941fd5e342cf', '1deb1e69-6b1a-4d88-9a1b-a9889398b54a', 'Preto', '2023-10-21T12:05:17.147971'),
+                           ('55491147-1d2f-455e-9958-1e35f1df5a82', 'Serie 3', 'Sedan medio da BMW', 98.77, true, 'XPT-1146', '51208e86-1f63-4e18-ae59-941fd5e342cf', '1deb1e69-6b1a-4d88-9a1b-a9889398b54a', 'Preto', '2023-10-21T12:05:17.147971'),
                            ('01f90d99-85e3-42c0-b55d-1fb6a76de15a', 'Onix', 'Carro popular da Chevrolet', 110.18, false, 'ABC-1456', 'c2f73e68-d820-46e5-bc37-14ed6d2e8759', '89658392-1ce5-4523-8b08-b7dd9322d57a', 'Amarelo', '2024-03-11T16:15:37.147971'),
                            ('6cebea9d-5fd0-4ba7-80f8-3903187d3b4e', 'MT-09', 'Moto naked da Yamaha', 69.33, false, 'XYZ-4944', '2b7607ef-c314-4e75-992f-41fbd1a30a27', '1af3289c-f302-4a95-95f6-c9d05c0aa50b', 'Verde', '2022-11-29T23:31:19.537270'),
                            ('901a5875-d0ef-4098-a336-d19f1088538c', 'Kwid', 'Carro compacto da Renault', 88.99, true, 'KLC-0056', 'b306bf4e-ab6d-4c85-8838-dafcc78e1802', '2e46c0aa-011f-4fc2-81e8-5365de43fff7', 'Azul', '2022-11-11T21:36:11.156273'),
                            ('82bd1d96-85ac-4559-9ce6-378ef489d078', 'March', 'Carro compacto da Nissan', 148.99, false, 'OPL-456', 'ab42bf2a-0739-4bc5-b901-4890af4a3ec9', '9755db80-c218-4671-b147-22795510c74e', 'Abobora', '2023-11-14T09:10:33.157661'),
-                           ('c8d4c641-4b14-4736-8e60-bdc01d5ee8fe', 'Corolla', 'Sedan médio da Toyota', 120.50, true, 'DEF-1234', '9483ddf3-3bc2-4ac4-abba-4aa5b59625fb', '345f40dd-f528-4f6a-83c4-2d47b304f557', 'Branco', '2023-10-19T15:35:26.138071'),
+                           ('c8d4c641-4b14-4736-8e60-bdc01d5ee8fe', 'Corolla', 'Sedan medio da Toyota', 120.50, true, 'DEF-1234', '9483ddf3-3bc2-4ac4-abba-4aa5b59625fb', '345f40dd-f528-4f6a-83c4-2d47b304f557', 'Branco', '2023-10-19T15:35:26.138071'),
                            ('06f84056-44f1-40d8-9333-2ed460884b25', 'Mustang', 'Esportivo da Ford', 200.00, false, 'GHJ-5678', '6cf235ae-0759-4ac8-925a-476de5a4f5d0', '62a6ddee-9308-4bbc-a819-5064597383a3', 'Vermelho', '2024-03-11T16:01:12.268101'),
                            ('deca7d3e-64b4-4cee-af7b-132c9449f2fb', 'Gol', 'Carro compacto da Volkswagen', 80.00, true, 'IJK-9012', '651d807b-b34f-4818-856d-00bb3ff09d71', '3b0872df-d47a-48f4-964e-b6a099964ee7', 'Prata', '2018-01-12T15:33:24.615971'),
                            ('4f2e3bc7-8522-4543-922c-03480d044e62', '488', 'Esportivo da Ferrari', 1500.00, false, 'LMN-3456', '4f2dd5bb-ae60-41ca-9227-0fb3dacebcbe', '146c8a0a-828c-4d4c-bbc3-fdc70bcf38f9', 'Vermelho', '2024-03-06T11:23:11.256777'),
-                           ('4dafc4f4-5e90-478d-a386-841d74aa368a', 'Civic', 'Sedan médio da Honda', 110.00, true, 'OPQ-7890', '3f831dbb-de3b-4b1a-95dc-602cdeaa7012', 'dc915ab8-aa4f-4dbd-bd09-94f8c12ff52d', 'Prata', '2022-11-23T17:33:57.237971');
+                           ('4dafc4f4-5e90-478d-a386-841d74aa368a', 'Civic', 'Sedan medio da Honda', 110.00, true, 'OPQ-7890', '3f831dbb-de3b-4b1a-95dc-602cdeaa7012', 'dc915ab8-aa4f-4dbd-bd09-94f8c12ff52d', 'Prata', '2022-11-23T17:33:57.237971');
 
 -- -------------------------------------------------------------------------------------
 --                              Inserir aluguel                                       --
