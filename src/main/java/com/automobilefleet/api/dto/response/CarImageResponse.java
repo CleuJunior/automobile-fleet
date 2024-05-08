@@ -1,23 +1,25 @@
 package com.automobilefleet.api.dto.response;
 
-import com.automobilefleet.entities.CarImage;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
+
+import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
 @JsonPropertyOrder({"_id"})
 public record CarImageResponse(
         @JsonProperty("_id")
         UUID id,
-        CarResponse car,
+        @JsonProperty("car_id")
+        UUID carId,
         @JsonProperty("image")
-        String linkImage
+        String linkImage,
+        @JsonProperty("created_at")
+        @JsonFormat(shape = STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+        LocalDateTime createdAt
 
 ) {
-
-    public CarImageResponse(CarImage carImage) {
-        this(carImage.getId(), new CarResponse(carImage.getCar()), carImage.getLinkImage());
-    }
-
 }

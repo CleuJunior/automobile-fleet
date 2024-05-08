@@ -4,7 +4,8 @@ import com.automobilefleet.api.dto.request.CarImageRequest;
 import com.automobilefleet.api.dto.response.CarImageResponse;
 import com.automobilefleet.services.CarImageService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,14 +14,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
 
+import static org.springframework.http.HttpStatus.ACCEPTED;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.ResponseEntity.status;
+
+
 @RestController
-@RequestMapping(value = "/api/v1/car-images")
+@RequestMapping(value = "/api/v1/car_images")
 @RequiredArgsConstructor
+@Slf4j
 public class CarImageController {
 
     private final CarImageService service;
@@ -28,36 +38,47 @@ public class CarImageController {
     @GetMapping(value = "/{id}")
 //    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<CarImageResponse> getCarImageById(@PathVariable UUID id) {
-        return ResponseEntity.status(HttpStatus.OK).body(this.service.getImageById(id));
+        log.info("Getting image by id {}", id);
+        return status(OK).body(service.getImageById(id));
     }
 
-    @GetMapping(value = "/list")
+    @GetMapping
 //    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<CarImageResponse>> listOfCarImages() {
-        return ResponseEntity.status(HttpStatus.OK).body(this.service.listAllImage());
+        log.info("Getting list of images");
+        return status(OK).body(service.listAllImage());
     }
 
-    @PostMapping(value = "/save")
+    @GetMapping(params = {"page", "size"})
+    public ResponseEntity<Page<CarImageResponse>> pageCarImages(@RequestParam int page, @RequestParam int size) {
+        log.info("Getting page of images with page {} and size {}", page, size);
+        return status(OK).body(service.pageCarImage(page, size));
+    }
+
+    @PostMapping
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CarImageResponse> saveImage(@RequestBody CarImageRequest request) {
-        CarImageResponse response = this.service.saveCarImage(request);
+        log.info("Saving image {}", request);
+        var response = service.saveCarImage(request);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return status(CREATED).body(response);
     }
 
-    @PutMapping(value = "/update/{id}")
+    @PutMapping(value = "/{id}")
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CarImageResponse> updateCarImage(@PathVariable UUID id, @RequestBody CarImageRequest request) {
-        CarImageResponse response = this.service.updateCarImage(id, request);
+        log.info("Updating image id {} with request {}", id, request);
+        var response = service.updateCarImage(id, request);
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+        return status(ACCEPTED).body(response);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/{id}")
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deletCarImageById(@PathVariable UUID id) {
-        this.service.deleteCarImageById(id);
+        log.info("Deleting image id {}", id);
+        service.deleteCarImageById(id);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return status(NO_CONTENT).build();
     }
 }

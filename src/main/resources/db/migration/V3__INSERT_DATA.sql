@@ -4,7 +4,7 @@
 
 INSERT INTO customer_entity VALUES
                                 ('f9ed81db-f90a-42d4-b7e4-d554d8f338fd', 'Raimunda Regina Porto', '1974-03-05', 'raimundareginaporto@clinicasilhouette.com.br', '08493447718', 'Rua Astrogildo de Almeida, 328', '(73) 99362-1339', '2021-07-21T12:05:17.147971', '2023-10-21T12:05:17.147971'),
-                                ('ff68e22e-633f-4fe3-b482-590c7163b7e1', 'Gustavo Rafael Elias da Mata', '1960-10-03', 'gustavo-damata84@vipsaude.com.br', '02911058331', 'Jardim Novo Niterói, 378', '(65) 98238-1865', '2023-12-21T14:01:19.437572', '2024-03-11T16:15:37.147971'),
+                                ('ff68e22e-633f-4fe3-b482-590c7163b7e1', 'Gustavo Rafael Elias da Mata', '1960-10-03', 'gustavo-damata84@vipsaude.com.br', '02911058331', 'Jardim Novo Niterói, 378', '(65) 98238-1865', '2023-12-21T14:01:19.437572', '2023-10-21T12:05:17.147971'),
                                 ('0723e7a1-ec12-4cdb-b4d5-6169dba540c6', 'Heloisa Aurora Jessica dos Santos', '1988-08-12', 'heloisaauroradossantos@sha.com.br', '18895846006', 'Rua Astrogildo de Almeida, 328', '(47) 98101-9804', '2019-11-09T21:21:39.537270', '2022-11-29T23:31:19.537270'),
                                 ('9960a044-0f78-4489-8e98-211cb294eee3', 'Julio Marcelo Nelson Melo', '1974-03-05', 'julio.marcelo.melo@attglobal.net', '90897130198', 'Praça Vereador Osvaldo Mendonça, 752', '(79) 99539-6592', '2020-09-11T23:12:21.156273', '2022-11-11T21:36:11.156273'),
                                 ('98cf1d75-69c4-4e22-aec4-622c1251d7ed', 'Hugo Benjamin Barbosa', '1980-11-02', 'hugo.benjamin.barbosa@cathedranet.com.br', '74091777742', 'Travessa Jasmim, 101', '(68) 99602-7578', '2023-07-11T09:05:17.157661', '2023-11-14T09:10:33.157661'),
@@ -35,16 +35,16 @@ INSERT INTO brand_entity VALUES
 -- -------------------------------------------------------------------------------------
 
 INSERT INTO category_entity VALUES
-                                ('1deb1e69-6b1a-4d88-9a1b-a9889398b54a', 'SUVs', 'Veiculos utilitários esportivos', NOW()),
-                                ('89658392-1ce5-4523-8b08-b7dd9322d57a', 'Carros Elétricos', 'veiculos movidos a energia elétrica', NOW()),
-                                ('1af3289c-f302-4a95-95f6-c9d05c0aa50b', 'Hatch', 'Categoria de carros com carroceria hatchback', NOW()),
-                                ('2e46c0aa-011f-4fc2-81e8-5365de43fff7', 'Picape', 'Categoria de carros com carroceria pickup', NOW()),
-                                ('9755db80-c218-4671-b147-22795510c74e', 'Esportivo', 'Categoria de carros esportivos com alta performance', NOW()),
-                                ('345f40dd-f528-4f6a-83c4-2d47b304f557', 'Caminhões', 'veiculos de grande porte para transporte de cargas', NOW()),
-                                ('62a6ddee-9308-4bbc-a819-5064597383a3', 'Carros de Luxo', 'Carros de alta qualidade e com grande valor agregado', NOW()),
-                                ('3b0872df-d47a-48f4-964e-b6a099964ee7', 'Minivans', 'Veiculos familiares com grande espaço interno', NOW()),
-                                ('146c8a0a-828c-4d4c-bbc3-fdc70bcf38f9', 'Coupé', 'Categoria de carros com carroceria coupé', NOW()),
-                                ('dc915ab8-aa4f-4dbd-bd09-94f8c12ff52d', 'Carros Antigos', 'Veiculos com mais de 30 anos de fabricação', NOW());
+                                ('1deb1e69-6b1a-4d88-9a1b-a9889398b54a', 'SUVs', 'Veiculos utilitários esportivos', '2023-10-21T12:05:17.147971'),
+                                ('89658392-1ce5-4523-8b08-b7dd9322d57a', 'Carros Elétricos', 'veiculos movidos a energia elétrica', '2023-10-21T12:05:17.147971'),
+                                ('1af3289c-f302-4a95-95f6-c9d05c0aa50b', 'Hatch', 'Categoria de carros com carroceria hatchback', '2022-11-29T23:31:19.537270'),
+                                ('2e46c0aa-011f-4fc2-81e8-5365de43fff7', 'Picape', 'Categoria de carros com carroceria pickup', '2022-11-11T21:36:11.156273'),
+                                ('9755db80-c218-4671-b147-22795510c74e', 'Esportivo', 'Categoria de carros esportivos com alta performance', '2023-11-14T09:10:33.157661'),
+                                ('345f40dd-f528-4f6a-83c4-2d47b304f557', 'Caminhões', 'veiculos de grande porte para transporte de cargas', '2023-10-19T15:35:26.138071'),
+                                ('62a6ddee-9308-4bbc-a819-5064597383a3', 'Carros de Luxo', 'Carros de alta qualidade e com grande valor agregado', '2024-03-11T16:01:12.268101'),
+                                ('3b0872df-d47a-48f4-964e-b6a099964ee7', 'Minivans', 'Veiculos familiares com grande espaço interno', '2018-01-12T15:33:24.615971'),
+                                ('146c8a0a-828c-4d4c-bbc3-fdc70bcf38f9', 'Coupé', 'Categoria de carros com carroceria coupé', '2024-03-06T11:23:11.256777'),
+                                ('dc915ab8-aa4f-4dbd-bd09-94f8c12ff52d', 'Carros Antigos', 'Veiculos com mais de 30 anos de fabricação', '2022-11-23T17:33:57.237971');
 
 -- -------------------------------------------------------------------------------------
 --                              Inserir especificação                                 --
@@ -67,16 +67,16 @@ INSERT INTO specification_entity VALUES
 -- -------------------------------------------------------------------------------------
 
 INSERT INTO car_entity VALUES
-                           ('55491147-1d2f-455e-9958-1e35f1df5a82', 'Série 3', 'Sedan médio da BMW', 98.77, true, 'XPT-1146', '51208e86-1f63-4e18-ae59-941fd5e342cf', '1deb1e69-6b1a-4d88-9a1b-a9889398b54a', 'Preto', NOW()),
-                           ('01f90d99-85e3-42c0-b55d-1fb6a76de15a', 'Onix', 'Carro popular da Chevrolet', 110.18, false, 'ABC-1456', 'c2f73e68-d820-46e5-bc37-14ed6d2e8759', '89658392-1ce5-4523-8b08-b7dd9322d57a', 'Amarelo', NOW()),
-                           ('6cebea9d-5fd0-4ba7-80f8-3903187d3b4e', 'MT-09', 'Moto naked da Yamaha', 69.33, false, 'XYZ-4944', '2b7607ef-c314-4e75-992f-41fbd1a30a27', '1af3289c-f302-4a95-95f6-c9d05c0aa50b', 'Verde', NOW()),
-                           ('901a5875-d0ef-4098-a336-d19f1088538c', 'Kwid', 'Carro compacto da Renault', 88.99, true, 'KLC-0056', 'b306bf4e-ab6d-4c85-8838-dafcc78e1802', '2e46c0aa-011f-4fc2-81e8-5365de43fff7', 'Azul', NOW()),
-                           ('82bd1d96-85ac-4559-9ce6-378ef489d078', 'March', 'Carro compacto da Nissan', 148.99, false, 'OPL-456', 'ab42bf2a-0739-4bc5-b901-4890af4a3ec9', '9755db80-c218-4671-b147-22795510c74e', 'Abobora', NOW()),
-                           ('c8d4c641-4b14-4736-8e60-bdc01d5ee8fe', 'Corolla', 'Sedan médio da Toyota', 120.50, true, 'DEF-1234', '9483ddf3-3bc2-4ac4-abba-4aa5b59625fb', '345f40dd-f528-4f6a-83c4-2d47b304f557', 'Branco', NOW()),
-                           ('06f84056-44f1-40d8-9333-2ed460884b25', 'Mustang', 'Esportivo da Ford', 200.00, false, 'GHJ-5678', '6cf235ae-0759-4ac8-925a-476de5a4f5d0', '62a6ddee-9308-4bbc-a819-5064597383a3', 'Vermelho', NOW()),
-                           ('deca7d3e-64b4-4cee-af7b-132c9449f2fb', 'Gol', 'Carro compacto da Volkswagen', 80.00, true, 'IJK-9012', '651d807b-b34f-4818-856d-00bb3ff09d71', '3b0872df-d47a-48f4-964e-b6a099964ee7', 'Prata', NOW()),
-                           ('4f2e3bc7-8522-4543-922c-03480d044e62', '488', 'Esportivo da Ferrari', 1500.00, false, 'LMN-3456', '4f2dd5bb-ae60-41ca-9227-0fb3dacebcbe', '146c8a0a-828c-4d4c-bbc3-fdc70bcf38f9', 'Vermelho', NOW()),
-                           ('4dafc4f4-5e90-478d-a386-841d74aa368a', 'Civic', 'Sedan médio da Honda', 110.00, true, 'OPQ-7890', '3f831dbb-de3b-4b1a-95dc-602cdeaa7012', 'dc915ab8-aa4f-4dbd-bd09-94f8c12ff52d', 'Prata', NOW());
+                           ('55491147-1d2f-455e-9958-1e35f1df5a82', 'Série 3', 'Sedan médio da BMW', 98.77, true, 'XPT-1146', '51208e86-1f63-4e18-ae59-941fd5e342cf', '1deb1e69-6b1a-4d88-9a1b-a9889398b54a', 'Preto', '2023-10-21T12:05:17.147971'),
+                           ('01f90d99-85e3-42c0-b55d-1fb6a76de15a', 'Onix', 'Carro popular da Chevrolet', 110.18, false, 'ABC-1456', 'c2f73e68-d820-46e5-bc37-14ed6d2e8759', '89658392-1ce5-4523-8b08-b7dd9322d57a', 'Amarelo', '2024-03-11T16:15:37.147971'),
+                           ('6cebea9d-5fd0-4ba7-80f8-3903187d3b4e', 'MT-09', 'Moto naked da Yamaha', 69.33, false, 'XYZ-4944', '2b7607ef-c314-4e75-992f-41fbd1a30a27', '1af3289c-f302-4a95-95f6-c9d05c0aa50b', 'Verde', '2022-11-29T23:31:19.537270'),
+                           ('901a5875-d0ef-4098-a336-d19f1088538c', 'Kwid', 'Carro compacto da Renault', 88.99, true, 'KLC-0056', 'b306bf4e-ab6d-4c85-8838-dafcc78e1802', '2e46c0aa-011f-4fc2-81e8-5365de43fff7', 'Azul', '2022-11-11T21:36:11.156273'),
+                           ('82bd1d96-85ac-4559-9ce6-378ef489d078', 'March', 'Carro compacto da Nissan', 148.99, false, 'OPL-456', 'ab42bf2a-0739-4bc5-b901-4890af4a3ec9', '9755db80-c218-4671-b147-22795510c74e', 'Abobora', '2023-11-14T09:10:33.157661'),
+                           ('c8d4c641-4b14-4736-8e60-bdc01d5ee8fe', 'Corolla', 'Sedan médio da Toyota', 120.50, true, 'DEF-1234', '9483ddf3-3bc2-4ac4-abba-4aa5b59625fb', '345f40dd-f528-4f6a-83c4-2d47b304f557', 'Branco', '2023-10-19T15:35:26.138071'),
+                           ('06f84056-44f1-40d8-9333-2ed460884b25', 'Mustang', 'Esportivo da Ford', 200.00, false, 'GHJ-5678', '6cf235ae-0759-4ac8-925a-476de5a4f5d0', '62a6ddee-9308-4bbc-a819-5064597383a3', 'Vermelho', '2024-03-11T16:01:12.268101'),
+                           ('deca7d3e-64b4-4cee-af7b-132c9449f2fb', 'Gol', 'Carro compacto da Volkswagen', 80.00, true, 'IJK-9012', '651d807b-b34f-4818-856d-00bb3ff09d71', '3b0872df-d47a-48f4-964e-b6a099964ee7', 'Prata', '2018-01-12T15:33:24.615971'),
+                           ('4f2e3bc7-8522-4543-922c-03480d044e62', '488', 'Esportivo da Ferrari', 1500.00, false, 'LMN-3456', '4f2dd5bb-ae60-41ca-9227-0fb3dacebcbe', '146c8a0a-828c-4d4c-bbc3-fdc70bcf38f9', 'Vermelho', '2024-03-06T11:23:11.256777'),
+                           ('4dafc4f4-5e90-478d-a386-841d74aa368a', 'Civic', 'Sedan médio da Honda', 110.00, true, 'OPQ-7890', '3f831dbb-de3b-4b1a-95dc-602cdeaa7012', 'dc915ab8-aa4f-4dbd-bd09-94f8c12ff52d', 'Prata', '2022-11-23T17:33:57.237971');
 
 -- -------------------------------------------------------------------------------------
 --                              Inserir aluguel                                       --
@@ -112,13 +112,14 @@ CALL insert_car_specification('4dafc4f4-5e90-478d-a386-841d74aa368a', '6b83e4cd-
 --                              Inserir images do carros                              --
 -- -------------------------------------------------------------------------------------
 
-CALL insert_car_image('55491147-1d2f-455e-9958-1e35f1df5a82', '89504E470D0A1A0A0000000D49484452000000');
-CALL insert_car_image('01f90d99-85e3-42c0-b55d-1fb6a76de15a', '89504E470D0A1A0A0000000D49484452000000');
-CALL insert_car_image('6cebea9d-5fd0-4ba7-80f8-3903187d3b4e', '89504E470D0A1A0A0000000D49484452000000');
-CALL insert_car_image('901a5875-d0ef-4098-a336-d19f1088538c', '89504E470D0A1A0A0000000D49484452000000');
-CALL insert_car_image('82bd1d96-85ac-4559-9ce6-378ef489d078', '89504E470D0A1A0A0000000D49484452000000');
-CALL insert_car_image('c8d4c641-4b14-4736-8e60-bdc01d5ee8fe', '89504E470D0A1A0A0000000D49484452000000');
-CALL insert_car_image('06f84056-44f1-40d8-9333-2ed460884b25', '89504E470D0A1A0A0000000D49484452000000');
-CALL insert_car_image('deca7d3e-64b4-4cee-af7b-132c9449f2fb', '89504E470D0A1A0A0000000D49484452000000');
-CALL insert_car_image('4f2e3bc7-8522-4543-922c-03480d044e62', '89504E470D0A1A0A0000000D49484452000000');
-CALL insert_car_image('4dafc4f4-5e90-478d-a386-841d74aa368a', '89504E470D0A1A0A0000000D49484452000000');
+INSERT INTO car_image_entity VALUES
+                                     ('ba091788-8edb-4a5a-bab2-2c8dade5addf','55491147-1d2f-455e-9958-1e35f1df5a82', '89504E470D0A1A0A0000000D49484452000000', '2021-07-21T12:05:17.147971'),
+                                     ('8bafe033-b9d2-4051-9bf6-45476c015197', '01f90d99-85e3-42c0-b55d-1fb6a76de15a', '89504E470D0A1A0A0000000D49484452000000', '2023-12-21T14:01:19.437572'),
+                                     ('3856093c-6be9-4ed2-9bcc-3de10642aeda', '6cebea9d-5fd0-4ba7-80f8-3903187d3b4e', '89504E470D0A1A0A0000000D49484452000000', '2019-11-09T21:21:39.537270'),
+                                     ('fd629e5f-24ab-4e60-a32b-366dd3680cea', '901a5875-d0ef-4098-a336-d19f1088538c', '89504E470D0A1A0A0000000D49484452000000', '2020-09-11T23:12:21.156273'),
+                                     ('950fd08d-bae6-4a39-89ae-6d64ccdd5678', '82bd1d96-85ac-4559-9ce6-378ef489d078', '89504E470D0A1A0A0000000D49484452000000', '2023-07-11T09:05:17.157661'),
+                                     ('e9cae96e-5201-420c-a277-3dc2ad1e2deb', 'c8d4c641-4b14-4736-8e60-bdc01d5ee8fe', '89504E470D0A1A0A0000000D49484452000000', '2022-07-09T13:01:19.138071'),
+                                     ('0e84d624-9012-4776-b38a-f877543e4821', '06f84056-44f1-40d8-9333-2ed460884b25', '89504E470D0A1A0A0000000D49484452000000', '2024-08-11T16:01:33.268101'),
+                                     ('7818608c-4d7b-44ec-89b0-03398f0a0f8a', 'deca7d3e-64b4-4cee-af7b-132c9449f2fb', '89504E470D0A1A0A0000000D49484452000000', '2016-01-01T11:11:29.615971'),
+                                     ('9a1ec594-dec5-4422-bf10-719864877aaf', '4f2e3bc7-8522-4543-922c-03480d044e62', '89504E470D0A1A0A0000000D49484452000000', '2024-03-04T21:21:39.256777'),
+                                     ('97f67782-ead0-4948-b550-368a6917eac4', '4dafc4f4-5e90-478d-a386-841d74aa368a', '89504E470D0A1A0A0000000D49484452000000', '2018-03-12T12:11:11.237971');
