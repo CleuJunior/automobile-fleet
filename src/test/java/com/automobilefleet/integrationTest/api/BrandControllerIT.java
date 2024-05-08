@@ -1,36 +1,37 @@
-package com.automobilefleet.integrationTest;
+package com.automobilefleet.integrationTest.api;
 
 import com.automobilefleet.api.dto.request.BrandRequest;
 import com.github.javafaker.Faker;
-import jakarta.transaction.Transactional;
+import org.flywaydb.core.Flyway;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 
-import static com.automobilefleet.integrationTest.DataIT.CREATED_AT_ONE;
-import static com.automobilefleet.integrationTest.DataIT.BMW_ID;
-import static com.automobilefleet.integrationTest.DataIT.BRAND_BMW;
-import static com.automobilefleet.integrationTest.DataIT.BRAND_CHEVROLET;
-import static com.automobilefleet.integrationTest.DataIT.BRAND_FERRARI;
-import static com.automobilefleet.integrationTest.DataIT.BRAND_FORD;
-import static com.automobilefleet.integrationTest.DataIT.BRAND_HONDA;
-import static com.automobilefleet.integrationTest.DataIT.BRAND_NISSAN;
-import static com.automobilefleet.integrationTest.DataIT.BRAND_RENAULT;
-import static com.automobilefleet.integrationTest.DataIT.BRAND_TOYOTA;
-import static com.automobilefleet.integrationTest.DataIT.BRAND_VOLKSWAGEN;
-import static com.automobilefleet.integrationTest.DataIT.BRAND_YAMAHA;
-import static com.automobilefleet.integrationTest.DataIT.CHEVROLET_ID;
-import static com.automobilefleet.integrationTest.DataIT.FERRARI_ID;
-import static com.automobilefleet.integrationTest.DataIT.FORD_ID;
-import static com.automobilefleet.integrationTest.DataIT.HONDA_ID;
-import static com.automobilefleet.integrationTest.DataIT.NISSAN_ID;
-import static com.automobilefleet.integrationTest.DataIT.RENAULT_ID;
-import static com.automobilefleet.integrationTest.DataIT.TOYOTA_ID;
-import static com.automobilefleet.integrationTest.DataIT.VOLKSWAGEN_ID;
-import static com.automobilefleet.integrationTest.DataIT.YAMAHA_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.BMW_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.BRAND_BMW;
+import static com.automobilefleet.integrationTest.api.DataIT.BRAND_CHEVROLET;
+import static com.automobilefleet.integrationTest.api.DataIT.BRAND_FERRARI;
+import static com.automobilefleet.integrationTest.api.DataIT.BRAND_FORD;
+import static com.automobilefleet.integrationTest.api.DataIT.BRAND_HONDA;
+import static com.automobilefleet.integrationTest.api.DataIT.BRAND_NISSAN;
+import static com.automobilefleet.integrationTest.api.DataIT.BRAND_RENAULT;
+import static com.automobilefleet.integrationTest.api.DataIT.BRAND_TOYOTA;
+import static com.automobilefleet.integrationTest.api.DataIT.BRAND_VOLKSWAGEN;
+import static com.automobilefleet.integrationTest.api.DataIT.BRAND_YAMAHA;
+import static com.automobilefleet.integrationTest.api.DataIT.CHEVROLET_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.CREATED_AT_ONE;
+import static com.automobilefleet.integrationTest.api.DataIT.FERRARI_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.FORD_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.HONDA_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.NISSAN_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.RENAULT_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.TOYOTA_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.VOLKSWAGEN_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.YAMAHA_ID;
 import static com.automobilefleet.utils.JsonMapper.asJsonString;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
@@ -40,24 +41,31 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@AutoConfigureMockMvc(addFilters = false)
-@ExtendWith(MockitoExtension.class)
-@Transactional
-class BrandControllerIT extends IntegrationTest {
+class BrandControllerIT extends AbstractWebIntegrationTest {
 
+    @Container
+    @ServiceConnection
+    private static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
     @Autowired
     private MockMvc mockMvc;
-
     private final static Faker faker = new Faker();
     private final static String ENDPOINT = "/api/v1/brand";
     private final static String ENDPOINT_ID = ENDPOINT + "/{id}";
+
+    @BeforeAll
+    static void beforeAll() {
+        var flyway = Flyway.configure()
+                .dataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword())
+                .load();
+
+        flyway.migrate();
+    }
 
     @Test
     void shouldGetBrandByIdAndStatusCodeOK() throws Exception {
@@ -120,7 +128,6 @@ class BrandControllerIT extends IntegrationTest {
         mockMvc.perform(put(ENDPOINT_ID, BMW_ID).contentType(APPLICATION_JSON)
                         .content(asJsonString(request)))
                 .andExpect(status().isAccepted())
-                .andDo(print())
                 .andExpect(jsonPath("$._id").value(BMW_ID))
                 .andExpect(jsonPath("$.name").value(name))
                 .andExpect(jsonPath("$.created_at").value(CREATED_AT_ONE));

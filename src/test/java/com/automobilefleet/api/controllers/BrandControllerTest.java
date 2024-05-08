@@ -3,9 +3,6 @@ package com.automobilefleet.api.controllers;
 import com.automobilefleet.api.dto.request.BrandRequest;
 import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.services.BrandServiceImpl;
-import com.github.javafaker.Faker;
-import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,10 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.data.domain.PageImpl;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static java.time.ZoneId.systemDefault;
 import static java.util.Collections.singletonList;
 import static java.util.Objects.requireNonNull;
 import static java.util.UUID.randomUUID;
@@ -32,25 +27,19 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
-@AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
 class BrandControllerTest {
 
-    @InjectMocks
-    private BrandController controller;
     @Mock
     private BrandServiceImpl service;
+    @Mock
     private BrandResponse response;
-    private static final Faker faker = new Faker();
+    @Mock
+    private BrandRequest request;
+    @InjectMocks
+    private BrandController controller;
+
     private static final UUID ID = randomUUID();
-    private static final String NAME = faker.starTrek().character();
-    private static final LocalDateTime CREATED_AT = faker.date().birthday().toInstant().atZone(systemDefault()).toLocalDateTime();
-
-
-    @BeforeEach
-    void setUp() {
-        response = new BrandResponse(ID, NAME, CREATED_AT);
-    }
 
     @Test
     void shouldGetBrandByIdAndStatusCodeOK() {
@@ -96,8 +85,6 @@ class BrandControllerTest {
 
     @Test
     void shoulSaveBrandAndStatusCodeCreated() {
-        var request = new BrandRequest(NAME);
-
         given(service.saveBrand(request)).willReturn(response);
 
         var result = controller.saveBrand(request);
@@ -111,16 +98,14 @@ class BrandControllerTest {
 
     @Test
     void shouldUpdateBrandAndStatusCodeAccepted() {
-        var brandRequest = new BrandRequest(NAME);
+        given(service.updateBrand(ID, request)).willReturn(response);
 
-        given(service.updateBrand(ID, brandRequest)).willReturn(response);
-
-        var result = controller.updateBrand(ID, brandRequest);
+        var result = controller.updateBrand(ID, request);
 
         then(result.getStatusCode()).isEqualTo(ACCEPTED);
         then(result.getBody()).isEqualTo(response);
 
-        verify(service).updateBrand(ID, brandRequest);
+        verify(service).updateBrand(ID, request);
         verifyNoMoreInteractions(service);
     }
 

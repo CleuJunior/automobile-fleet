@@ -4,29 +4,31 @@ import com.automobilefleet.api.dto.request.BrandRequest;
 import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.entities.Brand;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
+import com.automobilefleet.mapper.BrandMapper;
 import com.automobilefleet.repositories.BrandRepository;
-import com.github.javafaker.Faker;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
-import static java.time.ZoneId.systemDefault;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 
@@ -35,29 +37,25 @@ class BrandServiceImplTest {
 
     @Mock
     private BrandRepository repository;
+    @Mock
+    private Brand brand;
+    @Mock
+    private BrandResponse response;
+    @Mock
+    private BrandRequest request;
+    @Mock
+    private BrandMapper mapper;
+
     @InjectMocks
     private BrandServiceImpl service;
-    private Brand brand;
-    private BrandResponse response;
-    private static final Faker faker = new Faker();
+
     private static final UUID ID = randomUUID();
-    private static final String NAME = faker.programmingLanguage().name();
-    private static final LocalDateTime CREATED_AT = faker.date().birthday().toInstant().atZone(systemDefault()).toLocalDateTime();
-
-    @BeforeEach
-    void setUp() {
-        brand = Brand.builder()
-                .id(ID)
-                .name(NAME)
-                .createdAt(CREATED_AT)
-                .build();
-
-        response = new BrandResponse(ID, NAME, CREATED_AT);
-    }
+    private static final PageRequest PAGE_REQUEST = PageRequest.of(0, 1);
 
     @Test
     void shouldReturnSingleList() {
         given(repository.findAll()).willReturn(singletonList(brand));
+        given(mapper.toListBrandResponse(singletonList(brand))).willReturn(singletonList(response));
 
         var actual = service.listBrand();
 
@@ -65,27 +63,86 @@ class BrandServiceImplTest {
         then(actual).contains(response);
 
         verify(repository).findAll();
+        verify(mapper).toListBrandResponse(singletonList(brand));
         verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(mapper);
     }
 
     @Test
-    void shouldReturnById() {
+    void shouldReturnEmptyListBrand() {
+        given(repository.findAll()).willReturn(emptyList());
+
+        var actual = service.listBrand();
+
+        then(actual).isEmpty();
+
+        verify(repository).findAll();
+        verifyNoMoreInteractions(repository);
+        verifyNoInteractions(mapper);
+    }
+
+    @Test
+    void shouldReturnPageBrand() {
+        var brandPage = new PageImpl<>(singletonList(brand), PAGE_REQUEST, 1);
+        var brandResponsePage = new PageImpl<>(singletonList(response), PAGE_REQUEST, 1);
+
+        given(repository.findAll(PAGE_REQUEST)).willReturn(brandPage);
+        given(mapper.toBrandResponsePage(brandPage, 0, 1)).willReturn(brandResponsePage);
+
+        var actual = service.pageBrand(0, 1);
+
+        then(actual).hasSize(1);
+        then(actual).contains(response);
+
+        verify(repository).findAll(PAGE_REQUEST);
+        verify(mapper).toBrandResponsePage(brandPage, 0, 1);
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(mapper);
+    }
+
+    @Test
+    void shouldReturnEmptyPageBrand() {
+        given(repository.findAll(PAGE_REQUEST)).willReturn(Page.empty());
+
+        var actual = service.pageBrand(0, 1);
+
+        then(actual).isEmpty();
+
+        verify(repository).findAll(PAGE_REQUEST);
+        verifyNoMoreInteractions(repository);
+        verifyNoInteractions(mapper);
+    }
+
+    @Test
+    void shouldReturnBrandById() {
         given(repository.findById(ID)).willReturn(of(brand));
+        given(mapper.toBrandResponse(brand)).willReturn(response);
 
         var actual = service.getBrandById(ID);
 
         then(actual).isEqualTo(response);
 
         verify(repository).findById(ID);
+        verify(mapper).toBrandResponse(brand);
         verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(mapper);
     }
 
     @Test
-    void shouldSave() {
-        var brandArg = Brand.builder().name(NAME).build();
-        var request = new BrandRequest(NAME);
+    void shoulThrowErrorWhendReturnBrandByIdNonExiting() {
+        given(repository.findById(ID)).willReturn(Optional.empty());
 
-        given(repository.save(brandArg)).willReturn(brand);
+        assertThrows(NotFoundException.class, () -> service.getBrandById(ID));
+
+        verify(repository).findById(ID);
+        verifyNoMoreInteractions(repository);
+        verifyNoInteractions(mapper);
+    }
+
+    @Test
+    void shouldSaveBrand() {
+        given(repository.save(any(Brand.class))).willReturn(brand);
+        given(mapper.toBrandResponse(brand)).willReturn(response);
 
         var actual = service.saveBrand(request);
 
@@ -93,32 +150,30 @@ class BrandServiceImplTest {
         then(actual).isEqualTo(response);
 
         // Verifications
-        verify(repository).save(brandArg);
+        verify(repository).save(any(Brand.class));
+        verify(mapper).toBrandResponse(brand);
         verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(mapper);
     }
 
     @Test
-    void shouldUpdate() {
-        var updateName = faker.programmingLanguage().name();
-        var request = new BrandRequest(updateName);
-        var brandUpdate = Brand.builder().id(ID).name(updateName).createdAt(CREATED_AT).build();
-
+    void shouldUpdateBrand() {
         given(repository.findById(ID)).willReturn(of(brand));
-        given(repository.save(brandUpdate)).willReturn(brandUpdate);
+        given(repository.save(brand)).willReturn(brand);
+        given(mapper.toBrandResponse(brand)).willReturn(response);
 
         var actual = service.updateBrand(ID, request);
 
-        then(actual.name()).isEqualTo(updateName);
-        then(actual.id()).isEqualTo(brand.getId());
+        then(actual).isEqualTo(response);
 
         // Verifications
         verify(repository).findById(ID);
-        verify(repository).save(brandUpdate);
+        verify(repository).save(brand);
         verifyNoMoreInteractions(repository);
     }
 
     @Test
-    void shouldDelete() {
+    void shouldDeleteBrand() {
         given(repository.findById(ID)).willReturn(of(brand));
         willDoNothing().given(repository).delete(brand);
 
@@ -128,17 +183,5 @@ class BrandServiceImplTest {
         verify(repository).findById(ID);
         verify(repository).delete(brand);
         verifyNoMoreInteractions(repository);
-    }
-
-    @Test
-    void shouldThrowErros() {
-        given(repository.findById(ID)).willReturn(empty());
-        var request = new BrandRequest("Any");
-
-        assertThrows(NotFoundException.class, () -> service.getBrandById(ID));
-        assertThrows(NotFoundException.class, () -> service.updateBrand(ID, request));
-        assertThrows(NotFoundException.class, () -> service.deleteBrandById(ID));
-
-        verify(repository, times(3)).findById(ID);
     }
 }

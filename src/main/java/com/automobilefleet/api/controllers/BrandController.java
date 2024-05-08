@@ -3,7 +3,6 @@ package com.automobilefleet.api.controllers;
 import com.automobilefleet.api.dto.request.BrandRequest;
 import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.services.BrandService;
-import com.automobilefleet.services.BrandServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -37,7 +36,7 @@ public class BrandController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<BrandResponse> getBrandById(@PathVariable(required = false) UUID id) {
-        log.info("Getting  brand by id {}", id);
+        log.info("Getting brand by id {}", id);
         return status(OK).body(service.getBrandById(id));
     }
 
@@ -49,7 +48,7 @@ public class BrandController {
 
     @GetMapping(params = {"page", "size"})
     public ResponseEntity<Page<BrandResponse>> pageBrand(@RequestParam int page, @RequestParam int size) {
-        log.info("Getting  page of brand with page {} and size {}", page, size);
+        log.info("Getting page of brand with page {} and size {}", page, size);
         return status(OK).body(service.pageBrand(page, size));
     }
 
