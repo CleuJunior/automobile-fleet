@@ -35,16 +35,16 @@ INSERT INTO brand_entity VALUES
 -- -------------------------------------------------------------------------------------
 
 INSERT INTO category_entity VALUES
-('1deb1e69-6b1a-4d88-9a1b-a9889398b54a', 'SUVs', 'Veiculos utilitários esportivos', '2023-10-21T12:05:17.147971'),
-('89658392-1ce5-4523-8b08-b7dd9322d57a', 'Carros Elétricos', 'veiculos movidos a energia elétrica', '2023-10-21T12:05:17.147971'),
+('1deb1e69-6b1a-4d88-9a1b-a9889398b54a', 'SUVs', 'Veiculos utilitarios esportivos', '2023-10-21T12:05:17.147971'),
+('89658392-1ce5-4523-8b08-b7dd9322d57a', 'Carros Eletricos', 'Veiculos movidos a energia eletrica', '2023-10-21T12:05:17.147971'),
 ('1af3289c-f302-4a95-95f6-c9d05c0aa50b', 'Hatch', 'Categoria de carros com carroceria hatchback', '2022-11-29T23:31:19.537270'),
 ('2e46c0aa-011f-4fc2-81e8-5365de43fff7', 'Picape', 'Categoria de carros com carroceria pickup', '2022-11-11T21:36:11.156273'),
 ('9755db80-c218-4671-b147-22795510c74e', 'Esportivo', 'Categoria de carros esportivos com alta performance', '2023-11-14T09:10:33.157661'),
 ('345f40dd-f528-4f6a-83c4-2d47b304f557', 'Caminhoes', 'veiculos de grande porte para transporte de cargas', '2023-10-19T15:35:26.138071'),
 ('62a6ddee-9308-4bbc-a819-5064597383a3', 'Carros de Luxo', 'Carros de alta qualidade e com grande valor agregado', '2024-03-11T16:01:12.268101'),
 ('3b0872df-d47a-48f4-964e-b6a099964ee7', 'Minivans', 'Veiculos familiares com grande espaço interno', '2018-01-12T15:33:24.615971'),
-('146c8a0a-828c-4d4c-bbc3-fdc70bcf38f9', 'Coupe', 'Categoria de carros com carroceria coupé', '2024-03-06T11:23:11.256777'),
-('dc915ab8-aa4f-4dbd-bd09-94f8c12ff52d', 'Carros Antigos', 'Veiculos com mais de 30 anos de fabricação', '2022-11-23T17:33:57.237971');
+('146c8a0a-828c-4d4c-bbc3-fdc70bcf38f9', 'Coupe', 'Categoria de carros com carroceria coupe', '2024-03-06T11:23:11.256777'),
+('dc915ab8-aa4f-4dbd-bd09-94f8c12ff52d', 'Carros Antigos', 'Veiculos com mais de 30 anos de fabricacao', '2022-11-23T17:33:57.237971');
 
 -- -------------------------------------------------------------------------------------
 --                              Inserir especificação                                 --

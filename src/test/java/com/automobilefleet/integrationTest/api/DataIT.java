@@ -224,6 +224,28 @@ public class DataIT {
     public static final String CATEGORY_COUPE_ID = "146c8a0a-828c-4d4c-bbc3-fdc70bcf38f9";
     public static final String CATEGORY_OLD_CARS_ID = "dc915ab8-aa4f-4dbd-bd09-94f8c12ff52d";
 
+    public static final String CATEGORY_SUVs_NAME = "SUVs";
+    public static final String CATEGORY_ELETRIC_CARS_NAME = "Carros Eletricos";
+    public static final String CATEGORY_HATCH_NAME = "Hatch";
+    public static final String CATEGORY_PICK_UP_NAME = "Picape";
+    public static final String CATEGORY_SPORTING_NAME = "Esportivo";
+    public static final String CATEGORY_TRUCK_NAME = "Caminhoes";
+    public static final String CATEGORY_LUXURY_CARS_NAME = "Carros de Luxo";
+    public static final String CATEGORY_MINIVANS_NAME = "Minivans";
+    public static final String CATEGORY_COUPE_NAME = "Coupe";
+    public static final String CATEGORY_OLD_CARS_NAME = "Carros Antigos";
+
+    public static final String CATEGORY_SUVs_DESCRIPTION = "Veiculos utilitarios esportivos";
+    public static final String CATEGORY_ELETRIC_CARS_DESCRIPTION = "Veiculos utilitarios esportivos";
+    public static final String CATEGORY_HATCH_DESCRIPTION = "Categoria de carros com carroceria hatchback";
+    public static final String CATEGORY_PICK_UP_DESCRIPTION = "Categoria de carros com carroceria pickup";
+    public static final String CATEGORY_SPORTING_DESCRIPTION = "Categoria de carros esportivos com alta performance";
+    public static final String CATEGORY_TRUCK_DESCRIPTION = "veiculos de grande porte para transporte de cargas";
+    public static final String CATEGORY_LUXURY_CARS_DESCRIPTION = "Carros de alta qualidade e com grande valor agregado";
+    public static final String CATEGORY_MINIVANS_DESCRIPTION = "Veiculos familiares com grande espaço interno";
+    public static final String CATEGORY_COUPE_DESCRIPTION = "Categoria de carros com carroceria coupe";
+    public static final String CATEGORY_OLD_CARS_DESCRIPTION = "Veiculos com mais de 30 anos de fabricacao";
+
     public static final String SERIE_THREE_IMAGE_ID = "ba091788-8edb-4a5a-bab2-2c8dade5addf";
     public static final String ONIX_IMAGE_ID = "8bafe033-b9d2-4051-9bf6-45476c015197";
     public static final String MT_ZERO_IMAGE_ID = "3856093c-6be9-4ed2-9bcc-3de10642aeda";
@@ -263,7 +285,7 @@ public class DataIT {
     public static final String UPDATED_AT_TWO = "11-03-2024 16:15:37";
     public static final String UPDATED_AT_THREE = "29-11-2022 23:31:19";
     public static final String UPDATED_AT_FOUR = "11-11-2022 21:36:11";
-    public static final String UPDATED_AT_FIVE = "14-11-2023 09:1O:33";
+    public static final String UPDATED_AT_FIVE = "14-11-2023 09:10:33";
     public static final String UPDATED_AT_SIX = "19-10-2023 15:35:26";
     public static final String UPDATED_AT_SEVEN = "11-03-2024 16:01:12";
     public static final String UPDATED_AT_EIGHT = "12-01-2018 15:33:24";

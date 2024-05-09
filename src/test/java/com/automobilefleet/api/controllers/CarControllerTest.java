@@ -88,7 +88,7 @@ class CarControllerTest {
     }
 
     @Test
-    void shoulSaveCarAndStatusCodeCreated() throws Exception {
+    void shoulSaveCarAndStatusCodeCreated() {
         given(service.saveCar(request)).willReturn(response);
 
         var result = controller.saveCar(request);
@@ -101,7 +101,7 @@ class CarControllerTest {
     }
 
     @Test
-    void shouldUpdateCarAndStatusCodeAccepted() throws Exception {
+    void shouldUpdateCarAndStatusCodeAccepted() {
         given(service.updateCar(ID, request)).willReturn(response);
 
         var result = controller.updateCar(ID, request);

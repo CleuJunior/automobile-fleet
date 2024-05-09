@@ -1,11 +1,11 @@
 package com.automobilefleet.api.controllers;
 
-import com.automobilefleet.api.dto.response.CategoryResponse;
 import com.automobilefleet.api.dto.request.CategoryRequest;
+import com.automobilefleet.api.dto.response.CategoryResponse;
 import com.automobilefleet.services.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,37 +18,47 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
+import static org.springframework.http.HttpStatus.ACCEPTED;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.ResponseEntity.status;
+
 @RestController
 @RequestMapping(value = "/api/v1/category")
 @RequiredArgsConstructor
+@Slf4j
 public class CategoryController {
     private final CategoryService service;
 
     @GetMapping(value = "/{id}")
 //    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable UUID id) {
-        return ResponseEntity.status(HttpStatus.OK).body(this.service.getCategoryById(id));
+        log.info("Getting category by id {}", id);
+        return status(OK).body(service.getCategoryById(id));
     }
 
-    @GetMapping(value = "/list")
+    @GetMapping
 //    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<CategoryResponse>> listOfCategory() {
-        return ResponseEntity.status(HttpStatus.OK).body(this.service.listCategories());
+        log.info("Getting list of categories");
+        return status(OK).body(service.listCategories());
     }
 
-    @PostMapping(value = "/save")
+    @PostMapping
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CategoryResponse> saveCategory(@RequestBody @Valid CategoryRequest request) {
-        CategoryResponse response = this.service.saveCategory(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        log.info("Saving category {}", request);
+        var response = service.saveCategory(request);
+
+        return status(CREATED).body(response);
     }
 
-    @PutMapping(value = "/update/{id}")
+    @PutMapping(value = "/{id}")
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable UUID id,
-                                                           @RequestBody @Valid CategoryRequest request) {
+    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable UUID id, @RequestBody @Valid CategoryRequest request) {
+        log.info("Updating category id {} with request {}", id, request);
+        var response = service.updateCategory(id, request);
 
-        CategoryResponse response = this.service.updateCategory(id, request);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+        return status(ACCEPTED).body(response);
     }
 }
