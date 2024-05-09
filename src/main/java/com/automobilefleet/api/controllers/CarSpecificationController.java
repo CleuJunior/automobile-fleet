@@ -4,7 +4,7 @@ import com.automobilefleet.api.dto.request.CarSpecificationRequest;
 import com.automobilefleet.api.dto.response.CarSpecificationResponse;
 import com.automobilefleet.services.CarSpecificationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,40 +17,48 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
+import static org.springframework.http.HttpStatus.ACCEPTED;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.ResponseEntity.status;
+
 @RestController
-@RequestMapping(value = "/api/v1/car-specification")
+@RequestMapping(value = "/api/v1/car_specification")
 @RequiredArgsConstructor
+@Slf4j
 public class CarSpecificationController {
     private final CarSpecificationService service;
 
     @GetMapping(value = "/{id}")
 //    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<CarSpecificationResponse> getCarSpecificationId(@PathVariable UUID id) {
-        return ResponseEntity.status(HttpStatus.OK).body(this.service.getCarSpecificationById(id));
+        log.info("Getting car specification by id {}", id);
+        return status(OK).body(service.getCarSpecificationById(id));
     }
 
-    @GetMapping(value = "/list")
+    @GetMapping
 //    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<CarSpecificationResponse>> listOfCarSpecification() {
-        return ResponseEntity.status(HttpStatus.OK).body(this.service.listCarSpecification());
+        log.info("Getting list of car specifications");
+        return status(OK).body(service.listCarSpecification());
     }
 
-    @PostMapping(value = "/save")
+    @PostMapping
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CarSpecificationResponse> saveCarSpecification(@RequestBody CarSpecificationRequest request) {
-        CarSpecificationResponse response = this.service.saveCarEspecification(request);
+        log.info("Saving car specification {}", request);
+        var response = service.saveCarEspecification(request);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return status(CREATED).body(response);
     }
 
-    @PutMapping(value = "/update/{id}")
+    @PutMapping(value = "/{id}")
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<CarSpecificationResponse> updateCarSpecification(@PathVariable UUID id,
-                                                                           @RequestBody CarSpecificationRequest request) {
+    public ResponseEntity<CarSpecificationResponse> updateCarSpecification(@PathVariable UUID id, @RequestBody CarSpecificationRequest request) {
+        log.info("Updating car specification id {} with request {}", id, request);
+        var response = service.updateCarSpecification(id, request);
 
-        CarSpecificationResponse response = this.service.updateCarSpecification(id, request);
-
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+        return status(ACCEPTED).body(response);
     }
 
 }

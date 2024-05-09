@@ -248,6 +248,17 @@ public class DataIT {
     public static final String CREATED_AT_NINE = "04-03-2024 21:21:39";
     public static final String CREATED_AT_TEN = "12-03-2018 12:11:11";
 
+    public static final String CAR_SPECIFICATION_ONIX_ID = "89092af1-f0c2-410a-8dc9-ba7a6320261e";
+    public static final String CAR_SPECIFICATION_MT_NINE_ID = "a0d1f278-e906-4c93-a3c8-9c3b637fbde4";
+    public static final String CAR_SPECIFICATION_KWID_ID = "cd6e8f3f-5c68-4a7e-bece-fe7d9b59e2b3";
+    public static final String CAR_SPECIFICATION_MARCH_ID = "d43860ac-c116-4712-a8fb-dec8bdc34d64";
+    public static final String CAR_SPECIFICATION_COROLLA_ID = "0493ec2c-10de-445e-a5af-fb8368f9745e";
+    public static final String CAR_SPECIFICATION_MUSTANG = "edabe532-d3d5-40fd-b2b6-e6a63487bbe1";
+    public static final String CAR_SPECIFICATION_GOL_ID = "68aec737-09f8-4dc0-91c0-722ef0b40a25";
+    public static final String CAR_SPECIFICATION_FERRARI_ID = "415d8f74-0654-4427-8a16-3ce01c15bb33";
+    public static final String CAR_SPECIFICATION_CIVIC_ID = "eb29e137-407b-42c9-be0b-fccb2f6a0c95";
+    public static final String CAR_SPECIFICATION_BMW_ID = "c93d5c92-efd1-4f8e-ad22-1fd807104b81";
+
     public static final String UPDATED_AT_ONE = "21-10-2023 12:05:17";
     public static final String UPDATED_AT_TWO = "11-03-2024 16:15:37";
     public static final String UPDATED_AT_THREE = "29-11-2022 23:31:19";
