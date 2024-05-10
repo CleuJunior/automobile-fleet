@@ -1,21 +1,16 @@
 package com.automobilefleet.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,61 +19,90 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
+
+import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.FetchType.LAZY;
+import static jakarta.persistence.GenerationType.AUTO;
+import static java.time.LocalDateTime.now;
+import static lombok.AccessLevel.NONE;
+import static lombok.AccessLevel.PRIVATE;
 
 @Table(name = "rental_entity")
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = PRIVATE)
 @Builder
-@Getter @Setter
-@EqualsAndHashCode
+@Getter
+@Setter
 public class Rental implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = AUTO)
     @Column(name = "_id", nullable = false)
-    @Setter(AccessLevel.NONE)
+    @Setter(NONE)
     private UUID id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = ALL, fetch = LAZY)
     @JoinColumn(name = "car_id", referencedColumnName = "_id", nullable = false)
     private Car car;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "costumer_id", referencedColumnName = "_id", nullable = false)
-    private Costumer costumer;
+    @OneToOne(cascade = ALL, fetch = LAZY)
+    @JoinColumn(name = "customer_id", referencedColumnName = "_id", nullable = false)
+    private Customer customer;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
     @Column(name = "total", nullable = false)
     private Double total;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "created_at", nullable = false)
-    @Setter(AccessLevel.NONE)
+    @Setter(NONE)
     private LocalDateTime createdAt;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updatedAt", nullable = false)
     private LocalDateTime updatedAt;
 
     @PrePersist
     public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        this.createdAt = now();
+        this.updatedAt = now();
     }
 
     @PostPersist
     public void postPersist() {
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = now();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        var rental = (Rental) o;
+
+        return Objects.equals(id, rental.id) &&
+                Objects.equals(car, rental.car) &&
+                Objects.equals(customer, rental.customer) &&
+                Objects.equals(startDate, rental.startDate) &&
+                Objects.equals(endDate, rental.endDate) &&
+                Objects.equals(total, rental.total) &&
+                Objects.equals(createdAt, rental.createdAt) &&
+                Objects.equals(updatedAt, rental.updatedAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, car, customer, startDate, endDate, total, createdAt, updatedAt);
     }
 }

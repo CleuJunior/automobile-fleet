@@ -1,53 +1,48 @@
-package com.automobilefleet.integrationTest;
+package com.automobilefleet.integrationTest.api;
 
-import com.automobilefleet.api.dto.request.CustomerRequest;
 import com.automobilefleet.api.dto.request.SpecificationRequest;
 import com.github.javafaker.Faker;
-import jakarta.transaction.Transactional;
+import org.flywaydb.core.Flyway;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 
-import static com.automobilefleet.integrationTest.DataIT.CREATED_AT_FOUR;
-import static com.automobilefleet.integrationTest.DataIT.HELOISA_DRIVER_LICENSE;
-import static com.automobilefleet.integrationTest.DataIT.HELOISA_EMAIL;
-import static com.automobilefleet.integrationTest.DataIT.HELOISA_ID;
-import static com.automobilefleet.integrationTest.DataIT.HELOISA_PHONE_NUMBER;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_BRAKES;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_BRAKES_DESCRIPTION;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_BRAKES_ID;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_ENGINE;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_ENGINE_DESCRIPTION;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_ENGINE_ID;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_EXCHANGE;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_EXCHANGE_DESCRIPTION;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_EXCHANGE_ID;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_HEIGHT;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_HEIGHT_DESCRIPTION;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_HEIGHT_ID;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_LENGTH;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_LENGTH_DESCRIPTION;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_LENGTH_ID;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_STEERING_WHEEL;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_STEERING_WHEEL_DESCRIPTION;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_STEERING_WHEEL_ID;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_SUSPENSION;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_SUSPENSION_DESCRIPTION;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_SUSPENSION_ID;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_TANK_CAPACITY;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_TANK_CAPACITY_DESCRIPTION;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_TANK_CAPACITY_ID;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_WEIGHT;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_WEIGHT_DESCRIPTION;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_WEIGHT_ID;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_WIDTH;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_WIDTH_DESCRIPTION;
-import static com.automobilefleet.integrationTest.DataIT.SPECIFICATION_WIDTH_ID;
-import static com.automobilefleet.util.DateUtils.dateFormatToString;
-import static com.automobilefleet.util.DateUtils.localDateFromDate;
+import static com.automobilefleet.integrationTest.api.DataIT.CREATED_AT_FOUR;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_BRAKES;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_BRAKES_DESCRIPTION;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_BRAKES_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_ENGINE;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_ENGINE_DESCRIPTION;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_ENGINE_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_EXCHANGE;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_EXCHANGE_DESCRIPTION;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_EXCHANGE_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_HEIGHT;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_HEIGHT_DESCRIPTION;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_HEIGHT_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_LENGTH;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_LENGTH_DESCRIPTION;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_LENGTH_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_STEERING_WHEEL;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_STEERING_WHEEL_DESCRIPTION;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_STEERING_WHEEL_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_SUSPENSION;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_SUSPENSION_DESCRIPTION;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_SUSPENSION_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_TANK_CAPACITY;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_TANK_CAPACITY_DESCRIPTION;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_TANK_CAPACITY_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_WEIGHT;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_WEIGHT_DESCRIPTION;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_WEIGHT_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_WIDTH;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_WIDTH_DESCRIPTION;
+import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_WIDTH_ID;
 import static com.automobilefleet.utils.JsonMapper.asJsonString;
-import static java.lang.String.valueOf;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -62,16 +57,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc(addFilters = false)
-@Transactional
-class SpecificationControllerIT extends IntegrationTest {
+class SpecificationControllerIT extends AbstractWebIntegrationTest {
 
+    @Container
+    @ServiceConnection
+    private static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
     @Autowired
     private MockMvc mockMvc;
-
     private final static Faker faker = new Faker();
     private final static String ENDPOINT = "/api/v1/specification";
     private final static String ENDPOINT_ID = ENDPOINT + "/{id}";
+
+    @BeforeAll
+    static void beforeAll() {
+        var flyway = Flyway.configure()
+                .dataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword())
+                .load();
+
+        flyway.migrate();
+    }
 
     @Test
     void shouldGetSpecificationByIdAndStatusCodeOK() throws Exception {

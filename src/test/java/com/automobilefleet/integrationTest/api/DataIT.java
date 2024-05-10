@@ -291,4 +291,10 @@ public class DataIT {
     public static final String UPDATED_AT_EIGHT = "12-01-2018 15:33:24";
     public static final String UPDATED_AT_NINE = "06-03-2024 11:23:11";
     public static final String UPDATED_AT_TEN = "23-11-2022 17:33:57";
+
+    public static final String START_DATE = "20-03-2023";
+    public static final String END_DATE = "25-03-2023";
+
+    public static final Double TOTAL = 493.85;
+    public static final String RENTAL_ID = "f944cfcc-55b6-4c80-be50-dee4ee288fce";
 }
