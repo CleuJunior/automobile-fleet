@@ -1,53 +1,54 @@
-package com.automobilefleet.integrationTest;
+package com.automobilefleet.integrationTest.api;
 
 import com.automobilefleet.api.dto.request.CustomerRequest;
 import com.github.javafaker.Faker;
-import jakarta.transaction.Transactional;
+import org.flywaydb.core.Flyway;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 
-import static com.automobilefleet.integrationTest.DataIT.CREATED_AT_TEN;
-import static com.automobilefleet.integrationTest.DataIT.FERNANDO_CUSTOMER;
-import static com.automobilefleet.integrationTest.DataIT.FERNANDO_EMAIL;
-import static com.automobilefleet.integrationTest.DataIT.FERNANDO_ID;
-import static com.automobilefleet.integrationTest.DataIT.GUSTAVO_CUSTOMER;
-import static com.automobilefleet.integrationTest.DataIT.GUSTAVO_EMAIL;
-import static com.automobilefleet.integrationTest.DataIT.GUSTAVO_ID;
-import static com.automobilefleet.integrationTest.DataIT.HELOISA_CUSTOMER;
-import static com.automobilefleet.integrationTest.DataIT.HELOISA_DRIVER_LICENSE;
-import static com.automobilefleet.integrationTest.DataIT.HELOISA_EMAIL;
-import static com.automobilefleet.integrationTest.DataIT.HELOISA_ID;
-import static com.automobilefleet.integrationTest.DataIT.HELOISA_PHONE_NUMBER;
-import static com.automobilefleet.integrationTest.DataIT.HUGO_CUSTOMER;
-import static com.automobilefleet.integrationTest.DataIT.HUGO_EMAIL;
-import static com.automobilefleet.integrationTest.DataIT.HUGO_ID;
-import static com.automobilefleet.integrationTest.DataIT.JULIO_CUSTOMER;
-import static com.automobilefleet.integrationTest.DataIT.JULIO_EMAIL;
-import static com.automobilefleet.integrationTest.DataIT.JULIO_ID;
-import static com.automobilefleet.integrationTest.DataIT.LUANA_CUSTOMER;
-import static com.automobilefleet.integrationTest.DataIT.LUANA_EMAIL;
-import static com.automobilefleet.integrationTest.DataIT.LUANA_ID;
-import static com.automobilefleet.integrationTest.DataIT.MARCELA_ADDRESS;
-import static com.automobilefleet.integrationTest.DataIT.MARCELA_BIRTHDATE;
-import static com.automobilefleet.integrationTest.DataIT.MARCELA_CUSTOMER;
-import static com.automobilefleet.integrationTest.DataIT.MARCELA_DRIVER_LICENSE;
-import static com.automobilefleet.integrationTest.DataIT.MARCELA_EMAIL;
-import static com.automobilefleet.integrationTest.DataIT.MARCELA_ID;
-import static com.automobilefleet.integrationTest.DataIT.MARCELA_PHONE_NUMBER;
-import static com.automobilefleet.integrationTest.DataIT.MARTA_CUSTOMER;
-import static com.automobilefleet.integrationTest.DataIT.MARTA_EMAIL;
-import static com.automobilefleet.integrationTest.DataIT.MARTA_ID;
-import static com.automobilefleet.integrationTest.DataIT.PEDRO_CUSTOMER;
-import static com.automobilefleet.integrationTest.DataIT.PEDRO_EMAIL;
-import static com.automobilefleet.integrationTest.DataIT.PEDRO_ID;
-import static com.automobilefleet.integrationTest.DataIT.RAIMUNDA_CUSTOMER;
-import static com.automobilefleet.integrationTest.DataIT.RAIMUNDA_EMAIL;
-import static com.automobilefleet.integrationTest.DataIT.RAIMUNDA_ID;
-import static com.automobilefleet.integrationTest.DataIT.UPDATED_AT_TEN;
+import static com.automobilefleet.integrationTest.api.DataIT.CREATED_AT_TEN;
+import static com.automobilefleet.integrationTest.api.DataIT.FERNANDO_CUSTOMER;
+import static com.automobilefleet.integrationTest.api.DataIT.FERNANDO_EMAIL;
+import static com.automobilefleet.integrationTest.api.DataIT.FERNANDO_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.GUSTAVO_CUSTOMER;
+import static com.automobilefleet.integrationTest.api.DataIT.GUSTAVO_EMAIL;
+import static com.automobilefleet.integrationTest.api.DataIT.GUSTAVO_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.HELOISA_CUSTOMER;
+import static com.automobilefleet.integrationTest.api.DataIT.HELOISA_DRIVER_LICENSE;
+import static com.automobilefleet.integrationTest.api.DataIT.HELOISA_EMAIL;
+import static com.automobilefleet.integrationTest.api.DataIT.HELOISA_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.HELOISA_PHONE_NUMBER;
+import static com.automobilefleet.integrationTest.api.DataIT.HUGO_CUSTOMER;
+import static com.automobilefleet.integrationTest.api.DataIT.HUGO_EMAIL;
+import static com.automobilefleet.integrationTest.api.DataIT.HUGO_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.JULIO_CUSTOMER;
+import static com.automobilefleet.integrationTest.api.DataIT.JULIO_EMAIL;
+import static com.automobilefleet.integrationTest.api.DataIT.JULIO_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.LUANA_CUSTOMER;
+import static com.automobilefleet.integrationTest.api.DataIT.LUANA_EMAIL;
+import static com.automobilefleet.integrationTest.api.DataIT.LUANA_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.MARCELA_ADDRESS;
+import static com.automobilefleet.integrationTest.api.DataIT.MARCELA_BIRTHDATE;
+import static com.automobilefleet.integrationTest.api.DataIT.MARCELA_CUSTOMER;
+import static com.automobilefleet.integrationTest.api.DataIT.MARCELA_DRIVER_LICENSE;
+import static com.automobilefleet.integrationTest.api.DataIT.MARCELA_EMAIL;
+import static com.automobilefleet.integrationTest.api.DataIT.MARCELA_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.MARCELA_PHONE_NUMBER;
+import static com.automobilefleet.integrationTest.api.DataIT.MARTA_CUSTOMER;
+import static com.automobilefleet.integrationTest.api.DataIT.MARTA_EMAIL;
+import static com.automobilefleet.integrationTest.api.DataIT.MARTA_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.PEDRO_CUSTOMER;
+import static com.automobilefleet.integrationTest.api.DataIT.PEDRO_EMAIL;
+import static com.automobilefleet.integrationTest.api.DataIT.PEDRO_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.RAIMUNDA_CUSTOMER;
+import static com.automobilefleet.integrationTest.api.DataIT.RAIMUNDA_EMAIL;
+import static com.automobilefleet.integrationTest.api.DataIT.RAIMUNDA_ID;
+import static com.automobilefleet.integrationTest.api.DataIT.UPDATED_AT_TEN;
 import static com.automobilefleet.util.DateUtils.dateFormatToString;
 import static com.automobilefleet.util.DateUtils.localDateFromDate;
 import static com.automobilefleet.utils.JsonMapper.asJsonString;
@@ -66,16 +67,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc(addFilters = false)
-@Transactional
-class CustomerControllerIT extends IntegrationTest {
+class CustomerControllerIT extends AbstractWebIntegrationTest {
 
+    @Container
+    @ServiceConnection
+    private static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
     @Autowired
     private MockMvc mockMvc;
-
     private final static Faker faker = new Faker();
     private final static String ENDPOINT = "/api/v1/customer";
     private final static String ENDPOINT_ID = ENDPOINT + "/{id}";
+
+    @BeforeAll
+    static void beforeAll() {
+        var flyway = Flyway.configure()
+                .dataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword())
+                .load();
+
+        flyway.migrate();
+    }
 
     @Test
     void shouldGetCustomerdByIdAndStatusCodeOK() throws Exception {
@@ -129,7 +139,7 @@ class CustomerControllerIT extends IntegrationTest {
         var dateString = dateFormatToString(birthdate);
         var email = "test_input_user@gmail.com";
         var driverLicense = valueOf(faker.number().numberBetween(10000000000L, 99999999999L));
-        var address = faker.harryPotter().location();
+        var address = faker.address().fullAddress();
         var phone = "(31) 51557-8143";
 
         var request = new CustomerRequest(name, birthdate, email, driverLicense, address, phone);

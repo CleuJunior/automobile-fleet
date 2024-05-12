@@ -25,7 +25,6 @@ import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
-@AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
 class CustomerControllerTest {
 

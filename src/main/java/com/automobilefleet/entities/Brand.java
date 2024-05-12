@@ -1,6 +1,5 @@
 package com.automobilefleet.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +19,6 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 import static jakarta.persistence.GenerationType.AUTO;
 import static java.time.LocalDateTime.now;
 import static lombok.AccessLevel.NONE;

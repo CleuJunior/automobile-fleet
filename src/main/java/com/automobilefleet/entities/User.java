@@ -53,7 +53,7 @@
 //    private RoleType role;
 //
 //    @OneToOne
-//    private Costumer costumer;
+//    private Customer customer;
 //
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {
