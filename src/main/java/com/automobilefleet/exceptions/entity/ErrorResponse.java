@@ -3,28 +3,21 @@ package com.automobilefleet.exceptions.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.io.Serial;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-@Builder
+import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
+
 @JsonPropertyOrder({"timestamp", "status", "status_message", "error_message"})
-public class ErrorResponse implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-    private Integer status;
-    @JsonProperty("status_message")
-    private String statusErrorMessage;
-    @JsonProperty("error_message")
-    private String message;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:SS")
-    private LocalDateTime timestamp;
+public record ErrorResponse(
+        Integer status,
+        @JsonProperty("status_message")
+        String statusErrorMessage,
+        @JsonProperty("error_message")
+        String message,
+        String trace,
+        @JsonFormat(shape = STRING, pattern = "dd-MM-yyyy HH:mm:SS")
+        LocalDateTime timestamp
+) {
 }
+

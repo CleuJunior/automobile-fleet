@@ -1,92 +1,115 @@
 package com.automobilefleet.exceptions;
 
 import com.automobilefleet.exceptions.entity.ErrorResponse;
-import com.automobilefleet.exceptions.entity.MultiplesErrorsResponse;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import java.time.LocalDateTime;
-import java.util.stream.Collectors;
+import static com.automobilefleet.exceptions.ConstraintViolationEnum.constraintFromKey;
+import static com.automobilefleet.exceptions.ExceptionsConstants.DATE_CONSTRAIN_ERROR;
+import static java.time.LocalDateTime.now;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
+@Slf4j
 public class ErrorExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorResponse> entityNotFound(NotFoundException notFoundException) {
-        HttpStatus status = HttpStatus.NOT_FOUND;
+    public ResponseEntity<ErrorResponse> entityNotFoundHandler(HttpServletRequest request, NotFoundException notFoundException) {
+        var err = new ErrorResponse(
+                NOT_FOUND.value(),
+                NOT_FOUND.getReasonPhrase(),
+                notFoundException.getMessage(),
+                request.getRequestURI(),
+                now()
+        );
 
-        ErrorResponse err = ErrorResponse.builder()
-                .status(status.value())
-                .statusErrorMessage(status.getReasonPhrase())
-                .message(notFoundException.getMessage())
-                .timestamp(LocalDateTime.now())
-                .build();
-
-        return ResponseEntity.status(status).body(err);
+        log.error("{} URI: {}", NOT_FOUND, request.getRequestURI());
+        return ResponseEntity.status(NOT_FOUND).body(err);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponse> costumerBirthDateConstrainError() {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+    public ResponseEntity<ErrorResponse> costumerBirthDateConstrainHandler(HttpServletRequest request) {
+        var err = new ErrorResponse(
+                BAD_REQUEST.value(),
+                BAD_REQUEST.getReasonPhrase(),
+                DATE_CONSTRAIN_ERROR,
+                request.getRequestURI(),
+                now()
+        );
 
-        ErrorResponse err =  ErrorResponse.builder()
-                .status(status.value())
-                .statusErrorMessage(status.getReasonPhrase())
-                .message(ExceptionsConstants.DATE_CONSTRAIN_ERROR)
-                .timestamp(LocalDateTime.now())
-                .build();
-
-        return ResponseEntity.status(status).body(err);
+        return ResponseEntity.status(BAD_REQUEST).body(err);
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorResponse> duplicateConstraintError(DataIntegrityViolationException exception) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-        String cause = exception.getMostSpecificCause().getMessage();
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> duplicateConstraintErrorHandler(HttpServletRequest request, ConstraintViolationException exception) {
+        var err = new ErrorResponse(
+                BAD_REQUEST.value(),
+                BAD_REQUEST.getReasonPhrase(),
+                constraintFromKey(exception.getConstraintName()),
+                request.getRequestURI(),
+                now()
+        );
 
-        ErrorResponse err = ErrorResponse.builder()
-                .status(status.value())
-                .statusErrorMessage(status.getReasonPhrase())
-                .timestamp(LocalDateTime.now())
-                .build();
+        log.error("Constraint error: {}", constraintFromKey(exception.getConstraintName()));
+        return ResponseEntity.status(BAD_REQUEST).body(err);
+    }
 
-        String costumerEntityDriverLicenseKeyConstraint = "costumer_entity_driver_license_key";
-        String costumerEntityEmailKeyContraint = "costumer_entity_email_key";
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErrorResponse> httpRequestMethodNotSupportedHandler(HttpServletRequest request, HttpRequestMethodNotSupportedException exception) {
+        var err = new ErrorResponse(
+                METHOD_NOT_ALLOWED.value(),
+                METHOD_NOT_ALLOWED.getReasonPhrase(),
+                exception.getBody().getDetail(),
+                request.getRequestURI(),
+                now()
+        );
 
-        if (cause.contains(costumerEntityDriverLicenseKeyConstraint))
-            err.setMessage(ExceptionsConstants.DRIVER_LICENSE_DUPLICATE);
+        log.error("The method {} is not supported in this endpoint: {}", exception.getMethod(), request.getRequestURI());
+        return ResponseEntity.status(METHOD_NOT_ALLOWED).body(err);
+    }
 
-        if (cause.contains(costumerEntityEmailKeyContraint))
-            err.setMessage(ExceptionsConstants.EMAIL_DUPLICATE);
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> noResourceFoundHandler(NoResourceFoundException exception) {
+        var err = new ErrorResponse(
+                NOT_FOUND.value(),
+                NOT_FOUND.getReasonPhrase(),
+                exception.getBody().getDetail(),
+                exception.getResourcePath(),
+                now()
+        );
 
-        return ResponseEntity.status(status).body(err);
+        log.error("This resource path: {} has no static resource", exception.getResourcePath());
+        return ResponseEntity.status(NOT_FOUND).body(err);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<MultiplesErrorsResponse> constraintErrosMessages(MethodArgumentNotValidException exception) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-
-        String errorMessages = exception.getBindingResult()
-                .getAllErrors()
-                .stream()
+    public ResponseEntity<ErrorResponse> constraintErrosMessagesHandler(HttpServletRequest request, MethodArgumentNotValidException exception) {
+        var errorMessage = exception.getBindingResult().getAllErrors().stream()
+                .findFirst()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.joining(" | "));
+                .orElse("Unknow Error");
 
-        MultiplesErrorsResponse err =  MultiplesErrorsResponse.builder()
-                .status(status.value())
-                .statusErrorMessage(status.getReasonPhrase())
-                .messages(errorMessages)
-                .timestamp(LocalDateTime.now())
-                .build();
+        var err = new ErrorResponse(
+                BAD_REQUEST.value(),
+                BAD_REQUEST.getReasonPhrase(),
+                errorMessage,
+                request.getRequestURI(),
+                now()
+        );
 
-        return ResponseEntity.status(status).body(err);
+        log.error("Constraint error: {} On: {}", errorMessage, request.getRequestURI());
+        return ResponseEntity.status(BAD_REQUEST).body(err);
     }
 }
