@@ -60,7 +60,7 @@ class CarImageServiceImplTest {
     @Test
     void shouldReturnSingleListOfImages() {
         given(carImageRepository.findAll()).willReturn(singletonList(carImage));
-        given(mapper.toCarImagenResponseList(singletonList(carImage))).willReturn(singletonList(response));
+        given(mapper.toCarImageResponseList(singletonList(carImage))).willReturn(singletonList(response));
 
         var actual = service.listAllImage();
 
@@ -70,7 +70,7 @@ class CarImageServiceImplTest {
 
         // Check mock interactions
         verify(carImageRepository).findAll();
-        verify(mapper).toCarImagenResponseList(singletonList(carImage));
+        verify(mapper).toCarImageResponseList(singletonList(carImage));
         verifyNoMoreInteractions(carImageRepository);
         verifyNoMoreInteractions(mapper);
     }
@@ -94,7 +94,7 @@ class CarImageServiceImplTest {
         var carImageResponses = new PageImpl<>(singletonList(response), PAGE_REQUEST, 1);
 
         given(carImageRepository.findAll(PAGE_REQUEST)).willReturn(carImagePage);
-        given(mapper.toSpecificationResponsePage(carImagePage, 0, 1)).willReturn(carImageResponses);
+        given(mapper.toCarImageResponsePage(carImagePage, 0, 1)).willReturn(carImageResponses);
 
         var actual = service.pageCarImage(0, 1);
 
@@ -102,7 +102,7 @@ class CarImageServiceImplTest {
         then(actual).contains(response);
 
         verify(carImageRepository).findAll(PAGE_REQUEST);
-        verify(mapper).toSpecificationResponsePage(carImagePage, 0, 1);
+        verify(mapper).toCarImageResponsePage(carImagePage, 0, 1);
         verifyNoMoreInteractions(carImageRepository);
         verifyNoMoreInteractions(mapper);
     }

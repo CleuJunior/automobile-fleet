@@ -42,7 +42,7 @@ public class CarImageServiceImpl implements CarImageService {
         }
 
         log.info("Return list of images");
-        return mapper.toCarImagenResponseList(images);
+        return mapper.toCarImageResponseList(images);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class CarImageServiceImpl implements CarImageService {
         }
 
         log.info("Return page of images with size {}", size);
-        return mapper.toSpecificationResponsePage(images, page, size);
+        return mapper.toCarImageResponsePage(images, page, size);
     }
 
     @Override
