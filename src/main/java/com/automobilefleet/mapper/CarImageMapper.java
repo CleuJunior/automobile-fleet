@@ -29,16 +29,16 @@ public class CarImageMapper {
         );
     }
 
-    public List<CarImageResponse> toCarImagenResponseList(List<CarImage> images) {
+    public List<CarImageResponse> toCarImageResponseList(List<CarImage> images) {
         return images.stream()
                 .filter(Objects::nonNull)
                 .map(this::toCarImageResponse)
                 .toList();
     }
 
-    public Page<CarImageResponse> toSpecificationResponsePage(Page<CarImage> images, int page, int size) {
+    public Page<CarImageResponse> toCarImageResponsePage(Page<CarImage> images, int page, int size) {
         var total = images.getTotalElements();
-        var response = toCarImagenResponseList(images.getContent());
+        var response = toCarImageResponseList(images.getContent());
 
         return new PageImpl<>(response, of(page, size), total);
     }
