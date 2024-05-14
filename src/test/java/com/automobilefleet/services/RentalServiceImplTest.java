@@ -66,7 +66,7 @@ class RentalServiceImplTest {
         var rentalList = singletonList(rental);
 
         given(rentalRepository.findAll()).willReturn(rentalList);
-        given(mapper.toRenttalResponseList(rentalList)).willReturn(singletonList(response));
+        given(mapper.toRentalResponseList(rentalList)).willReturn(singletonList(response));
 
         var result = service.listOfRental();
 
@@ -74,7 +74,7 @@ class RentalServiceImplTest {
         then(result).contains(response);
 
         verify(rentalRepository).findAll();
-        verify(mapper).toRenttalResponseList(rentalList);
+        verify(mapper).toRentalResponseList(rentalList);
         verifyNoMoreInteractions(rentalRepository);
         verifyNoMoreInteractions(mapper);
     }

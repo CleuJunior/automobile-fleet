@@ -16,7 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static com.automobilefleet.builder.BrandBuilder.brandRespnseBuilder;
 import static com.automobilefleet.builder.CarBuilder.carBuilder;
 import static com.automobilefleet.builder.CarBuilder.carResponseBuilder;
-import static com.automobilefleet.builder.CategorydBuilder.categoryResponsetBuilder;
+import static com.automobilefleet.builder.CategoryBuilder.categoryResponseBuilder;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
@@ -44,7 +44,7 @@ class CarMapperTest {
 
         response = carResponseBuilder(car);
         var brandResponse = brandRespnseBuilder(brand);
-        var categoryResponse = categoryResponsetBuilder(category);
+        var categoryResponse = categoryResponseBuilder(category);
 
         given(brandMapper.toBrandResponse(brand)).willReturn(brandResponse);
         given(categoryMapper.toCategoryResponse(category)).willReturn(categoryResponse);

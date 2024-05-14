@@ -46,7 +46,7 @@ public class RentalServiceImpl implements RentalService {
         }
 
         log.info("Return list of rentals");
-        return mapper.toRenttalResponseList(rentalList);
+        return mapper.toRentalResponseList(rentalList);
     }
 
     @Override

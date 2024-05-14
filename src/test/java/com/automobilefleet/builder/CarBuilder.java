@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 
 import static com.automobilefleet.builder.BrandBuilder.brandBuilder;
 import static com.automobilefleet.builder.BrandBuilder.brandRespnseBuilder;
-import static com.automobilefleet.builder.CategorydBuilder.categoryResponsetBuilder;
-import static com.automobilefleet.builder.CategorydBuilder.categorytBuilder;
+import static com.automobilefleet.builder.CategoryBuilder.categoryBuilder;
+import static com.automobilefleet.builder.CategoryBuilder.categoryResponseBuilder;
 import static java.time.LocalDateTime.now;
 import static java.util.UUID.randomUUID;
 import static lombok.AccessLevel.PRIVATE;
@@ -28,7 +28,7 @@ public class CarBuilder {
                 .available(fake.random().nextBoolean())
                 .licensePlate(fake.random().hex())
                 .brand(brandBuilder())
-                .category(categorytBuilder())
+                .category(categoryBuilder())
                 .color(fake.color().name())
                 .createdAt(now())
                 .build();
@@ -43,7 +43,7 @@ public class CarBuilder {
                 car.isAvailable(),
                 car.getLicensePlate(),
                 brandRespnseBuilder(car.getBrand()),
-                categoryResponsetBuilder(car.getCategory()),
+                categoryResponseBuilder(car.getCategory()),
                 car.getColor(),
                 car.getCreatedAt()
         );

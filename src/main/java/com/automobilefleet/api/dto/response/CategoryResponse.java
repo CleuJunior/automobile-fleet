@@ -1,6 +1,5 @@
 package com.automobilefleet.api.dto.response;
 
-import com.automobilefleet.entities.Category;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -20,12 +19,4 @@ public record CategoryResponse(
         @JsonFormat(shape = STRING, pattern = "dd-MM-yyyy HH:mm:ss")
         LocalDateTime createdAt
 ) {
-    public CategoryResponse(Category category) {
-        this(
-                category.getId(),
-                category.getName(),
-                category.getDescription(),
-                category.getCreatedAt()
-        );
-    }
 }

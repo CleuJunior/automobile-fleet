@@ -1,6 +1,5 @@
 package com.automobilefleet.api.dto.response;
 
-import com.automobilefleet.entities.Rental;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -31,17 +30,4 @@ public record RentalResponse(
         @JsonFormat(shape = STRING, pattern = "dd-MM-yyyy HH:mm:ss")
         LocalDateTime updatedAt
 ) {
-
-    public RentalResponse(Rental rental) {
-        this(
-                rental.getId(),
-                new CarResponse(rental.getCar()),
-                new CustomerResponse(rental.getCustomer()),
-                rental.getStartDate(),
-                rental.getEndDate(),
-                rental.getTotal(),
-                rental.getCreatedAt(),
-                rental.getUpdatedAt()
-        );
-    }
 }

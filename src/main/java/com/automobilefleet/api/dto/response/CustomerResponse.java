@@ -36,18 +36,4 @@ public record CustomerResponse(
         @JsonProperty("updated_at")
         LocalDateTime updatedAt
 ) {
-
-    public CustomerResponse(Customer customer) {
-        this(
-                customer.getId(),
-                customer.getName(),
-                customer.getBirthdate(),
-                customer.getEmail(),
-                customer.getDriverLicense(),
-                customer.getAddress(),
-                customer.getPhone(),
-                customer.getCreatedAt(),
-                customer.getUpdatedAt()
-        );
-    }
 }
