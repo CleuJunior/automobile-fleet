@@ -16,4 +16,6 @@ public interface RentalService {
     RentalResponse saveRental(RentalRequest request);
 
     RentalResponse updateRental(UUID id, RentalRequest request);
+
+    void deleteRental(UUID id);
 }

@@ -23,6 +23,9 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.CascadeType.MERGE;
+import static jakarta.persistence.CascadeType.PERSIST;
+import static jakarta.persistence.CascadeType.REMOVE;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.AUTO;
 import static java.time.LocalDateTime.now;
@@ -46,11 +49,11 @@ public class Rental implements Serializable {
     @Setter(NONE)
     private UUID id;
 
-    @OneToOne(cascade = ALL, fetch = LAZY)
+    @OneToOne(fetch = LAZY, cascade = MERGE, targetEntity = Car.class)
     @JoinColumn(name = "car_id", referencedColumnName = "_id", nullable = false)
     private Car car;
 
-    @OneToOne(cascade = ALL, fetch = LAZY)
+    @OneToOne(fetch = LAZY, targetEntity = Customer.class)
     @JoinColumn(name = "customer_id", referencedColumnName = "_id", nullable = false)
     private Customer customer;
 

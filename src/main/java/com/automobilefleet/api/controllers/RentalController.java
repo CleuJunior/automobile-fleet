@@ -6,6 +6,7 @@ import com.automobilefleet.services.RentalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.ResponseEntity.status;
 
@@ -56,5 +58,13 @@ public class RentalController {
         var response = service.updateRental(id, request);
 
         return status(ACCEPTED).body(response);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteRental(@PathVariable UUID id) {
+        log.info("Deleting rental id {}", id);
+        service.deleteRental(id);
+
+        return status(NO_CONTENT).build();
     }
 }

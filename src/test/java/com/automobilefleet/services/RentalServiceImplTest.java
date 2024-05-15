@@ -6,6 +6,7 @@ import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.Customer;
 import com.automobilefleet.entities.Rental;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
+import com.automobilefleet.exceptions.policyexception.PolicyException;
 import com.automobilefleet.mapper.RentalMapper;
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.repositories.CustomerRepository;
@@ -28,6 +29,8 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -108,7 +111,6 @@ class RentalServiceImplTest {
         verifyNoMoreInteractions(mapper);
     }
 
-
     @Test
     void shouldThrowErrorWhenRentalIdNotFound() {
         given(rentalRepository.findById(RENTAL_ID)).willReturn(empty());
@@ -129,6 +131,7 @@ class RentalServiceImplTest {
 
         given(carRepository.findById(CAR_ID)).willReturn(Optional.of(car));
         given(customerRepository.findById(CUSTOMER_ID)).willReturn(Optional.of(customer));
+        given(car.isAvailable()).willReturn(true);
 
         given(rentalRepository.save(any(Rental.class))).willReturn(rental);
         given(mapper.toRentalResponse(rental)).willReturn(response);
@@ -194,6 +197,10 @@ class RentalServiceImplTest {
         given(carRepository.findById(CAR_ID)).willReturn(Optional.of(car));
         given(customerRepository.findById(CUSTOMER_ID)).willReturn(Optional.of(customer));
 
+//        given(car.isAvailable()).willReturn(true);
+        given(rental.getCar()).willReturn(car);
+        given(rental.getStartDate()).willReturn(now().plusDays(1));
+
         given(rentalRepository.save(rental)).willReturn(rental);
         given(mapper.toRentalResponse(rental)).willReturn(response);
 
@@ -211,5 +218,29 @@ class RentalServiceImplTest {
         verifyNoMoreInteractions(carRepository);
         verifyNoMoreInteractions(customerRepository);
         verifyNoMoreInteractions(mapper);
+    }
+
+    @Test
+    void shouldDeleteRental() {
+        given(rentalRepository.findById(RENTAL_ID)).willReturn(Optional.of(rental));
+        given(rental.getStartDate()).willReturn(now().plusDays(1));
+        willDoNothing().given(rentalRepository).delete(rental);
+
+        service.deleteRental(RENTAL_ID);
+
+        verify(rentalRepository).findById(RENTAL_ID);
+        verify(rentalRepository).delete(rental);
+    }
+
+    @Test
+    void shouldThrowPolicyErrorWhenDeleteRental() {
+        given(rentalRepository.findById(RENTAL_ID)).willReturn(Optional.of(rental));
+        given(rental.getId()).willReturn(RENTAL_ID);
+        given(rental.getStartDate()).willReturn(now());
+
+        assertThrows(PolicyException.class, () -> service.deleteRental(RENTAL_ID));
+
+        verify(rentalRepository).findById(RENTAL_ID);
+        verify(rentalRepository, times(0)).delete(rental);
     }
 }

@@ -6,6 +6,7 @@ import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.Customer;
 import com.automobilefleet.entities.Rental;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
+import com.automobilefleet.exceptions.policyexception.PolicyException;
 import com.automobilefleet.mapper.RentalMapper;
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.repositories.CustomerRepository;
@@ -15,11 +16,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import static com.automobilefleet.exceptions.ExceptionsConstants.CAR_AVAILABLE_POLYCI_ERROR;
 import static com.automobilefleet.exceptions.ExceptionsConstants.CAR_NOT_FOUND;
 import static com.automobilefleet.exceptions.ExceptionsConstants.CUSTOMER_NOT_FOUND;
+import static com.automobilefleet.exceptions.ExceptionsConstants.RENTAL_CANCELATION_POLYCI_ERROR;
 import static com.automobilefleet.exceptions.ExceptionsConstants.RENTAL_NOT_FOUND;
 import static java.lang.Math.round;
 import static java.time.LocalDateTime.now;
@@ -31,6 +35,7 @@ import static java.util.Collections.emptyList;
 @RequiredArgsConstructor
 @Slf4j
 public class RentalServiceImpl implements RentalService {
+
     private final RentalRepository rentalRepository;
     private final CarRepository carRepository;
     private final CustomerRepository customerRepository;
@@ -63,6 +68,9 @@ public class RentalServiceImpl implements RentalService {
         var customer = findCustomerOrThrow(request.customerId());
         var total = totalRental(request, car);
 
+        verifyCarViability(car);
+        car.setAvailable(false);
+
         var rental = Rental.builder()
                 .car(car)
                 .customer(customer)
@@ -78,16 +86,19 @@ public class RentalServiceImpl implements RentalService {
     @Override
     public RentalResponse updateRental(UUID id, RentalRequest request) {
         var rental = findRentalOrThrow(id);
+
+        validationRentalModify(rental);
+
         var car = findCarOrThrow(request.carId());
         var customer = findCustomerOrThrow(request.customerId());
-
-        updateRental(rental, request, car, customer);
-        log.info("Rental updated successfully");
-        return mapper.toRentalResponse(rentalRepository.save(rental));
-    }
-
-    private void updateRental(Rental rental, RentalRequest request, Car car, Customer customer) {
         var total = totalRental(request, car);
+
+        if (!car.equals(rental.getCar())) {
+            rental.getCar().setAvailable(true);
+            carRepository.save(rental.getCar());
+        }
+
+        car.setAvailable(false);
 
         rental.setCar(car);
         rental.setCustomer(customer);
@@ -95,6 +106,32 @@ public class RentalServiceImpl implements RentalService {
         rental.setEndDate(request.endDate());
         rental.setTotal(total);
         rental.setUpdatedAt(now());
+
+        log.info("Rental updated successfully");
+        return mapper.toRentalResponse(rentalRepository.save(rental));
+    }
+
+    @Override
+    public void deleteRental(UUID id) {
+        var rental = findRentalOrThrow(id);
+        validationRentalModify(rental);
+
+        log.info("Rental id {} deleted successfully", id);
+        rentalRepository.delete(rental);
+    }
+
+    private void validationRentalModify(Rental rental) {
+        if (rental.getStartDate().equals(LocalDate.now())) {
+            log.error("Rental id {} cannot be modify", rental.getId());
+            throw new PolicyException(RENTAL_CANCELATION_POLYCI_ERROR);
+        }
+    }
+
+    private void verifyCarViability(Car car) {
+        if (!car.isAvailable()) {
+            log.error("Car it's not available");
+            throw new PolicyException(CAR_AVAILABLE_POLYCI_ERROR);
+        }
     }
 
     private double totalRental(RentalRequest request, Car car) {
@@ -136,5 +173,4 @@ public class RentalServiceImpl implements RentalService {
 
         return response.get();
     }
-
 }
