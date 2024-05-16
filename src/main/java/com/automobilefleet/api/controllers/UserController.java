@@ -3,7 +3,7 @@
 //import com.automobilefleet.api.request.UserRequest;
 //import com.automobilefleet.api.response.UserResponse;
 //import com.automobilefleet.entities.User;
-//import com.automobilefleet.services.UserService;
+//import com.automobilefleet.services.UserServiceImpl;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.http.HttpStatus;
 //import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@
 //@RequestMapping(value = "/api/v1/user")
 //@RequiredArgsConstructor
 //public class UserController {
-//    private final UserService service;
+//    private final UserServiceImpl service;
 //
 //    @PostMapping(value = "/register")
 //    public ResponseEntity<UserResponse> register(@RequestBody @Valid UserRequest request) {

@@ -1,52 +1,52 @@
 package com.automobilefleet.api.controllers;
 
 import com.automobilefleet.api.dto.request.LoginRequest;
-import com.automobilefleet.api.dto.request.RegisterRequest;
+import com.automobilefleet.api.dto.request.UserRequest;
+import com.automobilefleet.api.dto.response.UserResponse;
 import com.automobilefleet.api.dto.response.UserTokenResponse;
 import com.automobilefleet.config.security.TokenService;
-import com.automobilefleet.entities.User;
-import com.automobilefleet.repositories.UserRepository;
+import com.automobilefleet.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.ResponseEntity.status;
+
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    private final UserRepository repository;
-    private final PasswordEncoder passwordEncoder;
+
+    private final UserService service;
     private final TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequest body) {
-        var user = repository.findByUsername(body.username()).orElseThrow(() -> new RuntimeException("User not found"));
-        if (passwordEncoder.matches(body.password(), user.getPassword())) {
-            String token = tokenService.generateToken(user);
-            return ResponseEntity.ok(new UserTokenResponse(user.getUsername(), token));
-        }
-        return ResponseEntity.badRequest().build();
+    public ResponseEntity<UserTokenResponse> login(@RequestBody LoginRequest request) {
+        var userResponse = service.login(request);
+        var token = tokenService.generateToken(userResponse);
+        var header = new HttpHeaders();
+
+        header.setBearerAuth(token);
+
+        var response = new UserTokenResponse(userResponse.username(), token);
+        return status(OK).headers(header).body(response);
     }
 
-
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody RegisterRequest body) {
-        var user = repository.findByUsername(body.email());
+    public ResponseEntity<UserResponse> register(@RequestBody @Valid UserRequest request) {
+        var response = service.saveUser(request);
+        var token = tokenService.generateToken(response);
 
-        if (user.isEmpty()) {
-            var newUser = new User();
-            newUser.setPassword(passwordEncoder.encode(body.password()));
-            newUser.setEmail(body.email());
-            newUser.setUsername(body.username());
-            repository.save(newUser);
+        var header = new HttpHeaders();
+        header.setBearerAuth(token);
 
-            var token = tokenService.generateToken(newUser);
-            return ResponseEntity.ok(new UserTokenResponse(newUser.getUsername(), token));
-        }
-        return ResponseEntity.badRequest().build();
+        return status(CREATED).headers(header).body(response);
     }
 }

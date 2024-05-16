@@ -1,25 +1,24 @@
 package com.automobilefleet.api.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.automobilefleet.enums.Role;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter @Setter
-public class UserRequest {
+public record UserRequest(
+        @Email
+        String email,
 
-    @JsonProperty("username")
-    @NotBlank(message = "Username can't be blank!")
-    @Size(min = 5, max = 255, message = "Username must contain between 5 to 255 characters!")
-    private String username;
+        @NotBlank(message = "Username can't be blank!")
+        @Size(min = 5, max = 255, message = "Username must contain between 5 to 255 characters!")
+        String username,
 
-    @JsonProperty("password")
-    @NotBlank(message = "Password can't be blank!")
-    @Size(min = 5, message = "Password must contain at least 5 characters!")
-    private String password;
+        @NotBlank(message = "Password can't be blank!")
+        @Size(min = 5, message = "Password must contain at least 5 characters!")
+        String password,
+        @NotNull(message = "Role can't be null!")
+        Role role
+) {
+
 }

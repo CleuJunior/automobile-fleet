@@ -1,26 +1,27 @@
 package com.automobilefleet.api.dto.response;
 
+import com.automobilefleet.enums.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-@NoArgsConstructor
-@RequiredArgsConstructor
-@Getter @Setter
-public class UserResponse {
+import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
-    @NonNull
-    @JsonProperty("user_id")
-    private UUID id;
+public record UserResponse(
 
-    @NonNull
-    @JsonProperty("username")
-    private String username;
+        @JsonProperty("_id")
+        UUID id,
+        String username,
+        String email,
+        Role role,
+        @JsonProperty("created_at")
+        @JsonFormat(shape = STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+        LocalDateTime createdAt,
+        @JsonProperty("updated_at")
+        @JsonFormat(shape = STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+        LocalDateTime updatedAt
+) {
 
 }
