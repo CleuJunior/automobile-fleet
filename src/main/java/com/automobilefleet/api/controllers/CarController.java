@@ -1,15 +1,12 @@
 package com.automobilefleet.api.controllers;
 
 import com.automobilefleet.api.dto.request.CarRequest;
-import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.api.dto.response.CarResponse;
 import com.automobilefleet.services.CarService;
-import com.automobilefleet.services.CarServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,21 +33,18 @@ public class CarController {
     private final CarService service;
 
     @GetMapping(value = "/{id}")
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<CarResponse> getCardById(@PathVariable UUID id) {
         log.info("Getting car by id {}", id);
         return status(OK).body(service.getCarById(id));
     }
 
     @GetMapping(value = "/available")
-//    @PreAuthorize("hasRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<CarResponse>> getCarAvailable() {
         log.info("Getting list of cars available");
         return status(OK).body(service.findByCarAvailable());
     }
 
     @GetMapping(params = {"brand_name"})
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<CarResponse>> getListCarByBrand(
             @RequestParam(name = "brand_name", required = false)
             String brandName) {
@@ -66,14 +60,12 @@ public class CarController {
     }
 
     @GetMapping
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<CarResponse>> listOfCars() {
         log.info("Getting list of all cars");
         return status(OK).body(service.listOfCars());
     }
 
     @PostMapping
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CarResponse> saveCar(@RequestBody @Valid CarRequest request) {
         log.info("Saving car {}", request);
         var response = service.saveCar(request);
@@ -82,7 +74,6 @@ public class CarController {
     }
 
     @PutMapping(value = "/{id}")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CarResponse> updateCar(@PathVariable UUID id, @RequestBody @Valid CarRequest request) {
         log.info("Updating car id {} with request {}", id, request);
         var response = service.updateCar(id, request);

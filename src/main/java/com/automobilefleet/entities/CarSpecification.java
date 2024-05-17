@@ -18,6 +18,8 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+import static jakarta.persistence.CascadeType.REMOVE;
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.AUTO;
 import static lombok.AccessLevel.NONE;
 import static lombok.AccessLevel.PRIVATE;
@@ -39,11 +41,11 @@ public class CarSpecification implements Serializable {
     @Setter(NONE)
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY, cascade = REMOVE, targetEntity = Car.class)
     @JoinColumn(name = "car_id", referencedColumnName = "_id", nullable = false)
     private Car car;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY, cascade = REMOVE, targetEntity = Specification.class)
     @JoinColumn(name = "specification_id", referencedColumnName = "_id", nullable = false)
     private Specification specification;
 
