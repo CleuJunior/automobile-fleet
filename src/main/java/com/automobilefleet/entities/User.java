@@ -1,6 +1,5 @@
 package com.automobilefleet.entities;
 
-import com.automobilefleet.enums.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -14,15 +13,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 import static jakarta.persistence.EnumType.STRING;
@@ -74,13 +70,7 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role.equals(Role.ROLE_ADMIN)) {
-            return List.of(
-                    new SimpleGrantedAuthority(Role.ROLE_ADMIN.name()),
-                    new SimpleGrantedAuthority(Role.ROLE_USER.name())
-            );
-        }
-        return Collections.singletonList(new SimpleGrantedAuthority(Role.ROLE_USER.name()));
+        return role.getAuthoritiesFromRole().getAuthorities();
     }
 
     @Override

@@ -21,25 +21,11 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    public String generateToken(User user) {
-        try {
-            var token = JWT.create()
-                    .withClaim("userId", user.getId().toString())
-                    .withClaim("role", user.getRole().name())
-                    .withExpiresAt(generateExpirationDate())
-                    .sign(HMAC256(secret));
-
-            log.info("Generated token: {}", token);
-            return token;
-        } catch (JWTCreationException exception) {
-            throw new RuntimeException("Error while authenticating");
-        }
-    }
-
     public String generateToken(UserResponse user) {
         try {
             var token = JWT.create()
                     .withClaim("userId", user.id().toString())
+                    .withClaim("username", user.username())
                     .withClaim("role", user.role().name())
                     .withExpiresAt(generateExpirationDate())
                     .sign(HMAC256(secret));
@@ -56,7 +42,7 @@ public class TokenService {
             return JWT.require(HMAC256(secret))
                     .build()
                     .verify(token)
-                    .getClaim("userId")
+                    .getClaim("username")
                     .asString();
 
         } catch (JWTVerificationException exception) {

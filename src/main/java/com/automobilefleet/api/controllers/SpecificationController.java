@@ -26,7 +26,6 @@ import static org.springframework.http.ResponseEntity.status;
 
 @RestController
 @RequestMapping(value = "/api/v1/specification")
-//@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequiredArgsConstructor
 @Slf4j
 public class SpecificationController {

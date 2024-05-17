@@ -31,21 +31,18 @@ public class CategoryController {
     private final CategoryService service;
 
     @GetMapping(value = "/{id}")
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable UUID id) {
         log.info("Getting category by id {}", id);
         return status(OK).body(service.getCategoryById(id));
     }
 
     @GetMapping
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<CategoryResponse>> listOfCategory() {
         log.info("Getting list of categories");
         return status(OK).body(service.listCategories());
     }
 
     @PostMapping
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CategoryResponse> saveCategory(@RequestBody @Valid CategoryRequest request) {
         log.info("Saving category {}", request);
         var response = service.saveCategory(request);
@@ -54,7 +51,6 @@ public class CategoryController {
     }
 
     @PutMapping(value = "/{id}")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CategoryResponse> updateCategory(@PathVariable UUID id, @RequestBody @Valid CategoryRequest request) {
         log.info("Updating category id {} with request {}", id, request);
         var response = service.updateCategory(id, request);

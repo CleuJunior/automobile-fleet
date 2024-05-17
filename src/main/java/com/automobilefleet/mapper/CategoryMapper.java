@@ -14,6 +14,15 @@ import static org.springframework.data.domain.PageRequest.of;
 @Component
 public class CategoryMapper {
 
+    public Category toCategory(CategoryResponse categoryResponse) {
+        return Category.builder()
+                .id(categoryResponse.id())
+                .name(categoryResponse.name())
+                .description(categoryResponse.description())
+                .createdAt(categoryResponse.createdAt())
+                .build();
+    }
+
     public CategoryResponse toCategoryResponse(Category category) {
         return new CategoryResponse(
                 category.getId(),

@@ -9,15 +9,13 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.UUID;
 
-import static java.util.Collections.singletonList;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.UUID.fromString;
@@ -28,8 +26,8 @@ import static java.util.UUID.fromString;
 public class SecurityFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
-
     private final UserRepository userRepository;
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(
@@ -38,15 +36,11 @@ public class SecurityFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         var token = recoverToken(request);
-        var userIdFromToken = tokenService.validateToken(token);
+        var username = tokenService.validateToken(token);
 
-        if (nonNull(userIdFromToken)) {
-
-            var user = userRepository.findById(fromString(userIdFromToken))
-                    .orElseThrow(() -> new RuntimeException("User Not Found"));
-
-            var authorities = singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
+        if (nonNull(username)) {
+            var user = userDetailsService.loadUserByUsername(username);
+            var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

@@ -1,6 +1,6 @@
 package com.automobilefleet.api.dto.response;
 
-import com.automobilefleet.enums.Role;
+import com.automobilefleet.entities.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
