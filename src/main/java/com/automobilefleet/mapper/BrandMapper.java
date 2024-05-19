@@ -15,7 +15,12 @@ import static org.springframework.data.domain.PageRequest.of;
 public class BrandMapper {
 
     public BrandResponse toBrandResponse(Brand brand) {
-        return new BrandResponse(brand);
+        return new BrandResponse(
+                brand.getId(),
+                brand.getName(),
+                brand.getCreatedAt(),
+                brand.getUpdatedAt()
+        );
     }
 
     public List<BrandResponse> toListBrandResponse(List<Brand> brands) {

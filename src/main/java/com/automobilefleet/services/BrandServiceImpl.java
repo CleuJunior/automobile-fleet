@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-import static java.util.Collections.emptyList;
 import static org.springframework.data.domain.Page.empty;
 import static org.springframework.data.domain.PageRequest.of;
 
@@ -26,54 +25,76 @@ import static org.springframework.data.domain.PageRequest.of;
 @Slf4j
 @RequiredArgsConstructor
 public class BrandServiceImpl implements BrandService {
+
     private final BrandRepository repository;
     private final BrandMapper mapper;
 
     @Override
-    public List<BrandResponse> listBrand() {
+    public List<Brand> listBrand() {
         var brands = repository.findAll();
 
-        if (brands.isEmpty()) {
-            log.info("Empty list of brand");
-            return emptyList();
-        }
-
         log.info("Return list of brand");
-        return mapper.toListBrandResponse(brands);
+        return brands;
     }
 
     @Override
-    public Page<BrandResponse> pageBrand(int page, int size) {
+    public List<Brand> listBrandNotDeleted() {
+        var brands = repository.findAllNotDeleted();
+
+        log.info("Return list of brand not deleted");
+        return brands;
+    }
+
+    @Override
+    public Page<Brand> pageBrand(int page, int size) {
         var brands = repository.findAll(of(page, size));
 
-        if (brands.isEmpty()) {
-            log.info("Empty page of brand");
-            return empty();
-        }
-
         log.info("Return page of brand");
-        return mapper.toBrandResponsePage(brands, page, size);
+        return brands;
     }
 
     @Override
-    public BrandResponse getBrandById(UUID id) {
+    public Page<Brand> pageBrandNotDeleted(int page, int size) {
+        var brands = repository.findAllNotDeleted(of(page, size));
+
+        log.info("Return page of brand not deleted");
+        return brands;
+    }
+
+    @Override
+    public Brand getBrandById(UUID id) {
         var brand = findBrandOrThrow(id);
 
         log.info("Brand id {} found successfully", id);
-        return mapper.toBrandResponse(brand);
+        return brand;
     }
 
     @Override
-    public BrandResponse saveBrand(BrandRequest request) {
+    public Brand getBrandByIdNotDeleted(UUID id) {
+        return null;
+    }
+
+    @Override
+    public Brand saveBrand(Brand request) {
         var response = Brand
                 .builder()
-                .name(request.name())
+//                .name(request.name())
                 .build();
 
         var brand = repository.save(response);
         log.info("Brand saved successfully");
 
-        return mapper.toBrandResponse(brand);
+        return brand;
+    }
+
+    @Override
+    public Brand updateBrand(UUID id, Brand request) {
+        return null;
+    }
+
+    @Override
+    public void softDeleteBrandById(UUID id) {
+
     }
 
     @Override

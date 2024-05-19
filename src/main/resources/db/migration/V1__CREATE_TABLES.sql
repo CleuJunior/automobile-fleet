@@ -17,7 +17,9 @@ CREATE TABLE brand_entity
 (
     _id        UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     brand_name VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP    NOT NULL
+    deleted     BOOLEAN      NOT NULL,
+    created_at TIMESTAMP    NOT NULL,
+    updated_at     TIMESTAMP    NOT NULL
 );
 
 CREATE TABLE category_entity

@@ -2,12 +2,12 @@ package com.automobilefleet.api.controllers;
 
 import com.automobilefleet.api.dto.request.BrandRequest;
 import com.automobilefleet.api.dto.response.BrandResponse;
+import com.automobilefleet.mapper.BrandMapper;
 import com.automobilefleet.services.BrandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,29 +34,45 @@ import static org.springframework.http.ResponseEntity.status;
 public class BrandController {
 
     private final BrandService service;
+    private final BrandMapper mapper;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<BrandResponse> getBrandById(@PathVariable(required = false) UUID id) {
         log.info("Getting brand by id {}", id);
-        return status(OK).body(service.getBrandById(id));
+
+        var brand = service.getBrandById(id);
+        var reponse = mapper.toBrandResponse(brand);
+
+        return status(OK).body(reponse);
     }
 
     @GetMapping
     public ResponseEntity<List<BrandResponse>> listOfBrand() {
         log.info("Getting list of brand");
-        return status(OK).body(service.listBrand());
+
+        var brands = service.listBrandNotDeleted();
+        var reponse = mapper.toListBrandResponse(brands);
+
+        return status(OK).body(reponse);
     }
 
     @GetMapping(params = {"page", "size"})
     public ResponseEntity<Page<BrandResponse>> pageBrand(@RequestParam int page, @RequestParam int size) {
         log.info("Getting page of brand with page {} and size {}", page, size);
-        return status(OK).body(service.pageBrand(page, size));
+
+        var brands = service.pageBrandNotDeleted(page, size);
+        var reponse = mapper.toBrandResponsePage(brands, page, size);
+
+        return status(OK).body(reponse);
     }
 
     @PostMapping
     public ResponseEntity<BrandResponse> saveBrand(@RequestBody BrandRequest request) {
         log.info("Saving brand {}", request);
         var response = service.saveBrand(request);
+
+        var brands = service.pageBrandNotDeleted(page, size);
+        var reponse = mapper.toBrandResponsePage(brands, page, size);
 
         return status(CREATED).body(response);
     }
