@@ -19,7 +19,9 @@ public class ExceptionsConstants {
     public static final String DRIVER_LICENSE_DUPLICATE = "Driving license already registered!";
     public static final String EMAIL_DUPLICATE = "Email already registered!";
     public static final String PHONE_REGEX_ERROR = "Phone format must be (12) 12345-1234";
-    public static final String CAR_NAME_DUPLICATION = "Car name already registered!";
-    public static final String CATEGORTY_NAME_DUPLICATION = "Category name already registered!";
+    public static final String CAR_NAME_DUPLICATION = "Car username already registered!";
+    public static final String CATEGORTY_NAME_DUPLICATION = "Category username already registered!";
+    public static final String RENTAL_CANCELATION_POLYCI_ERROR = "Rental cannot be modify on the current day of rental!";
+    public static final String CAR_AVAILABLE_POLYCI_ERROR = "Car is not available for rent!";
 
 }
