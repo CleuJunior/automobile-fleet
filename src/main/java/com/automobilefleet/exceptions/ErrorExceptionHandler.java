@@ -2,6 +2,7 @@ package com.automobilefleet.exceptions;
 
 import com.automobilefleet.exceptions.entity.ErrorResponse;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
+import com.automobilefleet.exceptions.policyexception.PolicyException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
@@ -110,6 +111,20 @@ public class ErrorExceptionHandler {
         );
 
         log.error("Constraint error: {} On: {}", errorMessage, request.getRequestURI());
+        return ResponseEntity.status(BAD_REQUEST).body(err);
+    }
+
+    @ExceptionHandler(PolicyException.class)
+    public ResponseEntity<ErrorResponse> policyErrorHandler(HttpServletRequest request, PolicyException exception) {
+        var err = new ErrorResponse(
+                BAD_REQUEST.value(),
+                BAD_REQUEST.getReasonPhrase(),
+                exception.getMessage(),
+                request.getRequestURI(),
+                now()
+        );
+
+        log.error("Policy error: {} On: {}", exception.getMessage(), request.getRequestURI());
         return ResponseEntity.status(BAD_REQUEST).body(err);
     }
 }
