@@ -8,7 +8,6 @@ import java.util.UUID;
 
 public record CarImageRequest(
         @JsonProperty("car_id")
-        @NotBlank(message = "Car ID can't be blank")
         @NotNull(message = "Car ID can't be null")
         UUID carId,
         @JsonProperty("image")

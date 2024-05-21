@@ -17,7 +17,7 @@ public record CustomerRequest(
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
         @Past(message = "Entered date is incorrect!")
         LocalDate birthdate,
-        @Email(message = "Must be a well-formed email address!")
+        @Email(message = "Must be a well-formed username address!")
         String email,
         @JsonProperty("driver_license")
         @NotBlank(message = "Driver's license can't be blank!")
