@@ -1,5 +1,7 @@
 package com.automobilefleet.services;
 
+import com.automobilefleet.api.dto.request.BrandRequest;
+import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.entities.Brand;
 import org.springframework.data.domain.Page;
 
@@ -8,22 +10,15 @@ import java.util.UUID;
 
 public interface BrandService {
 
-    List<Brand> listBrand();
+    List<BrandResponse> listBrand();
 
-    List<Brand> listBrandNotDeleted();
+    Page<BrandResponse> pageBrand(int page, int size);
 
-    Page<Brand> pageBrand(int page, int size);
+    BrandResponse getBrandById(UUID id);
 
-    Page<Brand> pageBrandNotDeleted(int page, int size);
+    BrandResponse saveBrand(BrandRequest request);
 
-    Brand getBrandById(UUID id);
-    Brand getBrandByIdNotDeleted(UUID id);
-
-    Brand saveBrand(Brand request);
-
-    Brand updateBrand(UUID id, Brand request);
-
-    void softDeleteBrandById(UUID id);
+    BrandResponse updateBrand(UUID id, BrandRequest request);
 
     void deleteBrandById(UUID id);
 }

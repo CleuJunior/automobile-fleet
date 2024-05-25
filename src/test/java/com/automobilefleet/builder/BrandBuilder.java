@@ -15,17 +15,22 @@ public class BrandBuilder {
 
     private static final Faker fake = new Faker();
 
-
     public static Brand brandBuilder() {
         return Brand.builder()
                 .id(randomUUID())
                 .name(fake.leagueOfLegends().champion())
                 .createdAt(now())
+                .updatedAt(now())
                 .build();
     }
 
     public static BrandResponse brandRespnseBuilder(Brand brand) {
-        return new BrandResponse(brand.getId(), brand.getName(), brand.getCreatedAt());
+        return new BrandResponse(
+                brand.getId(),
+                brand.getName(),
+                brand.getCreatedAt(),
+                brandBuilder().getUpdatedAt()
+        );
     }
 
 

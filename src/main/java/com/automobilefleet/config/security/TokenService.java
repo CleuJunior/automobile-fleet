@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.automobilefleet.api.dto.response.UserResponse;
-import com.automobilefleet.entities.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,12 +20,16 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
+    private static final String CLAIM_USER_ID = "userId";
+    private static final String CLAIM_USERNAME = "username";
+    private static final String CLAIM_ROLE = "role";
+
     public String generateToken(UserResponse user) {
         try {
             var token = JWT.create()
-                    .withClaim("userId", user.id().toString())
-                    .withClaim("username", user.username())
-                    .withClaim("role", user.role().name())
+                    .withClaim(CLAIM_USER_ID, user.id().toString())
+                    .withClaim(CLAIM_USERNAME, user.username())
+                    .withClaim(CLAIM_ROLE, user.role().name())
                     .withExpiresAt(generateExpirationDate())
                     .sign(HMAC256(secret));
 
@@ -42,7 +45,7 @@ public class TokenService {
             return JWT.require(HMAC256(secret))
                     .build()
                     .verify(token)
-                    .getClaim("username")
+                    .getClaim(CLAIM_USERNAME)
                     .asString();
 
         } catch (JWTVerificationException exception) {

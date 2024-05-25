@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,27 +23,44 @@ import java.util.UUID;
 import static jakarta.persistence.GenerationType.AUTO;
 import static java.time.LocalDateTime.now;
 import static lombok.AccessLevel.NONE;
-import static lombok.AccessLevel.PRIVATE;
 
 @Table(name = "brand_entity")
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor(access = PRIVATE)
+@AllArgsConstructor
 @Builder
 @Getter
 @Setter
 @ToString
-public class Brand extends BaseEntity implements Serializable {
+public class Brand implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = AUTO)
+    @Column(name = "_id", nullable = false)
+    @Setter(NONE)
+    private UUID id;
 
     @Column(name = "brand_name", nullable = false)
     private String name;
 
+    @Column(name = "created_at", nullable = false)
+    @Setter(NONE)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
     @PrePersist
-    public void prePersist() {
-        super.createdAt = now();
-        super.updatedAt = now();
+    protected void onCreate() {
+        createdAt = now();
+        updatedAt = now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = now();
     }
 
     @Override
@@ -50,7 +68,7 @@ public class Brand extends BaseEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         var brand = (Brand) o;
-        return Objects.equals(super.id, brand.id) &&
+        return Objects.equals(id, brand.id) &&
                 Objects.equals(name, brand.name) &&
                 Objects.equals(createdAt, brand.createdAt);
     }

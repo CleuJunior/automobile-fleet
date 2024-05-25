@@ -34,45 +34,29 @@ import static org.springframework.http.ResponseEntity.status;
 public class BrandController {
 
     private final BrandService service;
-    private final BrandMapper mapper;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<BrandResponse> getBrandById(@PathVariable(required = false) UUID id) {
-        log.info("Getting brand by id {}", id);
-
-        var brand = service.getBrandById(id);
-        var reponse = mapper.toBrandResponse(brand);
-
-        return status(OK).body(reponse);
+    public ResponseEntity<BrandResponse> getBrandById(@PathVariable UUID id) {
+        log.info("Getting  brand by id {}", id);
+        return status(OK).body(service.getBrandById(id));
     }
 
     @GetMapping
     public ResponseEntity<List<BrandResponse>> listOfBrand() {
         log.info("Getting list of brand");
-
-        var brands = service.listBrandNotDeleted();
-        var reponse = mapper.toListBrandResponse(brands);
-
-        return status(OK).body(reponse);
+        return status(OK).body(service.listBrand());
     }
 
     @GetMapping(params = {"page", "size"})
     public ResponseEntity<Page<BrandResponse>> pageBrand(@RequestParam int page, @RequestParam int size) {
-        log.info("Getting page of brand with page {} and size {}", page, size);
-
-        var brands = service.pageBrandNotDeleted(page, size);
-        var reponse = mapper.toBrandResponsePage(brands, page, size);
-
-        return status(OK).body(reponse);
+        log.info("Getting  page of brand with page {} and size {}", page, size);
+        return status(OK).body(service.pageBrand(page, size));
     }
 
     @PostMapping
     public ResponseEntity<BrandResponse> saveBrand(@RequestBody BrandRequest request) {
         log.info("Saving brand {}", request);
         var response = service.saveBrand(request);
-
-        var brands = service.pageBrandNotDeleted(page, size);
-        var reponse = mapper.toBrandResponsePage(brands, page, size);
 
         return status(CREATED).body(response);
     }

@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  db:
+  postgres:
     container_name: postgres_sb_img
     image: postgres:14
     restart: always
@@ -11,8 +11,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./src/main/resources/db/migration:/docker-entrypoint-initdb.d
-      - ./postgres-data:/var/lib/postgresql/data
+#      - ./src/main/resources/db/migration:/docker-entrypoint-initdb.d
+      - /postgres-data:/var/lib/postgresql/data
 
   rabbitmq:
     container_name: rabbitmq_sb_container
@@ -25,5 +25,5 @@ services:
       - "5672:5672"
       - "15672:15672"
 
-volumes:
-  postgres-data:
+#volumes:
+#  postgres-data:
