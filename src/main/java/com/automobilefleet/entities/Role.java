@@ -1,21 +1,27 @@
 package com.automobilefleet.entities;
 
-import com.automobilefleet.authority.AdminAuthorityStrategy;
-import com.automobilefleet.authority.RoleAuthorityStrategy;
-import com.automobilefleet.authority.SuperUserAuthorityStrategy;
-import com.automobilefleet.authority.UserAuthorityStrategy;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.List;
 
 
-@AllArgsConstructor
 @Getter
 public enum Role {
 
-    SUPER(new SuperUserAuthorityStrategy()),
-    ADMIN(new AdminAuthorityStrategy()),
-    USER(new UserAuthorityStrategy());
+    SUPER("SUPER", "ADMIN", "USER"),
+    ADMIN("ADMIN", "USER"),
+    USER("USER");
 
-    private final RoleAuthorityStrategy authoritiesFromRole;
+    private final List<String> permissions;
 
+    Role(String... permissions) {
+        this.permissions = List.of(permissions);
+    }
+
+    public List<SimpleGrantedAuthority> getAuthoritiesFromRole() {
+        return permissions.stream()
+                .map(SimpleGrantedAuthority::new)
+                .toList();
+    }
 }
