@@ -21,6 +21,8 @@ import static java.time.LocalDateTime.now;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.ResponseEntity.status;
+
 
 @ControllerAdvice
 @Slf4j
@@ -37,7 +39,7 @@ public class ErrorExceptionHandler {
         );
 
         log.error("{} URI: {}", NOT_FOUND, request.getRequestURI());
-        return ResponseEntity.status(NOT_FOUND).body(err);
+        return status(NOT_FOUND).body(err);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -50,7 +52,7 @@ public class ErrorExceptionHandler {
                 now()
         );
 
-        return ResponseEntity.status(BAD_REQUEST).body(err);
+        return status(BAD_REQUEST).body(err);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -64,7 +66,7 @@ public class ErrorExceptionHandler {
         );
 
         log.error("Constraint error: {}", constraintFromKey(exception.getConstraintName()));
-        return ResponseEntity.status(BAD_REQUEST).body(err);
+        return status(BAD_REQUEST).body(err);
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
@@ -78,7 +80,7 @@ public class ErrorExceptionHandler {
         );
 
         log.error("The method {} is not supported in this endpoint: {}", exception.getMethod(), request.getRequestURI());
-        return ResponseEntity.status(METHOD_NOT_ALLOWED).body(err);
+        return status(METHOD_NOT_ALLOWED).body(err);
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
@@ -92,7 +94,7 @@ public class ErrorExceptionHandler {
         );
 
         log.error("This resource path: {} has no static resource", exception.getResourcePath());
-        return ResponseEntity.status(NOT_FOUND).body(err);
+        return status(NOT_FOUND).body(err);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -111,7 +113,7 @@ public class ErrorExceptionHandler {
         );
 
         log.error("Constraint error: {} On: {}", errorMessage, request.getRequestURI());
-        return ResponseEntity.status(BAD_REQUEST).body(err);
+        return status(BAD_REQUEST).body(err);
     }
 
     @ExceptionHandler(PolicyException.class)
@@ -125,6 +127,20 @@ public class ErrorExceptionHandler {
         );
 
         log.error("Policy error: {} On: {}", exception.getMessage(), request.getRequestURI());
-        return ResponseEntity.status(BAD_REQUEST).body(err);
+        return status(BAD_REQUEST).body(err);
+    }
+
+    @ExceptionHandler(PasswordMatchException.class)
+    public ResponseEntity<ErrorResponse> passwordMatchHandler(HttpServletRequest request, PasswordMatchException passworException) {
+        var err = new ErrorResponse(
+                BAD_REQUEST.value(),
+                BAD_REQUEST.getReasonPhrase(),
+                passworException.getMessage(),
+                request.getRequestURI(),
+                now()
+        );
+
+        log.error("{} URI: {}", BAD_REQUEST, request.getRequestURI());
+        return status(BAD_REQUEST).body(err);
     }
 }

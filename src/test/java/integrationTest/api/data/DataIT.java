@@ -1,4 +1,4 @@
-package com.automobilefleet.integrationTest.api;
+package integrationTest.api.data;
 
 import lombok.NoArgsConstructor;
 
@@ -297,4 +297,5 @@ public class DataIT {
 
     public static final Double TOTAL = 493.85;
     public static final String RENTAL_ID = "f944cfcc-55b6-4c80-be50-dee4ee288fce";
+    public static final String USER_ADMIN = "9d63e233-729c-46cf-80d4-0032fe559123";
 }
