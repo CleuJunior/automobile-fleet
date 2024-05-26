@@ -17,6 +17,7 @@
 		<java.version>17</java.version>
 		<spring-boot-starter-version>3.1.4</spring-boot-starter-version>
 		<flyway-migration-version>10.1.0</flyway-migration-version>
+		<rest-assured-version>5.3.1</rest-assured-version>
 	</properties>
 	<dependencies>
 		<!-- Spring Boot Starters -->
@@ -131,6 +132,12 @@
 			<groupId>com.github.javafaker</groupId>
 			<artifactId>javafaker</artifactId>
 			<version>1.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>${rest-assured-version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
