@@ -53,13 +53,13 @@ public class Brand implements Serializable {
     private LocalDateTime updatedAt;
 
     @PrePersist
-    protected void onCreate() {
+    public void onCreate() {
         createdAt = now();
         updatedAt = now();
     }
 
     @PreUpdate
-    protected void onUpdate() {
+    public void onUpdate() {
         updatedAt = now();
     }
 

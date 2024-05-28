@@ -3,6 +3,7 @@ package com.automobilefleet.services;
 import com.automobilefleet.api.dto.request.LoginRequest;
 import com.automobilefleet.api.dto.request.UserRequest;
 import com.automobilefleet.api.dto.response.UserResponse;
+import com.automobilefleet.exceptions.PasswordMatchException;
 import com.automobilefleet.mapper.UserMapper;
 import com.automobilefleet.repositories.UserRepository;
 import jakarta.transaction.Transactional;
@@ -36,7 +37,8 @@ public class UserServiceImpl implements UserService {
         var user = repository.findByUsername(request.username()).orElseThrow(() -> new RuntimeException(format("Username %s not found!", request.username())));
 
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
-            throw new RuntimeException("Password does not match");
+            log.warn("Wrong password");
+            throw new PasswordMatchException("Password does not match");
         }
 
         return mapper.toUserResponse(user);

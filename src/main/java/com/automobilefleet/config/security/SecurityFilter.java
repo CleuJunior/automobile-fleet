@@ -1,6 +1,5 @@
 package com.automobilefleet.config.security;
 
-import com.automobilefleet.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,9 +15,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-import static java.util.Objects.isNull;
+import static com.automobilefleet.util.HeaderUtils.authenticationHeader;
+import static com.automobilefleet.util.TokenUtils.removeBearerString;
 import static java.util.Objects.nonNull;
-import static java.util.UUID.fromString;
 
 @Component
 @RequiredArgsConstructor
@@ -26,7 +25,6 @@ import static java.util.UUID.fromString;
 public class SecurityFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
-    private final UserRepository userRepository;
     private final UserDetailsService userDetailsService;
 
     @Override
@@ -35,7 +33,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException {
 
-        var token = recoverToken(request);
+        var token = removeBearerString(authenticationHeader(request));
         var username = tokenService.validateToken(token);
 
         if (nonNull(username)) {
@@ -45,15 +43,5 @@ public class SecurityFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
-    }
-
-    private String recoverToken(HttpServletRequest request) {
-        var authHeader = request.getHeader("Authorization");
-
-        if (isNull(authHeader)) {
-            return null;
-        }
-
-        return authHeader.replace("Bearer ", "");
     }
 }

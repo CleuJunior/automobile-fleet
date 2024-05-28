@@ -70,7 +70,7 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return role.getAuthoritiesFromRole().getAuthorities();
+        return role.getAuthoritiesFromRole();
     }
 
     @Override
