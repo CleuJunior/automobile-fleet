@@ -6,11 +6,11 @@ import com.automobilefleet.entities.Brand;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.mapper.BrandMapper;
 import com.automobilefleet.repositories.BrandRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,6 +30,7 @@ public class BrandServiceImpl implements BrandService {
     private final BrandMapper mapper;
 
     @Override
+    @Transactional(readOnly = true)
     public List<BrandResponse> listBrand() {
         var brands = repository.findAll();
 
@@ -43,6 +44,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<BrandResponse> pageBrand(int page, int size) {
         var brands = repository.findAll(of(page, size));
 
@@ -56,6 +58,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BrandResponse getBrandById(UUID id) {
         var brand = findBrandOrThrow(id);
 
