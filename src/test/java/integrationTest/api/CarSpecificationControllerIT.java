@@ -1,7 +1,7 @@
-package com.automobilefleet.integrationTest.api;
+package integrationTest.api;
 
 import com.automobilefleet.api.dto.request.CarSpecificationRequest;
-import com.github.javafaker.Faker;
+import integrationTest.api.config.AbstractWebIntegrationTest;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -11,16 +11,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 
-import static com.automobilefleet.integrationTest.api.DataIT.CAR_SPECIFICATION_BMW_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.CAR_SPECIFICATION_FERRARI_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.CAR_SPECIFICATION_MUSTANG;
-import static com.automobilefleet.integrationTest.api.DataIT.CAR_SPECIFICATION_ONIX_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.COROLLA_CAR_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.MARCH_CAR_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.MUSTANG_CAR_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_HEIGHT_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_TANK_CAPACITY_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.SPECIFICATION_WIDTH_ID;
+import static integrationTest.api.data.DataIT.CAR_SPECIFICATION_BMW_ID;
+import static integrationTest.api.data.DataIT.CAR_SPECIFICATION_FERRARI_ID;
+import static integrationTest.api.data.DataIT.CAR_SPECIFICATION_MUSTANG;
+import static integrationTest.api.data.DataIT.CAR_SPECIFICATION_ONIX_ID;
+import static integrationTest.api.data.DataIT.COROLLA_CAR_ID;
+import static integrationTest.api.data.DataIT.MARCH_CAR_ID;
+import static integrationTest.api.data.DataIT.MUSTANG_CAR_ID;
+import static integrationTest.api.data.DataIT.SPECIFICATION_HEIGHT_ID;
+import static integrationTest.api.data.DataIT.SPECIFICATION_TANK_CAPACITY_ID;
+import static integrationTest.api.data.DataIT.SPECIFICATION_WIDTH_ID;
 import static com.automobilefleet.utils.JsonMapper.asJsonString;
 import static java.util.UUID.fromString;
 import static org.hamcrest.Matchers.hasSize;
@@ -42,7 +42,7 @@ class CarSpecificationControllerIT extends AbstractWebIntegrationTest {
     private static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
     @Autowired
     private MockMvc mockMvc;
-    private final static String ENDPOINT = "/api/v1/car_specification";
+    private final static String ENDPOINT = "/integrationTest/api/v1/car_specification";
     private final static String ENDPOINT_ID = ENDPOINT + "/{id}";
 
     @BeforeAll

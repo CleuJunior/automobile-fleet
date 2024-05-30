@@ -1,7 +1,8 @@
-package com.automobilefleet.integrationTest.api;
+package integrationTest.api;
 
 import com.automobilefleet.api.dto.request.CarImageRequest;
 import com.github.javafaker.Faker;
+import integrationTest.api.config.AbstractWebIntegrationTest;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -11,29 +12,29 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 
-import static com.automobilefleet.integrationTest.api.DataIT.CAR_IMAGE_LINK_PLACEHOLD;
-import static com.automobilefleet.integrationTest.api.DataIT.CIVIC_CAR_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.CIVIC_IMAGE_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.COROLLA_CAR_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.COROLLA_IMAGE_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.CREATED_AT_FOUR;
-import static com.automobilefleet.integrationTest.api.DataIT.CREATED_AT_SIX;
-import static com.automobilefleet.integrationTest.api.DataIT.FOUR_EIGHT_EIGHT_CAR_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.FOUR_EIGHT_EIGHT_IMAGE_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.GOL_CAR_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.GOL_IMAGE_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.KWID_CAR_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.KWID_IMAGE_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.MARCH_CAR_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.MARCH_IMAGE_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.MT_ZERO_IMAGE_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.MT_ZERO_NINE_CAR_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.MUSTANG_CAR_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.MUSTANG_IMAGE_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.ONIX_CAR_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.ONIX_IMAGE_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.SERIE_THREE_CAR_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.SERIE_THREE_IMAGE_ID;
+import static integrationTest.api.data.DataIT.CAR_IMAGE_LINK_PLACEHOLD;
+import static integrationTest.api.data.DataIT.CIVIC_CAR_ID;
+import static integrationTest.api.data.DataIT.CIVIC_IMAGE_ID;
+import static integrationTest.api.data.DataIT.COROLLA_CAR_ID;
+import static integrationTest.api.data.DataIT.COROLLA_IMAGE_ID;
+import static integrationTest.api.data.DataIT.CREATED_AT_FOUR;
+import static integrationTest.api.data.DataIT.CREATED_AT_SIX;
+import static integrationTest.api.data.DataIT.FOUR_EIGHT_EIGHT_CAR_ID;
+import static integrationTest.api.data.DataIT.FOUR_EIGHT_EIGHT_IMAGE_ID;
+import static integrationTest.api.data.DataIT.GOL_CAR_ID;
+import static integrationTest.api.data.DataIT.GOL_IMAGE_ID;
+import static integrationTest.api.data.DataIT.KWID_CAR_ID;
+import static integrationTest.api.data.DataIT.KWID_IMAGE_ID;
+import static integrationTest.api.data.DataIT.MARCH_CAR_ID;
+import static integrationTest.api.data.DataIT.MARCH_IMAGE_ID;
+import static integrationTest.api.data.DataIT.MT_ZERO_IMAGE_ID;
+import static integrationTest.api.data.DataIT.MT_ZERO_NINE_CAR_ID;
+import static integrationTest.api.data.DataIT.MUSTANG_CAR_ID;
+import static integrationTest.api.data.DataIT.MUSTANG_IMAGE_ID;
+import static integrationTest.api.data.DataIT.ONIX_CAR_ID;
+import static integrationTest.api.data.DataIT.ONIX_IMAGE_ID;
+import static integrationTest.api.data.DataIT.SERIE_THREE_CAR_ID;
+import static integrationTest.api.data.DataIT.SERIE_THREE_IMAGE_ID;
 import static com.automobilefleet.utils.JsonMapper.asJsonString;
 import static java.util.UUID.fromString;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -58,7 +59,7 @@ class CarImageControllerIT extends AbstractWebIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
     private final static Faker faker = new Faker();
-    private final static String ENDPOINT = "/api/v1/car_images";
+    private final static String ENDPOINT = "/integrationTest/api/v1/car_images";
     private final static String ENDPOINT_ID = ENDPOINT + "/{id}";
 
     @BeforeAll
