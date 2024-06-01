@@ -1,7 +1,8 @@
-package com.automobilefleet.integrationTest.api;
+package integrationTest.api;
 
 import com.automobilefleet.api.dto.request.CategoryRequest;
 import com.github.javafaker.Faker;
+import integrationTest.api.config.AbstractWebIntegrationTest;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -11,14 +12,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 
-import static com.automobilefleet.integrationTest.api.DataIT.CATEGORY_LUXURY_CARS_DESCRIPTION;
-import static com.automobilefleet.integrationTest.api.DataIT.CATEGORY_LUXURY_CARS_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.CATEGORY_LUXURY_CARS_NAME;
-import static com.automobilefleet.integrationTest.api.DataIT.CATEGORY_OLD_CARS_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.CATEGORY_SPORTING_CAR_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.CATEGORY_SUVs_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.UPDATED_AT_FIVE;
-import static com.automobilefleet.integrationTest.api.DataIT.UPDATED_AT_SEVEN;
+import static integrationTest.api.data.DataIT.CATEGORY_LUXURY_CARS_DESCRIPTION;
+import static integrationTest.api.data.DataIT.CATEGORY_LUXURY_CARS_ID;
+import static integrationTest.api.data.DataIT.CATEGORY_LUXURY_CARS_NAME;
+import static integrationTest.api.data.DataIT.CATEGORY_OLD_CARS_ID;
+import static integrationTest.api.data.DataIT.CATEGORY_SPORTING_CAR_ID;
+import static integrationTest.api.data.DataIT.CATEGORY_SUVs_ID;
+import static integrationTest.api.data.DataIT.UPDATED_AT_FIVE;
+import static integrationTest.api.data.DataIT.UPDATED_AT_SEVEN;
 import static com.automobilefleet.utils.JsonMapper.asJsonString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -41,7 +42,7 @@ class CategoryControllerIT extends AbstractWebIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
     private final static Faker faker = new Faker();
-    private final static String ENDPOINT = "/api/v1/category";
+    private final static String ENDPOINT = "/integrationTest/api/v1/category";
     private final static String ENDPOINT_ID = ENDPOINT + "/{id}";
 
     @BeforeAll

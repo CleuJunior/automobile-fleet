@@ -1,7 +1,8 @@
-package com.automobilefleet.integrationTest.api;
+package integrationTest.api;
 
 import com.automobilefleet.api.dto.request.RentalRequest;
 import com.github.javafaker.Faker;
+import integrationTest.api.config.AbstractWebIntegrationTest;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -13,13 +14,13 @@ import org.testcontainers.junit.jupiter.Container;
 
 import java.time.LocalDate;
 
-import static com.automobilefleet.integrationTest.api.DataIT.END_DATE;
-import static com.automobilefleet.integrationTest.api.DataIT.LUANA_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.RAIMUNDA_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.RENTAL_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.SERIE_THREE_CAR_ID;
-import static com.automobilefleet.integrationTest.api.DataIT.START_DATE;
-import static com.automobilefleet.integrationTest.api.DataIT.TOTAL;
+import static integrationTest.api.data.DataIT.END_DATE;
+import static integrationTest.api.data.DataIT.LUANA_ID;
+import static integrationTest.api.data.DataIT.RAIMUNDA_ID;
+import static integrationTest.api.data.DataIT.RENTAL_ID;
+import static integrationTest.api.data.DataIT.SERIE_THREE_CAR_ID;
+import static integrationTest.api.data.DataIT.START_DATE;
+import static integrationTest.api.data.DataIT.TOTAL;
 import static com.automobilefleet.utils.JsonMapper.asJsonString;
 import static java.util.UUID.fromString;
 import static org.hamcrest.Matchers.hasSize;
@@ -44,7 +45,7 @@ class RentalControllerIT extends AbstractWebIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
     private final static Faker faker = new Faker();
-    private final static String ENDPOINT = "/api/v1/rental";
+    private final static String ENDPOINT = "/integrationTest/api/v1/rental";
     private final static String ENDPOINT_ID = ENDPOINT + "/{id}";
 
     @BeforeAll
