@@ -96,3 +96,15 @@ CREATE TABLE user_entity
     created_at TIMESTAMP    NOT NULL,
     updated_at TIMESTAMP    NOT NULL
 );
+
+CREATE TABLE car_comment
+(
+    _id        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name       VARCHAR(255) NOT NULL,
+    car_id     UUID         NOT NULL,
+    comment    TEXT         NOT NULL,
+    rating     INT          NOT NULL,
+    created_at TIMESTAMP    NOT NULL,
+    updated_at TIMESTAMP    NOT null,
+    FOREIGN KEY (car_id) REFERENCES car_entity (_id)
+);
