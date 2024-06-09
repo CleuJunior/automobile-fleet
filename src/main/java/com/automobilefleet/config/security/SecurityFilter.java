@@ -16,7 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 import static com.automobilefleet.util.HeaderUtils.authenticationHeader;
-import static com.automobilefleet.util.TokenUtils.removeBearerString;
+import static com.automobilefleet.util.TokenUtils.removeBearerStringFromToken;
 import static java.util.Objects.nonNull;
 
 @Component
@@ -33,7 +33,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException {
 
-        var token = removeBearerString(authenticationHeader(request));
+        var token = removeBearerStringFromToken(authenticationHeader(request));
         var username = tokenService.validateToken(token);
 
         if (nonNull(username)) {

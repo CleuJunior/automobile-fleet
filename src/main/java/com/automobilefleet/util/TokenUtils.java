@@ -8,7 +8,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public final class TokenUtils {
 
-    public static String removeBearerString(String bearerToken) {
+    public static String removeBearerStringFromToken(String bearerToken) {
         return isNull(bearerToken) ? "" : bearerToken.substring(7);
     }
 }

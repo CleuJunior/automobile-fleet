@@ -22,6 +22,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static jakarta.persistence.CascadeType.REMOVE;
+import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.AUTO;
 import static java.time.LocalDateTime.now;
@@ -60,11 +61,11 @@ public class Car implements Serializable {
     @Column(name = "license_plate", length = 30, nullable = false)
     private String licensePlate;
 
-    @OneToOne(fetch = LAZY, cascade = REMOVE, orphanRemoval = true, targetEntity = Brand.class)
+    @OneToOne(fetch = EAGER, cascade = REMOVE, orphanRemoval = true, targetEntity = Brand.class)
     @JoinColumn(name = "brand_id", referencedColumnName = "_id", nullable = false)
     private Brand brand;
 
-    @OneToOne(fetch = LAZY, cascade = REMOVE, orphanRemoval = true, targetEntity = Category.class)
+    @OneToOne(fetch = EAGER, cascade = REMOVE, orphanRemoval = true, targetEntity = Category.class)
     @JoinColumn(name = "category_id", referencedColumnName = "_id", nullable = false)
     private Category category;
 

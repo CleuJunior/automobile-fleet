@@ -7,12 +7,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import static com.automobilefleet.util.HeaderUtils.authenticationHeader;
-import static com.automobilefleet.util.TokenUtils.removeBearerString;
+import static com.automobilefleet.util.TokenUtils.removeBearerStringFromToken;
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.springframework.http.HttpStatus.valueOf;
@@ -29,7 +28,7 @@ class LogInterceptor implements HandlerInterceptor {
                              @NonNull HttpServletResponse response,
                              @NonNull Object handler) {
 
-        var token = removeBearerString(authenticationHeader(request));
+        var token = removeBearerStringFromToken(authenticationHeader(request));
 
         if (isBlank(token)) {
             log.warn("Token is empty");
