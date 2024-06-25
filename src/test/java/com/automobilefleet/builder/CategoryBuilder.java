@@ -5,7 +5,6 @@ import com.automobilefleet.entities.Category;
 import com.github.javafaker.Faker;
 import lombok.NoArgsConstructor;
 
-import static com.github.javafaker.Faker.instance;
 import static java.time.LocalDateTime.now;
 import static java.util.UUID.randomUUID;
 import static lombok.AccessLevel.PRIVATE;
@@ -14,7 +13,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public class CategoryBuilder {
 
-    private static final Faker fake = instance();
+    private static final Faker fake = Faker.instance();
 
     public static Category categoryBuilder() {
         return Category.builder()
@@ -26,11 +25,6 @@ public class CategoryBuilder {
     }
 
     public static CategoryResponse categoryResponseBuilder(Category category) {
-        return new CategoryResponse(
-                category.getId(),
-                category.getName(),
-                category.getDescription(),
-                category.getCreatedAt()
-        );
+        return new CategoryResponse(category.getId(), category.getName(), category.getDescription(), category.getCreatedAt());
     }
 }

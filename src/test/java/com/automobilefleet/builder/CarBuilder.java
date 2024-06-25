@@ -17,7 +17,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public class CarBuilder {
 
-    private static final Faker fake = new Faker();
+    private static final Faker fake = Faker.instance();
 
     public static Car carBuilder() {
         return Car.builder()

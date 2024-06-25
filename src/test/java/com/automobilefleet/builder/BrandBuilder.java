@@ -1,5 +1,6 @@
 package com.automobilefleet.builder;
 
+import com.automobilefleet.api.dto.request.BrandRequest;
 import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.entities.Brand;
 import com.github.javafaker.Faker;
@@ -13,7 +14,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public class BrandBuilder {
 
-    private static final Faker fake = new Faker();
+    private static final Faker fake = Faker.instance();
 
     public static Brand brandBuilder() {
         return Brand.builder()
@@ -25,13 +26,10 @@ public class BrandBuilder {
     }
 
     public static BrandResponse brandRespnseBuilder(Brand brand) {
-        return new BrandResponse(
-                brand.getId(),
-                brand.getName(),
-                brand.getCreatedAt(),
-                brandBuilder().getUpdatedAt()
-        );
+        return new BrandResponse(brand.getId(), brand.getName(), brand.getCreatedAt(), brand.getUpdatedAt());
     }
 
-
+    public static BrandRequest brandRequestBuilder() {
+        return new BrandRequest(fake.leagueOfLegends().champion());
+    }
 }

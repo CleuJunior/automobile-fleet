@@ -1,6 +1,7 @@
 package integrationTest.api;
 
 import com.automobilefleet.api.dto.request.CarImageRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import integrationTest.api.config.AbstractWebIntegrationTest;
 import org.flywaydb.core.Flyway;
@@ -35,7 +36,6 @@ import static integrationTest.api.data.DataIT.ONIX_CAR_ID;
 import static integrationTest.api.data.DataIT.ONIX_IMAGE_ID;
 import static integrationTest.api.data.DataIT.SERIE_THREE_CAR_ID;
 import static integrationTest.api.data.DataIT.SERIE_THREE_IMAGE_ID;
-import static com.automobilefleet.utils.JsonMapper.asJsonString;
 import static java.util.UUID.fromString;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
@@ -58,6 +58,9 @@ class CarImageControllerIT extends AbstractWebIntegrationTest {
     private static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper mapper;
+
     private final static Faker faker = new Faker();
     private final static String ENDPOINT = "/integrationTest/api/v1/car_images";
     private final static String ENDPOINT_ID = ENDPOINT + "/{id}";
@@ -117,7 +120,7 @@ class CarImageControllerIT extends AbstractWebIntegrationTest {
         var request = new CarImageRequest(carId, linkImage);
 
         mockMvc.perform(post(ENDPOINT).contentType(APPLICATION_JSON)
-                        .content(asJsonString(request)))
+                        .content(mapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
                 .andExpect(content().contentType(APPLICATION_JSON))
@@ -134,7 +137,7 @@ class CarImageControllerIT extends AbstractWebIntegrationTest {
         var request = new CarImageRequest(carId, linkImage);
 
         mockMvc.perform(put(ENDPOINT_ID, KWID_IMAGE_ID).contentType(APPLICATION_JSON)
-                        .content(asJsonString(request)))
+                        .content(mapper.writeValueAsString(request)))
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$._id").value(KWID_IMAGE_ID))
                 .andExpect(jsonPath("$.car_id").value(KWID_CAR_ID))

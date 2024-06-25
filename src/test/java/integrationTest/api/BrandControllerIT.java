@@ -39,7 +39,7 @@ import static integrationTest.api.fixture.BrandFixture.putBrand;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 @Transactional
 @Rollback
 class BrandControllerIT extends AbstractWebIntegrationTest {

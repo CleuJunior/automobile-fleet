@@ -1,14 +1,11 @@
 package com.automobilefleet.builder;
 
-import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.api.dto.response.CustomerResponse;
-import com.automobilefleet.entities.Brand;
 import com.automobilefleet.entities.Customer;
 import com.github.javafaker.Faker;
 import lombok.NoArgsConstructor;
 
 import static com.automobilefleet.util.DateUtils.localDateFromDate;
-import static com.github.javafaker.Faker.instance;
 import static java.time.LocalDateTime.now;
 import static java.util.UUID.randomUUID;
 import static lombok.AccessLevel.PRIVATE;
@@ -17,7 +14,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public class CustomerBuilder {
 
-    private static final Faker fake = instance();
+    private static final Faker fake = Faker.instance();
 
     public static Customer customerBuilder() {
         return Customer.builder()

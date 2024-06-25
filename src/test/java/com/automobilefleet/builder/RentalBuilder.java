@@ -20,7 +20,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public class RentalBuilder {
 
-    private static final Faker fake = instance();
+    private static final Faker fake = Faker.instance();
 
     public static Rental rentalBuilder() {
         var startDate = fake.date().future(3, 2, DAYS);

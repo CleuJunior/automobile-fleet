@@ -1,6 +1,7 @@
 package integrationTest.api;
 
 import com.automobilefleet.api.dto.request.RentalRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import integrationTest.api.config.AbstractWebIntegrationTest;
 import org.flywaydb.core.Flyway;
@@ -21,7 +22,6 @@ import static integrationTest.api.data.DataIT.RENTAL_ID;
 import static integrationTest.api.data.DataIT.SERIE_THREE_CAR_ID;
 import static integrationTest.api.data.DataIT.START_DATE;
 import static integrationTest.api.data.DataIT.TOTAL;
-import static com.automobilefleet.utils.JsonMapper.asJsonString;
 import static java.util.UUID.fromString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -30,7 +30,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -44,6 +43,8 @@ class RentalControllerIT extends AbstractWebIntegrationTest {
     private static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    ObjectMapper mapper;
     private final static Faker faker = new Faker();
     private final static String ENDPOINT = "/integrationTest/api/v1/rental";
     private final static String ENDPOINT_ID = ENDPOINT + "/{id}";
@@ -90,7 +91,7 @@ class RentalControllerIT extends AbstractWebIntegrationTest {
         var request = new RentalRequest(carId, customerId, startDate, endDate);
 
         mockMvc.perform(post(ENDPOINT).contentType(APPLICATION_JSON)
-                        .content(asJsonString(request)))
+                        .content(mapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
                 .andExpect(content().contentType(APPLICATION_JSON))
@@ -109,7 +110,7 @@ class RentalControllerIT extends AbstractWebIntegrationTest {
         var request = new RentalRequest(carId, customerId, startDate, endDate);
 
         mockMvc.perform(put(ENDPOINT_ID, RENTAL_ID).contentType(APPLICATION_JSON)
-                        .content(asJsonString(request)))
+                        .content(mapper.writeValueAsString(request)))
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$._id").value(RENTAL_ID))
                 .andExpect(jsonPath("$.car._id").value(SERIE_THREE_CAR_ID))

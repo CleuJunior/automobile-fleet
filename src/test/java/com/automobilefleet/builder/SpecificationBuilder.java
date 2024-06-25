@@ -13,8 +13,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public class SpecificationBuilder {
 
-    private static final Faker fake = new Faker();
-
+    private static final Faker fake = Faker.instance();
 
     public static Specification specificationdBuilder() {
         return Specification.builder()
@@ -26,13 +25,6 @@ public class SpecificationBuilder {
     }
 
     public static SpecificationResponse specificationRespnseBuilder(Specification specification) {
-        return new SpecificationResponse(
-                specification.getId(),
-                specification.getName(),
-                specification.getDescription(),
-                specification.getCreatedAt()
-        );
+        return new SpecificationResponse(specification.getId(), specification.getName(), specification.getDescription(), specification.getCreatedAt());
     }
-
-
 }

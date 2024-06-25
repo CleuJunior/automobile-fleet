@@ -50,7 +50,7 @@ class CarSpecificationMapperTest {
     }
 
     @Test
-    void shoulMapToCarSpecificationResponse() {
+    void shouldMapToCarSpecificationResponse() {
         var result = mapper.toCarSpecificationResponse(carSpecification);
 
         then(result).isEqualTo(response);

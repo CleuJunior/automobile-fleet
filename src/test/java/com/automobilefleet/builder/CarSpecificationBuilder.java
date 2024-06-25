@@ -19,7 +19,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public class CarSpecificationBuilder {
 
-    private static final Faker fake = new Faker();
+    private static final Faker fake = Faker.instance();
 
     public static CarSpecification carSpecificationBuilder() {
         return CarSpecification.builder()
@@ -30,12 +30,6 @@ public class CarSpecificationBuilder {
     }
 
     public static CarSpecificationResponse carSpecificationRespnseBuilder(CarSpecification carSpecification) {
-        return new CarSpecificationResponse(
-                carSpecification.getId(),
-                carResponseBuilder(carSpecification.getCar()),
-                specificationRespnseBuilder(carSpecification.getSpecification())
-        );
+        return new CarSpecificationResponse(carSpecification.getId(), carResponseBuilder(carSpecification.getCar()), specificationRespnseBuilder(carSpecification.getSpecification()));
     }
-
-
 }

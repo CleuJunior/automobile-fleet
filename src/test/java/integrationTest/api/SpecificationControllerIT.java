@@ -1,6 +1,7 @@
 package integrationTest.api;
 
 import com.automobilefleet.api.dto.request.SpecificationRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import integrationTest.api.config.AbstractWebIntegrationTest;
 import org.flywaydb.core.Flyway;
@@ -45,7 +46,6 @@ import static integrationTest.api.data.DataIT.SPECIFICATION_WEIGHT_ID;
 import static integrationTest.api.data.DataIT.SPECIFICATION_WIDTH;
 import static integrationTest.api.data.DataIT.SPECIFICATION_WIDTH_DESCRIPTION;
 import static integrationTest.api.data.DataIT.SPECIFICATION_WIDTH_ID;
-import static com.automobilefleet.utils.JsonMapper.asJsonString;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -68,6 +68,9 @@ class SpecificationControllerIT extends AbstractWebIntegrationTest {
     private static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper mapper;
+
     private final static Faker faker = new Faker();
     private final static String ENDPOINT = "/integrationTest/api/v1/specification";
     private final static String ENDPOINT_ID = ENDPOINT + "/{id}";
@@ -129,7 +132,7 @@ class SpecificationControllerIT extends AbstractWebIntegrationTest {
         var request = new SpecificationRequest(name, description);
 
         mockMvc.perform(post(ENDPOINT).contentType(APPLICATION_JSON)
-                        .content(asJsonString(request)))
+                        .content(mapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
                 .andExpect(content().contentType(APPLICATION_JSON))
@@ -146,7 +149,7 @@ class SpecificationControllerIT extends AbstractWebIntegrationTest {
         var request = new SpecificationRequest(name, description);
 
         mockMvc.perform(put(ENDPOINT_ID, SPECIFICATION_BRAKES_ID).contentType(APPLICATION_JSON)
-                        .content(asJsonString(request)))
+                        .content(mapper.writeValueAsString(request)))
                 .andExpect(status().isAccepted())
                 .andDo(print())
                 .andExpect(jsonPath("$._id").value(SPECIFICATION_BRAKES_ID))

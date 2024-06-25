@@ -53,7 +53,6 @@ import static integrationTest.api.data.DataIT.RAIMUNDA_ID;
 import static integrationTest.api.data.DataIT.UPDATED_AT_TEN;
 import static com.automobilefleet.util.DateUtils.dateFormatToString;
 import static com.automobilefleet.util.DateUtils.localDateFromDate;
-import static com.automobilefleet.utils.JsonMapper.asJsonString;
 import static integrationTest.api.fixture.CustomerFixture.getCustomerById;
 import static java.lang.String.valueOf;
 import static org.hamcrest.Matchers.containsInAnyOrder;
