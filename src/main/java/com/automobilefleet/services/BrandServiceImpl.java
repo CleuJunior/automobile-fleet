@@ -99,13 +99,10 @@ public class BrandServiceImpl implements BrandService {
     }
 
     private Brand findBrandOrThrow(UUID id) {
-        var optBrand = repository.findById(id);
-
-        if (optBrand.isEmpty()) {
-            log.error("Brand id: {} not found", id);
-            throw new NotFoundException(BRAND_NOT_FOUND);
-        }
-
-        return optBrand.get();
+        return repository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Brand id: {} not found", id);
+                    return new NotFoundException("brand.not.found");
+                });
     }
 }

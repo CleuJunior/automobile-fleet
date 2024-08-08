@@ -1,6 +1,5 @@
 package com.automobilefleet.config;
 
-import com.automobilefleet.config.LogInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

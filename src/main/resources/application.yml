@@ -1,9 +1,11 @@
 server:
   port: 8000
 
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+
 api:
   security:
     token:
       secret: BE1B44F8953BB2978C54FAA622EA1
-
-
