@@ -91,7 +91,7 @@ public class SpecificationServiceImpl implements SpecificationService {
 
         if (response.isEmpty()) {
             log.error("Specification id {} not found", id);
-            throw new NotFoundException(ExceptionsConstants.SPECIFICATION_NOT_FOUND);
+            throw new NotFoundException("specification.not.found", id);
         }
 
         return response.get();

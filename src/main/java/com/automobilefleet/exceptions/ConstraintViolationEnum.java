@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import static com.automobilefleet.exceptions.ConstraintViolationEnum.ConstraintViolationConstants.CAR_NAME_KEY;
-import static com.automobilefleet.exceptions.ConstraintViolationEnum.ConstraintViolationConstants.CATEGORTY_NAME_KEY;
+import static com.automobilefleet.exceptions.ConstraintViolationEnum.ConstraintViolationConstants.CATEGORY_NAME_KEY;
 import static com.automobilefleet.exceptions.ConstraintViolationEnum.ConstraintViolationConstants.DRIVER_LICENSE_KEY;
 import static com.automobilefleet.exceptions.ConstraintViolationEnum.ConstraintViolationConstants.EMAIL_KEY;
 import static com.automobilefleet.exceptions.ExceptionsConstants.CAR_NAME_DUPLICATION;
@@ -22,7 +22,7 @@ public enum ConstraintViolationEnum {
     DRIVER_LICENSE_VIOLATION(DRIVER_LICENSE_KEY, DRIVER_LICENSE_DUPLICATE),
     EMAIL_VIOLATION(EMAIL_KEY, EMAIL_DUPLICATE),
     CAR_NAME_VIOLATION(CAR_NAME_KEY, CAR_NAME_DUPLICATION),
-    CATEGORTY_NAME_VIOLATION(CATEGORTY_NAME_KEY, CATEGORTY_NAME_DUPLICATION);
+    CATEGORY_NAME_VIOLATION(CATEGORY_NAME_KEY, CATEGORTY_NAME_DUPLICATION);
 
     private final String key;
     private final String message;
@@ -40,6 +40,6 @@ public enum ConstraintViolationEnum {
         protected static final String DRIVER_LICENSE_KEY = "customer_entity_driver_license_key";
         protected static final String EMAIL_KEY = "customer_entity_email_key";
         protected static final String CAR_NAME_KEY = "car_entity_car_name_key";
-        protected static final String CATEGORTY_NAME_KEY = "category_entity_name_key";
+        protected static final String CATEGORY_NAME_KEY = "category_entity_name_key";
     }
 }

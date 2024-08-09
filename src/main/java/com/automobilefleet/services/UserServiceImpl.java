@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
             log.warn("Wrong password");
-            throw new PasswordMatchException("Password does not match");
+            throw new PasswordMatchException("password.does.not.match");
         }
 
         return mapper.toUserResponse(user);

@@ -18,9 +18,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-import static com.automobilefleet.exceptions.ExceptionsConstants.CAR_NOT_FOUND;
-import static com.automobilefleet.exceptions.ExceptionsConstants.CAR_SPECIFICATION_NOT_FOUND;
-import static com.automobilefleet.exceptions.ExceptionsConstants.SPECIFICATION_NOT_FOUND;
 import static java.util.Collections.emptyList;
 
 @Service
@@ -86,7 +83,7 @@ public class CarSpecificationServiceImpl implements CarSpecificationService {
 
         if (carSpecification.isEmpty()) {
             log.error("Car specification id {} not found", id);
-            throw new NotFoundException(CAR_SPECIFICATION_NOT_FOUND);
+            throw new NotFoundException("car.specification.not.found", id);
         }
 
         return carSpecification.get();
@@ -97,7 +94,7 @@ public class CarSpecificationServiceImpl implements CarSpecificationService {
 
         if (car.isEmpty()) {
             log.error("Car id {} not found", id);
-            throw new NotFoundException(CAR_NOT_FOUND);
+            throw new NotFoundException("car.not.found", id);
         }
 
         return car.get();
@@ -108,7 +105,7 @@ public class CarSpecificationServiceImpl implements CarSpecificationService {
 
         if (specification.isEmpty()) {
             log.error("Specification id {} not found", id);
-            throw new NotFoundException(SPECIFICATION_NOT_FOUND);
+            throw new NotFoundException("specification.not.found", id);
         }
 
         return specification.get();

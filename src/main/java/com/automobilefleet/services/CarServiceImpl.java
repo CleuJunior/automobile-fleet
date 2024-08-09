@@ -19,9 +19,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-import static com.automobilefleet.exceptions.ExceptionsConstants.BRAND_NOT_FOUND;
-import static com.automobilefleet.exceptions.ExceptionsConstants.CAR_NOT_FOUND;
-import static com.automobilefleet.exceptions.ExceptionsConstants.CATEGORY_NOT_FOUND;
 import static java.util.Collections.emptyList;
 import static org.springframework.data.domain.Page.empty;
 import static org.springframework.data.domain.PageRequest.of;
@@ -134,7 +131,7 @@ public class CarServiceImpl implements CarService {
 
         if (carOpt.isEmpty()) {
             log.error("Car id: {} not found", id);
-            throw new NotFoundException(CAR_NOT_FOUND);
+            throw new NotFoundException("car.not.found", id);
         }
 
         return carOpt.get();
@@ -145,7 +142,7 @@ public class CarServiceImpl implements CarService {
 
         if (brand.isEmpty()) {
             log.error("Brand id {} not found", id);
-            throw new NotFoundException(BRAND_NOT_FOUND);
+            throw new NotFoundException("brand.not.found", id);
         }
 
         return brand.get();
@@ -156,7 +153,7 @@ public class CarServiceImpl implements CarService {
 
         if (category.isEmpty()) {
             log.error("Category id {} not found", id);
-            throw new NotFoundException(CATEGORY_NOT_FOUND);
+            throw new NotFoundException("category.not.found", id);
         }
 
         return category.get();

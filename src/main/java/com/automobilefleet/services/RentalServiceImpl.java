@@ -20,11 +20,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-import static com.automobilefleet.exceptions.ExceptionsConstants.CAR_AVAILABLE_POLYCI_ERROR;
-import static com.automobilefleet.exceptions.ExceptionsConstants.CAR_NOT_FOUND;
-import static com.automobilefleet.exceptions.ExceptionsConstants.CUSTOMER_NOT_FOUND;
-import static com.automobilefleet.exceptions.ExceptionsConstants.RENTAL_CANCELATION_POLYCI_ERROR;
-import static com.automobilefleet.exceptions.ExceptionsConstants.RENTAL_NOT_FOUND;
 import static java.lang.Math.round;
 import static java.time.LocalDateTime.now;
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -123,14 +118,14 @@ public class RentalServiceImpl implements RentalService {
     private void validationRentalModify(Rental rental) {
         if (rental.getStartDate().equals(LocalDate.now())) {
             log.error("Rental id {} cannot be modify", rental.getId());
-            throw new PolicyException(RENTAL_CANCELATION_POLYCI_ERROR);
+            throw new PolicyException("rental.cancellation.policy.error");
         }
     }
 
     private void verifyCarViability(Car car) {
         if (!car.isAvailable()) {
             log.error("Car it's not available");
-            throw new PolicyException(CAR_AVAILABLE_POLYCI_ERROR);
+            throw new PolicyException("car.available.policy.error");
         }
     }
 
@@ -146,7 +141,7 @@ public class RentalServiceImpl implements RentalService {
 
         if (response.isEmpty()) {
             log.error("Rental id {} not found", id);
-            throw new NotFoundException(RENTAL_NOT_FOUND);
+            throw new NotFoundException("rental.not.found", id);
         }
 
         return response.get();
@@ -157,7 +152,7 @@ public class RentalServiceImpl implements RentalService {
 
         if (response.isEmpty()) {
             log.error("Car id {} not found", id);
-            throw new NotFoundException(CAR_NOT_FOUND);
+            throw new NotFoundException("car.not.found", id);
         }
 
         return response.get();
@@ -168,7 +163,7 @@ public class RentalServiceImpl implements RentalService {
 
         if (response.isEmpty()) {
             log.error("Customer id {} not found", id);
-            throw new NotFoundException(CUSTOMER_NOT_FOUND);
+            throw new NotFoundException("customer.not.found", id);
         }
 
         return response.get();

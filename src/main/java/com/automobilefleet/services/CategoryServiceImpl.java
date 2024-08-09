@@ -3,7 +3,6 @@ package com.automobilefleet.services;
 import com.automobilefleet.api.dto.request.CategoryRequest;
 import com.automobilefleet.api.dto.response.CategoryResponse;
 import com.automobilefleet.entities.Category;
-import com.automobilefleet.exceptions.ExceptionsConstants;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.mapper.CategoryMapper;
 import com.automobilefleet.repositories.CategoryRepository;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-import static com.automobilefleet.exceptions.ExceptionsConstants.CATEGORY_NOT_FOUND;
 import static java.util.Collections.emptyList;
 
 @Service
@@ -74,7 +72,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         if (category.isEmpty()) {
             log.error("Category id: {} not found", id);
-            throw new NotFoundException(CATEGORY_NOT_FOUND);
+            throw new NotFoundException("category.not.found", id);
         }
 
         return category.get();

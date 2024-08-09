@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-import static com.automobilefleet.exceptions.ExceptionsConstants.CAR_NOT_FOUND;
-import static com.automobilefleet.exceptions.ExceptionsConstants.IMAGE_NOT_FOUND;
 import static java.util.Collections.emptyList;
 import static org.springframework.data.domain.Page.empty;
 import static org.springframework.data.domain.PageRequest.of;
@@ -72,7 +70,7 @@ public class CarImageServiceImpl implements CarImageService {
 
         if (car.isEmpty()) {
             log.error("Car id {} not found", request.carId());
-            throw new NotFoundException(CAR_NOT_FOUND);
+            throw new NotFoundException("car.not.found", request.carId());
         }
 
         var response = CarImage.builder()
@@ -92,7 +90,7 @@ public class CarImageServiceImpl implements CarImageService {
 
         if (car.isEmpty()) {
             log.error("Car id {} not found", request.carId());
-            throw new NotFoundException(CAR_NOT_FOUND);
+            throw new NotFoundException("car.not.found", request.carId());
         }
 
         image.setCar(car.get());
@@ -115,7 +113,7 @@ public class CarImageServiceImpl implements CarImageService {
 
         if (response.isEmpty()) {
             log.error("Image id {} not found", id);
-            throw new NotFoundException(IMAGE_NOT_FOUND);
+            throw new NotFoundException("image.not.found", id);
         }
 
         return response.get();

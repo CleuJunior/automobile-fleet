@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
-import static com.automobilefleet.exceptions.ExceptionsConstants.BRAND_NOT_FOUND;
 import static java.util.Collections.emptyList;
 import static org.springframework.data.domain.Page.empty;
 import static org.springframework.data.domain.PageRequest.of;
@@ -102,7 +101,7 @@ public class BrandServiceImpl implements BrandService {
         return repository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Brand id: {} not found", id);
-                    return new NotFoundException("brand.not.found");
+                    return new NotFoundException("brand.not.found", id);
                 });
     }
 }

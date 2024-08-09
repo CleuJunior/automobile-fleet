@@ -94,7 +94,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         if (response.isEmpty()) {
             log.error("Customer id {} not found", id);
-            throw new NotFoundException(ExceptionsConstants.CUSTOMER_NOT_FOUND);
+            throw new NotFoundException("customer.not.found", id);
         }
 
         return response.get();
