@@ -1,7 +1,10 @@
 package com.automobilefleet.mapper;
 
+import com.automobilefleet.api.dto.request.CarRequest;
 import com.automobilefleet.api.dto.response.CarResponse;
+import com.automobilefleet.entities.Brand;
 import com.automobilefleet.entities.Car;
+import com.automobilefleet.entities.Category;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -49,5 +52,18 @@ public class CarMapper {
         var response = toCarResponseList(cars.getContent());
 
         return new PageImpl<>(response, of(page, size), total);
+    }
+
+    public Car apply(Car current, CarRequest updateCar, Brand brand, Category category) {
+        current.setName(updateCar.name());
+        current.setDescription(updateCar.description());
+        current.setDailyRate(updateCar.dailyRate());
+        current.setAvailable(updateCar.available());
+        current.setLicensePlate(updateCar.licensePlate());
+        current.setBrand(brand);
+        current.setCategory(category);
+        current.setColor(updateCar.color());
+
+        return current;
     }
 }

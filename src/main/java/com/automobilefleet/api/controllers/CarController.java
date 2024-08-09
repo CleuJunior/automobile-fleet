@@ -23,7 +23,6 @@ import java.util.UUID;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.ResponseEntity.status;
 
 @RestController
 @RequestMapping(value = "/api/v1/cars")
@@ -35,13 +34,13 @@ public class CarController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<CarResponse> getCardById(@PathVariable UUID id) {
         log.info("Getting car by id {}", id);
-        return status(OK).body(service.getCarById(id));
+        return ResponseEntity.status(OK).body(service.getCarById(id));
     }
 
     @GetMapping(value = "/available")
     public ResponseEntity<List<CarResponse>> getCarAvailable() {
         log.info("Getting list of cars available");
-        return status(OK).body(service.findByCarAvailable());
+        return ResponseEntity.status(OK).body(service.findByCarAvailable());
     }
 
     @GetMapping(params = {"brand_name"})
@@ -50,19 +49,19 @@ public class CarController {
             String brandName) {
 
         log.info("Getting list of cars wih brand: {}", brandName);
-        return status(OK).body(service.findByCarBrand(brandName));
+        return ResponseEntity.status(OK).body(service.findByCarBrand(brandName));
     }
 
     @GetMapping(params = {"page", "size"})
     public ResponseEntity<Page<CarResponse>> pageBrand(@RequestParam int page, @RequestParam int size) {
         log.info("Getting page of cars with page {} and size {}", page, size);
-        return status(OK).body(service.pageCar(page, size));
+        return ResponseEntity.status(OK).body(service.pageCar(page, size));
     }
 
     @GetMapping
     public ResponseEntity<List<CarResponse>> listOfCars() {
         log.info("Getting list of all cars");
-        return status(OK).body(service.listOfCars());
+        return ResponseEntity.status(OK).body(service.listOfCars());
     }
 
     @PostMapping
@@ -70,7 +69,7 @@ public class CarController {
         log.info("Saving car {}", request);
         var response = service.saveCar(request);
 
-        return status(CREATED).body(response);
+        return ResponseEntity.status(CREATED).body(response);
     }
 
     @PutMapping(value = "/{id}")
@@ -78,7 +77,7 @@ public class CarController {
         log.info("Updating car id {} with request {}", id, request);
         var response = service.updateCar(id, request);
 
-        return status(ACCEPTED).body(response);
+        return ResponseEntity.status(ACCEPTED).body(response);
     }
 
 }

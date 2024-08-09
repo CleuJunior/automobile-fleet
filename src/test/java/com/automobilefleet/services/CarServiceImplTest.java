@@ -285,6 +285,8 @@ class CarServiceImplTest {
         given(carRepository.save(any(Car.class))).willReturn(car);
         given(mapper.toCarResponse(car)).willReturn(response);
 
+        given(mapper.apply(car, request, brand, category)).willReturn(car);
+
         var actual = service.updateCar(CAR_ID, request);
 
         // Assertions
@@ -296,6 +298,7 @@ class CarServiceImplTest {
         verify(brandRepository).findById(BRAND_ID);
         verify(categoryRepository).findById(CATEGORY_ID);
         verify(mapper).toCarResponse(car);
+        verify(mapper).apply(car, request, brand, category);
         verifyNoMoreInteractions(carRepository);
         verifyNoMoreInteractions(brandRepository);
         verifyNoMoreInteractions(categoryRepository);

@@ -2,9 +2,7 @@ package com.automobilefleet.services;
 
 import com.automobilefleet.api.dto.request.CarRequest;
 import com.automobilefleet.api.dto.response.CarResponse;
-import com.automobilefleet.entities.Brand;
 import com.automobilefleet.entities.Car;
-import com.automobilefleet.entities.Category;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.mapper.CarMapper;
 import com.automobilefleet.repositories.BrandRepository;
@@ -16,11 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import static java.util.Collections.emptyList;
-import static org.springframework.data.domain.Page.empty;
 import static org.springframework.data.domain.PageRequest.of;
 
 @Service
@@ -40,7 +37,7 @@ public class CarServiceImpl implements CarService {
 
         if (cars.isEmpty()) {
             log.info("Empty list of cars");
-            return emptyList();
+            return Collections.emptyList();
         }
 
         log.info("Return list of cars");
@@ -53,7 +50,7 @@ public class CarServiceImpl implements CarService {
 
         if (cars.isEmpty()) {
             log.info("Empty list of cars with brand name {}", brandName);
-            return emptyList();
+            return Collections.emptyList();
         }
 
         log.info("Return list of cars with brand name {}", brandName);
@@ -66,7 +63,7 @@ public class CarServiceImpl implements CarService {
 
         if (cars.isEmpty()) {
             log.info("Empty list of cars available");
-            return emptyList();
+            return Collections.emptyList();
         }
 
         log.info("Return list of cars available");
@@ -79,7 +76,7 @@ public class CarServiceImpl implements CarService {
 
         if (cars.isEmpty()) {
             log.info("Empty page of cars");
-            return empty();
+            return Page.empty();
         }
 
         log.info("Return page of cars");
@@ -88,85 +85,36 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarResponse getCarById(UUID id) {
-        var car = findCarOrThrow(id);
-
-        log.info("Car id {} found successfully", id);
-        return mapper.toCarResponse(car);
+        log.info("Finding car id {}", id);
+        return carRepository.findById(id)
+                .map(mapper::toCarResponse)
+                .orElseThrow(() -> new NotFoundException("car.not.found", id));
     }
 
     @Override
     public CarResponse saveCar(CarRequest request) {
-        var brand = findBrandOrThrow(request.brandId());
-        var category = findCategoryOrThrow(request.categoryId());
+        var brand = brandRepository.findById(request.brandId())
+                .orElseThrow(() -> new NotFoundException("brand.not.found", request.brandId()));
 
-        var car = Car.builder()
-                .name(request.name())
-                .description(request.description())
-                .dailyRate(request.dailyRate())
-                .available(request.available())
-                .licensePlate(request.licensePlate())
-                .brand(brand)
-                .category(category)
-                .color(request.color())
-                .build();
+        var category = categoryRepository.findById(request.categoryId())
+                .orElseThrow(() -> new NotFoundException("category.not.found", request.categoryId()));
 
         log.error("Car saved successfully");
-        return mapper.toCarResponse(carRepository.save(car));
+        return mapper.toCarResponse(carRepository.save(new Car(request, brand, category)));
     }
 
     @Override
     public CarResponse updateCar(UUID id, CarRequest request) {
-        var car = findCarOrThrow(id);
-        var brand = findBrandOrThrow(request.brandId());
-        var category = findCategoryOrThrow(request.categoryId());
+        var brand = brandRepository.findById(request.brandId())
+                .orElseThrow(() -> new NotFoundException("brand.not.found", request.brandId()));
 
-        updateCar(car, request, brand, category);
+        var category = categoryRepository.findById(request.categoryId())
+                .orElseThrow(() -> new NotFoundException("category.not.found", request.categoryId()));
 
-        log.info("Car updated successfully");
-        return mapper.toCarResponse(carRepository.save(car));
-    }
-
-    private Car findCarOrThrow(UUID id) {
-        var carOpt = carRepository.findById(id);
-
-        if (carOpt.isEmpty()) {
-            log.error("Car id: {} not found", id);
-            throw new NotFoundException("car.not.found", id);
-        }
-
-        return carOpt.get();
-    }
-
-    private Brand findBrandOrThrow(UUID id) {
-        var brand = brandRepository.findById(id);
-
-        if (brand.isEmpty()) {
-            log.error("Brand id {} not found", id);
-            throw new NotFoundException("brand.not.found", id);
-        }
-
-        return brand.get();
-    }
-
-    private Category findCategoryOrThrow(UUID id) {
-        var category = categoryRepository.findById(id);
-
-        if (category.isEmpty()) {
-            log.error("Category id {} not found", id);
-            throw new NotFoundException("category.not.found", id);
-        }
-
-        return category.get();
-    }
-
-    private void updateCar(Car car, CarRequest request, Brand brand, Category category) {
-        car.setName(request.name());
-        car.setDescription(request.description());
-        car.setDailyRate(request.dailyRate());
-        car.setAvailable(request.available());
-        car.setLicensePlate(car.getLicensePlate());
-        car.setBrand(brand);
-        car.setCategory(category);
-        car.setColor(request.color());
+        return carRepository.findById(id)
+                .map(current -> mapper.apply(current, request, brand, category))
+                .map(carRepository::save)
+                .map(mapper::toCarResponse)
+                .orElseThrow(() -> new NotFoundException("car.not.found", id));
     }
 }

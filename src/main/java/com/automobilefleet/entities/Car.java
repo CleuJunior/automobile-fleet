@@ -1,5 +1,6 @@
 package com.automobilefleet.entities;
 
+import com.automobilefleet.api.dto.request.CarRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +14,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -23,7 +23,6 @@ import java.util.UUID;
 
 import static jakarta.persistence.CascadeType.REMOVE;
 import static jakarta.persistence.FetchType.EAGER;
-import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.AUTO;
 import static java.time.LocalDateTime.now;
 import static lombok.AccessLevel.NONE;
@@ -75,6 +74,17 @@ public class Car implements Serializable {
     @Column(name = "created_at", nullable = false)
     @Setter(NONE)
     private LocalDateTime createdAt;
+
+    public Car(CarRequest request, Brand brand, Category category) {
+        this.name = request.name();
+        this.description = request.description();
+        this.dailyRate = request.dailyRate();
+        this.available = request.available();
+        this.licensePlate = request.licensePlate();
+        this.brand = brand;
+        this.category = category;
+        this.color = request.color();
+    }
 
     @PrePersist
     public void prePersist() {
