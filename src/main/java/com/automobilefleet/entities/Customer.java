@@ -1,5 +1,6 @@
 package com.automobilefleet.entities;
 
+import com.automobilefleet.api.dto.request.CustomerRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -64,6 +65,15 @@ public class Customer implements Serializable {
 
     @Column(name = "updatedAt", nullable = false)
     private LocalDateTime updatedAt;
+
+    public Customer(CustomerRequest request) {
+        this.name = request.name();
+        this.birthdate = request.birthdate();
+        this.email = request.email();
+        this.driverLicense = request.driverLicense();
+        this.address = request.address();
+        this.phone = request.phone();
+    }
 
     @PrePersist
     public void prePersist() {

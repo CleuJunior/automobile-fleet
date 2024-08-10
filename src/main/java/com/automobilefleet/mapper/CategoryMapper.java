@@ -1,5 +1,6 @@
 package com.automobilefleet.mapper;
 
+import com.automobilefleet.api.dto.request.CategoryRequest;
 import com.automobilefleet.api.dto.response.CategoryResponse;
 import com.automobilefleet.entities.Category;
 import org.springframework.data.domain.Page;
@@ -44,5 +45,12 @@ public class CategoryMapper {
         var response = toCategoryResponseList(categories.getContent());
 
         return new PageImpl<>(response, of(page, size), total);
+    }
+
+    public Category apply(Category current, CategoryRequest request) {
+        current.setName(request.name());
+        current.setDescription(request.description());
+
+        return current;
     }
 }

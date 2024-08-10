@@ -1,5 +1,6 @@
 package com.automobilefleet.entities;
 
+import com.automobilefleet.api.dto.request.SpecificationRequest;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -48,6 +49,11 @@ public class Specification implements Serializable {
     @Column(name = "created_at", nullable = false)
     @Setter(NONE)
     private LocalDateTime createdAt;
+
+    public Specification(SpecificationRequest request) {
+        this.name = request.name();
+        this.description = request.description();
+    }
 
     @PrePersist
     public void prePersist() {

@@ -1,6 +1,8 @@
 package com.automobilefleet.mapper;
 
+import com.automobilefleet.api.dto.request.CarImageRequest;
 import com.automobilefleet.api.dto.response.CarImageResponse;
+import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.CarImage;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -41,5 +43,12 @@ public class CarImageMapper {
         var response = toCarImageResponseList(images.getContent());
 
         return new PageImpl<>(response, of(page, size), total);
+    }
+
+    public CarImage apply(CarImage current, Car car, String link) {
+        current.setCar(car);
+        current.setLinkImage(link);
+
+        return current;
     }
 }

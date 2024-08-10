@@ -1,5 +1,6 @@
 package com.automobilefleet.mapper;
 
+import com.automobilefleet.api.dto.request.SpecificationRequest;
 import com.automobilefleet.api.dto.response.SpecificationResponse;
 import com.automobilefleet.entities.Specification;
 import org.springframework.data.domain.Page;
@@ -30,5 +31,12 @@ public class SpecificationMapper {
         var response = toSpecificationResponseList(specifications.getContent());
 
         return new PageImpl<>(response, of(page, size), total);
+    }
+
+    public Specification apply(Specification current, SpecificationRequest request) {
+        current.setName(request.name());
+        current.setDescription(request.description());
+
+        return current;
     }
 }

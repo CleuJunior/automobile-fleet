@@ -11,10 +11,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import static java.util.Collections.emptyList;
 
 @Service
 @Transactional
@@ -30,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         if (categories.isEmpty()) {
             log.info("Empty list of categories");
-            return emptyList();
+            return Collections.emptyList();
         }
 
         log.info("Return list of categories");
@@ -39,43 +39,25 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponse getCategoryById(UUID id) {
-        var category = findCategoryOrThrow(id);
-
-        log.info("Category id {} found successfully", id);
-        return mapper.toCategoryResponse(category);
+        log.info("Searching for category id: {}", id);
+        return repository.findById(id)
+                .map(mapper::toCategoryResponse)
+                .orElseThrow(() -> new NotFoundException("category.not.found", id));
     }
 
     @Override
     public CategoryResponse saveCategory(CategoryRequest request) {
-        var category = Category.builder()
-                .name(request.name())
-                .description(request.description())
-                .build();
-
         log.info("Category saved successfully");
-        return mapper.toCategoryResponse(repository.save(category));
+        return mapper.toCategoryResponse(repository.save(new Category(request)));
     }
 
     @Override
     public CategoryResponse updateCategory(UUID id, CategoryRequest request) {
-        var category = findCategoryOrThrow(id);
-
-        category.setName(request.name());
-        category.setDescription(request.description());
-
-        log.info("Category updated successfully");
-        return mapper.toCategoryResponse(repository.save(category));
+        log.info("Searching for category id: {}", id);
+        return repository.findById(id)
+                .map(current -> mapper.apply(current,request))
+                .map(repository::save)
+                .map(mapper::toCategoryResponse)
+                .orElseThrow(() -> new NotFoundException("category.not.found", id));
     }
-
-    private Category findCategoryOrThrow(UUID id) {
-        var category = repository.findById(id);
-
-        if (category.isEmpty()) {
-            log.error("Category id: {} not found", id);
-            throw new NotFoundException("category.not.found", id);
-        }
-
-        return category.get();
-    }
-
 }
