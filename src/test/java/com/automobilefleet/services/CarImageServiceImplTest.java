@@ -176,6 +176,7 @@ class CarImageServiceImplTest {
         given(request.carId()).willReturn(ID_CAR);
         given(carRepository.findById(ID_CAR)).willReturn(Optional.of(car));
         given(carImageRepository.save(any(CarImage.class))).willReturn(carImage);
+        given(mapper.apply(carImage, car, request.linkImage())).willReturn(carImage);
         given(mapper.toCarImageResponse(carImage)).willReturn(response);
 
         var actual = service.updateCarImage(ID_IMAGE, request);
@@ -187,6 +188,7 @@ class CarImageServiceImplTest {
         verify(request).carId();
         verify(carRepository).findById(ID_CAR);
         verify(carImageRepository).save(any(CarImage.class));
+        verify(mapper).apply(carImage, car, request.linkImage());
         verify(mapper).toCarImageResponse(carImage);
         verifyNoMoreInteractions(carImageRepository);
         verifyNoMoreInteractions(carRepository);
@@ -195,20 +197,18 @@ class CarImageServiceImplTest {
 
     @Test
     void shouldThrowErrorWhenUpdateImageWithCarNonExitingId() {
-        given(carImageRepository.findById(ID_IMAGE)).willReturn(Optional.of(carImage));
         given(request.carId()).willReturn(ID_CAR);
         given(carRepository.findById(ID_CAR)).willReturn(Optional.empty());
 
         assertThrows(NotFoundException.class, () -> service.updateCarImage(ID_IMAGE, request));
 
-        verify(carImageRepository).findById(ID_IMAGE);
         verify(request, times(2)).carId();
         verify(carRepository).findById(ID_CAR);
         verifyNoInteractions(mapper);
     }
 
     @Test
-    void souldDeleteCarImageById() {
+    void shouldDeleteCarImageById() {
         given(carImageRepository.findById(ID_IMAGE)).willReturn(Optional.of(carImage));
         willDoNothing().given(carImageRepository).delete(carImage);
 
@@ -218,10 +218,11 @@ class CarImageServiceImplTest {
         verify(carImageRepository).findById(ID_IMAGE);
         verify(carImageRepository).delete(carImage);
         verifyNoMoreInteractions(carImageRepository);
+
     }
 
     @Test
-    void souldThrowErrorWhenDeleteCarImageByIdNonExist() {
+    void shouldThrowErrorWhenDeleteCarImageByIdNonExist() {
         given(carImageRepository.findById(ID_IMAGE)).willReturn(Optional.empty());
 
         assertThrows(NotFoundException.class, () -> service.deleteCarImageById(ID_IMAGE));

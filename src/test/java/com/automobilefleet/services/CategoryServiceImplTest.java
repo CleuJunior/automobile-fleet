@@ -122,6 +122,7 @@ class CategoryServiceImplTest {
     void shouldUpdateCategory() {
         given(repository.findById(ID)).willReturn(Optional.of(category));
         given(repository.save(category)).willReturn(category);
+        given(mapper.apply(category, request)).willReturn(category);
         given(mapper.toCategoryResponse(category)).willReturn(response);
 
         var actual = service.updateCategory(ID, request);
@@ -131,6 +132,7 @@ class CategoryServiceImplTest {
 
         verify(repository).findById(ID);
         verify(repository).save(category);
+        verify(mapper).apply(category, request);
         verify(mapper).toCategoryResponse(category);
         verifyNoMoreInteractions(repository);
         verifyNoMoreInteractions(mapper);

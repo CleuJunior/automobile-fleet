@@ -182,6 +182,7 @@ class CarSpecificationServiceImplTest {
         given(specificationRepository.findById(SPECIFICATION_ID)).willReturn(Optional.of(specification));
 
         given(carSpecificationRepository.save(carSpecification)).willReturn(carSpecification);
+        given(mapper.apply(carSpecification, car, specification)).willReturn(carSpecification);
         given(mapper.toCarSpecificationResponse(carSpecification)).willReturn(response);
 
         var actual = service.updateCarSpecification(CAR_SPECIFICATION_ID, request);
@@ -195,6 +196,7 @@ class CarSpecificationServiceImplTest {
         verify(carRepository).findById(CAR_ID);
         verify(specificationRepository).findById(SPECIFICATION_ID);
         verify(carSpecificationRepository).save(carSpecification);
+        verify(mapper).apply(carSpecification, car, specification);
         verify(mapper).toCarSpecificationResponse(carSpecification);
         verifyNoMoreInteractions(carSpecificationRepository);
         verifyNoMoreInteractions(carRepository);

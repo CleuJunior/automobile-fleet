@@ -159,6 +159,7 @@ class CustomerServiceImplTest {
     void shouldUpdateCustomer() {
         given(repository.findById(ID)).willReturn(Optional.of(customer));
         given(repository.save(customer)).willReturn(customer);
+        given(mapper.apply(customer, request)).willReturn(customer);
         given(mapper.toCustomerResponse(customer)).willReturn(response);
 
         var actual = service.updateCustomer(ID, request);
@@ -168,6 +169,7 @@ class CustomerServiceImplTest {
 
         verify(repository).findById(ID);
         verify(repository).save(customer);
+        verify(mapper).apply(customer, request);
         verify(mapper).toCustomerResponse(customer);
         verifyNoMoreInteractions(repository);
         verifyNoMoreInteractions(mapper);

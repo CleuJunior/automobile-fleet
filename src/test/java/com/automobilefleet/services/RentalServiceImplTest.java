@@ -191,13 +191,13 @@ class RentalServiceImplTest {
         given(request.carId()).willReturn(CAR_ID);
         given(request.customerId()).willReturn(CUSTOMER_ID);
 
-        given(request.startDate()).willReturn(now());
+        given(request.startDate()).willReturn(now().minusDays(2));
         given(request.endDate()).willReturn(now());
 
         given(carRepository.findById(CAR_ID)).willReturn(Optional.of(car));
         given(customerRepository.findById(CUSTOMER_ID)).willReturn(Optional.of(customer));
 
-//        given(car.isAvailable()).willReturn(true);
+        given(car.isAvailable()).willReturn(true);
         given(rental.getCar()).willReturn(car);
         given(rental.getStartDate()).willReturn(now().plusDays(1));
 

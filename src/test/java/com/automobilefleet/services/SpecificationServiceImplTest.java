@@ -160,6 +160,7 @@ class SpecificationServiceImplTest {
         // Config mocks behavior
         given(repository.findById(ID)).willReturn(Optional.of(specification));
         given(repository.save(specification)).willReturn(specification);
+        given(mapper.apply(specification, request)).willReturn(specification);
         given(mapper.toSpecificationResponse(specification)).willReturn(response);
 
         // Call the method to be tested
@@ -172,6 +173,7 @@ class SpecificationServiceImplTest {
         // Check mock interactions
         verify(repository).findById(ID);
         verify(repository).save(specification);
+        verify(mapper).apply(specification, request);
         verify(mapper).toSpecificationResponse(specification);
         verifyNoMoreInteractions(repository);
         verifyNoMoreInteractions(mapper);

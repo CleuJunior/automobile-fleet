@@ -74,7 +74,7 @@ public class CarSpecificationServiceImpl implements CarSpecificationService {
                 .orElseThrow(() -> new NotFoundException("specification.not.found", request.specificationId()));
 
         log.info("Trying to find specification id: {}", id);
-        return carSpecificationRepository.findById(request.specificationId())
+        return carSpecificationRepository.findById(id)
                 .map(current -> mapper.apply(current, car, specification))
                 .map(carSpecificationRepository::save)
                 .map(mapper::toCarSpecificationResponse)

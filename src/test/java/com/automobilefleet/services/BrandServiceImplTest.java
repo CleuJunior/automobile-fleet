@@ -160,6 +160,7 @@ class BrandServiceImplTest {
     void shouldUpdateBrand() {
         given(repository.findById(ID)).willReturn(of(brand));
         given(repository.save(brand)).willReturn(brand);
+        given(mapper.apply(brand, request)).willReturn(brand);
         given(mapper.toBrandResponse(brand)).willReturn(response);
 
         var actual = service.updateBrand(ID, request);
@@ -169,7 +170,10 @@ class BrandServiceImplTest {
         // Verifications
         verify(repository).findById(ID);
         verify(repository).save(brand);
+        verify(mapper).apply(brand, request);
+        verify(mapper).toBrandResponse(brand);
         verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(mapper);
     }
 
     @Test
