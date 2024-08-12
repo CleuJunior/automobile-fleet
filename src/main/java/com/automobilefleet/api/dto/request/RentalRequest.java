@@ -1,5 +1,6 @@
 package com.automobilefleet.api.dto.request;
 
+import com.automobilefleet.entities.Car;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;

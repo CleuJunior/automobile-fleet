@@ -1,5 +1,6 @@
 package com.automobilefleet.mapper;
 
+import com.automobilefleet.api.dto.request.BrandRequest;
 import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.entities.Brand;
 import org.springframework.data.domain.Page;
@@ -35,5 +36,11 @@ public class BrandMapper {
         var response = toListBrandResponse(brands.getContent());
 
         return new PageImpl<>(response, of(page, size), total);
+    }
+
+    public Brand apply(Brand current, BrandRequest request) {
+        current.setName(request.name());
+
+        return current;
     }
 }

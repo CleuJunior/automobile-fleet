@@ -9,15 +9,13 @@ import com.automobilefleet.repositories.BrandRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-
-import static java.util.Collections.emptyList;
-import static org.springframework.data.domain.Page.empty;
-import static org.springframework.data.domain.PageRequest.of;
 
 
 @Service
@@ -35,7 +33,7 @@ public class BrandServiceImpl implements BrandService {
 
         if (brands.isEmpty()) {
             log.info("Empty list of brand");
-            return emptyList();
+            return Collections.emptyList();
         }
 
         log.info("Return list of brand");
@@ -45,11 +43,11 @@ public class BrandServiceImpl implements BrandService {
     @Override
     @Transactional(readOnly = true)
     public Page<BrandResponse> pageBrand(int page, int size) {
-        var brands = repository.findAll(of(page, size));
+        var brands = repository.findAll(PageRequest.of(page, size));
 
         if (brands.isEmpty()) {
             log.info("Empty page of brand");
-            return empty();
+            return Page.empty();
         }
 
         log.info("Return page of brand");
@@ -59,10 +57,10 @@ public class BrandServiceImpl implements BrandService {
     @Override
     @Transactional(readOnly = true)
     public BrandResponse getBrandById(UUID id) {
-        var brand = findBrandOrThrow(id);
-
-        log.info("Brand id {} found successfully", id);
-        return mapper.toBrandResponse(brand);
+        log.info("Finding brand id {}", id);
+        return repository.findById(id)
+                .map(mapper::toBrandResponse)
+                .orElseThrow(() -> new NotFoundException("brand.not.found", id));
     }
 
     @Override
@@ -80,28 +78,25 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandResponse updateBrand(UUID id, BrandRequest request) {
-        var brand = findBrandOrThrow(id);
-        brand.setName(request.name());
-
-        repository.save(brand);
-        log.info("Brand updated successfully");
-
-        return mapper.toBrandResponse(brand);
+        return repository.findById(id)
+                .map(current -> mapper.apply(current, request))
+                .map(repository::save)
+                .map(mapper::toBrandResponse)
+                .orElseThrow(() -> new NotFoundException("brand.not.found", id));
     }
 
     @Override
     public void deleteBrandById(UUID id) {
-        var brand = findBrandOrThrow(id);
-
-        log.info("Brand id {} deleted successfully", id);
-        repository.delete(brand);
-    }
-
-    private Brand findBrandOrThrow(UUID id) {
-        return repository.findById(id)
-                .orElseThrow(() -> {
-                    log.error("Brand id: {} not found", id);
-                    return new NotFoundException("brand.not.found", id);
-                });
+        repository.findById(id)
+                .ifPresentOrElse(
+                        current -> {
+                            repository.delete(current);
+                            log.info("Image id {} deleted successfully", id);
+                        },
+                        () -> {
+                            log.error("Image id: {} not found", id);
+                            throw new NotFoundException("image.not.found", id);
+                        }
+                );
     }
 }

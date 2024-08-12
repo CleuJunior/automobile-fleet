@@ -1,6 +1,9 @@
 package com.automobilefleet.mapper;
 
+import com.automobilefleet.api.dto.request.RentalRequest;
 import com.automobilefleet.api.dto.response.RentalResponse;
+import com.automobilefleet.entities.Car;
+import com.automobilefleet.entities.Customer;
 import com.automobilefleet.entities.Rental;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
