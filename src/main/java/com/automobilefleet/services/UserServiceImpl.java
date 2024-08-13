@@ -3,6 +3,7 @@ package com.automobilefleet.services;
 import com.automobilefleet.api.dto.request.LoginRequest;
 import com.automobilefleet.api.dto.request.UserRequest;
 import com.automobilefleet.api.dto.response.UserResponse;
+import com.automobilefleet.entities.User;
 import com.automobilefleet.exceptions.PasswordMatchException;
 import com.automobilefleet.mapper.UserMapper;
 import com.automobilefleet.repositories.UserRepository;
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse saveUser(UserRequest request) {
-        var user = mapper.toUser(request);
+        var user = new User(request);
         user.setPassword(passwordEncoder.encode(request.password()));
 
         log.info("User saved successfully");

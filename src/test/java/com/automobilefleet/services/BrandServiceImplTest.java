@@ -129,7 +129,7 @@ class BrandServiceImplTest {
     }
 
     @Test
-    void shoulThrowErrorWhendReturnBrandByIdNonExiting() {
+    void shouldThrowErrorWhenReturnBrandByIdNonExiting() {
         given(repository.findById(ID)).willReturn(Optional.empty());
 
         assertThrows(NotFoundException.class, () -> service.getBrandById(ID));
@@ -187,5 +187,16 @@ class BrandServiceImplTest {
         verify(repository).findById(ID);
         verify(repository).delete(brand);
         verifyNoMoreInteractions(repository);
+    }
+
+    @Test
+    void shouldThrowNotFoundExceptionWhenDeleteByIdNonExiting() {
+        given(repository.findById(ID)).willReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> service.deleteBrandById(ID));
+
+        verify(repository).findById(ID);
+        verifyNoMoreInteractions(repository);
+        verifyNoInteractions(mapper);
     }
 }

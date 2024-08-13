@@ -1,8 +1,9 @@
 package com.automobilefleet.mapper;
 
 import com.automobilefleet.api.dto.response.CarSpecificationResponse;
+import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.CarSpecification;
-import org.junit.jupiter.api.AfterEach;
+import com.automobilefleet.entities.Specification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +18,7 @@ import static com.automobilefleet.builder.SpecificationBuilder.specificationResp
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
@@ -43,17 +45,14 @@ class CarSpecificationMapperTest {
         given(specificationMapper.toSpecificationResponse(carSpecification.getSpecification())).willReturn(specificationResponse);
     }
 
-    @AfterEach
-    void tearDown() {
-        verify(carMapper).toCarResponse(carSpecification.getCar());
-        verify(specificationMapper).toSpecificationResponse(carSpecification.getSpecification());
-    }
-
     @Test
     void shouldMapToCarSpecificationResponse() {
         var result = mapper.toCarSpecificationResponse(carSpecification);
 
         then(result).isEqualTo(response);
+
+        verify(carMapper).toCarResponse(carSpecification.getCar());
+        verify(specificationMapper).toSpecificationResponse(carSpecification.getSpecification());
     }
 
     @Test
@@ -62,5 +61,17 @@ class CarSpecificationMapperTest {
 
         then(result).isNotEmpty();
         then(result).contains(response);
+
+        verify(carMapper).toCarResponse(carSpecification.getCar());
+        verify(specificationMapper).toSpecificationResponse(carSpecification.getSpecification());
+    }
+
+    @Test
+    void shouldApplyCarSpecificationUpdate() {
+        var car = mock(Car.class);
+        var specification = mock(Specification.class);
+        var result = mapper.apply(carSpecification, car, specification);
+
+        then(result).isEqualTo(carSpecification);
     }
 }

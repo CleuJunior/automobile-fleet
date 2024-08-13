@@ -1,5 +1,6 @@
 package com.automobilefleet.entities;
 
+import com.automobilefleet.api.dto.request.UserRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -61,6 +62,12 @@ public class User implements UserDetails, Serializable {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    public User(UserRequest request) {
+        this.email = request.email();
+        this.username = request.username();
+        this.role = request.role();
+    }
 
     @PrePersist
     public void prePersist() {

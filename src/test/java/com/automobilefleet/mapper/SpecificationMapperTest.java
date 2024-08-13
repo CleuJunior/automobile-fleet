@@ -1,5 +1,6 @@
 package com.automobilefleet.mapper;
 
+import com.automobilefleet.api.dto.request.SpecificationRequest;
 import com.automobilefleet.api.dto.response.SpecificationResponse;
 import com.automobilefleet.entities.Specification;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import static com.automobilefleet.builder.SpecificationBuilder.specificationResp
 import static com.automobilefleet.builder.SpecificationBuilder.specificationdBuilder;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.mockito.Mockito.mock;
 
 @ExtendWith(SpringExtension.class)
 class SpecificationMapperTest {
@@ -53,5 +55,13 @@ class SpecificationMapperTest {
         then(result).isNotEmpty();
         then(result.getTotalElements()).isEqualTo(1);
         then(result.getContent()).contains(response);
+    }
+
+    @Test
+    void shouldApplySpecificationUpdates() {
+        var update = mock(SpecificationRequest.class);
+        var result = mapper.apply(specification, update);
+
+        then(result).isEqualTo(specification);
     }
 }

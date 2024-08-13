@@ -1,10 +1,10 @@
 package com.automobilefleet.mapper;
 
+import com.automobilefleet.api.dto.request.CarRequest;
 import com.automobilefleet.api.dto.response.CarResponse;
 import com.automobilefleet.entities.Brand;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.Category;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +20,7 @@ import static com.automobilefleet.builder.CategoryBuilder.categoryResponseBuilde
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
@@ -50,12 +51,6 @@ class CarMapperTest {
         given(categoryMapper.toCategoryResponse(category)).willReturn(categoryResponse);
     }
 
-    @AfterEach
-    void tearDown() {
-        verify(brandMapper).toBrandResponse(brand);
-        verify(categoryMapper).toCategoryResponse(category);
-    }
-
     @Test
     void shouldMapCarToCarResponse() {
         var result = mapper.toCarResponse(car);
@@ -64,6 +59,8 @@ class CarMapperTest {
         then(result).isEqualTo(response);
         then(result).isInstanceOf(CarResponse.class);
 
+        verify(brandMapper).toBrandResponse(brand);
+        verify(categoryMapper).toCategoryResponse(category);
     }
 
     @Test
@@ -72,6 +69,9 @@ class CarMapperTest {
 
         then(result).isNotEmpty();
         then(result).contains(response);
+
+        verify(brandMapper).toBrandResponse(brand);
+        verify(categoryMapper).toCategoryResponse(category);
     }
 
     @Test
@@ -83,5 +83,16 @@ class CarMapperTest {
         then(result).isNotEmpty();
         then(result.getTotalElements()).isEqualTo(1);
         then(result.getContent()).contains(response);
+
+        verify(brandMapper).toBrandResponse(brand);
+        verify(categoryMapper).toCategoryResponse(category);
+    }
+
+    @Test
+    void shouldApplyCarUpdates() {
+        var request = mock(CarRequest.class);
+        var result = mapper.apply(car, request, brand, category);
+
+        then(result).isEqualTo(car);
     }
 }

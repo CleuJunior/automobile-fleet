@@ -1,5 +1,6 @@
 package com.automobilefleet.mapper;
 
+import com.automobilefleet.api.dto.request.CategoryRequest;
 import com.automobilefleet.api.dto.response.CategoryResponse;
 import com.automobilefleet.entities.Category;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import static com.automobilefleet.builder.CategoryBuilder.categoryBuilder;
 import static com.automobilefleet.builder.CategoryBuilder.categoryResponseBuilder;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.mockito.Mockito.mock;
 
 @ExtendWith(SpringExtension.class)
 class CategoryMapperTest {
@@ -55,4 +57,11 @@ class CategoryMapperTest {
         then(result.getContent()).contains(response);
     }
 
+    @Test
+    void shouldApplyCategoryUpdates() {
+        var update = mock(CategoryRequest.class);
+        var result = mapper.apply(category, update);
+
+        then(result).isEqualTo(category);
+    }
 }

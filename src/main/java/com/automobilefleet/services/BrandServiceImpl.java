@@ -91,11 +91,11 @@ public class BrandServiceImpl implements BrandService {
                 .ifPresentOrElse(
                         current -> {
                             repository.delete(current);
-                            log.info("Image id {} deleted successfully", id);
+                            log.info("Brand id {} deleted successfully", id);
                         },
                         () -> {
-                            log.error("Image id: {} not found", id);
-                            throw new NotFoundException("image.not.found", id);
+                            log.error("Brand id: {} not found", id);
+                            throw new NotFoundException("brand.not.found", id);
                         }
                 );
     }

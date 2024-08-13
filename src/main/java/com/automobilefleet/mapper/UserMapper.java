@@ -12,14 +12,6 @@ import java.util.Objects;
 @Component
 public class UserMapper {
 
-    public User toUser(UserRequest request) {
-        return User.builder()
-                .username(request.username())
-                .email(request.email())
-                .role(request.role())
-                .build();
-    }
-
     public UserResponse toUserResponse(User user) {
         return new UserResponse(
                 user.getId(),

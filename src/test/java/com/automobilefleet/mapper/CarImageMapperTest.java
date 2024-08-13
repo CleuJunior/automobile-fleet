@@ -1,6 +1,7 @@
 package com.automobilefleet.mapper;
 
 import com.automobilefleet.api.dto.response.CarImageResponse;
+import com.automobilefleet.entities.Car;
 import com.automobilefleet.entities.CarImage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ import static com.automobilefleet.builder.CarImageBuilder.carImageResponseBuilde
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
@@ -38,17 +40,14 @@ class CarImageMapperTest {
         given(carMapper.toCarResponse(image.getCar())).willReturn(carResponseBuilder(image.getCar()));
     }
 
-    @AfterEach
-    void tearDown() {
-        verify(carMapper).toCarResponse(image.getCar());
-    }
-
     @Test
-    void shoulMapToCarImageResponse() {
+    void shouldMapToCarImageResponse() {
         var result = mapper.toCarImageResponse(image);
 
         then(result).isNotNull();
         then(result).isEqualTo(response);
+
+        verify(carMapper).toCarResponse(image.getCar());
     }
 
     @Test
@@ -57,6 +56,8 @@ class CarImageMapperTest {
 
         then(result).isNotEmpty();
         then(result).contains(response);
+
+        verify(carMapper).toCarResponse(image.getCar());
     }
 
     @Test
@@ -68,5 +69,15 @@ class CarImageMapperTest {
         then(result).isNotEmpty();
         then(result.getTotalElements()).isEqualTo(1);
         then(result.getContent()).contains(response);
+
+        verify(carMapper).toCarResponse(image.getCar());
+    }
+
+    @Test
+    void shouldApplyCarImageUpdate() {
+        var car = mock(Car.class);
+        var result = mapper.apply(image, car, "");
+
+        then(result).isEqualTo(image);
     }
 }

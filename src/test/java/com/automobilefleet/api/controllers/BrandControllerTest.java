@@ -8,7 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.data.domain.PageImpl;
 
 import java.util.UUID;
@@ -84,7 +83,7 @@ class BrandControllerTest {
     }
 
     @Test
-    void shoulSaveBrandAndStatusCodeCreated() {
+    void shouldSaveBrandAndStatusCodeCreated() {
         given(service.saveBrand(request)).willReturn(response);
 
         var result = controller.saveBrand(request);

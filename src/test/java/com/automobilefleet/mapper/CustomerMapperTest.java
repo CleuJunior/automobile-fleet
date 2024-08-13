@@ -1,5 +1,6 @@
 package com.automobilefleet.mapper;
 
+import com.automobilefleet.api.dto.request.CustomerRequest;
 import com.automobilefleet.api.dto.response.CustomerResponse;
 import com.automobilefleet.entities.Customer;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import static com.automobilefleet.builder.CustomerBuilder.customerBuilder;
 import static com.automobilefleet.builder.CustomerBuilder.customerRespnseBuilder;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.mockito.Mockito.mock;
 
 @ExtendWith(SpringExtension.class)
 class CustomerMapperTest {
@@ -22,7 +24,6 @@ class CustomerMapperTest {
 
     private Customer customer;
     private CustomerResponse response;
-
 
     @BeforeEach
     void setUp() {
@@ -54,5 +55,13 @@ class CustomerMapperTest {
         then(result).isNotEmpty();
         then(result.getTotalElements()).isEqualTo(1);
         then(result.getContent()).contains(response);
+    }
+
+    @Test
+    void shouldApplyCustomerUpdates() {
+        var update = mock(CustomerRequest.class);
+        var result = customerMapper.apply(customer, update);
+
+        then(result).isEqualTo(customer);
     }
 }

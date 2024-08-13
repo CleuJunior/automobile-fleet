@@ -1,5 +1,6 @@
 package com.automobilefleet.mapper;
 
+import com.automobilefleet.api.dto.request.BrandRequest;
 import com.automobilefleet.api.dto.response.BrandResponse;
 import com.automobilefleet.entities.Brand;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,8 @@ class BrandMapperTest {
     private Brand brand;
     @Mock
     private BrandResponse response;
+    @Mock
+    private BrandRequest request;
     @InjectMocks
     private BrandMapper mapper;
 
@@ -46,5 +49,11 @@ class BrandMapperTest {
         then(result).isNotEmpty();
         then(result.getTotalElements()).isEqualTo(1);
         then(result.getContent()).contains(response);
+    }
+
+    @Test
+    void shouldApplyBrandUpdates() {
+        var result = mapper.apply(brand, request);
+        then(result).isEqualTo(brand);
     }
 }
