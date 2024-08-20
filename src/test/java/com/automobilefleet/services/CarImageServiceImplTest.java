@@ -161,7 +161,7 @@ class CarImageServiceImplTest {
     }
 
     @Test
-    void shouldThrowErroWhenSaveImageCarIdNonExist() {
+    void shouldThrowErrorWhenSaveImageCarIdNonExist() {
         given(request.carId()).willReturn(ID_CAR);
 
         assertThrows(NotFoundException.class, () -> service.saveCarImage(request));

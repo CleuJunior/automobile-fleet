@@ -29,6 +29,6 @@ public interface UserService {
 
     void updateUserPassword(UUID id, UserRequestUpdatePassword request);
 
-    void deleteRental(UUID id);
+    void deleteUser(UUID id);
 
 }

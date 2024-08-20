@@ -56,13 +56,12 @@ public class UserServiceImpl implements UserService {
         log.info("Finding user id {}", id);
         return repository.findById(id)
                 .map(mapper::toUserResponse)
-                .orElseThrow(() -> new NotFoundException("username.id.not.found", id));
-
+                .orElseThrow(() -> new NotFoundException("user.id.not.found", id));
     }
 
     @Override
     public UserResponse getUserByUsername(String username) {
-        log.info("Finding user id {}", username);
+        log.info("Finding user username {}", username);
         return repository.findByUsername(username)
                 .map(mapper::toUserResponse)
                 .orElseThrow(() -> new NotFoundException("username.not.found", username));
@@ -93,7 +92,7 @@ public class UserServiceImpl implements UserService {
                 .map(current -> mapper.apply(current, request))
                 .map(repository::save)
                 .map(mapper::toUserResponse)
-                .orElseThrow(() -> new NotFoundException("username.id.not.found", id));
+                .orElseThrow(() -> new NotFoundException("user.id.not.found", id));
     }
 
     @Override
@@ -105,13 +104,15 @@ public class UserServiceImpl implements UserService {
                     current.setPassword(passwordEncoder.encode(request.password()));
                     repository.save(current);
                 },
-                    () -> throw new NotFoundException("username.id.not.found", id);
-
-                 );
+                    () -> {
+                        log.error("User id: {} not found", id);
+                        throw new NotFoundException("user.id.not.found", id);
+                    }
+                );
     }
 
     @Override
-    public void deleteRental(UUID id) {
+    public void deleteUser(UUID id) {
         repository.findById(id)
                 .ifPresentOrElse(
                         current -> {
@@ -120,7 +121,7 @@ public class UserServiceImpl implements UserService {
                         },
                         () -> {
                             log.error("User id: {} not found", id);
-                            throw new NotFoundException("username.id.not.found", id);
+                            throw new NotFoundException("user.id.not.found", id);
                         }
                 );
     }

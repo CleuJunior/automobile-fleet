@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.ResponseEntity.status;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -36,7 +35,7 @@ public class AuthController {
         header.setBearerAuth(token);
 
         var response = new UserTokenResponse(userResponse.username(), token);
-        return status(OK).headers(header).body(response);
+        return ResponseEntity.status(OK).headers(header).body(response);
     }
 
     @PostMapping("/register")
@@ -47,6 +46,6 @@ public class AuthController {
         var header = new HttpHeaders();
         header.setBearerAuth(token);
 
-        return status(CREATED).headers(header).body(response);
+        return ResponseEntity.status(CREATED).headers(header).body(response);
     }
 }
