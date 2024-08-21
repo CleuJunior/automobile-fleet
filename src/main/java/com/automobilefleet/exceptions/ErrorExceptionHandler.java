@@ -8,8 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import static com.automobilefleet.exceptions.ConstraintViolationEnum.constraintFromKey;
+import java.time.LocalDateTime;
+
 import static com.automobilefleet.exceptions.ExceptionsConstants.DATE_CONSTRAIN_ERROR;
 import static java.time.LocalDateTime.now;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -30,11 +32,11 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @Slf4j
 @RequiredArgsConstructor
 public class ErrorExceptionHandler {
-    private final LocalizedMessageTranslationService localizedMessageTranslationService;
+    private final LocalizedMessageTranslationService translation;
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> entityNotFoundHandler(HttpServletRequest request, NotFoundException cause) {
-        var message = localizedMessageTranslationService.translateMessage(cause);
+        var message = translation.translateMessage(cause);
         var err = new ErrorResponse(NOT_FOUND.value(), NOT_FOUND.getReasonPhrase(), message, request.getRequestURI(), now());
 
         log.error("{} URI: {}", NOT_FOUND, request.getRequestURI());
@@ -50,10 +52,18 @@ public class ErrorExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorResponse> duplicateConstraintErrorHandler(HttpServletRequest request, ConstraintViolationException cause) {
-        var err = new ErrorResponse(BAD_REQUEST.value(), BAD_REQUEST.getReasonPhrase(), constraintFromKey(cause.getConstraintName()), request.getRequestURI(), now());
+        var message = translation.translateMessage(cause.getConstraintName());
 
-        log.error("Constraint error: {}", constraintFromKey(cause.getConstraintName()));
-        return ResponseEntity.status(BAD_REQUEST).body(err);
+        var err = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                message,
+                request.getRequestURI(),
+                LocalDateTime.now()
+        );
+
+        log.error("Constraint error: {}", message);
+        return ResponseEntity.status(CONFLICT).body(err);
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
@@ -90,7 +100,7 @@ public class ErrorExceptionHandler {
 
     @ExceptionHandler(PolicyException.class)
     public ResponseEntity<ErrorResponse> policyErrorHandler(HttpServletRequest request, PolicyException exception) {
-        var message = localizedMessageTranslationService.translateMessage(exception.getMessage());
+        var message = translation.translateMessage(exception.getMessage());
         var err = new ErrorResponse(BAD_REQUEST.value(), BAD_REQUEST.getReasonPhrase(), message, request.getRequestURI(), now());
 
         log.error("Policy error: {} On: {}", exception.getMessage(), request.getRequestURI());
@@ -99,7 +109,7 @@ public class ErrorExceptionHandler {
 
     @ExceptionHandler(PasswordMatchException.class)
     public ResponseEntity<ErrorResponse> passwordMatchHandler(HttpServletRequest request, PasswordMatchException passwordMatchException) {
-        var message = localizedMessageTranslationService.translateMessage(passwordMatchException.getMessage());
+        var message = translation.translateMessage(passwordMatchException.getMessage());
         var err = new ErrorResponse(BAD_REQUEST.value(), BAD_REQUEST.getReasonPhrase(), message, request.getRequestURI(), now());
 
         log.error("{} URI: {}", BAD_REQUEST, request.getRequestURI());

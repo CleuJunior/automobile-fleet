@@ -64,7 +64,7 @@ public class UserController {
         return ResponseEntity.status(ACCEPTED).body(response);
     }
 
-    @PatchMapping(value = "/{id}")
+    @PatchMapping(value = "/{id}/update-password")
     public ResponseEntity<Void> updateUserPassword(@PathVariable UUID id, @RequestBody UserRequestUpdatePassword request) {
         log.info("Updating user id password");
         service.updateUserPassword(id, request);

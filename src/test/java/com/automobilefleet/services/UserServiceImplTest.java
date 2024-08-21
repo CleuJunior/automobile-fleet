@@ -1,19 +1,14 @@
 package com.automobilefleet.services;
 
 import com.automobilefleet.Validations;
-import com.automobilefleet.api.dto.request.BrandRequest;
 import com.automobilefleet.api.dto.request.LoginRequest;
 import com.automobilefleet.api.dto.request.UserRequest;
 import com.automobilefleet.api.dto.request.UserRequestUpdate;
-import com.automobilefleet.api.dto.response.BrandResponse;
+import com.automobilefleet.api.dto.request.UserRequestUpdatePassword;
 import com.automobilefleet.api.dto.response.UserResponse;
-import com.automobilefleet.entities.Brand;
-import com.automobilefleet.entities.CarImage;
 import com.automobilefleet.entities.User;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
-import com.automobilefleet.mapper.BrandMapper;
 import com.automobilefleet.mapper.UserMapper;
-import com.automobilefleet.repositories.BrandRepository;
 import com.automobilefleet.repositories.UserRepository;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.DisplayName;
@@ -22,22 +17,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 import java.util.UUID;
 
-import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static java.util.Optional.of;
-import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.verify;
@@ -59,6 +50,10 @@ class UserServiceImplTest {
     private UserResponse response;
     @Mock
     private UserRequest request;
+    @Mock
+    private UserRequestUpdatePassword updatePassword;
+    @Mock
+    private UserRequestUpdate userUpdate;
     @Mock
     private UserMapper mapper;
 
@@ -210,5 +205,84 @@ class UserServiceImplTest {
         verify(mapper).toUserResponse(user);
         verifyNoMoreInteractions(repository);
         verifyNoMoreInteractions(mapper);
+    }
+
+    @Test
+    @DisplayName("Should update exiting user")
+    void shouldUpdateUser() {
+        given(repository.findById(ID)).willReturn(Optional.of(user));
+        given(repository.save(user)).willReturn(user);
+        given(mapper.apply(user, userUpdate)).willReturn(user);
+        given(mapper.toUserResponse(user)).willReturn(response);
+
+        var actual = service.updateUser(ID, userUpdate);
+
+        // Assertions
+        then(actual).isNotNull();
+        then(actual).isEqualTo(response);
+
+        verify(repository).findById(ID);
+        verify(repository).save(user);
+        verify(mapper).apply(user, userUpdate);
+        verify(mapper).toUserResponse(user);
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(mapper);
+    }
+
+    @Test
+    @DisplayName("Should update exiting user password")
+    void shouldUpdateUserPassword() {
+        var password = Faker.instance().internet().password();
+
+        given(repository.findById(ID)).willReturn(Optional.of(user));
+        given(repository.save(any(User.class))).willReturn(user);
+
+        given(updatePassword.password()).willReturn(password);
+        given(passwordEncoder.encode(anyString())).willReturn(password);
+
+        service.updateUserPassword(ID, updatePassword);
+
+        verify(repository).findById(ID);
+        verify(repository).save(user);
+        verify(passwordEncoder).encode(anyString());
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(passwordEncoder);
+    }
+
+    @Test
+    @DisplayName("Should throw NotFoundException when trying to update")
+    void shouldThrowErrorWhenUpdateUserIdNonExisting() {
+        given(repository.findById(ID)).willReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> service.updateUserPassword(ID, updatePassword));
+
+        verify(repository).findById(ID);
+        verifyNoMoreInteractions(repository);
+        verifyNoInteractions(passwordEncoder);
+    }
+
+    @Test
+    @DisplayName("Should delete exiting user")
+    void shouldDeleteUser() {
+        given(repository.findById(ID)).willReturn(Optional.of(user));
+        willDoNothing().given(repository).delete(user);
+
+        service.deleteUser(ID);
+
+        verify(repository).findById(ID);
+        verify(repository).delete(user);
+        verifyNoMoreInteractions(repository);
+    }
+
+
+    @Test
+    @DisplayName("Should throw NotFoundException when trying to delete")
+    void shouldThrowErrorWhenDeleteUserIdNonExisting() {
+        given(repository.findById(ID)).willReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> service.deleteUser(ID));
+
+        verify(repository).findById(ID);
+        verifyNoMoreInteractions(repository);
     }
 }

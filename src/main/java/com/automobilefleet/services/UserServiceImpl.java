@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     public Page<UserResponse> pageUser(int page, int size) {
         var users = repository.findAll(PageRequest.of(page, size));
 
-        log.info("Return page of brand");
+        log.info("Return page of users");
         return mapper.toUserResponsePage(users, page, size);
     }
 
@@ -103,6 +103,7 @@ public class UserServiceImpl implements UserService {
                 .ifPresentOrElse( current -> {
                     current.setPassword(passwordEncoder.encode(request.password()));
                     repository.save(current);
+                    log.info("User password updated successfully");
                 },
                     () -> {
                         log.error("User id: {} not found", id);
