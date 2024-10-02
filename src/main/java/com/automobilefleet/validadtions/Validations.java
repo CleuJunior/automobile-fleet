@@ -1,4 +1,4 @@
-package com.automobilefleet;
+package com.automobilefleet.validadtions;
 
 import com.automobilefleet.exceptions.PasswordMatchException;
 import lombok.RequiredArgsConstructor;

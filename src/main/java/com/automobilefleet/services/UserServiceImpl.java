@@ -1,6 +1,6 @@
 package com.automobilefleet.services;
 
-import com.automobilefleet.Validations;
+import com.automobilefleet.validadtions.Validations;
 import com.automobilefleet.api.dto.request.LoginRequest;
 import com.automobilefleet.api.dto.request.UserRequest;
 import com.automobilefleet.api.dto.request.UserRequestUpdate;
