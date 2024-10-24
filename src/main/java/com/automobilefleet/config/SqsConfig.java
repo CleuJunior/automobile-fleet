@@ -16,7 +16,7 @@ public class SqsConfig {
     private static final String LOCAL_PROFILE = "local";
 
     @Bean
-    @Profile("local")
+    @Profile(value = {"local", "dev"})
     public SqsAsyncClient sqsAsyncClient() {
         return SqsAsyncClient.builder()
                 .endpointOverride(URI.create("http://localhost:4566"))
