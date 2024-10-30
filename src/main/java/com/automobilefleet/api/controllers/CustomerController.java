@@ -2,6 +2,7 @@ package com.automobilefleet.api.controllers;
 
 import com.automobilefleet.api.dto.request.CustomerRequest;
 import com.automobilefleet.api.dto.response.CustomerResponse;
+import com.automobilefleet.search.CustomerSearch;
 import com.automobilefleet.services.CustomerService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,6 @@ import java.util.UUID;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.ResponseEntity.status;
 
 @RestController
 @RequestMapping(value = "/api/v1/customer")
@@ -37,19 +37,27 @@ public class CustomerController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable("id") UUID id) {
         log.info("Getting  customer by id {}", id);
-        return status(OK).body(service.getCustomerById(id));
+        return ResponseEntity.status(OK).body(service.getCustomerById(id));
     }
 
     @GetMapping
     public ResponseEntity<List<CustomerResponse>> getListCustomer() {
         log.info("Getting list of customers");
-        return status(HttpStatus.OK).body(service.listCustomer());
+        return ResponseEntity.status(HttpStatus.OK).body(service.listCustomer());
     }
 
     @GetMapping(params = {"page", "size"})
     public ResponseEntity<Page<CustomerResponse>> pageCustomer(@RequestParam int page, @RequestParam int size) {
         log.info("Getting page of customers with page {} and size {}", page, size);
-        return status(OK).body(service.pageCustomer(page, size));
+        return ResponseEntity.status(OK).body(service.pageCustomer(page, size));
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<Page<CustomerResponse>> search(@RequestBody CustomerSearch search) {
+        log.info("Searching  customer {}", search);
+        var response = service.searchCustomer(search);
+
+        return ResponseEntity.status(OK).body(response);
     }
 
     @PostMapping
@@ -57,7 +65,7 @@ public class CustomerController {
         log.info("Saving customer {}", request);
         var response = service.saveCustomer(request);
 
-        return status(CREATED).body(response);
+        return ResponseEntity.status(CREATED).body(response);
     }
 
     @PutMapping(value = "/{id}")
@@ -65,7 +73,7 @@ public class CustomerController {
         log.info("Updating customer id {} with request {}", id, request);
         var response = service.updateCustomer(id, request);
 
-        return status(ACCEPTED).body(response);
+        return ResponseEntity.status(ACCEPTED).body(response);
     }
 
 }

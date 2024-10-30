@@ -5,7 +5,9 @@ import com.automobilefleet.api.dto.response.CustomerResponse;
 import com.automobilefleet.entities.Customer;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.mapper.CustomerMapper;
+import com.automobilefleet.query.CustomerQuery;
 import com.automobilefleet.repositories.CustomerRepository;
+import com.automobilefleet.search.CustomerSearch;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,7 @@ import static org.springframework.data.domain.PageRequest.of;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository repository;
+    private final CustomerQuery query;
     private final CustomerMapper mapper;
 
     @Override
@@ -59,6 +62,12 @@ public class CustomerServiceImpl implements CustomerService {
         return repository.findById(id)
                 .map(mapper::toCustomerResponse)
                 .orElseThrow(() -> new NotFoundException("customer.not.found", id));
+    }
+
+    @Override
+    public Page<CustomerResponse> searchCustomer(CustomerSearch search) {
+        var customers = repository.findAll(query.query(search), search.pageable());
+        return mapper.toCustomerResponsePage(customers, search.getPage(), search.getSize());
     }
 
     @Override

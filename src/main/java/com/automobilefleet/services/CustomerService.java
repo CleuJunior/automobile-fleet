@@ -2,6 +2,7 @@ package com.automobilefleet.services;
 
 import com.automobilefleet.api.dto.request.CustomerRequest;
 import com.automobilefleet.api.dto.response.CustomerResponse;
+import com.automobilefleet.search.CustomerSearch;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -15,6 +16,8 @@ public interface CustomerService {
     Page<CustomerResponse> pageCustomer(int page, int size);
 
     CustomerResponse getCustomerById(UUID id);
+
+    Page<CustomerResponse> searchCustomer(CustomerSearch search);
 
     CustomerResponse saveCustomer(CustomerRequest request);
 
