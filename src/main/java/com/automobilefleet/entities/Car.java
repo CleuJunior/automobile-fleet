@@ -71,7 +71,7 @@ public class Car implements Serializable {
     @Column(name = "car_color", nullable = false)
     private String color;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(updatable = false, name = "created_at", nullable = false)
     @Setter(NONE)
     private LocalDateTime createdAt;
 

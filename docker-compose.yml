@@ -11,31 +11,19 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      #      - ./src/main/resources/db/migration:/docker-entrypoint-initdb.d
-      - /postgres-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
 
-  rabbitmq:
-    container_name: rabbitmq_sb_container
-    image: rabbitmq:3-management
-    restart: always
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+#  localstack:
+#    image: localstack/localstack:latest
+#    container_name: localstack
+#    ports:
+#      - "4566:4566"   # Main LocalStack port
+#      - "4577:4577"   # SQS
+#    environment:
+#      - SERVICES=,sqs
+#      - DEBUG=1
+#      - DATA_DIR=/tmp/localstack/data
+#      - DEFAULT_REGION=us-east-1
 
-  localstack:
-    image: localstack/localstack:latest
-    container_name: localstack
-    ports:
-      - "4566:4566"   # Main LocalStack port
-      - "4577:4577"   # SQS
-    environment:
-      - SERVICES=,sqs
-      - DEBUG=1
-      - DATA_DIR=/tmp/localstack/data
-      - DEFAULT_REGION=us-east-1
-
-#volumes:
-#  postgres-data:
+volumes:
+  postgres-data:

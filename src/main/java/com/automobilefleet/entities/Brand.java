@@ -45,7 +45,7 @@ public class Brand implements Serializable {
     @Column(name = "brand_name", nullable = false)
     private String name;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(updatable = false, name = "created_at", nullable = false)
     @Setter(NONE)
     private LocalDateTime createdAt;
 

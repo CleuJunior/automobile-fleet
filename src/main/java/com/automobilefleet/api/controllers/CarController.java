@@ -2,6 +2,7 @@ package com.automobilefleet.api.controllers;
 
 import com.automobilefleet.api.dto.request.CarRequest;
 import com.automobilefleet.api.dto.response.CarResponse;
+import com.automobilefleet.projections.CarInfo;
 import com.automobilefleet.services.CarService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,14 @@ import static org.springframework.http.HttpStatus.OK;
 @RequiredArgsConstructor
 @Slf4j
 public class CarController {
+
     private final CarService service;
+
+    @GetMapping(value = "/info/{id}")
+    public ResponseEntity<CarInfo> getCarsInfo(@PathVariable UUID id) {
+        log.info("Car information by id {}", id);
+        return ResponseEntity.status(OK).body(service.getCarInfoById(id));
+    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<CarResponse> getCardById(@PathVariable UUID id) {

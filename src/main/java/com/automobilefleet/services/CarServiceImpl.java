@@ -5,6 +5,7 @@ import com.automobilefleet.api.dto.response.CarResponse;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.mapper.CarMapper;
+import com.automobilefleet.projections.CarInfo;
 import com.automobilefleet.repositories.BrandRepository;
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.repositories.CategoryRepository;
@@ -88,6 +89,11 @@ public class CarServiceImpl implements CarService {
         log.info("Finding car id {}", id);
         return carRepository.findById(id)
                 .map(mapper::toCarResponse)
+                .orElseThrow(() -> new NotFoundException("car.not.found", id));
+    }
+
+    public CarInfo getCarInfoById(UUID id) {
+        return carRepository.getCarInfo(id)
                 .orElseThrow(() -> new NotFoundException("car.not.found", id));
     }
 

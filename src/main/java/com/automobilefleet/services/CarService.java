@@ -2,6 +2,7 @@ package com.automobilefleet.services;
 
 import com.automobilefleet.api.dto.request.CarRequest;
 import com.automobilefleet.api.dto.response.CarResponse;
+import com.automobilefleet.projections.CarInfo;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -18,6 +19,8 @@ public interface CarService {
     Page<CarResponse> pageCar(int page, int size);
 
     CarResponse getCarById(UUID id);
+
+    CarInfo getCarInfoById(UUID id);
 
     CarResponse saveCar(CarRequest request);
 
