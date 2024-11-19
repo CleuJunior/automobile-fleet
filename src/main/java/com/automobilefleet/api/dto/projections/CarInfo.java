@@ -1,4 +1,4 @@
-package com.automobilefleet.projections;
+package com.automobilefleet.api.dto.projections;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 

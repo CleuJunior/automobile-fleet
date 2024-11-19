@@ -96,7 +96,7 @@ class CarServiceImplTest {
 
     @Test
     void shouldReturnSingleListCallingByName() {
-        given(carRepository.findCarsByBrand_Name(BRAND_NAME)).willReturn(singletonList(car));
+        given(carRepository.findCarsByBrandName(BRAND_NAME)).willReturn(singletonList(car));
         given(mapper.toCarResponseList(singletonList(car))).willReturn(singletonList(response));
 
         var actual = service.findByCarBrand(BRAND_NAME);
@@ -106,7 +106,7 @@ class CarServiceImplTest {
         then(actual).contains(response);
 
         // Verifications
-        verify(carRepository).findCarsByBrand_Name(BRAND_NAME);
+        verify(carRepository).findCarsByBrandName(BRAND_NAME);
         verify(mapper).toCarResponseList(singletonList(car));
         verifyNoMoreInteractions(carRepository);
         verifyNoMoreInteractions(mapper);
@@ -114,20 +114,20 @@ class CarServiceImplTest {
 
     @Test
     void shouldReturnEmptyListCallingByName() {
-        given(carRepository.findCarsByBrand_Name(BRAND_NAME)).willReturn(emptyList());
+        given(carRepository.findCarsByBrandName(BRAND_NAME)).willReturn(emptyList());
 
         var actual = service.findByCarBrand(BRAND_NAME);
 
         then(actual).isEmpty();
 
-        verify(carRepository).findCarsByBrand_Name(BRAND_NAME);
+        verify(carRepository).findCarsByBrandName(BRAND_NAME);
         verifyNoMoreInteractions(carRepository);
         verifyNoInteractions(mapper);
     }
 
     @Test
     void shouldReturnSingleListCallingByAvailable() {
-        given(carRepository.findByAvailable(true)).willReturn(singletonList(car));
+        given(carRepository.findByAvailable()).willReturn(singletonList(car));
         given(mapper.toCarResponseList(singletonList(car))).willReturn(singletonList(response));
 
         var actual = service.findByCarAvailable();
@@ -136,7 +136,7 @@ class CarServiceImplTest {
         then(actual).contains(response);
 
         // Verifications
-        verify(carRepository).findByAvailable(true);
+        verify(carRepository).findByAvailable();
         verify(mapper).toCarResponseList(singletonList(car));
         verifyNoMoreInteractions(carRepository);
         verifyNoMoreInteractions(mapper);
@@ -144,14 +144,14 @@ class CarServiceImplTest {
 
     @Test
     void shouldReturnEmptytCallingByAvailable() {
-        given(carRepository.findByAvailable(true)).willReturn(emptyList());
+        given(carRepository.findByAvailable()).willReturn(emptyList());
 
         var actual = service.findByCarAvailable();
 
         then(actual).isEmpty();
 
         // Verifications
-        verify(carRepository).findByAvailable(true);
+        verify(carRepository).findByAvailable();
         verifyNoMoreInteractions(carRepository);
         verifyNoMoreInteractions(mapper);
     }

@@ -1,5 +1,6 @@
 package com.automobilefleet.services;
 
+import com.automobilefleet.api.dto.projections.RentalInfo;
 import com.automobilefleet.api.dto.request.RentalRequest;
 import com.automobilefleet.api.dto.response.RentalResponse;
 import com.automobilefleet.entities.Car;
@@ -52,6 +53,13 @@ public class RentalServiceImpl implements RentalService {
         log.info("Rental id {}", id);
         return rentalRepository.findById(id)
                 .map(mapper::toRentalResponse)
+                .orElseThrow(() -> new NotFoundException("rental.not.found", id));
+    }
+
+    @Override
+    public RentalInfo findRentalInfoById(UUID id) {
+        log.info("Rental info by id: {}", id);
+        return rentalRepository.findRentalInfoById(id)
                 .orElseThrow(() -> new NotFoundException("rental.not.found", id));
     }
 

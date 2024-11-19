@@ -2,7 +2,7 @@ package com.automobilefleet.services;
 
 import com.automobilefleet.api.dto.request.CarRequest;
 import com.automobilefleet.api.dto.response.CarResponse;
-import com.automobilefleet.projections.CarInfo;
+import com.automobilefleet.api.dto.projections.CarInfo;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

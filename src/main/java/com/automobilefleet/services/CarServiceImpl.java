@@ -5,7 +5,7 @@ import com.automobilefleet.api.dto.response.CarResponse;
 import com.automobilefleet.entities.Car;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.mapper.CarMapper;
-import com.automobilefleet.projections.CarInfo;
+import com.automobilefleet.api.dto.projections.CarInfo;
 import com.automobilefleet.repositories.BrandRepository;
 import com.automobilefleet.repositories.CarRepository;
 import com.automobilefleet.repositories.CategoryRepository;
@@ -47,7 +47,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<CarResponse> findByCarBrand(String brandName) {
-        var cars = carRepository.findCarsByBrand_Name(brandName);
+        var cars = carRepository.findCarsByBrandName(brandName);
 
         if (cars.isEmpty()) {
             log.info("Empty list of cars with brand name {}", brandName);
@@ -60,7 +60,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<CarResponse> findByCarAvailable() {
-        var cars = carRepository.findByAvailable(true);
+        var cars = carRepository.findByAvailable();
 
         if (cars.isEmpty()) {
             log.info("Empty list of cars available");

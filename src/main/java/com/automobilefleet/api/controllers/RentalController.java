@@ -1,5 +1,6 @@
 package com.automobilefleet.api.controllers;
 
+import com.automobilefleet.api.dto.projections.RentalInfo;
 import com.automobilefleet.api.dto.request.RentalRequest;
 import com.automobilefleet.api.dto.response.RentalResponse;
 import com.automobilefleet.services.RentalService;
@@ -22,7 +23,6 @@ import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.ResponseEntity.status;
 
 @RestController
 @RequestMapping(value = "/api/v1/rental")
@@ -34,13 +34,19 @@ public class RentalController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<RentalResponse> getRentalById(@PathVariable UUID id) {
         log.info("Getting rental by id {}", id);
-        return status(OK).body(service.getRentalById(id));
+        return ResponseEntity.status(OK).body(service.getRentalById(id));
+    }
+
+    @GetMapping(value = "/info/{id}")
+    public ResponseEntity<RentalInfo> getRentalInfoById(@PathVariable UUID id) {
+        log.info("Rental info");
+        return ResponseEntity.status(OK).body(service.findRentalInfoById(id));
     }
 
     @GetMapping
     public ResponseEntity<List<RentalResponse>> listOfRental() {
         log.info("Getting list of rentals");
-        return status(OK).body(service.listOfRental());
+        return ResponseEntity.status(OK).body(service.listOfRental());
     }
 
     @PostMapping
@@ -48,7 +54,7 @@ public class RentalController {
         log.info("Saving rental {}", request);
         var response = service.saveRental(request);
 
-        return status(CREATED).body(response);
+        return ResponseEntity.status(CREATED).body(response);
     }
 
     @PutMapping(value = "/{id}")
@@ -56,7 +62,7 @@ public class RentalController {
         log.info("Updating rental id {} with request {}", id, request);
         var response = service.updateRental(id, request);
 
-        return status(ACCEPTED).body(response);
+        return ResponseEntity.status(ACCEPTED).body(response);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -64,6 +70,6 @@ public class RentalController {
         log.info("Deleting rental id {}", id);
         service.deleteRental(id);
 
-        return status(NO_CONTENT).build();
+        return ResponseEntity.status(NO_CONTENT).build();
     }
 }

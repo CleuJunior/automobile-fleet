@@ -2,7 +2,7 @@ package com.automobilefleet.api.controllers;
 
 import com.automobilefleet.api.dto.request.CarRequest;
 import com.automobilefleet.api.dto.response.CarResponse;
-import com.automobilefleet.projections.CarInfo;
+import com.automobilefleet.api.dto.projections.CarInfo;
 import com.automobilefleet.services.CarService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

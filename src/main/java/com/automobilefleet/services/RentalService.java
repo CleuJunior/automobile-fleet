@@ -1,5 +1,6 @@
 package com.automobilefleet.services;
 
+import com.automobilefleet.api.dto.projections.RentalInfo;
 import com.automobilefleet.api.dto.request.RentalRequest;
 import com.automobilefleet.api.dto.response.RentalResponse;
 
@@ -12,6 +13,8 @@ public interface RentalService {
     List<RentalResponse> listOfRental();
 
     RentalResponse getRentalById(UUID id);
+
+    RentalInfo findRentalInfoById(UUID id);
 
     RentalResponse saveRental(RentalRequest request);
 
