@@ -1,5 +1,6 @@
 package com.automobilefleet.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -13,16 +14,31 @@ import java.net.URI;
 @Configuration
 public class SqsConfig {
 
-    private static final String LOCAL_PROFILE = "local";
+    @Value("${aws.security.accessKeyId}")
+    private String accessKeyId;
+    @Value("${aws.security.secretAccessKey}")
+    private String secretAccessKey;
 
     @Bean
     @Profile(value = {"local", "dev"})
-    public SqsAsyncClient sqsAsyncClient() {
+    public SqsAsyncClient sqsAsyncClientLocalDev() {
         return SqsAsyncClient.builder()
                 .endpointOverride(URI.create("http://localhost:4566"))
                 .region(Region.EU_SOUTH_1)
                 .credentialsProvider(StaticCredentialsProvider.create(
-                        AwsBasicCredentials.create(LOCAL_PROFILE, LOCAL_PROFILE)
+                        AwsBasicCredentials.create(accessKeyId, secretAccessKey)
+                ))
+                .build();
+    }
+
+    @Bean
+    @Profile(value = {"test"})
+    public SqsAsyncClient sqsAsyncClient() {
+        return SqsAsyncClient.builder()
+//                .endpointOverride(URI.create("http://localhost:4566"))
+                .region(Region.US_EAST_2)
+                .credentialsProvider(StaticCredentialsProvider.create(
+                        AwsBasicCredentials.create(accessKeyId, secretAccessKey)
                 ))
                 .build();
     }

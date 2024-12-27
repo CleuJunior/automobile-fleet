@@ -9,3 +9,8 @@ api:
   security:
     token:
       secret: BE1B44F8953BB2978C54FAA622EA1
+
+aws:
+  security:
+    accessKeyId: ${AWS_ACCESS_KEY_ID:local}
+    secretAccessKey: ${AWS_SECRET_ACCESS_KEY:local}

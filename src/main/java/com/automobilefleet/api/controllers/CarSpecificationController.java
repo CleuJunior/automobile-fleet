@@ -1,7 +1,9 @@
 package com.automobilefleet.api.controllers;
 
+import com.automobilefleet.api.dto.projections.CarSpecificationInfo;
 import com.automobilefleet.api.dto.request.CarSpecificationRequest;
 import com.automobilefleet.api.dto.response.CarSpecificationResponse;
+import com.automobilefleet.repositories.CarSpecificationRepository;
 import com.automobilefleet.services.CarSpecificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,13 @@ import static org.springframework.http.ResponseEntity.status;
 @Slf4j
 public class CarSpecificationController {
     private final CarSpecificationService service;
+    private final CarSpecificationRepository r;
+
+    @GetMapping(value = "/{id}/info")
+    public ResponseEntity<CarSpecificationInfo> getCarSpecificationInfoById(@PathVariable UUID id) {
+        log.info("Getting car specification by id {}", id);
+        return ResponseEntity.status(OK).body(r.carSpecificationInfo(id).get());
+    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<CarSpecificationResponse> getCarSpecificationId(@PathVariable UUID id) {

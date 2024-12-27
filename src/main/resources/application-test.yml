@@ -1,12 +1,15 @@
 spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/project_auto
+    username: postgres
+    password: postgres
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: false
-    show-sql: true
+    show-sql: false
 
   flyway:
     enabled: true
@@ -15,3 +18,7 @@ api:
   security:
     token:
       secret: BE1B44F8953BB2978C54FAA622EA1
+
+aws:
+  sqs:
+    name: "sqs-rent-queue"
