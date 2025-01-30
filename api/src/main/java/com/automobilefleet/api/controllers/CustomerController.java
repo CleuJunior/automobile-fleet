@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
-import static org.springframework.http.HttpStatus.ACCEPTED;
-import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -49,7 +47,7 @@ public class CustomerController {
     @GetMapping(params = {"page", "size"})
     public ResponseEntity<Page<CustomerResponse>> pageCustomer(@RequestParam int page, @RequestParam int size) {
         log.info("Getting page of customers with page {} and size {}", page, size);
-        return ResponseEntity.status(OK).body(service.pageCustomer(page, size));
+        return ResponseEntity.status(HttpStatus.OK).body(service.pageCustomer(page, size));
     }
 
     @PostMapping("/search")
@@ -57,7 +55,7 @@ public class CustomerController {
         log.info("Searching  customer {}", search);
         var response = service.searchCustomer(search);
 
-        return ResponseEntity.status(OK).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping
@@ -65,7 +63,7 @@ public class CustomerController {
         log.info("Saving customer {}", request);
         var response = service.saveCustomer(request);
 
-        return ResponseEntity.status(CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping(value = "/{id}")
@@ -73,7 +71,7 @@ public class CustomerController {
         log.info("Updating customer id {} with request {}", id, request);
         var response = service.updateCustomer(id, request);
 
-        return ResponseEntity.status(ACCEPTED).body(response);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 
 }

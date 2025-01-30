@@ -4,7 +4,7 @@
 
 Considere o **UML** abaixo para desenvolvimento do seu projeto.
 
-![uml](https://raw.githubusercontent.com/CleuJunior/Teste-Desenvolvedor-Java/main/uml.jpg)
+![uml](img/uml.jpg)
 
 _Criar uma aplicação que permita ao usuário gerenciar uma frota de automóveis e realizar aluguéis. A ideia é que o 
 sistema permita realizar cadastros (CRUDS) de carros, especificações, marcas, imagens dos carros e clientes. Além disso, 
