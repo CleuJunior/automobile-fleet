@@ -1,4 +1,4 @@
-package com.automobilefleet.exceptions.entity;
+package com.automobilefleet.exceptions.reponse;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;

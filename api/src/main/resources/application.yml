@@ -14,3 +14,5 @@ aws:
   security:
     accessKeyId: ${AWS_ACCESS_KEY_ID:local}
     secretAccessKey: ${AWS_SECRET_ACCESS_KEY:local}
+  queue:
+    url: ${AWS_SQS_QUEUE_URL:http://localhost:4566}

@@ -1,6 +1,6 @@
 package com.automobilefleet.exceptions;
 
-import com.automobilefleet.exceptions.entity.ErrorResponse;
+import com.automobilefleet.exceptions.reponse.ErrorResponse;
 import com.automobilefleet.exceptions.notfoundexception.NotFoundException;
 import com.automobilefleet.exceptions.policyexception.PolicyException;
 import com.automobilefleet.i18n.LocalizedMessageTranslationService;
@@ -108,9 +108,18 @@ public class ErrorExceptionHandler {
     }
 
     @ExceptionHandler(PasswordMatchException.class)
-    public ResponseEntity<ErrorResponse> passwordMatchHandler(HttpServletRequest request, PasswordMatchException passwordMatchException) {
+    public ResponseEntity<ErrorResponse> passwordMatchHandler(HttpServletRequest request,
+                                                              PasswordMatchException passwordMatchException) {
+
         var message = translation.translateMessage(passwordMatchException.getMessage());
-        var err = new ErrorResponse(BAD_REQUEST.value(), BAD_REQUEST.getReasonPhrase(), message, request.getRequestURI(), now());
+
+        var err = new ErrorResponse(
+                BAD_REQUEST.value(),
+                BAD_REQUEST.getReasonPhrase(),
+                message,
+                request.getRequestURI(),
+                now()
+        );
 
         log.error("{} URI: {}", BAD_REQUEST, request.getRequestURI());
         return ResponseEntity.status(BAD_REQUEST).body(err);
