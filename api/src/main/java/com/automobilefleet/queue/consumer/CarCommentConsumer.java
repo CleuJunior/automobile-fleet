@@ -17,7 +17,7 @@ public class CarCommentConsumer {
     private final CarCommentRepository carCommentRepository;
     private final CarRepository carRepository;
 
-    @SqsListener("${aws.sqs.name}")
+    @SqsListener("${aws.queue.name}")
     public void receiveMessage(CarCommentRequest request) {
         log.info("Comment {} in on the queue", request);
 

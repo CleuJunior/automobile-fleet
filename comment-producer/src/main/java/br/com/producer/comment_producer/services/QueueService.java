@@ -9,15 +9,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CarCommentService {
+public class QueueService {
 
     private final QueueMessagingTemplate queueMessagingTemplate;
+    private final SerializationService serialization;
 
-    @Value("${aws.queue.url}")
-    private String queueUrl;
+    @Value("${aws.queue.url.car}")
+    private String carUrlQueue;
 
-    public void sendComment(CarCommentRequest carCommentRequest) {
-        queueMessagingTemplate.send(queueUrl, MessageBuilder.withPayload(body).build());
+    public void sendMessage(CarCommentRequest carCommentRequest) {
+        var body = serialization.toJson(carCommentRequest);
+        queueMessagingTemplate.send(carUrlQueue, MessageBuilder.withPayload(body).build());
     }
 }
-

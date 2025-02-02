@@ -17,7 +17,3 @@ api:
   security:
     token:
       secret: BE1B44F8953BB2978C54FAA622EA1
-
-aws:
-  sqs:
-    name: "sqs-rent-queue"
