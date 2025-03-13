@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: comment-producer
+  data:
+    mongodb:
+      uri: "mongodb://localhost:27017/comments"
 
 aws:
   security:

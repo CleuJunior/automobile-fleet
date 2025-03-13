@@ -14,7 +14,6 @@ public class SerializationService {
 
     private final ObjectMapper mapper;
 
-
     public String toJson(Object value) {
         try {
             log.info("Serialization of Object: {}", value);
