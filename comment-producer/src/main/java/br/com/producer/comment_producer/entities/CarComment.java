@@ -24,6 +24,7 @@ public class CarComment {
     private String id;
     private String name;
     private String carId;
+    private Car car;
     private String comment;
     private int rating;
     @CreatedDate

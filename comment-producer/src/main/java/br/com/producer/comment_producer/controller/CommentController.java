@@ -2,6 +2,8 @@ package br.com.producer.comment_producer.controller;
 
 import br.com.producer.comment_producer.dto.request.CarCommentRequest;
 import br.com.producer.comment_producer.dto.request.CarCommentResponse;
+import br.com.producer.comment_producer.entities.Brand;
+import br.com.producer.comment_producer.entities.Car;
 import br.com.producer.comment_producer.entities.CarComment;
 import br.com.producer.comment_producer.services.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +31,17 @@ public class CommentController {
     @PostMapping
     @ResponseStatus(OK)
     public CarCommentResponse saveCarComment(@RequestBody CarCommentRequest commentRequest) {
+        var car = new Car(
+                "17fb9ae3-b6df-4b58-b8f6-20a8e7e37c0d",
+                "Citroen",
+                "99813441",
+                new Brand("df2a0e36-0c8d-49bc-bd7f-2a7f54de8c9d", "Fox"),
+                "Black");
+
         var comment = CarComment.builder()
                 .name(commentRequest.name())
                 .carId(commentRequest.carId())
+                .car(car)
                 .comment(commentRequest.comment())
                 .rating(commentRequest.rating())
                 .build();

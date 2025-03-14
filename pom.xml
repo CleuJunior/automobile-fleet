@@ -11,6 +11,7 @@
     <modules>
         <module>api</module>
         <module>comment-producer</module>
+        <module>comment-worker</module>
     </modules>
 
 </project>

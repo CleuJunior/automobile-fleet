@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EnableMongoAuditing(dateTimeProviderRef = "dateTimeProvider")
-//@EnableMongoAuditing
 @Configuration
 public class MongoConfigurations {
     @Bean
