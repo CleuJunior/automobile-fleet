@@ -1,0 +1,58 @@
+services:
+  postgres:
+    container_name: postgres_sb_img
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: project_auto
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    ports:
+      - "4566:4566"
+      - "4577:4577"
+    environment:
+      - SERVICES=,sqs
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+      - DEFAULT_REGION=us-east-1
+    networks:
+      - app-network
+#
+#  app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: spring-boot-app
+#    depends_on:
+#      - postgres
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/project_auto
+#      SPRING_DATASOURCE_USERNAME: postgres
+#      SPRING_DATASOURCE_PASSWORD: postgres
+#      FLYWAY_URL: jdbc:postgresql://postgres:5432/project_auto
+#      FLYWAY_USER: postgres
+#      FLYWAY_PASSWORD: postgres
+#    ports:
+#      - "8000:8000"
+#    networks:
+#      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  postgres-data:

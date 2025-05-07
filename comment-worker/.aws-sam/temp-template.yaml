@@ -1,0 +1,11 @@
+Resources:
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 300
+      MemorySize: 128
+      Handler: br.com.comment.work.Function::handleRequest
+      CodeUri: /home/guimaraes/Documents/java/automobile-fleet/comment-worker
+      Runtime: java17
+      Architectures:
+        - x86_64
