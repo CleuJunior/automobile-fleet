@@ -83,7 +83,6 @@ class BrandControllerIT extends AbstractWebIntegrationTest {
     }
 
     @Test
-    @Rollback
     void shouldSaveBrandAndStatusCodeCreated() {
         var name = RandomData.name();
         var request = new BrandRequest(name);
@@ -103,7 +102,6 @@ class BrandControllerIT extends AbstractWebIntegrationTest {
     }
 
     @Test
-    @Rollback
     void shouldUpdateBrandAndStatusCodeAccepted() {
         var name = RandomData.name();
         var request = new BrandRequest(name);

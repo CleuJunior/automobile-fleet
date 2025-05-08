@@ -112,7 +112,7 @@ class CarImageControllerTest {
     void shouldDeleteImageAndStatusCodeNoContent() {
         willDoNothing().given(service).deleteCarImageById(ID);
 
-        var result = controller.deletCarImageById(ID);
+        var result = controller.deleteCarImageById(ID);
 
         then(result.getStatusCode()).isEqualTo(NO_CONTENT);
         then(result.getBody()).isNull();

@@ -22,39 +22,39 @@ public class AutomobileFleetApplication {
         SpringApplication.run(AutomobileFleetApplication.class, args);
     }
 
-    @Autowired
-    private AmazonSNS amazonSNS;
-    private static final String TOPIC_ARN = "arn:aws:sns:us-east-1:000000000000:mytopic";
-
-
-    @Bean
-    CommandLineRunner runner() {
-        return args -> {
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            // Criar o objeto com os dados
-            CarCommentRequest feedback = new CarCommentRequest(
-                    "Frajola Piu-Piu",
-                    UUID.fromString("82bd1d96-85ac-4559-9ce6-378ef489d078"),
-                    "Muito nefasto",
-                    99
-            );
-
-            // Converter para JSON
-            String jsonMessage = objectMapper.writeValueAsString(feedback);
-
-            // Configurar e enviar a mensagem
-            PublishRequest request = new PublishRequest()
-                    .withTopicArn(TOPIC_ARN)
-                    .withMessage(jsonMessage)
-                    .withSubject("Feedback do Carro");
-
-//            String json = objectMapper.writeValueAsString(request.getMessage());
-
-//            amazonSNS.publish(request);
-            log.info("JSON enviado: {}", jsonMessage);
-        };
-    }
+//    @Autowired
+//    private AmazonSNS amazonSNS;
+//    private static final String TOPIC_ARN = "arn:aws:sns:us-east-1:000000000000:mytopic";
+//
+//
+//    @Bean
+//    CommandLineRunner runner() {
+//        return args -> {
+//            ObjectMapper objectMapper = new ObjectMapper();
+//
+//            // Criar o objeto com os dados
+//            CarCommentRequest feedback = new CarCommentRequest(
+//                    "Frajola Piu-Piu",
+//                    UUID.fromString("82bd1d96-85ac-4559-9ce6-378ef489d078"),
+//                    "Muito nefasto",
+//                    99
+//            );
+//
+//            // Converter para JSON
+//            String jsonMessage = objectMapper.writeValueAsString(feedback);
+//
+//            // Configurar e enviar a mensagem
+//            PublishRequest request = new PublishRequest()
+//                    .withTopicArn(TOPIC_ARN)
+//                    .withMessage(jsonMessage)
+//                    .withSubject("Feedback do Carro");
+//
+////            String json = objectMapper.writeValueAsString(request.getMessage());
+//
+////            amazonSNS.publish(request);
+//            log.info("JSON enviado: {}", jsonMessage);
+//        };
+//    }
 
 
 }

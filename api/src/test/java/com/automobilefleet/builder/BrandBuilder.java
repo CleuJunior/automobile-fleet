@@ -25,7 +25,7 @@ public class BrandBuilder {
                 .build();
     }
 
-    public static BrandResponse brandRespnseBuilder(Brand brand) {
+    public static BrandResponse brandResponseBuilder(Brand brand) {
         return new BrandResponse(brand.getId(), brand.getName(), brand.getCreatedAt(), brand.getUpdatedAt());
     }
 

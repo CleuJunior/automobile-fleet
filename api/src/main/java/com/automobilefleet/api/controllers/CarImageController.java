@@ -25,11 +25,10 @@ import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.ResponseEntity.status;
 
 
 @RestController
-@RequestMapping(value = "/api/v1/car_images")
+@RequestMapping(value = "/api/v1/carImages")
 @RequiredArgsConstructor
 @Slf4j
 public class CarImageController {
@@ -39,19 +38,19 @@ public class CarImageController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<CarImageResponse> getCarImageById(@PathVariable UUID id) {
         log.info("Getting image by id {}", id);
-        return status(OK).body(service.getImageById(id));
+        return ResponseEntity.status(OK).body(service.getImageById(id));
     }
 
     @GetMapping
     public ResponseEntity<List<CarImageResponse>> listOfCarImages() {
         log.info("Getting list of images");
-        return status(OK).body(service.listAllImage());
+        return ResponseEntity.status(OK).body(service.listAllImage());
     }
 
     @GetMapping(params = {"page", "size"})
     public ResponseEntity<Page<CarImageResponse>> pageCarImages(@RequestParam int page, @RequestParam int size) {
         log.info("Getting page of images with page {} and size {}", page, size);
-        return status(OK).body(service.pageCarImage(page, size));
+        return ResponseEntity.status(OK).body(service.pageCarImage(page, size));
     }
 
     @PostMapping
@@ -59,7 +58,7 @@ public class CarImageController {
         log.info("Saving image {}", request);
         var response = service.saveCarImage(request);
 
-        return status(CREATED).body(response);
+        return ResponseEntity.status(CREATED).body(response);
     }
 
     @PutMapping(value = "/{id}")
@@ -67,14 +66,14 @@ public class CarImageController {
         log.info("Updating image id {} with request {}", id, request);
         var response = service.updateCarImage(id, request);
 
-        return status(ACCEPTED).body(response);
+        return ResponseEntity.status(ACCEPTED).body(response);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deletCarImageById(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteCarImageById(@PathVariable UUID id) {
         log.info("Deleting image id {}", id);
         service.deleteCarImageById(id);
 
-        return status(NO_CONTENT).build();
+        return ResponseEntity.status(NO_CONTENT).build();
     }
 }

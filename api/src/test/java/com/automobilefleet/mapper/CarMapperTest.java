@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static com.automobilefleet.builder.BrandBuilder.brandRespnseBuilder;
+import static com.automobilefleet.builder.BrandBuilder.brandResponseBuilder;
 import static com.automobilefleet.builder.CarBuilder.carBuilder;
 import static com.automobilefleet.builder.CarBuilder.carResponseBuilder;
 import static com.automobilefleet.builder.CategoryBuilder.categoryResponseBuilder;
@@ -44,7 +44,7 @@ class CarMapperTest {
         category = car.getCategory();
 
         response = carResponseBuilder(car);
-        var brandResponse = brandRespnseBuilder(brand);
+        var brandResponse = brandResponseBuilder(brand);
         var categoryResponse = categoryResponseBuilder(category);
 
         given(brandMapper.toBrandResponse(brand)).willReturn(brandResponse);

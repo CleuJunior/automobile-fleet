@@ -76,7 +76,6 @@ class CustomerControllerIT extends AbstractWebIntegrationTest {
     }
 
     @Test
-    @Rollback
     void shouldSaveCustomerAndStatusCodeCreated() {
         var name = faker.harryPotter().character();
         var birthdate = localDateFromDate(faker.date().birthday());
@@ -104,7 +103,6 @@ class CustomerControllerIT extends AbstractWebIntegrationTest {
     }
 
     @Test
-    @Rollback
     void shouldUpdateCustomerAndStatusCodeAccepted() {
         var name = faker.leagueOfLegends().champion();
         var birthdate = localDateFromDate(faker.date().birthday());

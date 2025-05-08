@@ -6,7 +6,7 @@ import com.github.javafaker.Faker;
 import lombok.NoArgsConstructor;
 
 import static com.automobilefleet.builder.BrandBuilder.brandBuilder;
-import static com.automobilefleet.builder.BrandBuilder.brandRespnseBuilder;
+import static com.automobilefleet.builder.BrandBuilder.brandResponseBuilder;
 import static com.automobilefleet.builder.CategoryBuilder.categoryBuilder;
 import static com.automobilefleet.builder.CategoryBuilder.categoryResponseBuilder;
 import static java.time.LocalDateTime.now;
@@ -42,7 +42,7 @@ public class CarBuilder {
                 car.getDailyRate(),
                 car.isAvailable(),
                 car.getLicensePlate(),
-                brandRespnseBuilder(car.getBrand()),
+                brandResponseBuilder(car.getBrand()),
                 categoryResponseBuilder(car.getCategory()),
                 car.getColor(),
                 car.getCreatedAt()

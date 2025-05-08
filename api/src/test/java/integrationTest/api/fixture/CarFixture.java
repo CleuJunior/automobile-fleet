@@ -1,6 +1,6 @@
 package integrationTest.api.fixture;
 
-import com.automobilefleet.api.dto.request.CustomerRequest;
+import com.automobilefleet.api.dto.request.CarRequest;
 import integrationTest.api.utils.BodyBuilder;
 import io.restassured.response.Response;
 import lombok.NoArgsConstructor;
@@ -16,13 +16,22 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public class CarFixture {
 
+    public static Response getCarInfoById(String carId) {
+        return given()
+                .spec(jwt(USER_SUPER_ID, USER_SUPER_NAME, USER_SUPER_ROLE))
+                .basePath(v1)
+                .pathParam("carId", carId)
+                .when()
+                .get("/cars/info/{carId}");
+    }
+
     public static Response getCarById(String carId) {
         return given()
                 .spec(jwt(USER_SUPER_ID, USER_SUPER_NAME, USER_SUPER_ROLE))
                 .basePath(v1)
-                .pathParam("id", carId)
+                .pathParam("carId", carId)
                 .when()
-                .get("/cars/{id}");
+                .get("/cars/{carId}");
     }
 
     public static Response getCarList() {
@@ -50,42 +59,42 @@ public class CarFixture {
                 .get("/cars");
     }
 
-    public static Response getCustomerPaged(int page, int size) {
+    public static Response getCarPaged(int page, int size) {
         return given()
                 .spec(jwt(USER_SUPER_ID, USER_SUPER_NAME, USER_SUPER_ROLE))
                 .basePath(v1)
                 .queryParam("page", page)
                 .queryParam("size", size)
                 .when()
-                .get("/customer");
+                .get("/cars");
     }
 
-    public static Response postCustomer(BodyBuilder body) {
+    public static Response postCar(BodyBuilder body) {
         return given()
                 .spec(jwt(USER_SUPER_ID, USER_SUPER_NAME, USER_SUPER_ROLE))
                 .basePath(v1)
                 .body(body.build())
                 .when()
-                .post("/customer");
+                .post("/cars");
     }
 
-    public static Response postCustomer(CustomerRequest request) {
+    public static Response postCar(CarRequest request) {
         return given()
                 .spec(jwt(USER_SUPER_ID, USER_SUPER_NAME, USER_SUPER_ROLE))
                 .basePath(v1)
                 .body(request)
                 .when()
-                .post("/customer");
+                .post("/cars");
     }
 
-    public static Response putCustomer(String customerId, CustomerRequest request) {
+    public static Response putCar(String carId, CarRequest request) {
         return given()
                 .spec(jwt(USER_SUPER_ID, USER_SUPER_NAME, USER_SUPER_ROLE))
                 .basePath(v1)
-                .pathParam("customerId", customerId)
+                .pathParam("carId", carId)
                 .body(request)
                 .when()
-                .put("/customer/{customerId}");
+                .put("/cars/{carId}");
     }
 
     public static Response deleteCustomer(String customerId) {

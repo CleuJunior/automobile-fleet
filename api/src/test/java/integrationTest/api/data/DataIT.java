@@ -94,6 +94,7 @@ public class DataIT {
     public static final String VOLKSWAGEN_ID = "651d807b-b34f-4818-856d-00bb3ff09d71";
     public static final String FERRARI_ID = "4f2dd5bb-ae60-41ca-9227-0fb3dacebcbe";
     public static final String HONDA_ID = "3f831dbb-de3b-4b1a-95dc-602cdeaa7012";
+    public static final String CIVIC_ID = "df2a0e36-0c8d-49bc-bd7f-2a7f54de8c9d";
 
     public static final String BRAND_BMW = "BMW";
     public static final String BRAND_CHEVROLET = "Chevrolet";
@@ -150,6 +151,7 @@ public class DataIT {
     public static final String GOLF_CAR_ID = "d7a97cc7-6fb5-4f79-bca0-fc4efb8f13f1";
     public static final String FOUR_EIGHT_EIGHT_CAR_ID = "4f2e3bc7-8522-4543-922c-03480d044e62";
     public static final String CIVIC_CAR_ID = "4dafc4f4-5e90-478d-a386-841d74aa368a";
+    public static final String X5_CAR_ID = "87465c2a-7f4d-44c1-81eb-7081e9d08956";
     public static final String CAMARO_CAR_ID = "2ac1b6e5-f203-4b59-a9bc-12db47c27bf5";
     public static final String HILUX_CAR_ID = "ce99c8a7-2f2e-4b7b-b10e-c36a0038a9a4";
 

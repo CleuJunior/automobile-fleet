@@ -61,7 +61,7 @@ public class CarController {
     }
 
     @GetMapping(params = {"page", "size"})
-    public ResponseEntity<Page<CarResponse>> pageBrand(@RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<Page<CarResponse>> pageCar(@RequestParam int page, @RequestParam int size) {
         log.info("Getting page of cars with page {} and size {}", page, size);
         return ResponseEntity.status(OK).body(service.pageCar(page, size));
     }
