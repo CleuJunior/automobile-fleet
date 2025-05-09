@@ -33,13 +33,13 @@ public class CategoryController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable UUID id) {
         log.info("Getting category by id {}", id);
-        return status(OK).body(service.getCategoryById(id));
+        return ResponseEntity.status(OK).body(service.getCategoryById(id));
     }
 
     @GetMapping
     public ResponseEntity<List<CategoryResponse>> listOfCategory() {
         log.info("Getting list of categories");
-        return status(OK).body(service.listCategories());
+        return ResponseEntity.status(OK).body(service.listCategories());
     }
 
     @PostMapping
@@ -47,7 +47,7 @@ public class CategoryController {
         log.info("Saving category {}", request);
         var response = service.saveCategory(request);
 
-        return status(CREATED).body(response);
+        return ResponseEntity.status(CREATED).body(response);
     }
 
     @PutMapping(value = "/{id}")
@@ -55,6 +55,6 @@ public class CategoryController {
         log.info("Updating category id {} with request {}", id, request);
         var response = service.updateCategory(id, request);
 
-        return status(ACCEPTED).body(response);
+        return ResponseEntity.status(ACCEPTED).body(response);
     }
 }

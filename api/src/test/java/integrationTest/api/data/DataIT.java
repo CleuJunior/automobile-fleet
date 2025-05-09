@@ -154,6 +154,7 @@ public class DataIT {
     public static final String X5_CAR_ID = "87465c2a-7f4d-44c1-81eb-7081e9d08956";
     public static final String CAMARO_CAR_ID = "2ac1b6e5-f203-4b59-a9bc-12db47c27bf5";
     public static final String HILUX_CAR_ID = "ce99c8a7-2f2e-4b7b-b10e-c36a0038a9a4";
+    public static final String FIESTA_CAR_ID = "128ec8bc-8b4f-4a6b-9727-94a3a565d19b";
 
     public static final String SERIE_THREE_CAR_NAME = "Serie 3";
     public static final String ONIX_CAR_NAME = "Onix";
@@ -301,7 +302,12 @@ public class DataIT {
     public static final String END_DATE = "25-03-2023";
 
     public static final Double TOTAL = 493.85;
-    public static final String RENTAL_ID = "f944cfcc-55b6-4c80-be50-dee4ee288fce";
+
+    public static final String RENTAL_SEDAN_ID = "f944cfcc-55b6-4c80-be50-dee4ee288fce";
+    public static final String RENTAL_ONIX_ID = "01c31ec9-1184-4cda-b82f-34cce080aa17";
+    public static final String RENTAL_MT9_ID = "1a3c1185-3639-447c-922d-e678591448ec";
+    public static final String RENTAL_488_ID = "d87ffed7-692c-4da7-8dfd-5e7d240b1a96";
+
     public static final String USER_SUPER_ID = "9d63e233-729c-46cf-80d4-0032fe559123";
     public static final String USER_SUPER_NAME = "cleu";
     public static final String USER_SUPER_ROLE = "SUPER";

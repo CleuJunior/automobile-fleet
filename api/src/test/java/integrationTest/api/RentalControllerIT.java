@@ -1,104 +1,86 @@
 package integrationTest.api;
 
 import com.automobilefleet.api.dto.request.RentalRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.javafaker.Faker;
+import com.automobilefleet.api.dto.response.CategoryResponse;
+import com.automobilefleet.api.dto.response.RentalResponse;
 import integrationTest.api.config.AbstractWebIntegrationTest;
-import org.flywaydb.core.Flyway;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
+import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
 
-import static integrationTest.api.data.DataIT.END_DATE;
+import static integrationTest.api.data.DataIT.CATEGORY_COUPE_ID;
+import static integrationTest.api.data.DataIT.CIVIC_CAR_ID;
+import static integrationTest.api.data.DataIT.FERNANDO_ID;
+import static integrationTest.api.data.DataIT.FIESTA_CAR_ID;
+import static integrationTest.api.data.DataIT.FOUR_EIGHT_EIGHT_CAR_ID;
+import static integrationTest.api.data.DataIT.KWID_CAR_ID;
 import static integrationTest.api.data.DataIT.LUANA_ID;
-import static integrationTest.api.data.DataIT.RAIMUNDA_ID;
-import static integrationTest.api.data.DataIT.RENTAL_ID;
-import static integrationTest.api.data.DataIT.SERIE_THREE_CAR_ID;
-import static integrationTest.api.data.DataIT.START_DATE;
-import static integrationTest.api.data.DataIT.TOTAL;
+import static integrationTest.api.data.DataIT.MT_ZERO_NINE_CAR_ID;
+import static integrationTest.api.data.DataIT.MUSTANG_CAR_ID;
+import static integrationTest.api.data.DataIT.RENTAL_488_ID;
+import static integrationTest.api.data.DataIT.RENTAL_MT9_ID;
+import static integrationTest.api.data.DataIT.RENTAL_ONIX_ID;
+import static integrationTest.api.data.DataIT.RENTAL_SEDAN_ID;
+import static integrationTest.api.fixture.CategoryFixture.putCategory;
+import static integrationTest.api.fixture.RentalFixture.getRentalById;
+import static integrationTest.api.fixture.RentalFixture.getRentalList;
+import static integrationTest.api.fixture.RentalFixture.postRental;
 import static java.util.UUID.fromString;
-import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
+
 class RentalControllerIT extends AbstractWebIntegrationTest {
 
-//    @Container
-//    @ServiceConnection
-//    private static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    ObjectMapper mapper;
-    private final static Faker faker = new Faker();
-    private final static String ENDPOINT = "/integrationTest/api/v1/rental";
-    private final static String ENDPOINT_ID = ENDPOINT + "/{id}";
-
-//    @BeforeAll
-//    static void beforeAll() {
-//        var flyway = Flyway.configure()
-//                .dataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword())
-//                .load();
-//
-//        flyway.migrate();
-//    }
 
     @Test
-    void shouldRentalByIdAndStatusCodeOK() throws Exception {
-        mockMvc.perform(get(ENDPOINT_ID, RENTAL_ID).contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$._id").value(RENTAL_ID))
-                .andExpect(jsonPath("$.start_date").value(START_DATE))
-                .andExpect(jsonPath("$.end_date").value(END_DATE))
-                .andExpect(jsonPath("$.car._id").value(SERIE_THREE_CAR_ID))
-                .andExpect(jsonPath("$.customer._id").value(RAIMUNDA_ID))
-                .andExpect(jsonPath("$.total").value(TOTAL));
+    void shouldGetListRentalAndStatusCodeOK() {
+        getRentalList()
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("_id", hasItem(RENTAL_SEDAN_ID))
+                .body("_id", hasItem(RENTAL_ONIX_ID))
+                .body("_id", hasItem(RENTAL_MT9_ID));
     }
 
     @Test
-    void shouldGetListRentalAndStatusCodeOK() throws Exception {
-        mockMvc.perform(get(ENDPOINT).contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(10)))
-                .andExpect(jsonPath("$.[0]._id").value(RENTAL_ID));
+    void shouldRentalByIdAndStatusCodeOK() {
+        getRentalById(RENTAL_488_ID)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("_id", is(RENTAL_488_ID))
+                .body("car._id", is(FOUR_EIGHT_EIGHT_CAR_ID))
+                .body("customer._id", is(FERNANDO_ID));
     }
 
     @Test
-    void shoulSaveRentalAndStatusCodeCreated() throws Exception {
-        var carId = fromString(SERIE_THREE_CAR_ID);
+    void shouldSaveRentalAndStatusCodeCreated() {
+        var carId = fromString(FIESTA_CAR_ID);
         var customerId = fromString(LUANA_ID);
         var startDate = LocalDate.now();
         var endDate = startDate.plusDays(3);
         var request = new RentalRequest(carId, customerId, startDate, endDate);
 
-        mockMvc.perform(post(ENDPOINT).contentType(APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(request)))
-                .andExpect(status().isCreated())
-                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$._id").isNotEmpty())
-                .andExpect(jsonPath("$.car._id").value(SERIE_THREE_CAR_ID))
-                .andExpect(jsonPath("$.customer._id").value(LUANA_ID))
-                .andExpect(jsonPath("$.total").value("296.31"));
+        var response = postRental(request)
+                .then()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract()
+                .as(RentalResponse.class);
+
+        then(response.id()).isNotNull();
+        then(response.car().id()).isEqualTo(request.carId());
+        then(response.customer().id()).isEqualTo(request.customerId());
+        then(response.startDate()).isEqualTo(request.startDate());
+        then(response.endDate()).isEqualTo(request.endDate());
+        then(response.total()).isEqualTo(226.5);
+        then(response.createdAt()).isNotNull();
+        then(response.updatedAt()).isNotNull();
     }
 
     @Test
