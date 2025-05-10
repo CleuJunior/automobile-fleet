@@ -35,20 +35,20 @@ public class SpecificationController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<SpecificationResponse> getSpecificationById(@PathVariable UUID id) {
         log.info("Getting  specification by id {}", id);
-        return status(OK).body(service.getSpecificationById(id));
+        return ResponseEntity.status(OK).body(service.getSpecificationById(id));
     }
 
     @GetMapping
     public ResponseEntity<List<SpecificationResponse>> listOfSpecifications() {
         log.info("Getting list of specification");
-        return status(OK).body(service.listSpecifications());
+        return ResponseEntity.status(OK).body(service.listSpecifications());
     }
 
     @GetMapping(params = {"page", "size"})
     public ResponseEntity<Page<SpecificationResponse>> pageSpecification(@RequestParam int page, @RequestParam int size) {
         log.info("Getting page of specifications with page {} and size {}", page, size);
 
-        return status(OK).body(service.pageSpecification(page, size));
+        return ResponseEntity.status(OK).body(service.pageSpecification(page, size));
     }
 
     @PostMapping
@@ -56,7 +56,7 @@ public class SpecificationController {
         log.info("Saving specification {}", request);
         var response = service.saveSpecification(request);
 
-        return status(CREATED).body(response);
+        return ResponseEntity.status(CREATED).body(response);
     }
 
     @PutMapping(value = "/{id}")
@@ -64,6 +64,6 @@ public class SpecificationController {
         log.info("Updating specification id {} with request {}", id, request);
         var response = service.updateSpecification(id, request);
 
-        return status(ACCEPTED).body(response);
+        return ResponseEntity.status(ACCEPTED).body(response);
     }
 }

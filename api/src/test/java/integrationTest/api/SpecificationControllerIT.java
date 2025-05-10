@@ -1,169 +1,97 @@
 package integrationTest.api;
 
 import com.automobilefleet.api.dto.request.SpecificationRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.javafaker.Faker;
+import com.automobilefleet.api.dto.response.SpecificationResponse;
 import integrationTest.api.config.AbstractWebIntegrationTest;
-import org.flywaydb.core.Flyway;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.webservices.server.AutoConfigureMockWebServiceClient;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
+import org.springframework.http.HttpStatus;
 
-import static integrationTest.api.data.DataIT.CREATED_AT_FOUR;
 import static integrationTest.api.data.DataIT.SPECIFICATION_BRAKES;
 import static integrationTest.api.data.DataIT.SPECIFICATION_BRAKES_DESCRIPTION;
 import static integrationTest.api.data.DataIT.SPECIFICATION_BRAKES_ID;
-import static integrationTest.api.data.DataIT.SPECIFICATION_ENGINE;
-import static integrationTest.api.data.DataIT.SPECIFICATION_ENGINE_DESCRIPTION;
 import static integrationTest.api.data.DataIT.SPECIFICATION_ENGINE_ID;
-import static integrationTest.api.data.DataIT.SPECIFICATION_EXCHANGE;
-import static integrationTest.api.data.DataIT.SPECIFICATION_EXCHANGE_DESCRIPTION;
 import static integrationTest.api.data.DataIT.SPECIFICATION_EXCHANGE_ID;
-import static integrationTest.api.data.DataIT.SPECIFICATION_HEIGHT;
-import static integrationTest.api.data.DataIT.SPECIFICATION_HEIGHT_DESCRIPTION;
 import static integrationTest.api.data.DataIT.SPECIFICATION_HEIGHT_ID;
-import static integrationTest.api.data.DataIT.SPECIFICATION_LENGTH;
-import static integrationTest.api.data.DataIT.SPECIFICATION_LENGTH_DESCRIPTION;
 import static integrationTest.api.data.DataIT.SPECIFICATION_LENGTH_ID;
-import static integrationTest.api.data.DataIT.SPECIFICATION_STEERING_WHEEL;
-import static integrationTest.api.data.DataIT.SPECIFICATION_STEERING_WHEEL_DESCRIPTION;
 import static integrationTest.api.data.DataIT.SPECIFICATION_STEERING_WHEEL_ID;
-import static integrationTest.api.data.DataIT.SPECIFICATION_SUSPENSION;
-import static integrationTest.api.data.DataIT.SPECIFICATION_SUSPENSION_DESCRIPTION;
 import static integrationTest.api.data.DataIT.SPECIFICATION_SUSPENSION_ID;
-import static integrationTest.api.data.DataIT.SPECIFICATION_TANK_CAPACITY;
-import static integrationTest.api.data.DataIT.SPECIFICATION_TANK_CAPACITY_DESCRIPTION;
-import static integrationTest.api.data.DataIT.SPECIFICATION_TANK_CAPACITY_ID;
-import static integrationTest.api.data.DataIT.SPECIFICATION_WEIGHT;
-import static integrationTest.api.data.DataIT.SPECIFICATION_WEIGHT_DESCRIPTION;
 import static integrationTest.api.data.DataIT.SPECIFICATION_WEIGHT_ID;
-import static integrationTest.api.data.DataIT.SPECIFICATION_WIDTH;
-import static integrationTest.api.data.DataIT.SPECIFICATION_WIDTH_DESCRIPTION;
-import static integrationTest.api.data.DataIT.SPECIFICATION_WIDTH_ID;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static integrationTest.api.fixture.SpecificationFixture.getSpecificationById;
+import static integrationTest.api.fixture.SpecificationFixture.getSpecificationList;
+import static integrationTest.api.fixture.SpecificationFixture.getSpecificationPaged;
+import static integrationTest.api.fixture.SpecificationFixture.postSpecification;
+import static integrationTest.api.fixture.SpecificationFixture.putSpecification;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
 
-@AutoConfigureMockMvc
 class SpecificationControllerIT extends AbstractWebIntegrationTest {
 
-//    @Container
-//    @ServiceConnection
-//    private static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
-//    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper mapper;
-
-    private final static Faker faker = new Faker();
-    private final static String ENDPOINT = "/integrationTest/api/v1/specification";
-    private final static String ENDPOINT_ID = ENDPOINT + "/{id}";
-
-//    @BeforeAll
-//    static void beforeAll() {
-//        var flyway = Flyway.configure()
-//                .dataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword())
-//                .load();
-//
-//        flyway.migrate();
-//    }
-
     @Test
-    void shouldGetSpecificationByIdAndStatusCodeOK() throws Exception {
-        mockMvc.perform(get(ENDPOINT_ID, SPECIFICATION_BRAKES_ID).contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$._id").value(SPECIFICATION_BRAKES_ID))
-                .andExpect(jsonPath("$.name").value(SPECIFICATION_BRAKES))
-                .andExpect(jsonPath("$.description").value(SPECIFICATION_BRAKES_DESCRIPTION))
-                .andExpect(jsonPath("$.created_at").value(CREATED_AT_FOUR));
+    void shouldGetListSpecificationsAndStatusCodeOK() {
+        getSpecificationList()
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("_id", hasItem(SPECIFICATION_ENGINE_ID))
+                .body("_id", hasItem(SPECIFICATION_EXCHANGE_ID))
+                .body("_id", hasItem(SPECIFICATION_STEERING_WHEEL_ID));
     }
 
     @Test
-    void shouldGetListSpecificationsAndStatusCodeOK() throws Exception {
-        mockMvc.perform(get(ENDPOINT).contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(10)))
-                .andExpect(jsonPath("$[*]._id").value(containsInAnyOrder(SPECIFICATION_ENGINE_ID, SPECIFICATION_EXCHANGE_ID, SPECIFICATION_STEERING_WHEEL_ID, SPECIFICATION_BRAKES_ID, SPECIFICATION_SUSPENSION_ID, SPECIFICATION_TANK_CAPACITY_ID, SPECIFICATION_WEIGHT_ID, SPECIFICATION_LENGTH_ID, SPECIFICATION_HEIGHT_ID, SPECIFICATION_WIDTH_ID)))
-                .andExpect(jsonPath("$[*].name").value(containsInAnyOrder(SPECIFICATION_ENGINE, SPECIFICATION_EXCHANGE, SPECIFICATION_STEERING_WHEEL, SPECIFICATION_BRAKES, SPECIFICATION_SUSPENSION, SPECIFICATION_TANK_CAPACITY, SPECIFICATION_WEIGHT, SPECIFICATION_LENGTH, SPECIFICATION_HEIGHT, SPECIFICATION_WIDTH)))
-                .andExpect(jsonPath("$[*].description").value(containsInAnyOrder(SPECIFICATION_ENGINE_DESCRIPTION, SPECIFICATION_EXCHANGE_DESCRIPTION, SPECIFICATION_STEERING_WHEEL_DESCRIPTION, SPECIFICATION_BRAKES_DESCRIPTION, SPECIFICATION_SUSPENSION_DESCRIPTION, SPECIFICATION_TANK_CAPACITY_DESCRIPTION, SPECIFICATION_WEIGHT_DESCRIPTION, SPECIFICATION_LENGTH_DESCRIPTION, SPECIFICATION_HEIGHT_DESCRIPTION, SPECIFICATION_WIDTH_DESCRIPTION)));
+    void shouldGetSpecificationByIdAndStatusCodeOK() {
+        getSpecificationById(SPECIFICATION_BRAKES_ID)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("_id", is(SPECIFICATION_BRAKES_ID))
+                .body("name", is(SPECIFICATION_BRAKES))
+                .body("description", is(SPECIFICATION_BRAKES_DESCRIPTION));
     }
 
     @Test
-    void shouldGetPagetSpecificationAndStatusCodeOK() throws Exception {
-        mockMvc.perform(get(ENDPOINT)
-                        .param("page", "2")
-                        .param("size", "3")
-                        .contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$.content", hasSize(3)))
-                .andExpect(jsonPath("$.content[*]._id").value(containsInAnyOrder(SPECIFICATION_WEIGHT_ID, SPECIFICATION_LENGTH_ID, SPECIFICATION_HEIGHT_ID)))
-                .andExpect(jsonPath("$.content[*].name").value(containsInAnyOrder(SPECIFICATION_WEIGHT, SPECIFICATION_LENGTH, SPECIFICATION_HEIGHT)))
-                .andExpect(jsonPath("$.content[*].description").value(containsInAnyOrder(SPECIFICATION_WEIGHT_DESCRIPTION, SPECIFICATION_LENGTH_DESCRIPTION, SPECIFICATION_HEIGHT_DESCRIPTION)))
-                .andExpect(jsonPath("$.totalElements").value(10))
-                .andExpect(jsonPath("$.totalPages").value(4));
+    void shouldGetPagedSpecificationAndStatusCodeOK() {
+        getSpecificationPaged(2, 3)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("content._id", hasItem(SPECIFICATION_WEIGHT_ID))
+                .body("content._id", hasItems(SPECIFICATION_LENGTH_ID))
+                .body("content._id", hasItems(SPECIFICATION_HEIGHT_ID))
+                .body("pageable.pageNumber", is(2))
+                .body("pageable.pageSize", is(3));
     }
 
     @Test
-    void shoulSaveSpecificationAndStatusCodeCreated() throws Exception {
+    void shouldSaveSpecificationAndStatusCodeCreated() {
         var name = faker.harryPotter().character();
         var description = faker.harryPotter().location();
         var request = new SpecificationRequest(name, description);
 
-        mockMvc.perform(post(ENDPOINT).contentType(APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(request)))
-                .andExpect(status().isCreated())
-                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$._id").isNotEmpty())
-                .andExpect(jsonPath("$.name").value(name))
-                .andExpect(jsonPath("$.description").value(description))
-                .andExpect(jsonPath("$.created_at").isNotEmpty());
+        var response = postSpecification(request)
+                .then()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract()
+                .as(SpecificationResponse.class);
+
+        then(response.id()).isNotNull();
+        then(response.name()).isEqualTo(request.name());
+        then(response.description()).isEqualTo(request.description());
+        then(response.createdAt()).isNotNull();
     }
 
     @Test
-    void shouldUpdateSpecificationAndStatusCodeAccepted() throws Exception {
+    void shouldUpdateSpecificationAndStatusCodeAccepted() {
         var name = faker.harryPotter().character();
         var description = faker.harryPotter().location();
         var request = new SpecificationRequest(name, description);
 
-        mockMvc.perform(put(ENDPOINT_ID, SPECIFICATION_BRAKES_ID).contentType(APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(request)))
-                .andExpect(status().isAccepted())
-                .andDo(print())
-                .andExpect(jsonPath("$._id").value(SPECIFICATION_BRAKES_ID))
-                .andExpect(jsonPath("$.name").value(name))
-                .andExpect(jsonPath("$.description").value(description));
+        var response = putSpecification(SPECIFICATION_SUSPENSION_ID, request)
+                .then()
+                .statusCode(HttpStatus.ACCEPTED.value())
+                .extract()
+                .as(SpecificationResponse.class);
+
+        then(response.id().toString()).isEqualTo(SPECIFICATION_SUSPENSION_ID);
+        then(response.name()).isEqualTo(request.name());
+        then(response.description()).isEqualTo(request.description());
     }
-//
-//    @Test
-//    void shouldDeleteBrandAndStatusCodeNoContent() throws Exception {
-//        mockMvc.perform(delete(DELETE_ID, ID).contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(MockMvcResultMatchers.status().isNoContent())
-//                .andReturn();
-//
-//        Mockito.verify(service).deleteBrandById(ID);
-//        Mockito.verifyNoMoreInteractions(service);
-//    }
 }
