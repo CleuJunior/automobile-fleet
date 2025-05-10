@@ -95,6 +95,7 @@ public class DataIT {
     public static final String FERRARI_ID = "4f2dd5bb-ae60-41ca-9227-0fb3dacebcbe";
     public static final String HONDA_ID = "3f831dbb-de3b-4b1a-95dc-602cdeaa7012";
     public static final String CIVIC_ID = "df2a0e36-0c8d-49bc-bd7f-2a7f54de8c9d";
+    public static final String LOGAN_ID = "7a8b5e88-5719-41c5-9274-e6e92ecb12bf";
 
     public static final String BRAND_BMW = "BMW";
     public static final String BRAND_CHEVROLET = "Chevrolet";
@@ -307,6 +308,8 @@ public class DataIT {
     public static final String RENTAL_ONIX_ID = "01c31ec9-1184-4cda-b82f-34cce080aa17";
     public static final String RENTAL_MT9_ID = "1a3c1185-3639-447c-922d-e678591448ec";
     public static final String RENTAL_488_ID = "d87ffed7-692c-4da7-8dfd-5e7d240b1a96";
+    public static final String RENTAL_GOL_ID = "fa6feddd-c29a-4ac9-9fe3-8ad32ccc82c9";
+    public static final String RENTAL_CIVIC_ID = "53d0f387-82d5-433e-b64d-cfe50e7cf6e4";
 
     public static final String USER_SUPER_ID = "9d63e233-729c-46cf-80d4-0032fe559123";
     public static final String USER_SUPER_NAME = "cleu";

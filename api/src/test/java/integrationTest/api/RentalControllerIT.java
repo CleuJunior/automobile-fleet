@@ -1,39 +1,35 @@
 package integrationTest.api;
 
 import com.automobilefleet.api.dto.request.RentalRequest;
-import com.automobilefleet.api.dto.response.CategoryResponse;
 import com.automobilefleet.api.dto.response.RentalResponse;
 import integrationTest.api.config.AbstractWebIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
-import static integrationTest.api.data.DataIT.CATEGORY_COUPE_ID;
-import static integrationTest.api.data.DataIT.CIVIC_CAR_ID;
 import static integrationTest.api.data.DataIT.FERNANDO_ID;
 import static integrationTest.api.data.DataIT.FIESTA_CAR_ID;
 import static integrationTest.api.data.DataIT.FOUR_EIGHT_EIGHT_CAR_ID;
-import static integrationTest.api.data.DataIT.KWID_CAR_ID;
+import static integrationTest.api.data.DataIT.LOGAN_ID;
 import static integrationTest.api.data.DataIT.LUANA_ID;
-import static integrationTest.api.data.DataIT.MT_ZERO_NINE_CAR_ID;
-import static integrationTest.api.data.DataIT.MUSTANG_CAR_ID;
 import static integrationTest.api.data.DataIT.RENTAL_488_ID;
+import static integrationTest.api.data.DataIT.RENTAL_CIVIC_ID;
+import static integrationTest.api.data.DataIT.RENTAL_GOL_ID;
 import static integrationTest.api.data.DataIT.RENTAL_MT9_ID;
 import static integrationTest.api.data.DataIT.RENTAL_ONIX_ID;
 import static integrationTest.api.data.DataIT.RENTAL_SEDAN_ID;
-import static integrationTest.api.fixture.CategoryFixture.putCategory;
+import static integrationTest.api.fixture.RentalFixture.deleteRental;
 import static integrationTest.api.fixture.RentalFixture.getRentalById;
 import static integrationTest.api.fixture.RentalFixture.getRentalList;
 import static integrationTest.api.fixture.RentalFixture.postRental;
-import static java.util.UUID.fromString;
+import static integrationTest.api.fixture.RentalFixture.putRental;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.text.IsEmptyString.emptyString;
 
 
 class RentalControllerIT extends AbstractWebIntegrationTest {
@@ -61,8 +57,8 @@ class RentalControllerIT extends AbstractWebIntegrationTest {
 
     @Test
     void shouldSaveRentalAndStatusCodeCreated() {
-        var carId = fromString(FIESTA_CAR_ID);
-        var customerId = fromString(LUANA_ID);
+        var carId = UUID.fromString(FIESTA_CAR_ID);
+        var customerId = UUID.fromString(LUANA_ID);
         var startDate = LocalDate.now();
         var endDate = startDate.plusDays(3);
         var request = new RentalRequest(carId, customerId, startDate, endDate);
@@ -84,29 +80,37 @@ class RentalControllerIT extends AbstractWebIntegrationTest {
     }
 
     @Test
-    void shouldUpdateRentalAndStatusCodeAccepted() throws Exception {
-        var carId = fromString(SERIE_THREE_CAR_ID);
-        var customerId = fromString(LUANA_ID);
+    void shouldUpdateRentalAndStatusCodeAccepted() {
+        var carId = UUID.fromString(LOGAN_ID);
+        var customerId = UUID.fromString(LUANA_ID);
         var startDate = LocalDate.now();
         var endDate = startDate.plusDays(10);
         var request = new RentalRequest(carId, customerId, startDate, endDate);
 
-        mockMvc.perform(put(ENDPOINT_ID, RENTAL_ID).contentType(APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(request)))
-                .andExpect(status().isAccepted())
-                .andExpect(jsonPath("$._id").value(RENTAL_ID))
-                .andExpect(jsonPath("$.car._id").value(SERIE_THREE_CAR_ID))
-                .andExpect(jsonPath("$.customer._id").value(LUANA_ID))
-                .andExpect(jsonPath("$.total").value("987.7"));
+        var response = putRental(RENTAL_CIVIC_ID, request)
+                .then()
+                .statusCode(HttpStatus.ACCEPTED.value())
+                .extract()
+                .as(RentalResponse.class);
+
+        then(response.id().toString()).isEqualTo(RENTAL_CIVIC_ID);
+        then(response.car().id()).isEqualTo(request.carId());
+        then(response.customer().id()).isEqualTo(request.customerId());
+        then(response.startDate()).isEqualTo(request.startDate());
+        then(response.endDate()).isEqualTo(request.endDate());
+        then(response.total()).isEqualTo(955.0);
     }
-//
-//    @Test
-//    void shouldDeleteBrandAndStatusCodeNoContent() throws Exception {
-//        mockMvc.perform(delete(DELETE_ID, ID).contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(MockMvcResultMatchers.status().isNoContent())
-//                .andReturn();
-//
-//        Mockito.verify(service).deleteBrandById(ID);
-//        Mockito.verifyNoMoreInteractions(service);
-//    }
+
+    @Test
+    void shouldDeleteRentalAndStatusCodeNoContent() {
+        deleteRental(RENTAL_GOL_ID)
+                .then()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+                .header("Content-Type", nullValue())
+                .body(emptyString());
+
+        deleteRental(RENTAL_GOL_ID)
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
+    }
 }

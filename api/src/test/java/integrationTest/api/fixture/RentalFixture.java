@@ -1,6 +1,5 @@
 package integrationTest.api.fixture;
 
-import com.automobilefleet.api.dto.request.CategoryRequest;
 import com.automobilefleet.api.dto.request.RentalRequest;
 import integrationTest.api.utils.BodyBuilder;
 import io.restassured.response.Response;
@@ -61,7 +60,7 @@ public class RentalFixture {
                 .post("/rental");
     }
 
-    public static Response putRental(String rentalId, CategoryRequest request) {
+    public static Response putRental(String rentalId, RentalRequest request) {
         return given()
                 .spec(jwt(USER_SUPER_ID, USER_SUPER_NAME, USER_SUPER_ROLE))
                 .basePath(v1)

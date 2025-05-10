@@ -171,7 +171,6 @@ class CarControllerIT extends AbstractWebIntegrationTest {
 
         var response = putCar(HILUX_CAR_ID, request)
                 .then()
-                .log().all()
                 .statusCode(HttpStatus.ACCEPTED.value())
                 .extract()
                 .as(CarResponse.class);
