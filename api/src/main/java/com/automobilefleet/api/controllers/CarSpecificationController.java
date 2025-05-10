@@ -3,7 +3,6 @@ package com.automobilefleet.api.controllers;
 import com.automobilefleet.api.dto.projections.CarSpecificationInfo;
 import com.automobilefleet.api.dto.request.CarSpecificationRequest;
 import com.automobilefleet.api.dto.response.CarSpecificationResponse;
-import com.automobilefleet.repositories.CarSpecificationRepository;
 import com.automobilefleet.services.CarSpecificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,40 +21,39 @@ import java.util.UUID;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.ResponseEntity.status;
 
 @RestController
-@RequestMapping(value = "/api/v1/car_specification")
+@RequestMapping(value = "/api/v1/carSpecification")
 @RequiredArgsConstructor
 @Slf4j
 public class CarSpecificationController {
+
     private final CarSpecificationService service;
-    private final CarSpecificationRepository r;
 
     @GetMapping(value = "/{id}/info")
     public ResponseEntity<CarSpecificationInfo> getCarSpecificationInfoById(@PathVariable UUID id) {
         log.info("Getting car specification by id {}", id);
-        return ResponseEntity.status(OK).body(r.carSpecificationInfo(id).get());
+        return ResponseEntity.status(OK).body(service.getCarSpecification(id));
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<CarSpecificationResponse> getCarSpecificationId(@PathVariable UUID id) {
         log.info("Getting car specification by id {}", id);
-        return status(OK).body(service.getCarSpecificationById(id));
+        return ResponseEntity.status(OK).body(service.getCarSpecificationById(id));
     }
 
     @GetMapping
     public ResponseEntity<List<CarSpecificationResponse>> listOfCarSpecification() {
         log.info("Getting list of car specifications");
-        return status(OK).body(service.listCarSpecification());
+        return ResponseEntity.status(OK).body(service.listCarSpecification());
     }
 
     @PostMapping
     public ResponseEntity<CarSpecificationResponse> saveCarSpecification(@RequestBody CarSpecificationRequest request) {
         log.info("Saving car specification {}", request);
-        var response = service.saveCarEspecification(request);
+        var response = service.saveCarSpecification(request);
 
-        return status(CREATED).body(response);
+        return ResponseEntity.status(CREATED).body(response);
     }
 
     @PutMapping(value = "/{id}")
@@ -63,7 +61,7 @@ public class CarSpecificationController {
         log.info("Updating car specification id {} with request {}", id, request);
         var response = service.updateCarSpecification(id, request);
 
-        return status(ACCEPTED).body(response);
+        return ResponseEntity.status(ACCEPTED).body(response);
     }
 
 }

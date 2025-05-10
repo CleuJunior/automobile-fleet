@@ -102,7 +102,7 @@ class CarImageControllerIT extends AbstractWebIntegrationTest {
 
     @Test
     void shouldUpdateImageAndStatusCodeAccepted() {
-        var linkImage = faker.buffy().quotes();
+        var linkImage = faker.buffy().celebrities();
         var carId = fromString(KWID_CAR_ID);
         var request = new CarImageRequest(carId, linkImage);
 
@@ -121,7 +121,6 @@ class CarImageControllerIT extends AbstractWebIntegrationTest {
     void shouldDeleteImageAndStatusCodeNoContent() {
         deleteCarImage(FOUR_EIGHT_EIGHT_IMAGE_ID)
                 .then()
-                .log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value())
                 .header("Content-Type", nullValue())
                 .body(emptyString());

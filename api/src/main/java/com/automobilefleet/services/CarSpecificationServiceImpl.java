@@ -1,5 +1,6 @@
 package com.automobilefleet.services;
 
+import com.automobilefleet.api.dto.projections.CarSpecificationInfo;
 import com.automobilefleet.api.dto.request.CarSpecificationRequest;
 import com.automobilefleet.api.dto.response.CarSpecificationResponse;
 import com.automobilefleet.entities.CarSpecification;
@@ -49,7 +50,14 @@ public class CarSpecificationServiceImpl implements CarSpecificationService {
     }
 
     @Override
-    public CarSpecificationResponse saveCarEspecification(CarSpecificationRequest request) {
+    public CarSpecificationInfo getCarSpecification(UUID id) {
+        log.info("Car specification id {}", id);
+        return carSpecificationRepository.carSpecificationInfo(id)
+                .orElseThrow(() -> new NotFoundException("car.specification.not.found", id));
+    }
+
+    @Override
+    public CarSpecificationResponse saveCarSpecification(CarSpecificationRequest request) {
         var car = carRepository.findById(request.carId())
                 .orElseThrow(() -> new NotFoundException("car.not.found", request.carId()));
 

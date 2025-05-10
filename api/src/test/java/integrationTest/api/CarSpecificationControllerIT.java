@@ -1,120 +1,98 @@
 package integrationTest.api;
 
 import com.automobilefleet.api.dto.request.CarSpecificationRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.automobilefleet.api.dto.response.CarSpecificationResponse;
 import integrationTest.api.config.AbstractWebIntegrationTest;
-import org.flywaydb.core.Flyway;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
+import org.springframework.http.HttpStatus;
+
+import java.util.UUID;
 
 import static integrationTest.api.data.DataIT.CAR_SPECIFICATION_BMW_ID;
-import static integrationTest.api.data.DataIT.CAR_SPECIFICATION_FERRARI_ID;
+import static integrationTest.api.data.DataIT.CAR_SPECIFICATION_KWID_ID;
 import static integrationTest.api.data.DataIT.CAR_SPECIFICATION_MUSTANG;
 import static integrationTest.api.data.DataIT.CAR_SPECIFICATION_ONIX_ID;
+import static integrationTest.api.data.DataIT.CIVIC_CAR_ID;
 import static integrationTest.api.data.DataIT.COROLLA_CAR_ID;
-import static integrationTest.api.data.DataIT.MARCH_CAR_ID;
+import static integrationTest.api.data.DataIT.COROLLA_CAR_NAME;
 import static integrationTest.api.data.DataIT.MUSTANG_CAR_ID;
 import static integrationTest.api.data.DataIT.SPECIFICATION_HEIGHT_ID;
+import static integrationTest.api.data.DataIT.SPECIFICATION_TANK_CAPACITY;
+import static integrationTest.api.data.DataIT.SPECIFICATION_TANK_CAPACITY_DESCRIPTION;
 import static integrationTest.api.data.DataIT.SPECIFICATION_TANK_CAPACITY_ID;
 import static integrationTest.api.data.DataIT.SPECIFICATION_WIDTH_ID;
-import static java.util.UUID.fromString;
-import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static integrationTest.api.fixture.CarSpecificationFixture.geCarSpecificationById;
+import static integrationTest.api.fixture.CarSpecificationFixture.geCarSpecificationInfoById;
+import static integrationTest.api.fixture.CarSpecificationFixture.getCarSpecificationList;
+import static integrationTest.api.fixture.CarSpecificationFixture.postCarSpecification;
+import static integrationTest.api.fixture.CarSpecificationFixture.putCarSpecification;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.is;
 
 class CarSpecificationControllerIT extends AbstractWebIntegrationTest {
 
-//    @Container
-//    @ServiceConnection
-//    private static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper mapper;
-    private final static String ENDPOINT = "/integrationTest/api/v1/car_specification";
-    private final static String ENDPOINT_ID = ENDPOINT + "/{id}";
-
-//    @BeforeAll
-//    static void beforeAll() {
-//        var flyway = Flyway.configure()
-//                .dataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword())
-//                .load();
-//
-//        flyway.migrate();
-//    }
-
     @Test
-    void shouldGetCarSpecificationdByIdAndStatusCodeOK() throws Exception {
-        mockMvc.perform(get(ENDPOINT_ID, CAR_SPECIFICATION_MUSTANG).contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$._id").value(CAR_SPECIFICATION_MUSTANG))
-                .andExpect(jsonPath("$.car._id").value(COROLLA_CAR_ID))
-                .andExpect(jsonPath("$.specification._id").value(SPECIFICATION_TANK_CAPACITY_ID));
+    void shouldGetListCarSpecificationsAndStatusCodeOK() {
+        getCarSpecificationList()
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("_id", hasItem(CAR_SPECIFICATION_ONIX_ID))
+                .body("_id", hasItem(CAR_SPECIFICATION_BMW_ID));
     }
 
     @Test
-    void shouldGetListCarSpecificationsAndStatusCodeOK() throws Exception {
-        mockMvc.perform(get(ENDPOINT).contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(10)))
-                .andExpect(jsonPath("$.[0]._id").value(CAR_SPECIFICATION_ONIX_ID))
-                .andExpect(jsonPath("$.[9]._id").value(CAR_SPECIFICATION_BMW_ID));
+    void shouldGetCarSpecificationByIdAndStatusCodeOK() {
+        geCarSpecificationById(CAR_SPECIFICATION_MUSTANG)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("_id", is(CAR_SPECIFICATION_MUSTANG))
+                .body("car._id", is(COROLLA_CAR_ID))
+                .body("specification._id", is(SPECIFICATION_TANK_CAPACITY_ID));
     }
 
     @Test
-    void shoulSaveCarSpecificationAndStatusCodeCreated() throws Exception {
-        var carId = fromString(MUSTANG_CAR_ID);
-        var specificationId = fromString(SPECIFICATION_WIDTH_ID);
+    void shouldGetCarSpecificationInfoByIdAndStatusCodeOK() {
+        geCarSpecificationInfoById(CAR_SPECIFICATION_MUSTANG)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("id", is(CAR_SPECIFICATION_MUSTANG))
+                .body("carName", is(COROLLA_CAR_NAME))
+                .body("specificationName", is(SPECIFICATION_TANK_CAPACITY))
+                .body("specificationDescription", is(SPECIFICATION_TANK_CAPACITY_DESCRIPTION));
+    }
+
+    @Test
+    void shouldSaveCarSpecificationAndStatusCodeCreated() {
+        var carId = UUID.fromString(MUSTANG_CAR_ID);
+        var specificationId = UUID.fromString(SPECIFICATION_WIDTH_ID);
         var request = new CarSpecificationRequest(carId, specificationId);
 
-        mockMvc.perform(post(ENDPOINT).contentType(APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(request)))
-                .andExpect(status().isCreated())
-                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$._id").isNotEmpty())
-                .andExpect(jsonPath("$.car._id").value(MUSTANG_CAR_ID))
-                .andExpect(jsonPath("$.specification._id").value(SPECIFICATION_WIDTH_ID));
+        var response = postCarSpecification(request)
+                .then()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract()
+                .as(CarSpecificationResponse.class);
+
+        then(response.id()).isNotNull();
+        then(response.car().id()).isEqualTo(request.carId());
+        then(response.specification().id()).isEqualTo(request.specificationId());
     }
 
     @Test
-    void shouldUpdateCarSpecificationAndStatusCodeAccepted() throws Exception {
-        var carId = fromString(MARCH_CAR_ID);
-        var specificationId = fromString(SPECIFICATION_HEIGHT_ID);
+    void shouldUpdateCarSpecificationAndStatusCodeAccepted() {
+        var carId = UUID.fromString(CIVIC_CAR_ID);
+        var specificationId = UUID.fromString(SPECIFICATION_HEIGHT_ID);
         var request = new CarSpecificationRequest(carId, specificationId);
 
-        mockMvc.perform(put(ENDPOINT_ID, CAR_SPECIFICATION_FERRARI_ID).contentType(APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(request)))
-                .andExpect(status().isAccepted())
-                .andExpect(jsonPath("$._id").value(CAR_SPECIFICATION_FERRARI_ID))
-                .andExpect(jsonPath("$.car._id").value(MARCH_CAR_ID))
-                .andExpect(jsonPath("$.specification._id").value(SPECIFICATION_HEIGHT_ID));
+        var response = putCarSpecification(CAR_SPECIFICATION_KWID_ID, request)
+                .then()
+                .statusCode(HttpStatus.ACCEPTED.value())
+                .extract()
+                .as(CarSpecificationResponse.class);
+
+        then(response.id().toString()).isEqualTo(CAR_SPECIFICATION_KWID_ID);
+        then(response.car().id()).isEqualTo(request.carId());
+        then(response.specification().id()).isEqualTo(request.specificationId());
     }
-//
-//    @Test
-//    void shouldDeleteBrandAndStatusCodeNoContent() throws Exception {
-//        mockMvc.perform(delete(DELETE_ID, ID).contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(MockMvcResultMatchers.status().isNoContent())
-//                .andReturn();
-//
-//        Mockito.verify(service).deleteBrandById(ID);
-//        Mockito.verifyNoMoreInteractions(service);
-//    }
 }

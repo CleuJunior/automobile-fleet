@@ -1,5 +1,6 @@
 package com.automobilefleet.api.controllers;
 
+import com.automobilefleet.api.dto.projections.CarSpecificationInfo;
 import com.automobilefleet.api.dto.request.CarSpecificationRequest;
 import com.automobilefleet.api.dto.response.CarSpecificationResponse;
 import com.automobilefleet.services.CarSpecificationService;
@@ -12,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.UUID;
 
 import static java.util.Collections.singletonList;
-import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -29,11 +29,26 @@ class CarSpecificationControllerTest {
     @Mock
     private CarSpecificationResponse response;
     @Mock
+    private CarSpecificationInfo info;
+    @Mock
     private CarSpecificationRequest request;
     @InjectMocks
     private CarSpecificationController controller;
 
-    private static final UUID ID = randomUUID();
+    private static final UUID ID = UUID.randomUUID();
+
+    @Test
+    void shouldGetCarSpecificationInfoByIdAndStatusCodeOK() {
+        given(service.getCarSpecification(ID)).willReturn(info);
+
+        var result = controller.getCarSpecificationInfoById(ID);
+
+        then(result.getStatusCode()).isEqualTo(OK);
+        then(result.getBody()).isEqualTo(info);
+
+        verify(service).getCarSpecification(ID);
+        verifyNoMoreInteractions(service);
+    }
 
     @Test
     void shouldGetCarSpecificationByIdAndStatusCodeOK() {
@@ -62,15 +77,15 @@ class CarSpecificationControllerTest {
     }
 
     @Test
-    void shoulSaveCarSpecificationAndStatusCodeCreated() {
-        given(service.saveCarEspecification(request)).willReturn(response);
+    void shouldSaveCarSpecificationAndStatusCodeCreated() {
+        given(service.saveCarSpecification(request)).willReturn(response);
 
         var result = controller.saveCarSpecification(request);
 
         then(result.getStatusCode()).isEqualTo(CREATED);
         then(result.getBody()).isEqualTo(response);
 
-        verify(service).saveCarEspecification(request);
+        verify(service).saveCarSpecification(request);
         verifyNoMoreInteractions(service);
     }
 

@@ -124,7 +124,7 @@ class CarSpecificationServiceImplTest {
         given(carSpecificationRepository.save(any(CarSpecification.class))).willReturn(carSpecification);
         given(mapper.toCarSpecificationResponse(carSpecification)).willReturn(response);
 
-        var actual = service.saveCarEspecification(request);
+        var actual = service.saveCarSpecification(request);
 
         then(actual).isNotNull();
         then(actual).isEqualTo(response);
@@ -144,7 +144,7 @@ class CarSpecificationServiceImplTest {
         given(request.carId()).willReturn(CAR_ID);
         given(carRepository.findById(CAR_ID)).willReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> service.saveCarEspecification(request));
+        assertThrows(NotFoundException.class, () -> service.saveCarSpecification(request));
 
         verify(carRepository).findById(CAR_ID);
         verifyNoMoreInteractions(carRepository);
@@ -161,7 +161,7 @@ class CarSpecificationServiceImplTest {
         given(request.specificationId()).willReturn(SPECIFICATION_ID);
         given(specificationRepository.findById(SPECIFICATION_ID)).willReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> service.saveCarEspecification(request));
+        assertThrows(NotFoundException.class, () -> service.saveCarSpecification(request));
 
         verify(carRepository).findById(CAR_ID);
         verify(specificationRepository).findById(SPECIFICATION_ID);

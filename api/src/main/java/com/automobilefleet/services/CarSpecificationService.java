@@ -1,5 +1,6 @@
 package com.automobilefleet.services;
 
+import com.automobilefleet.api.dto.projections.CarSpecificationInfo;
 import com.automobilefleet.api.dto.request.CarSpecificationRequest;
 import com.automobilefleet.api.dto.response.CarSpecificationResponse;
 
@@ -13,7 +14,9 @@ public interface CarSpecificationService {
 
     CarSpecificationResponse getCarSpecificationById(UUID id);
 
-    CarSpecificationResponse saveCarEspecification(CarSpecificationRequest request);
+    CarSpecificationInfo getCarSpecification(UUID id);
+
+    CarSpecificationResponse saveCarSpecification(CarSpecificationRequest request);
 
     CarSpecificationResponse updateCarSpecification(UUID id, CarSpecificationRequest request);
 }

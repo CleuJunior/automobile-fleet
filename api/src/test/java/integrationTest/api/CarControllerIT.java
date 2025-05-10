@@ -6,6 +6,8 @@ import integrationTest.api.config.AbstractWebIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
+import java.util.UUID;
+
 import static integrationTest.api.data.DataIT.BRAND_CHEVROLET;
 import static integrationTest.api.data.DataIT.BRAND_VOLKSWAGEN;
 import static integrationTest.api.data.DataIT.CAMARO_CAR_ID;
@@ -28,14 +30,12 @@ import static integrationTest.api.data.DataIT.MT_ZERO_DAILY_RATE;
 import static integrationTest.api.data.DataIT.MT_ZERO_LICENSE_PLATE;
 import static integrationTest.api.data.DataIT.MT_ZERO_NINE_CAR_ID;
 import static integrationTest.api.data.DataIT.MT_ZERO_NINE_CAR_NAME;
-import static integrationTest.api.data.DataIT.MUSTANG_CAR_ID;
 import static integrationTest.api.data.DataIT.ONIX_CAR_DESCRIPTION;
 import static integrationTest.api.data.DataIT.ONIX_CAR_ID;
 import static integrationTest.api.data.DataIT.ONIX_CAR_NAME;
 import static integrationTest.api.data.DataIT.ONIX_LICENSE_PLATE;
 import static integrationTest.api.data.DataIT.SERIE_THREE_CAR_ID;
 import static integrationTest.api.data.DataIT.SERIE_THREE_CAR_NAME;
-import static integrationTest.api.data.DataIT.X5_CAR_ID;
 import static integrationTest.api.data.DataIT.YAMAHA_ID;
 import static integrationTest.api.fixture.CarFixture.getCarByBrandName;
 import static integrationTest.api.fixture.CarFixture.getCarById;
@@ -96,7 +96,6 @@ class CarControllerIT extends AbstractWebIntegrationTest {
         getCarListAvailable()
                 .then()
                 .statusCode(HttpStatus.OK.value())
-                .log().all()
                 .body("_id", hasItem(GOLF_CAR_ID))
                 .body("_id", hasItem(CAMARO_CAR_ID))
                 .body("_id", hasItem(CIVIC_ID))
@@ -113,17 +112,15 @@ class CarControllerIT extends AbstractWebIntegrationTest {
                 .body("_id", hasItems(GOL_CAR_ID, GOLF_CAR_ID));
     }
 
-
     @Test
     void shouldGetPagedCarAndStatusCodeOK() {
-        getCarPaged(3, 3)
+        getCarPaged(3, 2)
                 .then()
                 .statusCode(HttpStatus.OK.value())
-                .body("content._id", hasItem(COROLLA_CAR_ID))
-                .body("content._id", hasItem(X5_CAR_ID))
-                .body("content._id", hasItem(MUSTANG_CAR_ID))
+                .body("content._id", hasItem(MARCH_CAR_ID))
+                .body("content._id", hasItem(HILUX_CAR_ID))
                 .body("pageable.pageNumber", is(3))
-                .body("pageable.pageSize", is(3));
+                .body("pageable.pageSize", is(2));
     }
 
     @Test
@@ -163,8 +160,8 @@ class CarControllerIT extends AbstractWebIntegrationTest {
         var dailyRate = faker.number().randomDouble(2, 98, 371);
         var available = faker.random().nextBoolean();
         var licensePlate = "XYT-3322";
-        var brandId = fromString(FERRARI_ID);
-        var categoryId = fromString(CATEGORY_SUVs_ID);
+        var brandId = UUID.fromString(FERRARI_ID);
+        var categoryId = UUID.fromString(CATEGORY_SUVs_ID);
         var color = faker.color().name();
 
         var request = new CarRequest(name, description, dailyRate, available, licensePlate, brandId, categoryId, color);
