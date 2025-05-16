@@ -196,4 +196,8 @@ INSERT INTO car_image_entity VALUES
 --                           Todas as senhas sao '12345'                              --
 -- -------------------------------------------------------------------------------------
 INSERT INTO user_entity VALUES
-('9d63e233-729c-46cf-80d4-0032fe559123','feufumafriceu-5535@yopmail.com', 'cleu', '$2a$10$wuu3XKBUcU2aUjmjDmcbe.jpA6DAw.PaTK.uAb7dn8cSzg5UKJXJq', 'SUPER', '2021-07-21T12:05:17.147971', '2023-10-21T12:05:17.147971');
+('9d63e233-729c-46cf-80d4-0032fe559123', 'Murzrurat', 'Kuybu','feufumafriceu-5535@yopmail.com', 'PenitentVictor', '$2a$10$wuu3XKBUcU2aUjmjDmcbe.jpA6DAw.PaTK.uAb7dn8cSzg5UKJXJq', 'SUPER', '2021-07-21T12:05:17.147971', '2021-12-21T14:25:37.147971'),
+('9db10a83-29f3-4aa0-8bdd-d4700fd0f210', 'Ziosrat', 'Ruikbuhu','quatassarouzeu-8441@yopmail.com', 'ExultantWhizz', '$2a$10$wuu3XKBUcU2aUjmjDmcbe.jpA6DAw.PaTK.uAb7dn8cSzg5UKJXJq', 'ADMIN', '2021-07-21T12:05:17.147971', '2023-10-21T12:07:23.147971'),
+('3c58a599-4ecd-4d8e-bedd-f24eade0626f', 'Xyudui', 'Rien', 'grebrunnittiva-7223@yopmail.com', 'HypnoticAlly', '$2a$10$wuu3XKBUcU2aUjmjDmcbe.jpA6DAw.PaTK.uAb7dn8cSzg5UKJXJq', 'ADMIN', '2021-07-21T12:05:17.147971', '2024-09-19T11:07:07.147971'),
+('cebba8ba-b899-4ae0-8717-e4c29a3ebab6', 'Reythor', 'Viwevu', 'berouzofrefu-9480@yopmail.com', 'ProfuseScout', '$2a$10$wuu3XKBUcU2aUjmjDmcbe.jpA6DAw.PaTK.uAb7dn8cSzg5UKJXJq', 'USER', '2021-07-21T12:05:17.147971', '2023-07-23T21:06:16.147971'),
+('40168d42-f010-4a84-a440-80ba41be9902', 'Godupa', 'Dushmohnikh', 'koleiddabraque-5073@yopmail.com', 'FlagrantSpark', '$2a$10$wuu3XKBUcU2aUjmjDmcbe.jpA6DAw.PaTK.uAb7dn8cSzg5UKJXJq', 'USER', '2021-07-21T12:05:17.147971', '2023-11-26T14:23:11.147971');

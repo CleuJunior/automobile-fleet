@@ -140,6 +140,6 @@ public class DataIT {
     public static final String RENTAL_CIVIC_ID = "53d0f387-82d5-433e-b64d-cfe50e7cf6e4";
 
     public static final String USER_SUPER_ID = "9d63e233-729c-46cf-80d4-0032fe559123";
-    public static final String USER_SUPER_NAME = "cleu";
+    public static final String USER_SUPER_NAME = "PenitentVictor";
     public static final String USER_SUPER_ROLE = "SUPER";
 }

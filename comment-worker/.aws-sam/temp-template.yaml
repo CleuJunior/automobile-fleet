@@ -4,8 +4,8 @@ Resources:
     Properties:
       Timeout: 300
       MemorySize: 128
-      Handler: br.com.comment.work.Function::handleRequest
-      CodeUri: /home/guimaraes/Documents/java/automobile-fleet/comment-worker
-      Runtime: java17
+      Handler: br.com.comment.work.Function
+      CodeUri: C:\Users\cleuj\OneDrive\Área de Trabalho\Java\automobile-fleet-main\comment-worker
+      Runtime: java21
       Architectures:
         - x86_64

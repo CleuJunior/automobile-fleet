@@ -1,0 +1,20 @@
+{
+  "Records": [
+    {
+      "messageId": "19dd0b57-b21e-4ac1-bd88-01bbb068cb78",
+      "receiptHandle": "MessageReceiptHandle",
+      "body": "{\"id\":\"b56fdaaa-1234-4e27-b6ce-123456789abc\",\"name\":\"Joo Silva\",\"carId\":\"car-001\",\"comment\":\"timo carro!\",\"rating\":5,\"creationDate\":\"2024-05-15T10:15:30-0300\",\"lastModifiedDate\":\"2024-05-15T11:00:00-0300\"}",
+      "attributes": {
+        "ApproximateReceiveCount": "1",
+        "SentTimestamp": "1715779200000",
+        "SenderId": "123456789012",
+        "ApproximateFirstReceiveTimestamp": "1715779201000"
+      },
+      "messageAttributes": {},
+      "md5OfBody": "7b270e59b47ff90a553787216d55d91d",
+      "eventSource": "aws:sqs",
+      "eventSourceARN": "arn:aws:sqs:us-east-1:000000000000:sqs-rent-queue",
+      "awsRegion": "us-east-1"
+    }
+  ]
+}

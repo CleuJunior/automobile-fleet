@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  SQSLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: br.com.comment.work.Function::handleRequest
+      Runtime: java21
+      CodeUri: target/comment-worker-1.0.0.jar
+      MemorySize: 512
+      Timeout: 10
+      Events:
+        SQSEvent:
+          Type: SQS
+          Properties:
+            Queue: arn:aws:sqs:us-east-1:000000000000:sqs-rent-queue

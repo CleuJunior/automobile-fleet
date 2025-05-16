@@ -44,6 +44,12 @@ public class User implements UserDetails, Serializable {
     @Setter(NONE)
     private UUID id;
 
+    @Column(name = "first_name", nullable = false, unique = true)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false, unique = true)
+    private String lastName;
+
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -64,6 +70,8 @@ public class User implements UserDetails, Serializable {
     private LocalDateTime updatedAt;
 
     public User(UserRequest request) {
+        this.firstName = request.firstName();
+        this.lastName = request.lastName();
         this.email = request.email();
         this.username = request.username();
         this.role = request.role();

@@ -13,6 +13,7 @@ public record UserResponse(
 
         @JsonProperty("_id")
         UUID id,
+        String name,
         String username,
         String email,
         Role role,

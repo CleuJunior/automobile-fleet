@@ -109,6 +109,8 @@ END;
 $$;
 
 CREATE OR REPLACE PROCEDURE insert_user(
+    IN p_first_name VARCHAR(255),
+    IN p_last_name VARCHAR(255),
     IN p_email VARCHAR(255),
     IN p_username VARCHAR(255),
     IN p_password VARCHAR(255),
@@ -118,8 +120,8 @@ CREATE OR REPLACE PROCEDURE insert_user(
 AS
 $$
 BEGIN
-    INSERT INTO user_entity (email, username, password, role, created_at, updated_at)
-    VALUES (p_email, p_username, p_password, p_role, NOW(), NOW());
+    INSERT INTO user_entity (first_name, last_name, email, username, password, role, created_at, updated_at)
+    VALUES (p_first_name, p_last_name, p_email, p_username, p_password, p_role, NOW(), NOW());
 END;
 $$;
 

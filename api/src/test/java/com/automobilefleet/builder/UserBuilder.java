@@ -20,6 +20,8 @@ public class UserBuilder {
     public static User userBuilder() {
         return User.builder()
                 .id(randomUUID())
+                .firstName(fake.name().firstName())
+                .firstName(fake.name().lastName())
                 .email(fake.internet().emailAddress())
                 .username(fake.internet().userAgentAny())
                 .password(fake.internet().password())
@@ -32,6 +34,7 @@ public class UserBuilder {
     public static UserResponse userResponseBuilder(User user) {
         return new UserResponse(
                 user.getId(),
+                String.format("%s %s", user.getFirstName(), user.getLastName()),
                 user.getUsername(),
                 user.getEmail(),
                 user.getRole(),
@@ -43,6 +46,8 @@ public class UserBuilder {
     public static UserRequest userRequestBuilder(User user) {
         return new UserRequest(
                 user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
                 user.getUsername(),
                 user.getPassword(),
                 user.getRole()
